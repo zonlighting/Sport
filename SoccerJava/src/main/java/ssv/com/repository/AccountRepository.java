@@ -15,13 +15,15 @@ public class AccountRepository {
 	private AccountMapper accountMapper;
 
 	public List<Account> findAll() {
-
 		return accountMapper.findAll();
 	}
 
-	public Account findById(int id) {
-		return accountMapper.findById(id);
+	public Account findByEmail(String email) {
+		return accountMapper.findByEmail(email);
 	}
 
+	public Long create(Account account) {
+		return accountMapper.create(account);
+	}
 
 }

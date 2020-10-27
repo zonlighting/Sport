@@ -3,12 +3,12 @@
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-<typeAliases>
-<!-- 	<typeAlias type="ssv.com.entity.Account" alias="Account"/>
- -->	
-</typeAliases>
-<mappers>
-<!-- 	<mapper resource="xmlmapper/RoundMapper.xml"/>
- -->
-</mappers>
+	<typeAliases>
+		<typeAlias type="ssv.com.entity.Account" alias="Account" />
+		<typeAlias type="ssv.com.entity.Profile" alias="Profile" />
+	</typeAliases>
+	<mappers>
+		<mapper resource="xmlmapper/AccountMapper.xml" />
+		<mapper resource="xmlmapper/ProfileMapper.xml" />
+	</mappers>
 </configuration>
