@@ -1,4 +1,5 @@
 <template>
+<div>
     <div class=banner id=layerSlider style="width: 100%;">
         <div class=ls-slide data-ls="transition3d: 33,15; slidedelay: 8000 ; durationin:0;"><img
                 src=images/banner/background01.jpg class=ls-bg alt="Slide background">
@@ -27,4 +28,5 @@
                     class="ls-l bannertext03 layercontent07" data-ls="offsetxin:left; flipxin:90 ; durationin: 6000;">
                 july , 2020</h6></div>
     </div>
+</div>
 </template>

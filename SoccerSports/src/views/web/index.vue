@@ -16,7 +16,7 @@
         <div class="container">
           <div class="row">
             <h1 class="logo">
-              <a href="index-2.html"><img src=images/logo.png alt=image></a>
+              <a href="index-2.html"><img src=images/soccer-logo-sport-vector-18700943.jpg alt=image></a>
             </h1>
 
             <div class="menubar">
@@ -68,10 +68,6 @@
                           </li>
                         </ul>
                       </li>
-                      <li>
-                        <a href="blog.html">Video </a>
-                      </li>
-
                       <li><a href="shop.html">Rank </a></li>
                       <li><a href="contact.html">About </a></li>
                     </ul>

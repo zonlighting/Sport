@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ssv.com.mapper.ScheduleMapper">
+	<resultMap type="Schedule" id="scheduleMapping">
+		<id column="id_schedule" property="idSchedule" />
+		<result column="schedule_start" property="timeStart" />
+		<result column="schedule_end" property="timeEnd" />
+		<result column="schedule_team1" property="idTeam1" />
+		<result column="schedule_team2" property="idTeam2" />
+		<result column="schedule_score1" property="scoreTeam1" />
+		<result column="schedule_score2" property="scoreTeam2" />
+		<result column="schedule_winner" property="idwinner" />
+		<result column="schedule_video" property="video" />
+		<result column="schedule_description" property="description" />
+		<result column="schedule_address" property="address" />
+		<result column="schedule_status" property="status" />
+		<result column="schedule_tour" property="idTour" />
+		<result column="schedule_title" property="idTitle"/>
+		<result column="tournament_name" property="nameTour" />
+	<collection property="team" ofType="Team">
+			<id column="id_team" property="idTeam" />
+			<result column="team_name" property="nameTeam" />
+			<result column="team_totalmatch" property="totalmatch" />
+			<result column="team_totalwin" property="totalwin" />
+			<result column="team_type" property="type" />
+			<result column="team_description" property="description" />
+			<result column="team_logo" property="logo" />
+		</collection>
+	</resultMap>
+
+	<select id="search" resultMap="scheduleMapping">
+ Select * FROM schedule_tbl inner join tournament_tbl on schedule_tbl.schedule_tour=tournament_tbl.id_tourament 
+ inner join team_tbl on schedule_tbl.schedule_team1=team_tbl.id_team 
+ or schedule_tbl.schedule_team2=team_tbl.id_team 
+ 		where ${type} LIKE '%${nameSearch}%' ORDER BY id_schedule ${sorts} LIMIT ${page},${pageSize} 
+	
+	</select>
+	<select id="searchTotal" resultType="int">
+		Select COUNT(*)  FROM schedule_tbl inner join tournament_tbl on schedule_tbl.schedule_tour=tournament_tbl.id_tourament  where ${type} LIKE '%${nameSearch}%'
+	</select>
+	<select id="getByIdTour" resultMap="scheduleMapping">
+		Select * FROM schedule_tbl
+		where schedule_tour=${idTour}
+	</select>
+	<select id="getById" resultMap="scheduleMapping">
+	 Select * FROM schedule_tbl inner join tournament_tbl on schedule_tbl.schedule_tour=tournament_tbl.id_tourament  
+ inner join team_tbl on schedule_tbl.schedule_team1=team_tbl.id_team 
+ or schedule_tbl.schedule_team2=team_tbl.id_team where id_schedule=${idSchedule}
+	</select>
+	
+
+	<insert id="create" parameterType="Schedule">
+		INSERT INTO
+		schedule_tbl (
+		schedule_start,
+		schedule_end,
+		schedule_team1,
+		schedule_team2,
+		schedule_description,
+		schedule_address,
+		schedule_tour,
+		schedule_title
+		)
+		VALUES(
+		#{timeStart},
+		#{timeEnd},
+		#{idTeam1},
+		#{idTeam2},
+		#{title}
+		#{description},
+		#{address},
+		#{idTour}
+		)
+	</insert>
+	<delete id="delete" parameterType="int">
+		DELETE from schedule_tbl WHERE id_schedule = ${idSchedule}
+
+	</delete>
+	<update id="updateShedule" parameterType="Schedule">
+		Update schedule_tbl set
+		schedule_score1=#{scoreTeam1} ,
+		schedule_title=#{title}
+		schedule_score2=#{scoreTeam2},
+		schedule_video=#{video},
+		schedule_winner=#{idwinner},
+		schedule_description=#{description}
+		Where id_schedule=#{idSchedule};
+	</update>
+	<update id="editShedule" parameterType="Schedule">
+		Update schedule_tbl set
+		schedule_start=#{timeStart} ,
+		schedule_end=#{timeEnd},
+		schedule_team1=#{idTeam1},
+		schedule_team2=#{idTeam2},
+		schedule_description=#{description},
+		schedule_address=#{address}
+		Where id_schedule=#{idSchedule};
+	</update>
+	<update id="checkStatus">
+		Update schedule_tbl set 
+		schedule_status=${i}
+		Where id_schedule=${j};
+	</update>
+	<select id="getAll" resultMap="scheduleMapping">
+		SELECT *FROM schedule_tbl
+	</select>
+</mapper>

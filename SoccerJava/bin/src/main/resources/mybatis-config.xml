@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+        <typeAliases>
+        	   <typeAlias type="ssv.com.entity.Account" alias="Account"/>
+        	   <typeAlias type="ssv.com.entity.Profile" alias="Profile"/>
+       	   <typeAlias type="ssv.com.entity.Schedule" alias="Schedule"/>
+       	   <typeAlias type="ssv.com.entity.Tournament" alias="Tournament"/>
+       	   <typeAlias type="ssv.com.entity.Team" alias="Team"/>
+       	   <typeAlias type="ssv.com.entity.History" alias="History"/>
+        </typeAliases>
+        <mappers>
+        	<mapper resource="xmlmapper/AccountMapper.xml"/>
+        	<mapper resource="xmlmapper/ProfileMapper.xml"/>
+         	<mapper resource="xmlmapper/ScheduleMapper.xml"/>
+         	<mapper resource="xmlmapper/TournamentMapper.xml"/>
+         	<mapper resource="xmlmapper/TeamMapper.xml"/>
+         	<mapper resource="xmlmapper/HistoryMapper.xml"/>
+        </mappers>
+</configuration>
