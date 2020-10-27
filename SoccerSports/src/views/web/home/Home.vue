@@ -102,14 +102,15 @@
                 <div class="my-4 subtitle-1">
                   <v-row class="text-center">
                     <v-col style="color: white"
-                      ><v-img src=images/soccer-logo-by-Vexels.png width="100px"
+                      ><v-img src=images/soccer-logo-by-Vexels.png width="100px"   lazy-src="@/assets/err.png"
+
                       /> Valencia</v-col
                     >
                     <v-col style="margin-top: 20px; color: yellow"
                       ><h3>VS</h3></v-col
                     >
                     <v-col style="color: white"
-                      ><v-img src=images/soccer-logo-by-Vexels.png width="100px"
+                      ><v-img src=images/soccer-logo-by-Vexels.png width="100px" lazy-src="@/assets/err.png"
                       /> Real Sociedad</v-col
                     >
                   </v-row>
@@ -177,14 +178,14 @@
                             <div><h3>Mestalla Stadium</h3></div>
                             <v-row>
                               <v-col>
-                                <v-img src=images/soccer-logo-by-Vexels.png
+                                <v-img src=images/soccer-logo-by-Vexels.png lazy-src="@/assets/err.png"
                                 width="100px" /> {{ team.team1 }}
                               </v-col>
                               <v-col style="margin-top: 20px"
                                 ><h2>1-0</h2></v-col
                               >
                               <v-col
-                                ><v-img src=images/soccer-logo-by-Vexels.png
+                                ><v-img src=images/soccer-logo-by-Vexels.png lazy-src="@/assets/err.png"
                                 width="100px" /> Valencia</v-col
                               >
                             </v-row>
@@ -208,7 +209,7 @@
           <v-col cols="12" sm="6">
             <h1>LATEST TOURNAMENT</h1>
             <v-img
-              lazy-src="https://picsum.photos/id/11/10/6"
+              lazy-src="https://picsum.photos/id/11/10/6" 
               min-width="800"
               min-height="530"
               src="https://picsum.photos/id/11/500/300"
@@ -279,7 +280,7 @@
                 ><v-card max-width="250">
                   <v-img
                     height="250"
-                    src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+                    src="https://cdn.vuetifyjs.com/images/cards/cooking.png" 
                   ></v-img>
 
                   <v-card-title>Cafe Badilico</v-card-title>
@@ -324,7 +325,7 @@
                       <div><h3 class="text-center">Mestalla Stadium</h3></div>
                       <v-row>
                         <v-col class="text-center">
-                          <v-img src=images/soccer-logo-by-Vexels.png
+                          <v-img src=images/soccer-logo-by-Vexels.png lazy-src="@/assets/err.png"
                           width="100px" /> {{ item.team1 }}
                         </v-col>
                         <v-col style="margin-top: 20px" class="text-center"
@@ -332,7 +333,7 @@
                           19:00:00</v-col
                         >
                         <v-col class="text-center"
-                          ><v-img src=images/soccer-logo-by-Vexels.png
+                          ><v-img src=images/soccer-logo-by-Vexels.png lazy-src="@/assets/err.png"
                           width="100px" /> Valencia</v-col
                         >
                       </v-row>

@@ -13,20 +13,13 @@
         <div class="container">
           <div class="row">
             <h1 class="logo">
-              <a href="index-2.html"><v-img src=images/soccer-logo-by-Vexels.png width="200px"></v-img>
+              <a href="index-2.html"><v-img src=images/soccer-logo-by-Vexels.png width="200px" ></v-img>
               </a>
             </h1>
 
             <div class="menubar">
               <nav class="navbar">
                 <div class="nav-wrapper">
-                  <div class="navbar-header">
-                    <button type="button" class="navbar-toggle">
-                      <span class="sr-only">Toggle navigation</span>
-                      <span class="icon-bar"></span>
-                    </button>
-                  </div>
-                  
                   <div class="nav-menu">
                     
                     <ul class="nav navbar-nav menu-bar">

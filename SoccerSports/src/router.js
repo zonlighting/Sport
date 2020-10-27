@@ -4,9 +4,10 @@ import index from '@/views/web/index'
 import Home from '@/views/web/home/Home'
 import Schedule from '@/views/web/schedule/Schedule'
 import ScheduleDetail from '@/views/web/schedule/ScheduleDetail'
+import Summary from '@/views/web/schedule/Summary'
 import Tournament from '@/views/web/tournament/Tournament'
 import Team from '@/views/web/team/Team'
-
+ 
 
 Vue.use(Router)
 let routes = [
@@ -28,6 +29,13 @@ let routes = [
       {
         path: '/ScheduleDetail',
         component: ScheduleDetail,
+        children:[
+          {
+            path:'/Summary',
+            component:Summary,
+
+          }
+        ]
       },
       
       {
