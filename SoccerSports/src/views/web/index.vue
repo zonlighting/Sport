@@ -3,20 +3,18 @@
     <header class="header-main">
       <div class="header-upper">
         <div class="container">
-          <div class="row">
-            <v-spacer></v-spacer>
-            <ul>
-              <li><a href="#">Signup/login</a></li>
-              <li><a href="#">Forget</a></li>
+          <ul>
+              <li><v-row><a><span style="color:white">ToánNC</span>
+             </a></v-row></li>
             </ul>
-          </div>
         </div>
       </div>
       <div class="header-lower clearfix">
         <div class="container">
           <div class="row">
             <h1 class="logo">
-              <a href="index-2.html"><v-img src=images/soccer-logo-by-Vexels.png width="200px"></v-img></a>
+              <a href="index-2.html"><v-img src=images/soccer-logo-by-Vexels.png width="200px"></v-img>
+              </a>
             </h1>
 
             <div class="menubar">
@@ -28,7 +26,9 @@
                       <span class="icon-bar"></span>
                     </button>
                   </div>
+                  
                   <div class="nav-menu">
+                    
                     <ul class="nav navbar-nav menu-bar">
                       <li>
                         <a :href="$router.resolve({ path: '/Home' }).href"
