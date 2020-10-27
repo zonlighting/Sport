@@ -25,11 +25,10 @@
                 <v-toolbar-title>Word Cup</v-toolbar-title>
                 <v-divider class="mx-4" inset vertical></v-divider>
                 <v-spacer></v-spacer>
-             
               </v-toolbar>
             </template>
             <template v-slot:[`item.article`]>
-              <a >Preview/	Recap</a>
+              <a>Preview/ Recap</a>
             </template>
             <template v-slot:no-data>
               <v-btn color="primary" @click="initialize"> Reset </v-btn>
@@ -43,41 +42,20 @@
 <script>
 export default {
   data: () => ({
-    dialog: false,
-    dialogDelete: false,
     headers: [
       {
         text: "Date",
         align: "start",
         value: "name",
       },
-      { text: "EVENT", value: "calories" },
-      { text: "Time/RESULTS", value: "fat" },
-      { text: "VENUE", value: "carbs" },
+      { text: "EVENT", value: "event" },
+      { text: "Time/RESULTS", value: "time" },
+      { text: "VENUE", value: "venue" },
       { text: "ARTICLE", value: "article" },
-     
     ],
     desserts: [],
-    editedIndex: -1,
-    editedItem: {
-      name: "",
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0,
-    },
-    defaultItem: {
-      name: "",
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0,
-    },
   }),
 
-
-
-  
   created() {
     this.initialize();
   },
@@ -87,67 +65,66 @@ export default {
       this.desserts = [
         {
           name: "Frozen Yogurt",
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
+          event: "Mancity vs MU",
+          time: "14-5-5",
+          venue: "Hà Nội",
         },
         {
           name: "Ice cream sandwich",
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
+          event: "Mancity vs MU",
+          time: "14-5-5",
+          venue: "Hà Nội",
         },
         {
           name: "Eclair",
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
+          event: "Mancity vs MU",
+          time: "14-5-5",
+          venue: "Hà Nội",
         },
         {
           name: "Cupcake",
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
+          event: "Mancity vs MU",
+          time: "14-5-5",
+          venue: "Hà Nội",
         },
         {
           name: "Gingerbread",
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
+          event: "Mancity vs MU",
+          time: "14-5-5",
+          venue: "Hà Nội",
         },
         {
           name: "Jelly bean",
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
+          event: "Mancity vs MU",
+          time: "14-5-5",
+          venue: "Hà Nội",
         },
         {
           name: "Lollipop",
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
+          event: "Mancity vs MU",
+          time: "14-5-5",
+          venue: "Hà Nội",
         },
         {
           name: "Honeycomb",
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
+          event: "Mancity vs MU",
+          time: "14-5-5",
+          venue: "Hà Nội",
         },
         {
           name: "Donut",
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
+          event: "Mancity vs MU",
+          time: "14-5-5",
+          venue: "Hà Nội",
         },
         {
           name: "KitKat",
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
+          event: "Mancity vs MU",
+          time: "14-5-5",
+          venue: "Hà Nội",
         },
       ];
     },
-
-  }
+  },
 };
 </script>
