@@ -16,7 +16,7 @@
         <div class="container">
           <div class="row">
             <h1 class="logo">
-              <a href="index-2.html"><img src=images/soccer-logo-sport-vector-18700943.jpg alt=image></a>
+              <a href="index-2.html"><v-img src=images/soccer-logo-by-Vexels.png width="200px"></v-img></a>
             </h1>
 
             <div class="menubar">
