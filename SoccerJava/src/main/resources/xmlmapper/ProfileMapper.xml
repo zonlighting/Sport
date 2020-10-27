@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ssv.com.mapper.ProfileMapper">
+
+	<insert id="saveProfile" flushCache="true"
+		statementType="PREPARED" useGeneratedKeys="true" keyColumn="id"
+		keyProperty="id">
+		INSERT INTO profile_tbl(
+		profile_name,
+		profile_email,
+		profile_phone,
+		profile_age,
+		profile_gender,
+		profile_country,
+		profile_avatar
+		) VALUES(
+		#{name},
+		#{email},
+		#{phone},
+		#{age},
+		#{gender},
+		#{country},
+		#{avatar}
+		);
+	</insert>
+</mapper>

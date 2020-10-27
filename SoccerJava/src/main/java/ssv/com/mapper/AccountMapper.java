@@ -11,8 +11,7 @@ public interface  AccountMapper {
 
 	public List<Account> findAll();
 
-	public Account findById(int id);
+	public Account findByEmail(String email);
 
-
-
+	public Long create(Account account);
 }

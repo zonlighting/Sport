@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ssv.com.mapper.AccountMapper">
+	<resultMap type="Account" id="accountMapping">
+		<id column="account_id" property="id" />
+		<result column="account_email" property="email" />
+		<result column="account_password" property="password" />
+		<result column="account_role" property="role" />
+		<association property="profile">
+			<id property="id" column="profile_id" />
+			<result property="name" column="profile_name" />
+			<result property="phone" column="profile_phone" />
+			<result property="age" column="profile_age" />
+			<result property="gender" column="profile_gender" />
+			<result property="country" column="profile_country" />
+			<result property="avatar" column="profile_avatar" />
+			<result property="idTeam" column="id_team" />
+			<result property="position" column="profile_position" />
+		</association>
+	</resultMap>
+
+	<insert id="create" parameterType="Account">
+		INSERT INTO account_tbl(
+		account_email,
+		account_password,
+		account_role
+		) VALUES(
+		#{email},
+		#{password},
+		#{role}
+		)
+	</insert>
+
+	<select id="findAll" resultMap="accountMapping">
+		SELECT * FROM account_tbl ORDER
+		BY account_id DESC
+	</select>
+
+	<select id="findByEmail" resultMap="accountMapping">
+		SELECT
+		a.*, p.*
+		From
+		account_tbl a left join profile_tbl p on
+		a.account_email=p.profile_email
+		where a.account_email='${email}'
+	</select>
+</mapper>
