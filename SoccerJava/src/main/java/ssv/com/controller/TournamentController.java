@@ -19,13 +19,7 @@ public class TournamentController {
 	private TournamentService tournamentService;
 
 	@PostMapping(value = "create")
-	public ResponseQuery<?> createTournament(@RequestBody Tournament tournament){
-		try {
-			return null;
-		}
-		catch(Exception ex){
-			return null;
-		}
-
+	public ResponseQuery<?> createTournament(@RequestBody Tournament tournament){	
+		return null;
 	}
 }

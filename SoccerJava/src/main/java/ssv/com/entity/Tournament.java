@@ -16,4 +16,5 @@ public class Tournament {
 	private LocalDateTime timeStart;
 	private String description;
 	private String banner;
+	private List<Team> listTeam;
 }
