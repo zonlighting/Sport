@@ -94,8 +94,8 @@
               </v-menu>
             </v-row>
           </template>
-          <template v-else
-            ><v-row>
+          <template v-else>
+            <v-row>
               <template>
                 <v-dialog v-model="LoginDialog" max-width="600px">
                   <template v-slot:activator="{ on, attrs }">
