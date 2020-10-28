@@ -16,7 +16,7 @@ export default {
   components: {},
 
   data: () => ({
-    //
+    overlay:false
   }),
 
   computed:{

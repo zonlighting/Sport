@@ -5,7 +5,7 @@
         User
         <v-spacer></v-spacer>
         <v-text-field
-          v-model="search"
+          v-model="searchName"
           append-icon="mdi-magnify"
           label="Search Name"
           single-line
@@ -20,9 +20,7 @@
           hide-details
         ></v-text-field>
         <v-spacer></v-spacer>
-        <v-select
-          label="Choose Role"
-        ></v-select>
+        <v-select label="Choose Role"></v-select>
       </v-card-title>
       <v-data-table
         :headers="headers"
@@ -40,12 +38,7 @@ export default {
       searchEmail: "",
       searchRole: "",
       headers: [
-        {
-          text: "Name",
-          align: "start",
-
-          value: "name",
-        },
+        { text: "Name", value: "name",filter: this.nameUserFilter },
         { text: "Email", value: "calories" },
         { text: "Position", value: "fat" },
         { text: "Detail", value: "carbs", sortable: false },
@@ -134,5 +127,15 @@ export default {
       ],
     };
   },
+  methods:{
+    nameUserFilter(value) {
+      // If this filter has no value we just skip the entire filter.
+      if (!this.searchName) {
+        return true;
+      }
+
+      return value.toLowerCase().includes(this.searchName.toLowerCase());
+    },
+  }
 };
 </script>

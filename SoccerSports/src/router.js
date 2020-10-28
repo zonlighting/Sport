@@ -61,14 +61,16 @@ let routes = [
     ],
   },
   {
-    path: '/admin',
-    name: 'admin',
-    component: admin,
-    redirect: '/admin/User',
-    children: [
+
+    path:'/admin',
+    name:'admin',
+    component:admin,
+    redirect: '/admin/user',
+    children:[
       {
-        path: '/admin/user',
-        name: 'user',
+        path:'/admin/user',
+        name:'User',
+
         component: () => import('@/views/admin/user/User'),
         meta: metaConfig
       },
@@ -78,10 +80,13 @@ let routes = [
         component: () => import('@/views/admin/team/Teams'),
         meta: metaConfig
       }
-      
+
     ],
     meta: metaConfig
   },
+ 
+
+
 ]
 
 const router = new Router({

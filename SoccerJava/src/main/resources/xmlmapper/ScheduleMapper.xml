@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ssv.com.mapper.ScheduleMapper">
+	<resultMap type="Schedule" id="scheduleMapping">
+		<id column="schedule_id" property="idSchedule" />
+		<result column="schedule_score1" property="score1" />
+		<result column="schedule_score2" property="score2" />
+		<result column="schedule_status" property="status" />
+		<result column="schedule_location" property="location" />
+		<result column="schedule_date" property="date" />
+		<result column="schedule_start" property="timeStart" />
+		<result column="schedule_end" property="timeEnd" />
+		<result column="schedule_team1" property="idTeam1" />
+		<result column="schedule_team2" property="idTeam2" />
+		<result column="schedule_image" property="image" />
+		<result column="schedule_video" property="video" />
+	</resultMap>
+	
+</mapper>
