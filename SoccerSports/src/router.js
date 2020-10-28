@@ -11,6 +11,10 @@ import Summary from '@/views/web/schedule/Summary'
 import Tournament from '@/views/web/tournament/Tournament'
 import Team from '@/views/web/team/Team'
 
+
+import admin from '@/views/admin/index'
+
+
 Vue.use(Router)
 
 // const metaConfig = {
@@ -54,6 +58,19 @@ let routes = [
       {
         path: '/Team',
         component: Team
+      }
+    ],
+  },
+  {
+    path:'/admin',
+    name:'admin',
+    component:admin,
+    redirect: '/admin/User',
+    children:[
+      {
+        path:'/admin/User',
+        name:'User',
+        component: () => import('@/views/admin/user/User'),
       }
     ]
   }

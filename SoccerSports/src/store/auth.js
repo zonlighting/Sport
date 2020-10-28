@@ -3,10 +3,12 @@ import { login, register } from '@/api/AuthApi';
 const state = {
     token: localStorage.getItem('token') || '',
     overlay: false,
-    checkAccount: false
+    checkAccount: false,
+    drawer:null
 }
 
 const mutations = {
+    
     auth_success(state, user) {
         state.token = user.token
     },
