@@ -1,19 +1,16 @@
 <template>
   <v-app>
     <v-main>
-      <Index></Index>
+      <router-view />
     </v-main>
   </v-app>
 </template>
 
 <script>
-import Index from "./views/web/index";
 export default {
   name: "App",
 
-  components: {
-    Index,
-  },
+  components: {},
 
   data: () => ({
     //
