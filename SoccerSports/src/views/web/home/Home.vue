@@ -149,7 +149,7 @@
     </section>
     <section class="booking bg-smallwhite">
       <div class="container">
-          <h1 class="text-center">Results</h1>
+        <h1 class="text-center">Results</h1>
         <v-row class="text-center">
           <v-col cols="12" md="2" />
           <v-col cols="12" md="8">

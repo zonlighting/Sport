@@ -1,7 +1,5 @@
 <template>
   <v-app>
-   
-
     <v-main>
       <Index></Index>
     </v-main>
@@ -9,12 +7,12 @@
 </template>
 
 <script>
-import Index from './views/web/index'
+import Index from "./views/web/index";
 export default {
-  name: 'App',
+  name: "App",
 
   components: {
-    Index
+    Index,
   },
 
   data: () => ({
