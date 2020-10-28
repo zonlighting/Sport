@@ -88,7 +88,6 @@ export default {
         sortable: false,
         value: "name",
       },
-
       { text: "Rank", value: "calories", sortable: false },
       { text: "Win", value: "protein", sortable: false },
       { text: "Lose", value: "fat", sortable: false },

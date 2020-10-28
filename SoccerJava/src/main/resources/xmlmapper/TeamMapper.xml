@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ssv.com.mapper.TeamMapper">
+	<resultMap type="Team" id="teamMapping">
+		<id column="id_team" property="idTeam" />
+		<result column="team_name" property="nameTeam" />
+		<result column="team_description" property="description" />
+		<result column="team_logo" property="logo" />
+		<result column="id_tour" property="idTour" />
+		<result column="team_datecreate" property="createDate" />
+
+		<association property="tournament">
+			<id property="idTour" column="tournament_id" />
+			<result property="nameTour" column="tournament_name" />
+			<result property="status" column="tournament_status" />
+			<result property="timeEnd" column="tournament_end" />
+			<result property="timeStart" column="tournament_start" />
+			<result property="description" column="tournament_description" />
+			<result property="banner" column="tournament_banner" />
+		</association>
+	</resultMap>
+
+</mapper>

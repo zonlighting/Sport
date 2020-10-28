@@ -7,10 +7,12 @@
 		<typeAlias type="ssv.com.entity.Account" alias="Account" />
 		<typeAlias type="ssv.com.entity.Profile" alias="Profile" />
 		<typeAlias type="ssv.com.entity.Schedule" alias="Schedule"/>
+		<typeAlias type="ssv.com.entity.Team" alias="Team"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="xmlmapper/AccountMapper.xml" />
 		<mapper resource="xmlmapper/ProfileMapper.xml" />
 		<mapper resource="xmlmapper/ScheduleMapper.xml" />
+		<mapper resource="xmlmapper/TeamMapper.xml"/>
 	</mappers>
 </configuration>

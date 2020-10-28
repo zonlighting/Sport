@@ -54,14 +54,14 @@ public class AccountController {
 					return ResponseQuery.success("Login success", jwtResponse);
 				} else {
 					result = "Wrong info account";
-					return ResponseQuery.faild("Wrong email or password", null);
+					return ResponseQuery.faild("Wrong email or password", 1000);
 				}
 			} catch (Exception ex) {
 
-				return ResponseQuery.faild("INTERNAL_SERVER_ERROR", null);
+				return ResponseQuery.faild("INTERNAL_SERVER_ERROR", 1001);
 			}
 		}
-		return ResponseQuery.faild("Wrong input data", null);
+		return ResponseQuery.faild("Wrong input data", 1002);
 	}
 
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)

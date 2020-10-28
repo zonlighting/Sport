@@ -8,9 +8,7 @@
         <div class="container">
           <div class="row">
             <h1 class="logo">
-              <a href="/Home"
-                ><v-img src=images/logo.png width="100px"/></a
-              >
+              <a href="/Home"><v-img src=images/logo.png width="100px"/></a>
             </h1>
 
             <div class="menubar">
@@ -78,7 +76,7 @@
               </nav>
             </div>
             <v-spacer></v-spacer>
-            <div >
+            <div>
               <div>
                 <template v-if="isProfile">
                   <v-row class="d-flex" justify="center">
@@ -97,7 +95,9 @@
                           v-bind="attrs"
                           v-on="on"
                         ></v-card>
-                        <h4 style="color: white; padding-left: 5px">{{ profile.profile.name }}</h4>
+                        <h4 style="color: white; padding-left: 5px">
+                          {{ profile.profile.name }}
+                        </h4>
                       </template>
 
                       <v-list>
@@ -134,7 +134,9 @@
                           v-bind="attrs"
                           v-on="on"
                         ></v-card>
-                        <h4 style="color: white; padding-left: 5px">{{ profile.profile.name }}</h4>
+                        <h4 style="color: white; padding-left: 5px">
+                          {{ profile.profile.name }}
+                        </h4>
                       </template>
 
                       <v-list>

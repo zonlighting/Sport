@@ -59,7 +59,7 @@
         </template>
         <template v-else><div style="color: green">Available</div></template>
       </template>
-
+  
       <template v-slot:[`item.logo`]="{ item }">
         <img
           :src="baseUrl + item.logo"
@@ -90,6 +90,7 @@ export default {
           sortable: false,
           value: "logo",
         },
+        {text: "Create Date", value: ""},
         { text: "Team Name", value: "nameTeam", filter: this.nameTeamFilter },
         {
           text: "Tournament",
