@@ -1,9 +1,10 @@
 <template>
   <v-app>
     <v-main>
-
-      <router-view/>
-
+      <router-view />
+      <v-overlay :value="overlay">
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+      </v-overlay>
     </v-main>
   </v-app>
 </template>
@@ -12,12 +13,10 @@
 export default {
   name: "App",
 
-  components: {   
-  },
-
+  components: {},
 
   data: () => ({
-    //
+    overlay:false
   }),
 };
 </script>

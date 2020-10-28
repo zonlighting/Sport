@@ -2,129 +2,13 @@
   <div class="wrapper">
     <header class="header-main">
       <div class="header-upper">
-        <div class="container" style="min-height:40px">
-
-        </div>
+        <div class="container" style="min-height: 40px"></div>
       </div>
       <div class="header-lower clearfix">
-        <div id="login">
-          <template v-if="isProfile">
-            <v-row class="d-flex" justify="center">
-              <v-menu
-                v-model="showMenu"
-                absolute
-                offset-y
-                style="max-width: 600px"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-card
-                    class="portrait"
-                    img="https://cdn.vuetifyjs.com/images/cards/girl.jpg"
-                    height="35"
-                    width="40"
-                    v-bind="attrs"
-                    v-on="on"
-                  ></v-card>
-                  <h4 style="color: white; padding-left: 5px">Name</h4>
-                </template>
-
-                <v-list>
-                  <v-list-item>
-                    <v-list-item-title>
-                      <div class="fixButton row-pointer">Profile</div>
-                    </v-list-item-title>
-                  </v-list-item>
-                  <v-list-item>
-                    <v-list-item-title
-                      ><div class="fixButton row-pointer" @click="logout">
-                        Logout
-                      </div></v-list-item-title
-                    >
-                  </v-list-item>
-                </v-list>
-              </v-menu>
-            </v-row>
-          </template>
-          <template v-else-if="isAdminProfile">
-            <v-row class="d-flex" justify="center">
-              <v-menu
-                v-model="showMenu"
-                absolute
-                offset-y
-                style="max-width: 600px"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-card
-                    class="portrait"
-                    img="https://cdn.vuetifyjs.com/images/cards/girl.jpg"
-                    height="35"
-                    width="40"
-                    v-bind="attrs"
-                    v-on="on"
-                  ></v-card>
-                  <h4 style="color: white; padding-left: 5px">Name</h4>
-                </template>
-
-                <v-list>
-                  <v-list-item>
-                    <v-list-item-title>
-                      <div class="fixButton row-pointer" @click="toAdminPage">
-                        Admin Page
-                      </div>
-                    </v-list-item-title>
-                  </v-list-item>
-                  <v-list-item>
-                    <v-list-item-title>
-                      <div
-                        class="fixButton ml-4 row-pointer"
-                        @click="roleFunction('ROLE_ADMIN')"
-                      >
-                        Profile
-                      </div>
-                    </v-list-item-title>
-                  </v-list-item>
-                  <v-list-item>
-                    <v-list-item-title
-                      ><div class="fixButton ml-4 row-pointer" @click="logout">
-                        Logout
-                      </div></v-list-item-title
-                    >
-                  </v-list-item>
-                </v-list>
-              </v-menu>
-            </v-row>
-          </template>
-          <template v-else
-            ><v-row>
-              <template>
-                <v-dialog v-model="LoginDialog" max-width="600px">
-                  <template v-slot:activator="{ on, attrs }">
-                    <a v-bind="attrs" v-on="on">
-                      <h4 style="color: white">Login</h4>
-                    </a>
-                  </template>
-                  <Login :closeLoginDialog="loginDialog" />
-                </v-dialog>
-              </template>
-
-              <template>
-                <v-dialog v-model="RegisterDialog" max-width="600px">
-                  <template v-slot:activator="{ on, attrs }">
-                    <a v-bind="attrs" v-on="on">
-                      <h4 style="color: white; margin-left: 8px">Register</h4>
-                    </a>
-                  </template>
-
-                  <Register :closeRegisterDialog="registerDialog" />
-                </v-dialog>
-              </template>
-            </v-row>
-          </template>
-        </div>
         <div class="container">
           <div class="row">
             <h1 class="logo">
-              <a href="index-2.html"
+              <a href="/Home"
                 ><v-img src=images/logo.png width="100px"/></a
               >
             </h1>
@@ -136,17 +20,20 @@
                     <ul class="nav navbar-nav menu-bar">
                       <li>
                         <a :href="$router.resolve({ path: '/Home' }).href"
-                          >Home
+                          >Home<span></span> <span></span> <span></span>
+                          <span></span>
                         </a>
                       </li>
                       <li>
                         <a :href="$router.resolve({ path: '/Team' }).href"
-                          >Team
+                          >Team<span></span> <span></span> <span></span>
+                          <span></span>
                         </a>
                       </li>
                       <li>
                         <a :href="$router.resolve({ path: '/Tournament' }).href"
-                          >Tournament
+                          >Tournament<span></span> <span></span> <span></span>
+                          <span></span>
                         </a>
                         <ul class="sub-menu">
                           <li><a href="gallerypage01.html">UpComming</a></li>
@@ -160,7 +47,8 @@
                       </li>
                       <li>
                         <a :href="$router.resolve({ path: '/Schedule' }).href"
-                          >Schedule
+                          >Schedule<span></span> <span></span> <span></span>
+                          <span></span>
                         </a>
                         <ul class="sub-menu">
                           <li><a href="gallerypage01.html">UpComming</a></li>
@@ -172,12 +60,147 @@
                           </li>
                         </ul>
                       </li>
-                      <li><a href="shop.html">Rank </a></li>
-                      <li><a href="contact.html">About </a></li>
+                      <li>
+                        <a href="shop.html"
+                          >Rank<span></span> <span></span> <span></span>
+                          <span></span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="contact.html"
+                          >About<span></span> <span></span> <span></span>
+                          <span></span>
+                        </a>
+                      </li>
                     </ul>
                   </div>
                 </div>
               </nav>
+            </div>
+            <v-spacer></v-spacer>
+            <div >
+              <div>
+                <template v-if="isProfile">
+                  <v-row class="d-flex" justify="center">
+                    <v-menu
+                      v-model="showMenu"
+                      absolute
+                      offset-y
+                      style="max-width: 600px"
+                    >
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-card
+                          class="portrait"
+                          img="https://cdn.vuetifyjs.com/images/cards/girl.jpg"
+                          height="35"
+                          width="40"
+                          v-bind="attrs"
+                          v-on="on"
+                        ></v-card>
+                        <h4 style="color: white; padding-left: 5px">Name</h4>
+                      </template>
+
+                      <v-list>
+                        <v-list-item>
+                          <v-list-item-title>
+                            <div class="fixButton row-pointer">Profile</div>
+                          </v-list-item-title>
+                        </v-list-item>
+                        <v-list-item>
+                          <v-list-item-title
+                            ><div class="fixButton row-pointer" @click="logout">
+                              Logout
+                            </div></v-list-item-title
+                          >
+                        </v-list-item>
+                      </v-list>
+                    </v-menu>
+                  </v-row>
+                </template>
+                <template v-else-if="isAdminProfile">
+                  <v-row class="d-flex" justify="center">
+                    <v-menu
+                      v-model="showMenu"
+                      absolute
+                      offset-y
+                      style="max-width: 600px"
+                    >
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-card
+                          class="portrait"
+                          img="https://cdn.vuetifyjs.com/images/cards/girl.jpg"
+                          height="35"
+                          width="40"
+                          v-bind="attrs"
+                          v-on="on"
+                        ></v-card>
+                        <h4 style="color: white; padding-left: 5px">Name</h4>
+                      </template>
+
+                      <v-list>
+                        <v-list-item>
+                          <v-list-item-title>
+                            <div
+                              class="fixButton row-pointer"
+                              @click="toAdminPage"
+                            >
+                              Admin Page
+                            </div>
+                          </v-list-item-title>
+                        </v-list-item>
+                        <v-list-item>
+                          <v-list-item-title>
+                            <div
+                              class="fixButton ml-4 row-pointer"
+                              @click="roleFunction('ROLE_ADMIN')"
+                            >
+                              Profile
+                            </div>
+                          </v-list-item-title>
+                        </v-list-item>
+                        <v-list-item>
+                          <v-list-item-title
+                            ><div
+                              class="fixButton ml-4 row-pointer"
+                              @click="logout"
+                            >
+                              Logout
+                            </div></v-list-item-title
+                          >
+                        </v-list-item>
+                      </v-list>
+                    </v-menu>
+                  </v-row>
+                </template>
+                <template v-else
+                  ><v-row>
+                    <template>
+                      <v-dialog v-model="LoginDialog" max-width="600px">
+                        <template v-slot:activator="{ on, attrs }">
+                          <a v-bind="attrs" v-on="on">
+                            <h4 style="color: white">Login</h4>
+                          </a>
+                        </template>
+                        <Login :closeLoginDialog="loginDialog" />
+                      </v-dialog>
+                    </template>
+
+                    <template>
+                      <v-dialog v-model="RegisterDialog" max-width="600px">
+                        <template v-slot:activator="{ on, attrs }">
+                          <a v-bind="attrs" v-on="on">
+                            <h4 style="color: white; margin-left: 8px">
+                              Register
+                            </h4>
+                          </a>
+                        </template>
+
+                        <Register :closeRegisterDialog="registerDialog" />
+                      </v-dialog>
+                    </template>
+                  </v-row>
+                </template>
+              </div>
             </div>
           </div>
         </div>

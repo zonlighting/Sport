@@ -58,7 +58,7 @@ export default {
       {
         title: "User",
         icon: "mdi-account-circle",
-        to: "/admin/User",
+        to: "/admin/user",
       },
       {
         title: "Team",

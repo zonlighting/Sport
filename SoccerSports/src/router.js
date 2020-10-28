@@ -65,21 +65,17 @@ let routes = [
     path:'/admin',
     name:'admin',
     component:admin,
-    redirect: '/admin/User',
+    redirect: '/admin/user',
     children:[
       {
-        path:'/admin/User',
+        path:'/admin/user',
         name:'User',
         component: () => import('@/views/admin/user/User'),
       }
-    ]
-  },
-  {
-    path: '/admin',
-    name: 'admin',
-    component: admin,
+    ],
     meta: metaConfig
-  }
+  },
+ 
 
 ]
 

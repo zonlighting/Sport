@@ -1,4 +1,4 @@
-package ssv.com.controller;
+	package ssv.com.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -75,7 +75,7 @@ public class AccountController {
 				// create account
 				String hash = BCrypt.hashpw(account.getPassword(), BCrypt.gensalt(12));
 				account.setPassword(hash);
-				account.setRole("ROLE_USER");
+				account.setRole("ROLE_ADMIN");
 				accountService.create(account);
 
 				// create default profile
