@@ -2,7 +2,9 @@
   <div class="wrapper">
     <header class="header-main">
       <div class="header-upper">
-        <div class="container"></div>
+        <div class="container" style="min-height:40px">
+
+        </div>
       </div>
       <div class="header-lower clearfix">
         <div id="login">
@@ -123,7 +125,7 @@
           <div class="row">
             <h1 class="logo">
               <a href="index-2.html"
-                ><v-img src=images/soccer-logo-by-Vexels.png width="200px"/></a
+                ><v-img src=images/logo.png width="100px"/></a
               >
             </h1>
 

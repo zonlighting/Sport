@@ -2,7 +2,7 @@
   <div>
     <v-hover>
       <v-card>
-        <v-row style="margin-top: 70px">
+        <v-row style="margin-top: 130px">
           <v-col class="text-center" cols="12" sm="3">
             <v-avatar size="128" tile
               ><img src="@/assets/logodemo.png" alt="John" /></v-avatar
