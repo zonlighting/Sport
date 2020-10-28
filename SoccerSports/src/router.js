@@ -61,25 +61,27 @@ let routes = [
     ],
   },
   {
-    path:'/admin',
-    name:'admin',
-    component:admin,
-    redirect: '/admin/User',
-    children:[
-      {
-        path:'/admin/User',
-        name:'User',
-        component: () => import('@/views/admin/user/User'),
-      }
-    ]
-  },
-  {
     path: '/admin',
     name: 'admin',
     component: admin,
+    redirect: '/admin/User',
+    children: [
+      {
+        path: '/admin/user',
+        name: 'user',
+        component: () => import('@/views/admin/user/User'),
+        meta: metaConfig
+      },
+      {
+        path: '/admin/team',
+        name: 'team',
+        component: () => import('@/views/admin/team/Teams'),
+        meta: metaConfig
+      }
+      
+    ],
     meta: metaConfig
-  }
-
+  },
 ]
 
 const router = new Router({
