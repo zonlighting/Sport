@@ -11,7 +11,6 @@ import Summary from '@/views/web/schedule/Summary'
 import Tournament from '@/views/web/tournament/Tournament'
 import Team from '@/views/web/team/Team'
 
-
 import admin from '@/views/admin/index'
 
 

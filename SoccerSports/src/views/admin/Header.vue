@@ -1,16 +1,13 @@
 <template>
   <v-app-bar app clipped-left clipped-right color="primary" dark>
     <v-toolbar-title class="align-center d-flex">
-   
+      <h2 class="pl-10">
+      Sports</h2>
     </v-toolbar-title>
-    <v-app-bar-nav-icon
-      class="d-block d-md-none"
-      @click="$vuetify.breakpoint.smAndDown ? setSidebarDrawer(!Sidebar_drawer) : $emit('input', !value)"
-    />
     <v-spacer />
     <!---right part -->
-    <v-btn dark color="success" href="#">Logout</v-btn>
-    
+    <v-btn dark color="success" class="mr-3" @click="toWebPage">Back To Web</v-btn>
+    <v-btn dark color="success" @click="logout">Logout</v-btn>
   </v-app-bar>
 </template>
 <script>
@@ -41,7 +38,33 @@ export default {
   methods: {
     ...mapMutations({
       setSidebarDrawer: "SET_SIDEBAR_DRAWER"
-    })
+    }),
+
+    toWebPage() {
+      this.$router.push("/");
+    },
+
+    logout() {
+      this.showMenu = false;
+      this.$store.dispatch("auth/logout").then(() => {
+        const role = this.$store.state.user.userInfo.role;
+        if (role === "ROLE_ADMIN") {
+          this.checkProfileAdmin();
+        } else if (role === "ROLE_USER" || role === "ROLE_MEMBER") {
+          this.checkProfile();
+        }
+        this.LoginDialog = false;
+        window.open("http://localhost:8080/Home", "_self");
+      });
+    },
+
+    checkProfileAdmin: function () {
+      this.$store.commit("user/admin_profile");
+    },
+
+    checkProfile: function () {
+      this.$store.commit("user/user_profile");
+    },
   }
 };
 </script>
