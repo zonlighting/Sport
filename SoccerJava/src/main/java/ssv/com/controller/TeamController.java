@@ -19,9 +19,15 @@ public class TeamController {
 
 	@GetMapping(value = "getTeams")
 	public ResponseQuery<?> getTeams() {
-		if(teamService.getTeams() != null) {
-			return ResponseQuery.success("Connect Success", teamService.getTeams());
+		try {
+			if(teamService.getTeams() != null) {
+				return ResponseQuery.success("Connect Success", teamService.getTeams());
+			}
+			return ResponseQuery.faild("Falied To recive data", null);
 		}
-		return ResponseQuery.faild("Error connect to server", 500);
+		catch (Exception e) {
+			return ResponseQuery.faild("Error connect to server", 500);
+		}
+
 	}
 }

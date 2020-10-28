@@ -1,5 +1,6 @@
 package ssv.com.controller;
 
+import org.apache.ibatis.javassist.bytecode.stackmap.BasicBlock.Catch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,10 +17,15 @@ import ssv.com.service.TournamentService;
 public class TournamentController {
 	@Autowired
 	private TournamentService tournamentService;
-	
+
 	@PostMapping(value = "create")
 	public ResponseQuery<?> createTournament(@RequestBody Tournament tournament){
-		return null;
-		
+		try {
+			return null;
+		}
+		catch(Exception ex){
+			return null;
+		}
+
 	}
 }

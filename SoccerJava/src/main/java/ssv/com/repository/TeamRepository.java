@@ -1,0 +1,21 @@
+package ssv.com.repository;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import ssv.com.entity.Team;
+import ssv.com.mapper.TeamMapper;
+
+@Repository
+public class TeamRepository {
+
+	@Autowired
+	private TeamMapper teamMapper;
+
+	public List<Team> getTeams() {
+		// TODO Auto-generated method stub
+		return teamMapper.getTeams();
+	}
+}

@@ -157,7 +157,7 @@ export default {
               }, 1100);
             }
           })
-          .catch((err) => console.log(err));
+          .catch((err) => alert(err + " : 404"));
       }
     },
 
