@@ -41,7 +41,7 @@ export default {
     }),
 
     toWebPage() {
-      this.$router.push("/");
+      window.open("http://localhost:8080/Home", "_self");
     },
 
     logout() {

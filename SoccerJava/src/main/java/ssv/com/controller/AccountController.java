@@ -75,12 +75,12 @@ public class AccountController {
 				// create account
 				String hash = BCrypt.hashpw(account.getPassword(), BCrypt.gensalt(12));
 				account.setPassword(hash);
-				account.setRole("ROLE_ADMIN");
+				account.setRole("ROLE_USER");
 				accountService.create(account);
 
 				// create default profile
 				Profile profile = new Profile();
-				profile.setName(account.getEmail().substring(0, 4));
+				profile.setName(account.getEmail().substring(0, 5));
 				profile.setEmail(account.getEmail());
 				profile.setAvatar("/images/default_user.png");
 				profileService.saveProfile(profile);

@@ -117,7 +117,7 @@ router.beforeEach(async (to, from, next) => {
       if (role === 'ROLE_ADMIN') {
         next()
       } else {
-        next('/admin/login')
+        next('/')
       }
     }
   }

@@ -1,5 +1,7 @@
 package ssv.com.entity;
 
+import java.time.LocalDate;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,4 +22,5 @@ public class Profile {
 	private String avatar;
 	private int idTeam;
 	private String position;
+	private LocalDate createDate = LocalDate.now();
 }
