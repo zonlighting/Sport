@@ -91,13 +91,13 @@
                       <template v-slot:activator="{ on, attrs }">
                         <v-card
                           class="portrait"
-                          img="https://cdn.vuetifyjs.com/images/cards/girl.jpg"
+                          :img="baseUrl + profile.profile.avatar"
                           height="35"
                           width="40"
                           v-bind="attrs"
                           v-on="on"
                         ></v-card>
-                        <h4 style="color: white; padding-left: 5px">Name</h4>
+                        <h4 style="color: white; padding-left: 5px">{{ profile.profile.name }}</h4>
                       </template>
 
                       <v-list>
@@ -128,13 +128,13 @@
                       <template v-slot:activator="{ on, attrs }">
                         <v-card
                           class="portrait"
-                          img="https://cdn.vuetifyjs.com/images/cards/girl.jpg"
+                          :img="baseUrl + profile.profile.avatar"
                           height="35"
                           width="40"
                           v-bind="attrs"
                           v-on="on"
                         ></v-card>
-                        <h4 style="color: white; padding-left: 5px">Name</h4>
+                        <h4 style="color: white; padding-left: 5px">{{ profile.profile.name }}</h4>
                       </template>
 
                       <v-list>
@@ -152,7 +152,7 @@
                           <v-list-item-title>
                             <div
                               class="fixButton ml-4 row-pointer"
-                              @click="roleFunction('ROLE_ADMIN')"
+                              @click="roleFunction(profile.role)"
                             >
                               Profile
                             </div>

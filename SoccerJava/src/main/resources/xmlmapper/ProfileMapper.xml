@@ -14,7 +14,8 @@
 		profile_age,
 		profile_gender,
 		profile_country,
-		profile_avatar
+		profile_avatar,
+		profile_datecreate
 		) VALUES(
 		#{name},
 		#{email},
@@ -22,7 +23,8 @@
 		#{age},
 		#{gender},
 		#{country},
-		#{avatar}
+		#{avatar},
+		#{createDate}
 		);
 	</insert>
 </mapper>
