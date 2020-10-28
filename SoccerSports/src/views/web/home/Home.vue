@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div class="banner" id="layerSlider" style="width: 100%">
+   
        <img
        src=images/background/latestnews.jpg class=ls-bg alt="Slide
         background"
       />
    
-    </div>
+
     <section class="booking bg-smallwhite">
       <div class="container">
         <v-row class="text-center">

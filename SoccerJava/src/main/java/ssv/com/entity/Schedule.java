@@ -1,6 +1,7 @@
 package ssv.com.entity;
 
-import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,9 +14,9 @@ public class Schedule {
 	private int idTeam2;
 	private int location;
 	private int idTour;
-	private int date;
-	private Time timeEnd;
-	private Time timeStart;
+	private LocalDate date;
+	private LocalTime timeEnd;
+	private LocalTime timeStart;
 	private String image;
 	private String video;
 	private int Status;
