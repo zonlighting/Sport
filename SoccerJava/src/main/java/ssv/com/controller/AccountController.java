@@ -82,7 +82,7 @@ public class AccountController {
 				Profile profile = new Profile();
 				profile.setName(account.getEmail().substring(0, 4));
 				profile.setEmail(account.getEmail());
-				profile.setAvatar("/images/defaultuser.png");
+				profile.setAvatar("/images/default_user.png");
 				profileService.saveProfile(profile);
 
 				return ResponseQuery.success("Created profile succcess", account);

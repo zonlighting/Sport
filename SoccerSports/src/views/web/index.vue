@@ -282,9 +282,10 @@ export default {
           this.checkProfile();
         }
         this.LoginDialog = false;
-        this.$router.push("/Home").catch((err) => {
-          console.log(err);
-        });
+        // this.$router.push("/Home").catch((err) => {
+        //   console.log(err);
+        // });
+        window.open("http://localhost:8080/Home", "_self");
       });
     },
 

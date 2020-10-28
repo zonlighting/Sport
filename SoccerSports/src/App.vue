@@ -18,5 +18,11 @@ export default {
   data: () => ({
     overlay:false
   }),
+
+  computed:{
+    overlay(){
+      return this.$store.state.auth.overlay
+    }
+  }
 };
 </script>

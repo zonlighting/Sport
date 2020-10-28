@@ -11,7 +11,6 @@ import Summary from '@/views/web/schedule/Summary'
 import Tournament from '@/views/web/tournament/Tournament'
 import Team from '@/views/web/team/Team'
 
-
 import admin from '@/views/admin/index'
 
 
@@ -62,6 +61,7 @@ let routes = [
     ],
   },
   {
+
     path:'/admin',
     name:'admin',
     component:admin,
@@ -70,12 +70,22 @@ let routes = [
       {
         path:'/admin/user',
         name:'User',
+
         component: () => import('@/views/admin/user/User'),
+        meta: metaConfig
+      },
+      {
+        path: '/admin/team',
+        name: 'team',
+        component: () => import('@/views/admin/team/Teams'),
+        meta: metaConfig
       }
+
     ],
     meta: metaConfig
   },
  
+
 
 ]
 

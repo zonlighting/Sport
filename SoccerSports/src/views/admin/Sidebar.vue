@@ -63,7 +63,7 @@ export default {
       {
         title: "Team",
         icon: "mdi-account-multiple ",
-        to: "#1",
+        to: "/admin/team",
       },
       {
         title: "Schedule",
