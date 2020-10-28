@@ -7,13 +7,6 @@
       <v-container>
         <v-form ref="form" v-model="valid" lazy-validation>
           <v-text-field
-            :rules="nameRules"
-            v-model="username"
-            :counter="21"
-            label="User name"
-            required
-          ></v-text-field>
-          <v-text-field
             :rules="emailRules"
             v-model="email"
             label="E-mail"
@@ -47,55 +40,51 @@ export default {
       success: false,
       valid: true,
       email: "",
-      username: "",
-      password: "",
-      nameRules: [
-        (v) => !!v || "Username is required",
-        (v) => (v && v.length <= 21) || "Name must be less than 21 characters",
-      ],
       emailRules: [
-        (v) => !!v || "E-mail is required", // not exsits
-        (v) => /.+@.+/.test(v) || "E-mail must be valid",
+        (v) => !!v || "Email is required",
+        (v) => {
+          let inValid = /\s/;
+          return !inValid.test(v) || "E-mail can not have white space";
+        },
+        (v) => !!/.+@.+/.test(v) || "E-mail must be valid",
       ],
+      password: "",
       passwordRules: [(v) => !!v || "Password is required"],
     };
   },
-  
+
   methods: {
     register: function () {
-      this.$refs.form.validate();
-      let self = this;
-      let user = {
-        username: this.username,
-        email: this.email,
-        password: this.password,
-      };
-      let userLogin = {
-        username: this.username,
-        password: this.password,
-      };
-      this.$store
-        .dispatch("auth/register", user)
-        .then((res) => {
-          if (res.data.payload === 0) {
-              alert("Email has exisits")
-          } else {
-            self.$store.dispatch("auth/login", userLogin).then((res) => {
-              let userInfo = res.data.payload.account;
-              self.success = true;
-              setTimeout(function () {
-                self.success = false;
-                self.$store.commit("user/user_info", userInfo);
-                self.$store.commit("user/user_profile");
-                self.closeRegisterDialog();
-                self.email = "";
-                self.username = "";
-                self.password = "";
-              }, 1500);
-            });
-          }
-        })
-        .catch((err) => console.log(err));
+      if (!this.$refs.form.validate()) {
+        this.$refs.form.validate();
+      } else {
+        let self = this;
+        let user = {
+          email: this.email,
+          password: this.password,
+        };
+        this.$store
+          .dispatch("auth/register", user)
+          .then((res) => {
+            if (res.data.payload === 0) {
+              alert("Email has exisits");
+            } else {
+              self.$store.dispatch("auth/login", user).then((res) => {
+                let userInfo = res.data.payload.account;
+                self.success = true;
+                setTimeout(function () {
+                  self.success = false;
+                  self.$store.commit("user/user_info", userInfo);
+                  self.$store.commit("user/user_profile");
+                  self.closeRegisterDialog();
+                  self.email = "";
+                  self.password = "";
+                }, 1500);
+              });
+            }
+          })
+          .catch((err) => console.log(err));
+      }
     },
   },
 };

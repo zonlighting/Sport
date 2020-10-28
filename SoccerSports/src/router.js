@@ -17,11 +17,11 @@ import admin from '@/views/admin/index'
 
 Vue.use(Router)
 
-// const metaConfig = {
-//   requiredAuth: true,
-//   adminAuth: true,
-//   userAuth: false
-// }
+const metaConfig = {
+  requiredAuth: true,
+  adminAuth: true,
+  userAuth: false
+}
 
 let routes = [
   {
@@ -37,20 +37,20 @@ let routes = [
       {
         path: '/Schedule',
         component: Schedule,
-        
+
       },
       {
         path: '/ScheduleDetail',
         component: ScheduleDetail,
-        children:[
+        children: [
           {
-            path:'/Summary',
-            component:Summary,
+            path: '/Summary',
+            component: Summary,
 
           }
         ]
       },
-      
+
       {
         path: '/Tournament',
         component: Tournament
@@ -73,6 +73,12 @@ let routes = [
         component: () => import('@/views/admin/user/User'),
       }
     ]
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    component: admin,
+    meta: metaConfig
   }
 
 ]

@@ -8,7 +8,7 @@
       </div>
       <div class="header-lower clearfix">
         <div id="login">
-          <template v-if="isAdminProfile">
+          <template v-if="isProfile">
             <v-row class="d-flex" justify="center">
               <v-menu
                 v-model="showMenu"
@@ -36,7 +36,56 @@
                   </v-list-item>
                   <v-list-item>
                     <v-list-item-title
-                      ><div class="fixButton row-pointer">
+                      ><div class="fixButton row-pointer" @click="logout">
+                        Logout
+                      </div></v-list-item-title
+                    >
+                  </v-list-item>
+                </v-list>
+              </v-menu>
+            </v-row>
+          </template>
+          <template v-else-if="isAdminProfile">
+            <v-row class="d-flex" justify="center">
+              <v-menu
+                v-model="showMenu"
+                absolute
+                offset-y
+                style="max-width: 600px"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-card
+                    class="portrait"
+                    img="https://cdn.vuetifyjs.com/images/cards/girl.jpg"
+                    height="35"
+                    width="40"
+                    v-bind="attrs"
+                    v-on="on"
+                  ></v-card>
+                  <h4 style="color: white; padding-left: 5px">Name</h4>
+                </template>
+
+                <v-list>
+                  <v-list-item>
+                    <v-list-item-title>
+                      <div class="fixButton row-pointer" @click="toAdminPage">
+                        Admin Page
+                      </div>
+                    </v-list-item-title>
+                  </v-list-item>
+                  <v-list-item>
+                    <v-list-item-title>
+                      <div
+                        class="fixButton ml-4 row-pointer"
+                        @click="roleFunction('ROLE_ADMIN')"
+                      >
+                        Profile
+                      </div>
+                    </v-list-item-title>
+                  </v-list-item>
+                  <v-list-item>
+                    <v-list-item-title
+                      ><div class="fixButton ml-4 row-pointer" @click="logout">
                         Logout
                       </div></v-list-item-title
                     >
@@ -84,7 +133,6 @@
               <nav class="navbar">
                 <div class="nav-wrapper">
                   <div class="nav-menu">
-                    
                     <ul class="nav navbar-nav menu-bar">
                       <li>
                         <a :href="$router.resolve({ path: '/Home' }).href"
@@ -145,9 +193,9 @@
 <script>
 import Login from "@/views/web/Login.vue";
 import Register from "@/views/web/Register.vue";
+import { ENV } from "@/config/env.js";
 
 export default {
-
   components: {
     Login,
     Register,
@@ -156,14 +204,31 @@ export default {
   data: () => ({
     isLogged: false,
     showMenu: false,
-    isProfile: false,
     LoginDialog: false,
     RegisterDialog: false,
   }),
 
   computed: {
+    baseUrl() {
+      return ENV.BASE_IMAGE;
+    },
+
     isAdminProfile: function () {
       return this.$store.state.user.isAdminProfile;
+    },
+
+    isProfile: function () {
+      return this.$store.state.user.isProfile;
+    },
+
+    profile: function () {
+      // console.log("Should Run last");
+      // console.log(this.$store.state.user.userInfo);
+      if (this.$store.state.user.userInfo != null) {
+        return this.$store.state.user.userInfo;
+      } else {
+        return null;
+      }
     },
   },
 
@@ -171,8 +236,46 @@ export default {
     loginDialog() {
       this.LoginDialog = !this.LoginDialog;
     },
+
     registerDialog: function () {
       this.RegisterDialog = !this.RegisterDialog;
+    },
+
+    checkProfileAdmin: function () {
+      this.$store.commit("user/admin_profile");
+    },
+
+    checkProfile: function () {
+      this.$store.commit("user/user_profile");
+    },
+
+    logout() {
+      this.showMenu = false;
+      this.$store.dispatch("auth/logout").then(() => {
+        const role = this.$store.state.user.userInfo.role;
+        if (role === "ROLE_ADMIN") {
+          this.checkProfileAdmin();
+        } else if (role === "ROLE_USER" || role === "ROLE_MEMBER") {
+          this.checkProfile();
+        }
+        this.LoginDialog = false;
+        this.$router.push("/Home").catch((err) => {
+          console.log(err);
+        });
+      });
+    },
+
+    toAdminPage() {
+      this.$router.push("/admin");
+    },
+
+    roleFunction(role) {
+      // console.log(role);
+      if (role === "ROLE_MEMBER") {
+        this.controlModalMember();
+      } else {
+        this.controlModalUser();
+      }
     },
   },
 };
@@ -184,5 +287,14 @@ export default {
   position: absolute;
   right: 90px;
   top: 5px;
+}
+</style>
+
+<style lang="css">
+.v-list-item .row-pointer:hover {
+  cursor: pointer;
+}
+.fixButton {
+  background: white !important;
 }
 </style>
