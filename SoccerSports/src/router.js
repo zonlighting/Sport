@@ -6,6 +6,8 @@ import store from '@/store'
 import index from '@/views/web/index'
 import Home from '@/views/web/home/Home'
 import Schedule from '@/views/web/schedule/Schedule'
+import ScheduleDetail from '@/views/web/schedule/ScheduleDetail'
+import Summary from '@/views/web/schedule/Summary'
 import Tournament from '@/views/web/tournament/Tournament'
 import Team from '@/views/web/team/Team'
 
@@ -30,8 +32,21 @@ let routes = [
       },
       {
         path: '/Schedule',
-        component: Schedule
+        component: Schedule,
+        
       },
+      {
+        path: '/ScheduleDetail',
+        component: ScheduleDetail,
+        children:[
+          {
+            path:'/Summary',
+            component:Summary,
+
+          }
+        ]
+      },
+      
       {
         path: '/Tournament',
         component: Tournament

@@ -81,13 +81,8 @@
             <div class="menubar">
               <nav class="navbar">
                 <div class="nav-wrapper">
-                  <div class="navbar-header">
-                    <button type="button" class="navbar-toggle">
-                      <span class="sr-only">Toggle navigation</span>
-                      <span class="icon-bar"></span>
-                    </button>
-                  </div>
                   <div class="nav-menu">
+                    
                     <ul class="nav navbar-nav menu-bar">
                       <li>
                         <a :href="$router.resolve({ path: '/Home' }).href"
