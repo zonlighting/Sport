@@ -11,13 +11,14 @@ import Summary from '@/views/web/schedule/Summary'
 import Tournament from '@/views/web/tournament/Tournament'
 import Team from '@/views/web/team/Team'
 
+import admin from '@/views/admin/index'
 Vue.use(Router)
 
-// const metaConfig = {
-//   requiredAuth: true,
-//   adminAuth: true,
-//   userAuth: false
-// }
+const metaConfig = {
+  requiredAuth: true,
+  adminAuth: true,
+  userAuth: false
+}
 
 let routes = [
   {
@@ -33,20 +34,20 @@ let routes = [
       {
         path: '/Schedule',
         component: Schedule,
-        
+
       },
       {
         path: '/ScheduleDetail',
         component: ScheduleDetail,
-        children:[
+        children: [
           {
-            path:'/Summary',
-            component:Summary,
+            path: '/Summary',
+            component: Summary,
 
           }
         ]
       },
-      
+
       {
         path: '/Tournament',
         component: Tournament
@@ -56,6 +57,12 @@ let routes = [
         component: Team
       }
     ]
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    component: admin,
+    meta: metaConfig
   }
 
 ]

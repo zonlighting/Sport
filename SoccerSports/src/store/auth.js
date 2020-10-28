@@ -48,7 +48,7 @@ const actions = {
 
     register({ commit }, user) {
         return new Promise((resolve, reject) => {
-            commit('auth_request')
+            // commit('auth_request')
             register(user)
                 .then(resp => {
                     resolve(resp)
