@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import ssv.com.dto.ResponseQuery;
 import ssv.com.entity.Schedule;
+import ssv.com.form.ScheduleForm;
 import ssv.com.repository.ScheduleRepository;
 import ssv.com.repository.TournamentRepository;
 
@@ -35,7 +36,7 @@ public class ScheduleService {
 	public List<Schedule> getByTournament(int idTournament) {
 		return scheduleRepository.getByTournament(idTournament);
 	}
-
+	//Kiểm tra điều kiện ngày và team có đang thi đấu h đó k
 	public String checkSchedule(Schedule schedule) {
 		Date date = Date.from(schedule.getTimeStart().atZone(ZoneId.systemDefault()).toInstant());
 		Instant instant = Instant.ofEpochMilli(date.getTime());
@@ -114,5 +115,24 @@ public class ScheduleService {
 		return ResponseQuery.faild(result, 400);
 
 		
+	}
+
+	public void statusAuto() {
+		List<Schedule> list=scheduleRepository.getAll();
+		LocalDate now=LocalDate.now();
+		for (Schedule schedule : list) {
+			if(schedule.getTimeStart().equals(now)) {
+				scheduleRepository.updateStatus(schedule.getIdSchedule());
+			}
+		}
+	}
+
+	public List<Schedule> getAll() {
+		return scheduleRepository.getAll();
+	}
+
+	public ResponseQuery<?> update(ScheduleForm scheduleForm) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

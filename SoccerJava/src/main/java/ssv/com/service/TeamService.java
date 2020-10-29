@@ -32,4 +32,8 @@ public class TeamService {
 		}
 		return false;
 	}
+
+	public Team getById(int idTeam) {
+		return teamRepository.getById(idTeam);
+	}
 }

@@ -49,7 +49,7 @@ public class TournamentService {
 			// tạo dữ liệu trong bảng history
 			for (Integer listTeam : tournamentForm.getListTeam()) {
 				// getByid lấy data team theo id
-				for (Profile profile : teamService.getById(listTeam).getListTeam()) {
+				for (Profile profile : teamService.getById(listTeam).getProfile()) {
 					History history = new History(profile.getIdTeam(), listTeam, idTournament);
 					historyService.create(history);
 				}
@@ -64,12 +64,12 @@ public class TournamentService {
 
 	public ResponseQuery<?> addTeam(Integer[] listTeam, int idTournament) {
 		for (Integer idTeam : listTeam) {
-			if(teamService.getById(idTeam).getStatus()!=0) {
+			if(teamService.getById(idTeam).getIdTour()!=0) {
 				return ResponseQuery.faild("Team participated in the tournament", teamService.getById(idTeam));
 			}
 		}
 		for (Integer idTeam : listTeam) {
-			for (Profile profile : teamService.getById(idTeam).getListTeam()) {
+			for (Profile profile : teamService.getById(idTeam).getProfile()) {
 				History history = new History(profile.getIdTeam(), idTeam, idTournament);
 				historyService.create(history);
 			}
@@ -84,8 +84,8 @@ public class TournamentService {
 	}
 
 	public ResponseQuery<?> deleteTeam(int idTeam, int idTournament) {
-		if(teamService.getById(idTeam).getIdTour==idTournament) {
-			for (Profile profile : teamService.getById(idTeam).getListTeam()) {
+		if(teamService.getById(idTeam).getIdTour()==idTournament) {
+			for (Profile profile : teamService.getById(idTeam).getProfile()) {
 				History history = new History(profile.getIdTeam(), idTeam, idTournament);
 				historyService.create(history);
 			}

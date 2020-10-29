@@ -21,4 +21,8 @@ public class TeamRepository {
 	public Long createTeam(Team team) {
 		return teamMapper.createTeam(team);
 	}
+
+	public Team getById(int idTeam) {
+		return teamMapper.getById(idTeam);
+	}
 }

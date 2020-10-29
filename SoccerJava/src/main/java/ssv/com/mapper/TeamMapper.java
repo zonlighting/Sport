@@ -11,4 +11,6 @@ public interface TeamMapper {
 	List<Team> getTeams();
 
 	Long createTeam(Team team);
+
+	Team getById(int idTeam);
 }

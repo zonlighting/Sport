@@ -55,7 +55,6 @@ public class TournamentController {
 		}
 		return ResponseQuery.faild("Tournaments are running or ended", 400);
 	}
-
 	// Xóa team trong giải
 	@PostMapping(value = "deleteTeam")
 	public ResponseQuery<?> deleteTeam(@RequestParam int idTeam, @RequestParam int idTournament) {
@@ -64,8 +63,7 @@ public class TournamentController {
 		}
 		return ResponseQuery.faild("Tournaments are running or ended", 400);
 	}
-
-	// Sửa giải đấu trừ các đội
+	// Sửa tổng quát giải đấu 
 	@PostMapping(value = "update/{idTournament}")
 	public ResponseQuery<?> update(@RequestBody TournamentForm tournamentForm, @PathVariable int idTournament) {
 		if (tournamentService.getById(idTournament).getStatus() == 0) {
