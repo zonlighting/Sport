@@ -17,10 +17,10 @@ public class Team {
 	private String nameTeam;
 	private int totalmatch;
 	private int totalwin;
-	private String type;
 	private String description;
 	private String logo;
-	private LocalDate createDate;
+	private String country;
+	private LocalDate createDate = LocalDate.now();
 	private int idTour;
 	private Tournament tournament;
 	private List<Profile> profile;

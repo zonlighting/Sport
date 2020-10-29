@@ -16,13 +16,13 @@ export default {
   components: {},
 
   data: () => ({
-    overlay:false
+    overlay: false,
   }),
 
-  computed:{
-    overlay(){
-      return this.$store.state.auth.overlay
-    }
-  }
+  computed: {
+    // overlay(){
+    //   return this.$store.state.auth.overlay
+    // }
+  },
 };
 </script>

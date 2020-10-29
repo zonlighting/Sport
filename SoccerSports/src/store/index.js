@@ -2,12 +2,14 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import auth from '@/store/auth'
 import user from '@/store/user'
+import team from '@/store/team'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
 	modules: {
 		auth,
-		user
+		user,
+		team
 	}, state: {
 		Sidebar_drawer: null,
 		Customizer_drawer: false,

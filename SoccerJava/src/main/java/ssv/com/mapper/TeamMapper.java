@@ -9,4 +9,6 @@ import ssv.com.entity.Team;
 @Mapper
 public interface TeamMapper {
 	List<Team> getTeams();
+
+	Long createTeam(Team team);
 }
