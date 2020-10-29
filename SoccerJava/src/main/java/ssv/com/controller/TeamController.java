@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ssv.com.dto.ResponseQuery;
@@ -52,4 +53,10 @@ public class TeamController {
 			return ResponseQuery.faild("Create team fail", e);
 		}
 	}
+	//Lấy data theo id
+	@GetMapping(value = "getById")
+	public ResponseQuery<?> getById(@RequestParam int idTeam){
+		return ResponseQuery.success("Success", teamService.getById(idTeam));
+	}
+	
 }

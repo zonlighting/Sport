@@ -34,5 +34,15 @@ public class ScheduleRepository {
 		
 	}
 
+	public List<Schedule> getAll() {
+		return scheduleMapper.getAll();
+	}
+
+	public void updateStatus(int idSchedule) {
+		scheduleMapper.updateStatus(idSchedule);
+
+		
+	}
+
 	
 }

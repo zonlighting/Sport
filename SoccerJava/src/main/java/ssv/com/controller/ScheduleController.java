@@ -2,6 +2,7 @@ package ssv.com.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ssv.com.dto.ResponseQuery;
 import ssv.com.entity.Schedule;
+import ssv.com.form.ScheduleForm;
 import ssv.com.service.ScheduleService;
 
 @RestController
@@ -21,8 +23,12 @@ public class ScheduleController {
 	//Thêm trận đấu
 	@PostMapping(value = "create")
 	public ResponseQuery<?> create(@RequestBody Schedule schedule){
-		System.out.println(schedule.getTimeEnd());
 		return scheduleService.create(schedule);
+	}
+	//Hiển thị all
+	@GetMapping(value="getAll")
+	public ResponseQuery<?> getAll(){
+		return ResponseQuery.success("Connect Success", scheduleService.getAll());
 	}
 	
 	//Hiển thị tất cả các  trận đấu theo giải đấu
@@ -49,6 +55,19 @@ public class ScheduleController {
 	@PostMapping(value="edit")
 	public ResponseQuery<?> edit(@RequestBody Schedule schedule){
 		return 	scheduleService.edit(schedule);
+	}
+	
+	
+	//autoUpdate Status
+	@GetMapping(value="status")
+	public void statusAuto() {
+		scheduleService.statusAuto();
+	}
+	
+	//Update Trận đấu
+	@PostMapping(value="update")
+	public ResponseQuery<?> update(@ModelAttribute ScheduleForm scheduleForm) {
+		return scheduleService.update(scheduleForm);
 	}
 	
 	

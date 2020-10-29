@@ -19,4 +19,8 @@ public interface ScheduleMapper {
 
 	void edit(Schedule schedule);
 
+	List<Schedule> getAll();
+
+	void updateStatus(int idSchedule);
+
 }
