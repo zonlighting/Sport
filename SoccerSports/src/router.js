@@ -75,12 +75,23 @@ let routes = [
         meta: metaConfig
       },
       {
-        path: '/admin/team',
+        path: '/admin/teams',
         name: 'team',
         component: () => import('@/views/admin/team/Teams'),
         meta: metaConfig
+      },
+      {
+        path: '/admin/team/detail/:id',
+        name: "TeamDetail",
+        component: () => import('@/views/admin/team/TeamDetail'),
+        meta: metaConfig
+      },
+      {
+        path: '/admin/team/:id/manage',
+        name: "ManageTeam",
+        component: () => import('@/views/admin/member/ManageMembers'),
+        meta: metaConfig
       }
-
     ],
     meta: metaConfig
   },
