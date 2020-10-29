@@ -10,7 +10,7 @@
 		<result column="schedule_score2" property="score2" />
 		<result column="schedule_status" property="status" />
 		<result column="schedule_location" property="location" />
-		<result column="schedule_date" property="date" />
+		<result column="schedule_tour" property="idTour" />
 		<result column="schedule_start" property="timeStart" />
 		<result column="schedule_end" property="timeEnd" />
 		<result column="schedule_team1" property="idTeam1" />
@@ -18,5 +18,31 @@
 		<result column="schedule_image" property="image" />
 		<result column="schedule_video" property="video" />
 	</resultMap>
+
+
+	<select id="getByTournament" resultMap="scheduleMapping">
+		SELECT * FROM
+		sports.schedule_tbl where schedule_tour=${idTour}
+	</select>
+	<select id="getById" resultMap="scheduleMapping">
+		SELECT * FROM sports.schedule_tbl
+		where schedule_id=${idSchedule}
+	</select>
+	<delete id="delete">
+	DELETE FROM `sports`.`schedule_tbl` WHERE (`schedule_id` = ${idSchedule});
+	</delete>
+	<insert id="create" parameterType="Schedule">
+		INSERT INTO
+		`sports`.`schedule_tbl`
+		(schedule_team1,schedule_team2,
+		schedule_tour,schedule_location)
+		VALUES
+		(#{idTeam1},
+		#{idTeam2},
+		#{idTour},#{location});
+	</insert>
+	<update id="edit" parameterType="Schedule">
+	UPDATE `sports`.`schedule_tbl` SET `schedule_team1` = #{idTeam1} ,schedule_team2=#{idTeam2},schedule_location=#{location} WHERE (`schedule_id` = #{idSchedule});
 	
+	</update>
 </mapper>

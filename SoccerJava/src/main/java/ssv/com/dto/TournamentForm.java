@@ -1,24 +1,23 @@
-package ssv.com.entity;
+package ssv.com.dto;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter
 @Getter
-public class Tournament {
-	private int idTournament;
+@Setter
+public class TournamentForm {
 	private String nameTournament;
-	private int status;
-	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@DateTimeFormat(pattern ="yyyy-MM-dd")
 	private LocalDate timeEnd;
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private LocalDate timeStart;
 	private String description;
+	private MultipartFile bannerFile;
 	private String banner;
-	private List<Team> listTeam;
+	private Integer[] listTeam;
 }
