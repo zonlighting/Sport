@@ -10,24 +10,24 @@
       :headers="headers"
       :items="desserts"
       class="elevation-1 container row-pointer"
-      :custom-sort="customSort"
     >
       <template v-slot:top>
         <v-toolbar flat color="white">
-          <router-link :to="{ path: '/create', query: { maxId: 'maxTeamId' } }">
-            <v-btn color="primary" dark class="mb-2"> New Team </v-btn>
-          </router-link>
+          <template>
+            <v-dialog v-model="createTeamDialog" max-width="1000px">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn color="primary" dark v-bind="attrs" v-on="on">
+                  New Team
+                </v-btn>
+              </template>
+              <CreateTeam :closeCreateTeamDialog="closeCreateTeamDialog" />
+            </v-dialog>
+          </template>
+
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-row>
             <v-col cols="12" sm="3" md="3"> </v-col>
-            <v-col cols="12" sm="3" md="3">
-              <v-select
-                v-model="typeSearch"
-                :items="items"
-                label="Search Type"
-                class="pt-3"
-              ></v-select>
-            </v-col>
+
             <v-col cols="12" sm="3" md="3">
               <v-text-field
                 v-model="nameTeamSearch"
@@ -59,7 +59,7 @@
         </template>
         <template v-else><div style="color: green">Available</div></template>
       </template>
-  
+
       <template v-slot:[`item.logo`]="{ item }">
         <img
           :src="baseUrl + item.logo"
@@ -77,11 +77,16 @@
 
 <script>
 import { ENV } from "@/config/env.js";
+import CreateTeam from "@/views/admin/team/CreateTeam";
+0;
 
 export default {
+  components: {
+    CreateTeam,
+  },
   data() {
     return {
-    
+      createTeamDialog: false,
       search: "",
       headers: [
         {
@@ -90,7 +95,7 @@ export default {
           sortable: false,
           value: "logo",
         },
-        {text: "Create Date", value: ""},
+        { text: "Create Date", value: "" },
         { text: "Team Name", value: "nameTeam", filter: this.nameTeamFilter },
         {
           text: "Tournament",
@@ -131,22 +136,26 @@ export default {
     this.$store.commit("auth/auth_overlay");
     this.$store
       .dispatch("team/getTeams")
-      .then(function (response) {
+      .then((response) => {
         this.$store.commit("auth/auth_overlay");
-        self.desserts = response.data;
-        // console.log(self.desserts)
-        self.maxTeamId =
-          1 +
-          Math.max.apply(
-            Math,
-            response.data.map(function (item) {
-              return item.idTeam;
-            })
-          );
+        if (response.data.code === 0) {
+          self.desserts = response.data;
+          // console.log(self.desserts)
+          self.maxTeamId =
+            1 +
+            Math.max.apply(
+              Math,
+              response.data.map(function (item) {
+                return item.idTeam;
+              })
+            );
+        }
+        else{
+          alert(response.data.message)
+        }
       })
       .catch(function (error) {
-        console.log(error);
-        alert(error)
+        alert(error);
       });
   },
 
@@ -198,7 +207,6 @@ export default {
       return value.toLowerCase().includes(this.nameTeamSearch.toLowerCase());
     },
     nameTourFilter(value) {
-      // If this filter has no value we just skip the entire filter.
       if (!this.tourNameSearch) {
         return true;
       }
@@ -206,12 +214,15 @@ export default {
         return value.toLowerCase().includes(this.tourNameSearch.toLowerCase());
     },
     typeFilter(value) {
-      // If this filter has no value we just skip the entire filter.
       if (!this.typeSearch) {
         return true;
       }
 
       return value === this.typeSearch;
+    },
+
+    closeCreateTeamDialog() {
+      this.createTeamDialog = !this.closeCreateTeamDialog;
     },
   },
 };

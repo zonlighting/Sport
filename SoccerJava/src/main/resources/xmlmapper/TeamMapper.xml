@@ -17,7 +17,7 @@
 		</association>
 
 		<collection property="profile" ofType="Profile"
-			notNullColumn="id">
+			notNullColumn="profile_id">
 			<id property="id" column="profile_id" />
 			<result property="name" column="profile_name" />
 			<result property="email" column="profile_email" />
@@ -32,12 +32,31 @@
 		</collection>
 	</resultMap>
 
+	<insert id="createTeam" parameterType="Team">
+		INSERT INTO team_tbl(
+		team_name,
+		team_description,
+		team_logo,
+		team_country,
+		team_datecreate
+		)
+		VALUES(
+		#{nameTeam},
+		#{description},
+		#{logo},
+		#{country},
+		#{createDate}
+		)
+	</insert>
+
 	<select id="getTeams" resultMap="teamMapping">
-		SELECT p.*, t.*, c.* FROM team_tbl
-		p
+		SELECT p.*, t.*, c.* FROM
+		team_tbl p
 		left join profile_tbl c on p.team_id = c.id_team
 		left join
 		tournament_tbl t on p.id_tour = t.tournament_id order by p.team_id
 		desc
 	</select>
+
+
 </mapper>

@@ -15,7 +15,10 @@ public class TeamRepository {
 	private TeamMapper teamMapper;
 
 	public List<Team> getTeams() {
-		// TODO Auto-generated method stub
 		return teamMapper.getTeams();
+	}
+
+	public Long createTeam(Team team) {
+		return teamMapper.createTeam(team);
 	}
 }

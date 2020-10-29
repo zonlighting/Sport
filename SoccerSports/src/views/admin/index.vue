@@ -3,12 +3,10 @@
     <Header v-model="expandOnHover"></Header>
     <Sidebar :expand-on-hover.sync="expandOnHover"></Sidebar>
     <div style="height: 100%">
-   
-        <v-container>
-            <div></div>
-          <router-view />
-        </v-container>
- 
+      <v-container>
+        <div></div>
+        <router-view />
+      </v-container>
     </div>
     <Footer></Footer>
   </v-app>

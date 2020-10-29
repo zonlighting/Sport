@@ -19,4 +19,17 @@ public class TeamService {
 	public List<Team> getTeams() {
 		return teamRepository.getTeams();
 	}
+
+	public Long createTeam(Team team) {
+		return teamRepository.createTeam(team);
+	}
+
+	public boolean checkExistsTeam(Team team) {
+		for (Team teamExists : getTeams()) {
+			if (teamExists.getNameTeam().equals(team.getNameTeam())) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
