@@ -1,7 +1,9 @@
 package ssv.com.entity;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -14,12 +16,14 @@ public class Schedule {
 	private int idTeam2;
 	private int location;
 	private int idTour;
-	private LocalDate date;
-	private LocalTime timeEnd;
-	private LocalTime timeStart;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private LocalDateTime timeEnd;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private LocalDateTime timeStart;
 	private String image;
 	private String video;
 	private int Status;
 	private int score1;
 	private int score2;
+	private List<Team> listTeam;
 }

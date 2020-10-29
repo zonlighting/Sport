@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="ssv.com.mapper.Tournament">
+<mapper namespace="ssv.com.mapper.TournamentMapper">
 	<resultMap type="Tournament" id="tournamentMapping">
 		<id column="tournament_id" property="idTournament" />
 		<result column="tournament_name" property="nameTournament" />
@@ -13,5 +13,35 @@
 		<result column="tournament_description" property="description" />
 		<result column="tournament_banner" property="banner" />
 	</resultMap>
-	
+	<select id="getAll" resultMap="tournamentMapping">
+		SELECT * FROM
+		sports.tournament_tbl;
+	</select>
+	<insert id="create" parameterType="Tournament">
+		INSERT INTO
+		`sports`.`tournament_tbl`
+		(tournament_name,
+		tournament_end,tournament_start,
+		tournament_description,
+		tournament_banner)
+		VALUES
+		(#{nameTournament},#{timeEnd}, #{timeStart},
+		#{description}, #{banner});
+
+	</insert>
+	<select id="getIdNew" resultType="Int">
+		SELECT MAX(tournament_id) from
+		tournament_tbl
+	</select>
+	<select id="getById" parameterType="Tournament">
+		SELECT * FROM
+		sports.tournament_tbl where tournament_id=${idTournamnet}
+	</select>
+
+	<update id="update">
+		UPDATE `sports`.`tournament_tbl`
+		SET `tournament_name` = #{nameTournament} ,`tournament_timeEnd` = #{timeEnd},
+		`tournament_timeStart` = #{timeStart},`tournament_description` = #{description},
+		`tournament_banner`=#{banner} WHERE (`tournament_id` = ${idTournamnet});
+	</update>
 </mapper>

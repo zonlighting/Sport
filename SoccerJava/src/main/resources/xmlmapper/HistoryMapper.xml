@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ssv.com.mapper.HistoryMapper">
+	<resultMap type="History" id="historyMapping">
+		<id column="history_id" property="idHistory" />
+		<result column="id_member" property="idMember" />
+		<result column="id_team" property="idTeam" />
+		<result column="id_tour" property="idTour" />
+	</resultMap>
+
+	<insert id="create" parameterType="History">
+		INSERT INTO
+		`sports`.`history_tbl`
+		(id_member,id_team,
+		id_tour)
+		VALUES
+		(#{idMember},
+		#{idTeam}, #{idTour});
+	</insert>
+
+</mapper>
