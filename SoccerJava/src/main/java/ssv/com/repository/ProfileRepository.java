@@ -14,4 +14,12 @@ public class ProfileRepository {
 	public Long saveProfile(Profile profile) {
 		return profileMapper.saveProfile(profile);
 	}
+
+	public Profile getByEmail(String email) {
+		return profileMapper.findByEmail(email);
+	}
+
+	public Profile checkPhoneExist(String phone) {
+		return profileMapper.checkPhoneExist(phone);
+	}
 }

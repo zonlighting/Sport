@@ -4,11 +4,12 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ssv.com.mapper.TeamMapper">
 	<resultMap type="Team" id="teamMapping">
-		<id column="id_team" property="idTeam" />
+		<id column="team_id" property="idTeam" />
 		<result column="team_name" property="nameTeam" />
 		<result column="team_description" property="description" />
 		<result column="team_logo" property="logo" />
 		<result column="id_tour" property="idTour" />
+		<result column="team_country" property="country" />
 		<result column="team_datecreate" property="createDate" />
 
 		<association property="tournament">

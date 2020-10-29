@@ -54,7 +54,7 @@
       </template>
 
       <template v-slot:[`item.tournament.nameTour`]="{ item }">
-        <template v-if="item.idTour != 0 && item.tournament != null">
+        <template v-if="item.idTour != 0 || item.tournament != null">
           <div style="color: red">{{ item.tournament.nameTour }}</div>
         </template>
         <template v-else><div style="color: green">Available</div></template>
@@ -95,7 +95,7 @@ export default {
           sortable: false,
           value: "logo",
         },
-        { text: "Create Date", value: "" },
+        { text: "Create Date", value: "createDate" },
         { text: "Team Name", value: "nameTeam", filter: this.nameTeamFilter },
         {
           text: "Tournament",
@@ -112,7 +112,6 @@ export default {
       ],
       desserts: [],
       maxTeamId: 0,
-      items: ["Football", "TableTennis", "Baseball", "Basketball"],
       nameTeamSearch: "",
       typeSearch: null,
       tourNameSearch: "",
@@ -120,12 +119,12 @@ export default {
         {
           text: "Dashboard",
           disabled: false,
-          href: "/admin/home",
+          href: "/admin",
         },
         {
           text: "Teams",
           disabled: false,
-          href: "/LayoutTeam",
+          href: "/admin/team",
         },
       ],
     };
@@ -139,19 +138,10 @@ export default {
       .then((response) => {
         this.$store.commit("auth/auth_overlay");
         if (response.data.code === 0) {
-          self.desserts = response.data;
+          self.desserts = response.data.payload;
           // console.log(self.desserts)
-          self.maxTeamId =
-            1 +
-            Math.max.apply(
-              Math,
-              response.data.map(function (item) {
-                return item.idTeam;
-              })
-            );
-        }
-        else{
-          alert(response.data.message)
+        } else {
+          alert(response.data.message);
         }
       })
       .catch(function (error) {
@@ -173,8 +163,7 @@ export default {
 
   methods: {
     editTeam(item) {
-      // console.log(item);
-      this.$router.push({ name: "TeamDetail", params: { id: item.idTeam } });
+      this.$router.push({  path: `/admin/team/detail/${item.idTeam}`, params: { idTeam: item.idTeam } });
     },
     handleRowClick(item) {
       this.editTeam(item);
