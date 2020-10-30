@@ -76,12 +76,12 @@ public class TournamentController {
 		}
 		return ResponseQuery.faild("Tournaments are running or ended", 400);
 	}
-
 	// Sửa tổng quát giải đấu
 	@PostMapping(value = "update")
 	public ResponseQuery<?> update(@RequestBody TournamentForm tournamentForm) {
 		if (tournamentService.getById(tournamentForm.getIdTournament()).getStatus() == 0) {
 			return tournamentService.update(tournamentForm);
+
 		}
 		return ResponseQuery.faild("Tournaments are running or ended", 400);
 	}

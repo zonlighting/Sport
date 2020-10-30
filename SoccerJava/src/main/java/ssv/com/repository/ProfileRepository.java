@@ -1,5 +1,8 @@
 package ssv.com.repository;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -15,11 +18,15 @@ public class ProfileRepository {
 		return profileMapper.saveProfile(profile);
 	}
 
-	public Profile getByEmail(String email) {
+	public Optional<Profile> getByEmail(String email) {
 		return profileMapper.findByEmail(email);
 	}
 
-	public Profile checkPhoneExist(String phone) {
+	public Optional<Profile> checkPhoneExist(String phone) {
 		return profileMapper.checkPhoneExist(phone);
+	}
+
+	public List<Profile> getMembers() {
+		return profileMapper.getMembers();
 	}
 }

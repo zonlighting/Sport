@@ -163,7 +163,7 @@ export default {
 
   methods: {
     editTeam(item) {
-      this.$router.push({  path: `/admin/team/detail/${item.idTeam}`, params: { idTeam: item.idTeam } });
+      this.$router.push({ path: `/admin/team/detail/${item.idTeam}` });
     },
     handleRowClick(item) {
       this.editTeam(item);

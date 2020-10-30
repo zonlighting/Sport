@@ -19,7 +19,7 @@ public class Profile {
 	private String age;
 	private String gender;
 	private String country;
-	private String avatar;
+	private String avatar = "/images/default_user.png";
 	private int idTeam;
 	private String position;
 	private LocalDate createDate = LocalDate.now();
