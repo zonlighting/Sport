@@ -1,5 +1,6 @@
 package ssv.com.mapper;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -13,4 +14,6 @@ public interface ProfileMapper {
 	public Optional<Profile> checkPhoneExist(String number);
 
 	public Optional<Profile> findByEmail(String email);
+
+	public List<Profile> getMembers();
 }

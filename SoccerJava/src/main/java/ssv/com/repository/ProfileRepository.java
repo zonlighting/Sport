@@ -1,5 +1,6 @@
 package ssv.com.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,5 +24,9 @@ public class ProfileRepository {
 
 	public Optional<Profile> checkPhoneExist(String phone) {
 		return profileMapper.checkPhoneExist(phone);
+	}
+
+	public List<Profile> getMembers() {
+		return profileMapper.getMembers();
 	}
 }
