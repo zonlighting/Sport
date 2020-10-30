@@ -51,20 +51,29 @@
           </v-col>
           <v-col cols="12" md="3">
             <v-file-input
-              accept="image/png, image/jpeg, image/bmp"
               :rules="rulesImage"
               v-model="fileImage"
               label="Add Avatar"
             ></v-file-input>
           </v-col>
         </v-row>
-
-        <v-text-field
-          :rules="countryRules"
-          v-model="address"
-          label="Country"
-          required
-        ></v-text-field>
+        <v-row>
+          <v-col cols="12" md="6" xl="6">
+            <v-text-field
+              :rules="countryRules"
+              v-model="country"
+              label="Country"
+              required
+            ></v-text-field
+          ></v-col>
+          <v-col cols="12" md="6" xl="6">
+            <v-select
+              v-model="position"
+              :items="defaultPosition"
+              :rules="[(v) => !!v || 'Position is required']"
+              label="Position"
+            ></v-select> </v-col
+        ></v-row>
       </v-card-text>
       <v-card-actions>
         <v-btn color="error" x-large text @click="reset"> Reset Form </v-btn>
@@ -95,7 +104,6 @@
 <script>
 export default {
   props: {
-    passSelectedType: String,
     isOpenModalMember: {
       type: Function,
     },
@@ -111,13 +119,13 @@ export default {
       valid: false,
       response: "",
       dialogCreateMember: false,
-      fileImage: [],
-      address: "",
-      name: "",
+      fileImage: new File([""], ""),
+      country: "uk",
+      name: "create1",
       number: 10,
       countryRules: [(v) => !!v || "Country is required"],
       nameRules: [(v) => !!v || "Name is required"],
-      email: "",
+      email: "create1@gmail.com",
       emailRules: [
         (v) => !!v || "Email is required",
         (v) => {
@@ -126,16 +134,21 @@ export default {
         },
         (v) => !!/.+@.+/.test(v) || "E-mail must be valid",
       ],
-      phone: "",
+      phone: "123456",
       phoneRules: [
         (v) => !!v || "Phone is required",
         (v) => {
           let inValid = /^[0-9]+$/;
           return inValid.test(v) || "Phone must be a number";
         },
-        (v) => v.length > 5 || "Phone number have at least 6 digit",
+        (v) => {
+          return (
+            (v != undefined && v.length > 5) ||
+            "Phone number have at least 6 digit"
+          );
+        },
       ],
-      age: "",
+      age: "21",
       ageRules: [
         (v) => !!v || "Age number is required",
         (v) =>
@@ -143,26 +156,26 @@ export default {
       ],
       gender: "",
       defaultGender: ["Male", "Female", "Orther"],
-      rulesImage: [
-        (v) => {
-          if (v == undefined || Array.isArray(v)) {
-            return false || "Item is required";
-          }
-          return true;
-        },
+      position: "",
+      defaultPosition: [
+        "Goalkeepers",
+        "Defenders",
+        "Midfielders",
+        "Forwards",
+        "Coach",
       ],
+      rulesImage: [],
     };
   },
   watch: {
     fileImage() {
       if (this.fileImage == undefined) {
-        this.fileImage = [];
+        this.fileImage = new File([""], "");
         this.rulesImage = [
           (v) => {
-            if (v == undefined || Array.isArray(v)) {
-              return false || "Item is required";
+            if (v == undefined || v.name == "") {
+              return true;
             }
-            return true;
           },
         ];
       }
@@ -173,7 +186,7 @@ export default {
             v.type == "image/png" ||
             v.type == "image/jpeg" ||
             v.type == "image/bmp" ||
-            "Wrong type image",
+            "Wrong type image"
         ];
       }
     },
@@ -190,28 +203,32 @@ export default {
         memberForm.append("name", this.name);
         memberForm.append("email", this.email);
         memberForm.append("phone", this.phone);
-        memberForm.append("age", this.age);
         memberForm.append("gender", this.gender);
-        memberForm.append("address", this.address);
-        memberForm.append("type", this.passSelectedType);
+        memberForm.append("age", this.age);
+        memberForm.append("country", this.country);
+        memberForm.append("position", this.position);
         memberForm.append("file", this.fileImage);
-        //   for (var value of memberForm.values()) {
-        //     console.log(value);
-        //   }
+        // for (var value of memberForm.values()) {
+        //   console.log(value);
+        // }
         this.$store
-          .dispatch("user/createMember", memberForm)
-          .then((res) => {
+          .dispatch("member/createMember", memberForm)
+          .then((response) => {
+            let res = response.data;
             self.changeButton = !self.changeButton;
-            if (res.data.code === 9999 && res.data.payload == null) {
-              alert("Email has existed");
-            } else if (res.data.code === 999 && res.data.payload == 0) {
-              alert("Email has exists");
+            if (res.code === 9999 && res.payload === 300) {
+              alert(res.message);
+            } else if (res.code === 9999 && res.payload === 301) {
+              alert(res.message);
+            } else if (res.code === 9999 && res.payload === 400) {
+              alert("Create Failed");
             } else {
+              console.log("Run here");
               self.isOpenModalMember();
               self.successDialog = !self.successDialog;
               setTimeout(function () {
                 self.successDialog = !self.successDialog;
-                self.loadMemberAfterCreate(res.data.payload);
+                self.loadMemberAfterCreate(res.payload);
               }, 1100);
               self.reset();
             }

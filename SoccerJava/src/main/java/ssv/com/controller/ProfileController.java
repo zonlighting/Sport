@@ -1,6 +1,7 @@
 package ssv.com.controller;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ssv.com.dto.ResponseQuery;
+import ssv.com.exception.ResourceExistsException;
 import ssv.com.form.ProfileForm;
 import ssv.com.service.ProfileService;
 
@@ -20,12 +22,14 @@ public class ProfileController {
 	private ProfileService profileService;
 
 	@PostMapping("/createMember")
-	public ResponseQuery<?> createMember(@ModelAttribute ProfileForm profileForm) throws Exception{
+	public ResponseQuery<?> createMember(@ModelAttribute ProfileForm profileForm) {
 		try {
-			profileService.saveMember(profileForm);
-			return ResponseQuery.success("create success", 200);
-		}catch (FileNotFoundException e) {
-			return ResponseQuery.faild("invalid Image", 302);
+			return ResponseQuery.success("create success", profileService.saveMember(profileForm));
+		} catch (ResourceExistsException e) {
+			// TODO: handle exception
+			return ResponseQuery.faild(e.getMessage(), e.getCode());
+		} catch (Exception e) {
+			return ResponseQuery.faild("Create Failed", 401);
 		}
 	}
 }

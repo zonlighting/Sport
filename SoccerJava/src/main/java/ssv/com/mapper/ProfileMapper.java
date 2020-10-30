@@ -1,5 +1,7 @@
 package ssv.com.mapper;
 
+import java.util.Optional;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import ssv.com.entity.Profile;
@@ -8,7 +10,7 @@ import ssv.com.entity.Profile;
 public interface ProfileMapper {
 	public Long saveProfile(Profile profile);
 
-	public Profile checkPhoneExist(String number);
+	public Optional<Profile> checkPhoneExist(String number);
 
-	public Profile findByEmail(String email);
+	public Optional<Profile> findByEmail(String email);
 }

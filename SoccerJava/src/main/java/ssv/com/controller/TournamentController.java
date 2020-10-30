@@ -63,7 +63,7 @@ public class TournamentController {
 		}
 		return ResponseQuery.faild("Tournaments are running or ended", 400);
 	}
-	// Sửa tổng quát giải đấu 
+	// Sửa tổng quát giải đấu
 	@PostMapping(value = "update/{idTournament}")
 	public ResponseQuery<?> update(@RequestBody TournamentForm tournamentForm, @PathVariable int idTournament) {
 		if (tournamentService.getById(idTournament).getStatus() == 0) {

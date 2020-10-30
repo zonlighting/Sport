@@ -4,7 +4,6 @@
       :headers="headers"
       :items="desserts"
       class="elevation-1"
-      :search="search"
     ></v-data-table>
   </div>
 </template>
