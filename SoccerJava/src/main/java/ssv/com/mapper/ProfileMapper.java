@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.apache.ibatis.annotations.Mapper;
 
 import ssv.com.entity.Profile;
+import ssv.com.entity.Team;
 
 @Mapper
 public interface ProfileMapper {
@@ -16,4 +17,6 @@ public interface ProfileMapper {
 	public Optional<Profile> findByEmail(String email);
 
 	public List<Profile> getMembers();
+
+	public void updateMembersInTeam(Team team);
 }

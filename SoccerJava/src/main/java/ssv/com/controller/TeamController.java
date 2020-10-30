@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -55,6 +56,12 @@ public class TeamController {
 	@GetMapping(value = "getById")
 	public ResponseQuery<?> getById(@RequestParam int idTeam){
 		return ResponseQuery.success("Success", teamService.getById(idTeam));
+	}
+
+	@PostMapping(value = "updateMembersInTeam")
+	public ResponseQuery<?> update(@RequestBody Team team) {
+		teamService.updateMembersInTeam(team);
+		return ResponseQuery.success("Update Success", null);
 	}
 
 }

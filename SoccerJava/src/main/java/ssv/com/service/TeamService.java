@@ -1,12 +1,12 @@
 package ssv.com.service;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ssv.com.entity.Team;
+import ssv.com.repository.ProfileRepository;
 import ssv.com.repository.TeamRepository;
 
 @Service
@@ -15,6 +15,8 @@ public class TeamService {
 	@Autowired
 	private TeamRepository teamRepository;
 
+	@Autowired
+	private ProfileRepository profileRepository;
 
 	public List<Team> getTeams() {
 		return teamRepository.getTeams();
@@ -35,5 +37,9 @@ public class TeamService {
 
 	public Team getById(int idTeam) {
 		return teamRepository.getById(idTeam);
+	}
+
+	public void updateMembersInTeam(Team team) {
+		profileRepository.updateMembersInTeam(team);
 	}
 }

@@ -55,4 +55,15 @@
 		WHERE
 		account_role = 'ROLE_MEMBER' ORDER BY a.account_id DESC
 	</select>
+
+	<update id="updateMembersInTeam">
+		update profile_tbl set id_team = 0 where
+		id_team = ${idTeam};
+
+		<foreach collection="profile" item="item" index="index"
+			separator=";">
+			update profile_tbl set id_team = #{idTeam} where id =
+			${item.id}
+		</foreach>
+	</update>
 </mapper>
