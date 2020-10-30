@@ -370,8 +370,15 @@ export default {
   }),
 };
 </script>
-<style>
+
+<style lang="scss" scoped >
 #title {
   color: yellow;
 }
+  tbody {
+     tr:hover {
+        background-color: transparent !important;
+        cursor: pointer;
+     }
+  }
 </style>

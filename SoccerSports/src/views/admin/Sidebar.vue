@@ -52,7 +52,7 @@ export default {
       {
         title: "Dashboard",
         icon: "mdi-view-dashboard",
-        to: "#3",
+        to: "/admin/dashboard",
       },
 
       {
@@ -68,13 +68,13 @@ export default {
       {
         title: "Schedule",
         icon: "mdi-calendar",
-        to: "#4",
+        to: "/admin/schedule",
       },
 
       {
         title: "Tournament",
         icon: "mdi-tournament ",
-        to: "/pages/tables-simple",
+        to: "/admin/tournament",
       },
     ],
   }),

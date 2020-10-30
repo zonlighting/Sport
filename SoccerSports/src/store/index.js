@@ -3,13 +3,16 @@ import Vuex from 'vuex'
 import auth from '@/store/auth'
 import user from '@/store/user'
 import team from '@/store/team'
+import tournament from '@/store/tournament'
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
 	modules: {
 		auth,
 		user,
-		team
+		team,
+		tournament
 	}, state: {
 		Sidebar_drawer: null,
 		Customizer_drawer: false,

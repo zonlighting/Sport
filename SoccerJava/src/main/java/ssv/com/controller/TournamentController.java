@@ -26,8 +26,8 @@ public class TournamentController {
 	public ResponseQuery<?> createTournament(@ModelAttribute TournamentForm tournamentForm) {
 		if (tournamentForm.getTimeEnd().isAfter(tournamentForm.getTimeStart())) {
 			if (tournamentService.checkName(tournamentForm.getNameTournament())) {
-				tournamentService.create(tournamentForm);
-				return ResponseQuery.success("Create Success", 200);
+				
+				return tournamentService.create(tournamentForm);
 			}
 			return ResponseQuery.faild("Tournaments of the same name", 400);
 		}
@@ -55,6 +55,19 @@ public class TournamentController {
 		}
 		return ResponseQuery.faild("Tournaments are running or ended", 400);
 	}
+
+	// Xóa giải đấu
+	@PostMapping(value = "delete")
+	public ResponseQuery<?> delete(@RequestParam int idTournament) {
+		if (tournamentService.getById(idTournament) == null) {
+			return ResponseQuery.faild("Tournaments does not exist", 400);
+		}
+		if (tournamentService.getById(idTournament).getStatus() == 0) {
+			return tournamentService.delete(idTournament);
+		}
+		return ResponseQuery.faild("Tournaments are running or ended", 400);
+	}
+
 	// Xóa team trong giải
 	@PostMapping(value = "deleteTeam")
 	public ResponseQuery<?> deleteTeam(@RequestParam int idTeam, @RequestParam int idTournament) {
@@ -63,11 +76,12 @@ public class TournamentController {
 		}
 		return ResponseQuery.faild("Tournaments are running or ended", 400);
 	}
-	// Sửa tổng quát giải đấu 
-	@PostMapping(value = "update/{idTournament}")
-	public ResponseQuery<?> update(@RequestBody TournamentForm tournamentForm, @PathVariable int idTournament) {
-		if (tournamentService.getById(idTournament).getStatus() == 0) {
-			return tournamentService.update(tournamentForm, idTournament);
+
+	// Sửa tổng quát giải đấu
+	@PostMapping(value = "update")
+	public ResponseQuery<?> update(@RequestBody TournamentForm tournamentForm) {
+		if (tournamentService.getById(tournamentForm.getIdTournament()).getStatus() == 0) {
+			return tournamentService.update(tournamentForm);
 		}
 		return ResponseQuery.faild("Tournaments are running or ended", 400);
 	}

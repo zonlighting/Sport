@@ -33,4 +33,10 @@ public class TournamentRepository {
 	public void update(Tournament tournament, int idTournament) {
 		 tournamentMapper.update(tournament,idTournament);	
 	}
+
+	public void delete(int idTournament) {
+		 tournamentMapper.delete(idTournament);	
+
+		
+	}
 }

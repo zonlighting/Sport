@@ -11,6 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class TournamentForm {
+	private int idTournament;
 	private String nameTournament;
 	@DateTimeFormat(pattern ="yyyy-MM-dd")
 	private LocalDate timeEnd;

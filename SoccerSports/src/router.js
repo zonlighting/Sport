@@ -65,8 +65,36 @@ let routes = [
     path: '/admin',
     name: 'admin',
     component: admin,
-    redirect: '/admin/user',
+    redirect: '/admin/dashboard',
     children: [
+      {
+        path: '/admin/dashboard',
+        name: 'Dashboard',
+
+        component: () => import('@/views/admin/dashboard/Dashboard'),
+        meta: metaConfig
+      },
+      {
+        path: '/admin/schedule',
+        name: 'Schedule',
+
+        component: () => import('@/views/admin/schedule/Schedule'),
+        meta: metaConfig
+      },
+      {
+        path: '/admin/tournament',
+        name: 'Tournament',
+
+        component: () => import('@/views/admin/tournament/Tournament'),
+        meta: metaConfig
+      },
+      {
+        path: '/admin/tournament/:id',
+        name: 'TournamentDetail',
+
+        component: () => import('@/views/admin/tournament/TournamentDetail'),
+        meta: metaConfig
+      },
       {
         path: '/admin/user',
         name: 'User',

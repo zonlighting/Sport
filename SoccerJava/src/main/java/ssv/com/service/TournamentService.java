@@ -39,11 +39,10 @@ public class TournamentService {
 		return true;
 	}
 
-	public void create(TournamentForm tournamentForm) {
+	public ResponseQuery<?> create(TournamentForm tournamentForm) {
 		Tournament tournament = modelMapper.map(tournamentForm, Tournament.class);
 		try {
 			tournament.setBanner(UploadFile.saveVideo(tournamentForm.getBannerFile()));
-			tournamentRepository.create(tournament);
 			// id tournament new
 			int idTournament = tournamentRepository.getIdNew();
 			// tạo dữ liệu trong bảng history
@@ -54,11 +53,14 @@ public class TournamentService {
 					historyService.create(history);
 				}
 			}
+			tournamentRepository.create(tournament);
+			return ResponseQuery.faild("Create successful tournament", tournament);
 		} catch (IllegalStateException e) {
-			e.printStackTrace();
+			return ResponseQuery.faild(e.getMessage(), 888);
 		} catch (IOException e) {
-			e.printStackTrace();
+			return ResponseQuery.faild(e.getMessage(), 888);
 		}
+		
 
 	}
 
@@ -93,7 +95,7 @@ public class TournamentService {
 		return ResponseQuery.faild("Team does not exist", 400);
 	}
 
-	public ResponseQuery<?> update(TournamentForm tournamentForm, int idTournament) {
+	public ResponseQuery<?> update(TournamentForm tournamentForm) {
 		Tournament tournament = modelMapper.map(tournamentForm, Tournament.class);
 		if(tournamentForm.getBannerFile().isEmpty()) {
 			try {
@@ -104,8 +106,13 @@ public class TournamentService {
 				e.printStackTrace();
 			}
 		}
-		tournamentRepository.update(tournament,idTournament);
-		return ResponseQuery.faild("Update successful tournament", tournamentRepository.getById(idTournament));
+		tournamentRepository.update(tournament,tournament.getIdTournament());
+		return ResponseQuery.faild("Update successful tournament", tournamentRepository.getById(tournament.getIdTournament()));
+	}
+
+	public ResponseQuery<?> delete(int idTournament) {
+		tournamentRepository.delete(idTournament);
+		return ResponseQuery.success("Delete successful tournament", 200);
 	}
 	
 

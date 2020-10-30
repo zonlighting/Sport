@@ -17,4 +17,6 @@ public interface TournamentMapper {
 	Tournament getById(int idTournamnet);
 
 	void update(Tournament tournament, int idTournament);
+
+	void delete(int idTournament);
 }
