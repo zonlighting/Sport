@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import ssv.com.entity.Profile;
+import ssv.com.entity.Team;
 import ssv.com.mapper.ProfileMapper;
 
 @Repository
@@ -28,5 +29,9 @@ public class ProfileRepository {
 
 	public List<Profile> getMembers() {
 		return profileMapper.getMembers();
+	}
+
+	public void updateMembersInTeam(Team team) {
+		profileMapper.updateMembersInTeam(team);
 	}
 }

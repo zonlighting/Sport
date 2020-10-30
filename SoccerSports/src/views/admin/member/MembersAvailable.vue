@@ -67,12 +67,18 @@ export default {
     playersAvailable: Array,
     addedMember: {
       type: Function,
-    }
+    },
   },
   data() {
     return {
       positionSearch: "",
-      positionItems: ["Goalkeepers", "Defenders", "Midfielders", "Forwards"],
+      positionItems: [
+        "Goalkeepers",
+        "Defenders",
+        "Midfielders",
+        "Forwards",
+        "Default",
+      ],
       genderSearch: "",
       genderItems: ["Male", "Female", "Orther"],
       nameMemberSearch: "",
@@ -125,6 +131,9 @@ export default {
     positionFilter(value) {
       // If this filter has no value we just skip the entire filter.
       if (!this.positionSearch) {
+        return true;
+      }
+      if (this.positionSearch === "Default") {
         return true;
       }
       return value === this.positionSearch;
