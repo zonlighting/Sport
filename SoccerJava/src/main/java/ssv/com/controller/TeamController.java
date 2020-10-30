@@ -1,7 +1,5 @@
 package ssv.com.controller;
 
-import java.sql.Date;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -58,5 +56,5 @@ public class TeamController {
 	public ResponseQuery<?> getById(@RequestParam int idTeam){
 		return ResponseQuery.success("Success", teamService.getById(idTeam));
 	}
-	
+
 }
