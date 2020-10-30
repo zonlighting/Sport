@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import auth from '@/store/auth'
 import user from '@/store/user'
 import team from '@/store/team'
+import tournament from '@/store/tournament'
 import member from '@/store/member'
 Vue.use(Vuex)
 
@@ -11,6 +12,7 @@ export default new Vuex.Store({
 		auth,
 		user,
 		team,
+		tournament,
 		member
 	}, state: {
 		Sidebar_drawer: null,

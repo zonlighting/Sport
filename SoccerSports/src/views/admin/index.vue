@@ -30,7 +30,7 @@ export default {
     source: String,
   },
   data: () => ({
-    expandOnHover: false,
+    expandOnHover: true,
   }),
   computed: {
     ...mapState(["Customizer_drawer"]),

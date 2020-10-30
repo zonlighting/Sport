@@ -8,8 +8,8 @@
 		<id column="tournament_id" property="idTournament" />
 		<result column="tournament_name" property="nameTournament" />
 		<result column="tournament_status" property="status" />
-		<result column="tournament_timeEnd" property="timeEnd" />
-		<result column="tournament_timeStart" property="timeStart" />
+		<result column="tournament_end" property="timeEnd" />
+		<result column="tournament_start" property="timeStart" />
 		<result column="tournament_description" property="description" />
 		<result column="tournament_banner" property="banner" />
 	</resultMap>
@@ -33,7 +33,7 @@
 		SELECT MAX(tournament_id) from
 		tournament_tbl
 	</select>
-	<select id="getById" parameterType="Tournament">
+	<select id="getById" resultMap="tournamentMapping">
 		SELECT * FROM
 		sports.tournament_tbl where tournament_id=${idTournamnet}
 	</select>
@@ -44,4 +44,8 @@
 		`tournament_timeStart` = #{timeStart},`tournament_description` = #{description},
 		`tournament_banner`=#{banner} WHERE (`tournament_id` = ${idTournamnet});
 	</update>
+	<delete id="delete" parameterType="int">
+		DELETE FROM `sports`.`tournament_tbl` WHERE (`tournament_id` = ${idTournament});
+
+	</delete>
 </mapper>
