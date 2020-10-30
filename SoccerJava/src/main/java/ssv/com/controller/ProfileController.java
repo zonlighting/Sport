@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +31,15 @@ public class ProfileController {
 			return ResponseQuery.faild(e.getMessage(), e.getCode());
 		} catch (Exception e) {
 			return ResponseQuery.faild("Create Failed", 401);
+		}
+	}
+
+	@GetMapping("/members")
+	public ResponseQuery<?> members() {
+		try {
+			return ResponseQuery.success("Data recived", profileService.getMembers());
+		} catch (Exception e) {
+			return ResponseQuery.faild("Failed To Revice Data", null);
 		}
 	}
 }

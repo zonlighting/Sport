@@ -1,6 +1,7 @@
 package ssv.com.service;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -30,6 +31,11 @@ public class ProfileService {
 
 	@Autowired
 	private ModelMapper modelMapper;
+
+	public List<Profile> getMembers() {
+		return profileRepository.getMembers();
+
+	}
 
 	public void saveProfile(Profile profile) {
 		try {

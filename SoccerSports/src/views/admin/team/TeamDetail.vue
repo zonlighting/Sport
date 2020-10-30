@@ -115,7 +115,7 @@ export default {
         {
           text: "Name of the team",
           disabled: false,
-          href: `/admin/team/detail/${this.$route.params.idTeam}`,
+          href: `/admin/team/detail/${this.$route.params.id}`,
         },
       ],
 
@@ -147,7 +147,7 @@ export default {
   },
 
   created() {
-    //  console.log(this.$route)
+     console.log(this.$route)
   },
 
   methods: {

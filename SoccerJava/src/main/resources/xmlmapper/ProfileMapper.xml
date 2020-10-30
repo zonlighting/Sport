@@ -44,4 +44,15 @@
 		SELECT * FROM profile_tbl WHERE
 		profile_phone='${phone}'
 	</select>
+
+	<select id="getMembers" resultMap="profileMapping">
+		SELECT p.*, t.*
+		FROM
+		profile_tbl p
+		left JOIN account_tbl a ON p.profile_email =
+		a.account_email
+		left join team_tbl t on t.team_id = p.id_team
+		WHERE
+		account_role = 'ROLE_MEMBER' ORDER BY a.account_id DESC
+	</select>
 </mapper>

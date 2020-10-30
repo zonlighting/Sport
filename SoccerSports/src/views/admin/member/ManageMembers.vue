@@ -13,12 +13,12 @@
         <v-btn color="primary" dark class="ma-2"> Back To Team </v-btn>
       </v-row>
       <v-card max-width="95%" class="my-8 container">
-        <v-img>
-          <h2 class="pl-3 pt-2">Total : {{ members.length }} members</h2>
+        <v-img v-if="playersInTeam.length > 0">
+          <h2 class="pl-3 pt-2">Total : {{ playersInTeam.length }} members</h2>
           <v-col cols="12">
             <v-autocomplete
               v-model="members"
-              :items="players"
+              :items="playersInTeam"
               solo
               chips
               item-text="name"
@@ -38,7 +38,9 @@
             </v-autocomplete>
           </v-col>
         </v-img>
-
+        <h2 v-else class="pl-3 pt-2" style="color: red">
+          Team don't have any members
+        </h2>
         <v-row>
           <v-col cols="12" md="6" xl="6" xm="12">
             <h2 style="text-align: center">Members Available</h2>
@@ -52,7 +54,7 @@
                 :isOpenModalMember="isOpenModalMember"
               />
             </v-dialog>
-            <MembersAvailable />
+            <MembersAvailable :addedMember="addedMember" :playersAvailable="playersAvailable"/>
           </v-col>
           <v-col cols="12" md="6" xl="6" xm="12">
             <h2 style="text-align: center">Members In Team</h2>
@@ -60,7 +62,7 @@
             <v-btn color="primary" dark class="mb-5" @click="isOpenModalMember">
               Confirm List
             </v-btn>
-            <MembersInTeam />
+            <MembersInTeam :removedMember="removedMember" :playersInTeam = "playersInTeam"/>
           </v-col>
         </v-row>
       </v-card>
@@ -98,7 +100,7 @@ export default {
         {
           text: "Name of the team",
           disabled: false,
-          href: `/admin/team/detail/${this.$route.params.idTeam}`,
+          href: `/admin/team/detail/${this.$route.params.id}`,
         },
         {
           text: "Manager",
@@ -143,7 +145,13 @@ export default {
         { name: "John Smith72", avatar: srcs[1] },
         { name: "Sandra Williams 48", avatar: srcs[3] },
       ],
+      playersAvailable: [],
+      playersInTeam: [],
     };
+  },
+
+  mounted() {
+    this.loadListMember();
   },
 
   methods: {
@@ -154,7 +162,36 @@ export default {
 
     loadMemberAfterCreate(member) {
       console.log(member);
-      //this.desserts.unshift(member); // unshift is add into 1st positions , push is add last positions
+      this.playersAvailable.unshift(member); // unshift is add into 1st positions , push is add last positions
+    },
+
+    loadListMember() {
+      let self = this;
+      this.$store
+        .dispatch("member/members")
+        .then(function (response) {
+          self.playersAvailable = response.data.payload.filter((item) => {
+            return item.idTeam === 0;
+          });
+          // console.log(self.playersAvailable);
+          self.playersInTeam = response.data.payload.filter((item) => {
+            return item.idTeam === self.$route.params.id;
+          });
+          console.log(self.playersInTeam);
+        })
+        .catch(function (error) {
+          alert(error);
+        });
+    },
+
+    addedMember(member) {
+      member.idTeam = this.$route.params.id;
+      this.playersInTeam.push(member);
+    },
+
+    removedMember(member) {
+      member.idTeam = 0;
+      this.playersAvailable.push(member);
     },
 
     isOpenModalMember() {
