@@ -14,7 +14,7 @@ public class Schedule {
 	private int idSchedule;
 	private int idTeam1;
 	private int idTeam2;
-	private int location;
+	private String location;
 	private int idTour;
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime timeEnd;
@@ -25,5 +25,5 @@ public class Schedule {
 	private int Status;
 	private int score1;
 	private int score2;
-	private List<Team> listTeam;
+	private List<Team> team;
 }

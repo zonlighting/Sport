@@ -39,4 +39,9 @@ public class TournamentRepository {
 
 		
 	}
+
+	public List<Tournament> tournamentUpComming() {
+		// TODO Auto-generated method stub
+		return tournamentMapper.tournamentUpComming();
+	}
 }

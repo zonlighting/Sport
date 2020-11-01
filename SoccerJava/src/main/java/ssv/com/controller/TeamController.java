@@ -63,5 +63,10 @@ public class TeamController {
 		teamService.updateMembersInTeam(team);
 		return ResponseQuery.success("Update Success", null);
 	}
+	//lấy các team chưa có tham gia giải nào 
+	@GetMapping(value = "getTeamNoTournament")
+	public ResponseQuery<?> getTeamNoTournament(){
+		return teamService.getTeamNoTournament();
+	}
 
 }

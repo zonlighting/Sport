@@ -9,4 +9,6 @@ public interface HistoryMapper {
 
 	void create(History history);
 
+	void delete(int idTournament);
+
 }

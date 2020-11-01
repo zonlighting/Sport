@@ -5,6 +5,7 @@ import user from '@/store/user'
 import team from '@/store/team'
 import tournament from '@/store/tournament'
 import member from '@/store/member'
+import schedule from '@/store/schedule'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -13,7 +14,8 @@ export default new Vuex.Store({
 		user,
 		team,
 		tournament,
-		member
+		member,
+		schedule
 	}, state: {
 		Sidebar_drawer: null,
 		Customizer_drawer: false,

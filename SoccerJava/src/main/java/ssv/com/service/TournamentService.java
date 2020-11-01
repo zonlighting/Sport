@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.val;
 import ssv.com.dto.ResponseQuery;
 import ssv.com.dto.TournamentForm;
 import ssv.com.entity.History;
@@ -42,41 +43,47 @@ public class TournamentService {
 	public ResponseQuery<?> create(TournamentForm tournamentForm) {
 		Tournament tournament = modelMapper.map(tournamentForm, Tournament.class);
 		try {
-			tournament.setBanner(UploadFile.saveVideo(tournamentForm.getBannerFile()));
+			if (tournamentForm.getBannerFile() != null) {
+				tournament.setBanner(UploadFile.saveVideo(tournamentForm.getBannerFile()));
+			}
+			tournamentRepository.create(tournament);
+
 			// id tournament new
 			int idTournament = tournamentRepository.getIdNew();
 			// tạo dữ liệu trong bảng history
 			for (Integer listTeam : tournamentForm.getListTeam()) {
 				// getByid lấy data team theo id
+				teamService.newTournament(listTeam, tournamentRepository.getIdNew());
 				for (Profile profile : teamService.getById(listTeam).getProfile()) {
-					History history = new History(profile.getIdTeam(), listTeam, idTournament);
+					History history = new History(profile.getId(), listTeam, idTournament);
 					historyService.create(history);
 				}
 			}
-			tournamentRepository.create(tournament);
-			return ResponseQuery.faild("Create successful tournament", tournament);
+
+			return ResponseQuery.success("Create successful tournament", tournament);
 		} catch (IllegalStateException e) {
+			tournamentRepository.delete(tournamentRepository.getIdNew());
 			return ResponseQuery.faild(e.getMessage(), 888);
 		} catch (IOException e) {
+			tournamentRepository.delete(tournamentRepository.getIdNew());
 			return ResponseQuery.faild(e.getMessage(), 888);
 		}
-		
 
 	}
 
 	public ResponseQuery<?> addTeam(Integer[] listTeam, int idTournament) {
 		for (Integer idTeam : listTeam) {
-			if(teamService.getById(idTeam).getIdTour()!=0) {
+			if (teamService.getById(idTeam).getIdTour() != 0) {
 				return ResponseQuery.faild("Team participated in the tournament", teamService.getById(idTeam));
 			}
 		}
 		for (Integer idTeam : listTeam) {
 			for (Profile profile : teamService.getById(idTeam).getProfile()) {
-				History history = new History(profile.getIdTeam(), idTeam, idTournament);
+				History history = new History(profile.getId(), idTeam, idTournament);
 				historyService.create(history);
 			}
 		}
-		
+
 		return ResponseQuery.success("Add successful team", getById(idTournament));
 
 	}
@@ -86,9 +93,9 @@ public class TournamentService {
 	}
 
 	public ResponseQuery<?> deleteTeam(int idTeam, int idTournament) {
-		if(teamService.getById(idTeam).getIdTour()==idTournament) {
+		if (teamService.getById(idTeam).getIdTour() == idTournament) {
 			for (Profile profile : teamService.getById(idTeam).getProfile()) {
-				History history = new History(profile.getIdTeam(), idTeam, idTournament);
+				History history = new History(profile.getId(), idTeam, idTournament);
 				historyService.create(history);
 			}
 		}
@@ -97,7 +104,7 @@ public class TournamentService {
 
 	public ResponseQuery<?> update(TournamentForm tournamentForm) {
 		Tournament tournament = modelMapper.map(tournamentForm, Tournament.class);
-		if(tournamentForm.getBannerFile().isEmpty()) {
+		if (tournamentForm.getBannerFile().isEmpty()) {
 			try {
 				tournament.setBanner(UploadFile.saveVideo(tournamentForm.getBannerFile()));
 			} catch (IllegalStateException e) {
@@ -106,14 +113,21 @@ public class TournamentService {
 				e.printStackTrace();
 			}
 		}
-		tournamentRepository.update(tournament,tournament.getIdTournament());
-		return ResponseQuery.faild("Update successful tournament", tournamentRepository.getById(tournament.getIdTournament()));
+		tournamentRepository.update(tournament, tournament.getIdTournament());
+		return ResponseQuery.faild("Update successful tournament",
+				tournamentRepository.getById(tournament.getIdTournament()));
 	}
 
 	public ResponseQuery<?> delete(int idTournament) {
 		tournamentRepository.delete(idTournament);
+		teamService.formatTournament(idTournament);
+		historyService.delete(idTournament);
 		return ResponseQuery.success("Delete successful tournament", 200);
 	}
-	
+
+	public List<Tournament> tournamentUpComming() {
+		// TODO Auto-generated method stub
+		return tournamentRepository.tournamentUpComming();
+	}
 
 }

@@ -15,4 +15,9 @@ public class HistoryRepository {
 		historyMapper.create(history);
 	}
 
+	public void delete(int idTournament) {
+		historyMapper.delete(idTournament);
+		
+	}
+
 }	

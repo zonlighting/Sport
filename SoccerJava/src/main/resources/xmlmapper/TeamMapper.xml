@@ -32,6 +32,15 @@
 			<result property="createDate" column="profile_datecreate" />
 		</collection>
 	</resultMap>
+	<resultMap type="Team" id="teamMapping1">
+		<id column="team_id" property="idTeam" />
+		<result column="team_name" property="nameTeam" />
+		<result column="team_description" property="description" />
+		<result column="team_logo" property="logo" />
+		<result column="id_tour" property="idTour" />
+		<result column="team_country" property="country" />
+		<result column="team_datecreate" property="createDate" />
+	</resultMap>
 
 	<insert id="createTeam" parameterType="Team">
 		INSERT INTO team_tbl(
@@ -59,8 +68,18 @@
 		desc
 	</select>
 	<select id="getById" resultMap="teamMapping">
-		
+		select * from team_tbl inner join profile_tbl on team_tbl.team_id=profile_tbl.id_team where
+		team_tbl.team_id=${idTeam}
 	</select>
+	<update id="formatTournament">
+			UPDATE `sports`.`team_tbl` SET `id_tour` =0 WHERE (`id_tour` = ${idTournament});
+	</update>
+	<select id="getTeamNoTournament" resultMap="teamMapping1">
+		select * from team_tbl where team_tbl.id_tour=0
+	</select>
+	<update id="newTournament" parameterType="int">
+		UPDATE `sports`.`team_tbl` SET `id_tour` = ${idTournament} WHERE (`team_id` = ${idTeam});
+	</update>
 
 
 </mapper>

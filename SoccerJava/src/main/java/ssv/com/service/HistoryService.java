@@ -15,4 +15,8 @@ public class HistoryService {
 		historyRepository.create(history);
 		
 	}
+
+	public void delete(int idTournament) {
+		historyRepository.delete(idTournament);		
+	}
 }

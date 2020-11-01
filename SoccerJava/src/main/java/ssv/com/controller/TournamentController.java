@@ -85,4 +85,9 @@ public class TournamentController {
 		}
 		return ResponseQuery.faild("Tournaments are running or ended", 400);
 	}
+	//danh sach tournament chưa đến ngày 
+	@GetMapping(value="tournamentUpComming")
+	public ResponseQuery<?> tournamentUpComming(){
+		return ResponseQuery.success("List Tournament Up Comming", tournamentService.tournamentUpComming());
+	}
 }

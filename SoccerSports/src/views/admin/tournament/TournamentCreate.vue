@@ -148,6 +148,7 @@
                   placeholder="Pick an Banner"
                   prepend-icon="mdi-camera"
                   v-model="fileImage"
+                  :rules="rulesImage"
                 ></v-file-input>
                 <img
                   style="max-height: 204px"
@@ -174,18 +175,15 @@
                 <v-col
                   cols="12"
                   sm="2"
-                  v-for="(item, index) in teamSelected"
+                  v-for="(item, index) in teamChoose"
                   :key="index"
                 >
                   <v-avatar color="blue">
-                    <img
-                      src="https://cdn.vuetifyjs.com/images/john.jpg"
-                      alt="John"
-                    />
+                    <v-img :src="baseUrl + item.logo" />
                   </v-avatar>
-                  <b style="text-transform: uppercase; margin-left: 20px"
-                    >Man city</b
-                  >
+                  <b style="text-transform: uppercase; margin-left: 20px">{{
+                    item.nameTeam
+                  }}</b>
                 </v-col>
               </v-row>
             </template>
@@ -195,20 +193,22 @@
           <v-container>
             <h2>Choose Team</h2>
             <v-row>
-              <v-col cols="12" sm="3" v-for="(n, index) in 10" :key="index">
+              <v-col
+                cols="12"
+                sm="3"
+                v-for="(item, index) in listTeam"
+                :key="index"
+              >
                 <v-avatar color="blue">
-                  <img
-                    src="https://cdn.vuetifyjs.com/images/john.jpg"
-                    alt="John"
-                  />
+                  <v-img :src="baseUrl + item.logo"></v-img>
                 </v-avatar>
-                <b style="text-transform: uppercase; margin-left: 20px"
-                  >Man city</b
-                >
+                <b style="text-transform: uppercase; margin-left: 20px">{{
+                  item.nameTeam
+                }}</b>
                 <v-checkbox
                   style="display: inline-block; margin-left: 20px"
                   v-model="teamSelected"
-                  :value="n"
+                  :value="item.idTeam"
                 >
                 </v-checkbox>
               </v-col>
@@ -220,9 +220,12 @@
   </v-card>
 </template>
 <script>
+import { ENV } from "@/config/env.js";
+
 export default {
   props: {
     hideDialog: Function,
+    getData:Function
   },
   data: () => ({
     valid: false,
@@ -239,6 +242,23 @@ export default {
     urlImage: "",
     teamSelected: [],
     nameTournament: "",
+    listTeam: [],
+    teamChoose: [],
+    rulesImage:[
+      (v) => {
+        if (v == undefined || Array.isArray(v)) {
+          return true;
+        }
+       else{
+         if(v.type == "image/png"|| v.type == "image/jpeg"||v.type == "image/bmp"){
+            return true;
+         }
+         else{
+            return false || "Wrong data";
+         }
+       }
+      },
+    ],
   }),
   computed: {
     rulesTimeEnd() {
@@ -251,13 +271,24 @@ export default {
         },
       ];
     },
+    baseUrl() {
+      return ENV.BASE_IMAGE;
+    },
+  },
+  created() {
+    this.getListTeam();
   },
   methods: {
+    getListTeam() {
+      this.$store.dispatch("team/getTeamNoTournament").then((response) => {
+        this.listTeam = response.data.payload;
+      });
+    },
     save() {
       if (!this.$refs.form.validate()) {
         this.$refs.form.validate();
       } else {
-        if (this.teamSelected.length < 10) {
+        if (this.teamSelected>0 && this.teamSelected.length < 0) {
           alert("The tournament must have at least 10 teams participating");
         } else {
           this.$store.commit("auth/auth_overlay");
@@ -266,14 +297,20 @@ export default {
           bodyFormData.append("timeEnd", this.dateEnd);
           bodyFormData.append("timeStart", this.dateStart);
           bodyFormData.append("description", this.description);
+           bodyFormData.append("banner", "");
+          if(!this.fileImage.name){
           bodyFormData.append("bannerFile", this.fileImage);
+          }
           bodyFormData.append("listTeam", this.teamSelected);
           this.$store
             .dispatch("tournament/create", bodyFormData)
             .then((response) => {
               this.$store.commit("auth/auth_overlay");
               if (response.data.code == 0) {
-                console.log(response.data.payload);
+                this.close();
+                alert(response.data.message)
+                this.getData();
+                this.getListTeam();
               } else {
                 alert("Error");
               }
@@ -292,10 +329,10 @@ export default {
       this.hideDialog();
     },
   },
+
   watch: {
     fileImage(event) {
-      console.log(event);
-      if (this.fileImage == undefined) {
+      if (this.fileImage == undefined || this.fileImage == "") {
         document.getElementById("image").src =
           "https://sonypicturespublicity.com/dom/img/no_banner_image.gif";
       } else {
@@ -307,6 +344,18 @@ export default {
         };
         reader.readAsDataURL(event);
       }
+    },
+    teamSelected() {
+      this.teamChoose = [];
+      this.teamSelected.forEach((element) => {
+        this.listTeam.forEach((team) => {
+          if (team.idTeam == element) {
+            this.teamChoose.push(team);
+            console.log(this.teamChoose);
+          }
+        });
+      });
+      console.log(this.teamChoose);
     },
   },
 };

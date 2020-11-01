@@ -10,6 +10,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.var;
 import ssv.com.dto.ResponseQuery;
 import ssv.com.entity.Schedule;
 import ssv.com.form.ScheduleForm;
@@ -25,6 +26,10 @@ public class ScheduleService {
 
 	// mỗi trận đấu phải cách nhau ít nhất 3h
 	public ResponseQuery<?> create(Schedule schedule) {
+		if(tournamentRepository.getById(schedule.getIdTour()).getSchedule().size()==0) {
+			scheduleRepository.create(schedule);
+			return ResponseQuery.success("Create Success", schedule);
+		}
 		String result = checkSchedule(schedule);
 		if (result == null) {
 			scheduleRepository.create(schedule);
@@ -42,8 +47,9 @@ public class ScheduleService {
 		Instant instant = Instant.ofEpochMilli(date.getTime());
 		LocalDate localDate = LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toLocalDate();
 		LocalDate timeTour = tournamentRepository.getById(schedule.getIdTour()).getTimeStart();
-		LocalDate timeTourEnd = tournamentRepository.getById(schedule.getIdTour()).getTimeStart();
+		LocalDate timeTourEnd = tournamentRepository.getById(schedule.getIdTour()).getTimeEnd();
 		if (localDate.isAfter(timeTour)&&localDate.isBefore(timeTourEnd)) {
+			var a=scheduleRepository.getByTournament(schedule.getIdTour());
 			List<Schedule> list = scheduleRepository.getByTournament(schedule.getIdTour());
 			LocalDateTime timeStart = schedule.getTimeStart();
 			for (Schedule scheduleExit : list) {
@@ -63,14 +69,14 @@ public class ScheduleService {
 							|| schedule.getIdTeam1() == scheduleExit.getIdTeam2()) {
 						if (timeStart.plusHours(3).isAfter(timeStartExit)
 								|| !timeStart.isAfter(timeStartExit.plusHours(3))) {
-							return "The team 1 is playing around this time " + schedule.getTimeStart();
+							return "The team 1 is playing around this time " + timeStartExit;
 						}
 					}
 					if (schedule.getIdTeam2() == scheduleExit.getIdTeam1()
 							|| schedule.getIdTeam2() == scheduleExit.getIdTeam2()) {
 						if (timeStart.plusHours(3).isAfter(timeStartExit)
 								|| !timeStart.isAfter(timeStartExit.plusHours(3))) {
-							return "The team 2 is playing around this time" + schedule.getTimeStart();
+							return "The team 2 is playing around this time" + timeStartExit;
 						}
 
 					}
@@ -79,14 +85,14 @@ public class ScheduleService {
 							|| schedule.getIdTeam1() == scheduleExit.getIdTeam2()) {
 						if (timeStart.plusHours(3).isAfter(timeStartExit)
 								|| !timeStart.isAfter(timeStartExit.plusHours(3))) {
-							return "The team 1 is playing around this time " + schedule.getTimeStart();
+							return "The team 1 is playing around this time " + timeStartExit;
 						}
 					}
 					if (schedule.getIdTeam2() == scheduleExit.getIdTeam1()
 							|| schedule.getIdTeam2() == scheduleExit.getIdTeam2()) {
 						if (timeStart.plusHours(3).isAfter(timeStartExit)
 								|| !timeStart.isAfter(timeStartExit.plusHours(3))) {
-							return "The team 2 is playing around this time" + schedule.getTimeStart();
+							return "The team 2 is playing around this time" + timeStartExit;
 						}
 					}
 
