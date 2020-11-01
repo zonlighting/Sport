@@ -17,6 +17,15 @@
 		<result column="schedule_team2" property="idTeam2" />
 		<result column="schedule_image" property="image" />
 		<result column="schedule_video" property="video" />
+		<collection property="team" ofType="Team">
+			<id column="team_id" property="idTeam" />
+			<result column="team_name" property="nameTeam" />
+			<result column="team_description" property="description" />
+			<result column="team_logo" property="logo" />
+			<result column="id_tour" property="idTour" />
+			<result column="team_country" property="country" />
+			<result column="team_datecreate" property="createDate" />
+		</collection>
 	</resultMap>
 	<select id="getAll" resultMap="scheduleMapping">
 		SELECT * FROM
@@ -32,25 +41,29 @@
 		where schedule_id=${idSchedule}
 	</select>
 	<delete id="delete">
-		DELETE FROM `sports`.`schedule_tbl` WHERE (`schedule_id` = ${idSchedule});
+		DELETE FROM `sports`.`schedule_tbl` WHERE
+		(`schedule_id` = ${idSchedule});
 	</delete>
 	<insert id="create" parameterType="Schedule">
 		INSERT INTO
 		`sports`.`schedule_tbl`
 		(schedule_team1,schedule_team2,
+		schedule_start,
 		schedule_tour,schedule_location)
 		VALUES
 		(#{idTeam1},
-		#{idTeam2},
+		#{idTeam2},#{timeStart},
 		#{idTour},#{location});
 	</insert>
 	<update id="edit" parameterType="Schedule">
-		UPDATE `sports`.`schedule_tbl` SET `schedule_team1` = #{idTeam1}
+		UPDATE `sports`.`schedule_tbl`
+		SET `schedule_team1` = #{idTeam1}
 		,schedule_team2=#{idTeam2},schedule_location=#{location} WHERE
 		(`schedule_id` = #{idSchedule});
 
 	</update>
 	<update id="updateStatus">
-	UPDATE `sports`.`schedule_tbl` SET schedule_status='1'
+		UPDATE `sports`.`schedule_tbl` SET
+		schedule_status='1'
 	</update>
 </mapper>

@@ -13,4 +13,10 @@ public interface TeamMapper {
 	Long createTeam(Team team);
 
 	Team getById(int idTeam);
+
+	List<Team> getTeamNoTournament();
+
+	void newTournament(int idTeam, int idTournament);
+
+	void formatTournament(int idTournament);
 }

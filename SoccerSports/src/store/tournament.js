@@ -1,12 +1,19 @@
-import { create, deleteTournament, getAll, getById } from "../api/Tournament";
-
-
-
+import { create, deleteTournament, getAll, getById, tournamentUpComming } from "../api/Tournament";
 
 const actions = {
     getAll() {
         return new Promise((resolve, reject) => {
             getAll().then(res => {
+                resolve(res);
+            }).catch((err) => {
+                reject(err);
+            })
+        })
+    },
+    
+    tournamentUpComming() {
+        return new Promise((resolve, reject) => {
+            tournamentUpComming().then(res => {
                 resolve(res);
             }).catch((err) => {
                 reject(err);

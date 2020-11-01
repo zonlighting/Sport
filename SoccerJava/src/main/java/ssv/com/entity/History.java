@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class History {
-	private int idMember;
+	private Long idMember;
 	private int idTeam;
 	private int idTournament;
 }

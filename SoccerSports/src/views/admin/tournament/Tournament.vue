@@ -20,12 +20,108 @@
               >New Tournament</v-btn
             >
           </v-toolbar>
+          <v-toolbar flat>
+            <v-row>
+              <v-col>
+                <v-text-field
+                  v-model="searchName"
+                  append-icon="mdi-magnify"
+                  label="Search Name"
+                  single-line
+                  hide-details
+                ></v-text-field>
+              </v-col>
+              <v-col>
+                <v-select
+                  :items="itemSelect"
+                  v-model="selectStatus"
+                  item-text="text"
+                  item-value="status"
+                  label="Select Status"
+                ></v-select>
+              </v-col>
+              <v-col>
+                <v-menu
+                  ref="menuStart"
+                  v-model="menuStart"
+                  :close-on-content-click="false"
+                  :return-value.sync="dateStart"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="290px"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      v-model="dateStart"
+                      label="Picker in time Start"
+                      prepend-icon="mdi-calendar"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker v-model="dateStart" no-title scrollable>
+                    <v-spacer></v-spacer>
+                    <v-btn text color="primary" @click="dateStart = null">
+                      Reset
+                    </v-btn>
+                    <v-btn
+                      text
+                      color="primary"
+                      @click="$refs.menuStart.save(dateStart)"
+                    >
+                      OK
+                    </v-btn>
+                  </v-date-picker>
+                </v-menu>
+              </v-col>
+              <v-col>
+                <v-menu
+                  ref="menuEnd"
+                  v-model="menuEnd"
+                  :close-on-content-click="false"
+                  :return-value.sync="dateEnd"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="290px"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      v-model="dateEnd"
+                      label="Picker in time end"
+                      prepend-icon="mdi-calendar"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker v-model="dateEnd" no-title scrollable>
+                    <v-spacer></v-spacer>
+                    <v-btn text color="primary" @click="dateEnd = null">
+                      Reset
+                    </v-btn>
+                    <v-btn
+                      text
+                      color="primary"
+                      @click="$refs.menuEnd.save(dateEnd)"
+                    >
+                      OK
+                    </v-btn>
+                  </v-date-picker>
+                </v-menu>
+              </v-col>
+            </v-row>
+          </v-toolbar>
         </template>
         <template v-slot:[`item.banner`]="{ item }">
           <v-img
             max-height="100"
             max-width="100"
-            :src="!!item.banner ? baseUrl + item.banner : null"
+            :src="
+              !!item.banner
+                ? baseUrl + item.banner
+                : 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/No_image_3x4.svg/1200px-No_image_3x4.svg.png'
+            "
           ></v-img>
         </template>
         <template v-slot:[`item.status`]="{ item }">
@@ -55,11 +151,9 @@
             }"
             style="text-decoration: none"
           >
-            <v-icon small class="mr-2" >
-              mdi-arrow-right-bold
-            </v-icon>
+            <v-icon small class="mr-2"> mdi-arrow-right-bold </v-icon>
           </router-link>
-         
+
           <v-icon small @click="deleteItem(item)" v-if="item.status == 0">
             mdi-delete
           </v-icon>
@@ -88,9 +182,7 @@
       </v-card>
     </v-dialog>
     <v-dialog v-model="dialogCreate" fullscreen persistent>
-      
-            <TournamentCreate :hideDialog="hideDialog"/>
-       
+      <TournamentCreate :hideDialog="hideDialog" :getData="getData" />
     </v-dialog>
   </div>
 </template>
@@ -104,6 +196,11 @@ export default {
   },
   data() {
     return {
+      menuEnd: false,
+      dateEnd: null,
+      dateStart: null,
+      menuStart: false,
+      searchName: "",
       dialogCreate: false,
       linkTournament: [
         {
@@ -126,10 +223,21 @@ export default {
           text: "Name",
           value: "nameTournament",
           width: "300px",
+          filter: this.nameFilter,
         },
         { text: "Banner", value: "banner", width: "200px" },
-        { text: "Time Start", value: "timeStart", width: "150px" },
-        { text: "Time End", value: "timeEnd", width: "150px" },
+        {
+          text: "Time Start",
+          value: "timeStart",
+          width: "150px",
+          filter: this.startFilter,
+        },
+        {
+          text: "Time End",
+          value: "timeEnd",
+          width: "150px",
+          filter: this.endFilter,
+        },
         {
           text: "Description",
           value: "description",
@@ -138,8 +246,20 @@ export default {
           align: "center",
         },
         { text: "Total Team", value: "team", width: "120px" },
-        { text: "Status", value: "status", width: "150px" },
+        {
+          text: "Status",
+          value: "status",
+          width: "150px",
+          filter: this.statusFilter,
+        },
         { text: "Action", value: "actions", sortable: false },
+      ],
+      selectStatus: "3",
+      itemSelect: [
+        { text: "No chosse", status: "3" },
+        { text: "UpComming", status: "0" },
+        { text: "OnGame", status: "1" },
+        { text: "Finished", status: "2" },
       ],
     };
   },
@@ -151,7 +271,7 @@ export default {
   mounted() {
     this.getData();
   },
-  
+
   methods: {
     getData() {
       this.$store.commit("auth/auth_overlay");
@@ -169,8 +289,8 @@ export default {
       this.editedIndex = this.tournament.indexOf(item);
       this.dialogDelete = true;
     },
-    hideDialog(){
-        this.dialogCreate=!this.dialogCreate;
+    hideDialog() {
+      this.dialogCreate = !this.dialogCreate;
     },
     deleteItemConfirm() {
       this.dialogDelete = false;
@@ -189,6 +309,36 @@ export default {
         .catch(function (error) {
           alert(error);
         });
+    },
+    nameFilter(value) {
+      if (!this.searchName) {
+        return true;
+      }
+      return value.toLowerCase().includes(this.searchName.toLowerCase());
+    },
+    statusFilter(value) {
+      if (!this.selectStatus) {
+        return true;
+      }
+      if (this.selectStatus == 3) {
+        return true;
+      } else {
+        return value == this.selectStatus;
+      }
+    },
+    endFilter(value) {
+      if (this.dateEnd == null) {
+        return true;
+      } else {
+        return value < this.dateEnd;
+      }
+    },
+    startFilter(value) {
+      if (this.dateStart == null) {
+        return true;
+      } else {
+        return value > this.dateStart;
+      }
     },
   },
 };

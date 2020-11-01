@@ -15,4 +15,7 @@ export function create(tournament) {
 export function getById(idTournament) {
     return Api.get(`/tournament/getById?IdTour=${idTournament}`)
 }
+export function tournamentUpComming() {
+    return Api.get('/tournament/tournamentUpComming')
+}
 

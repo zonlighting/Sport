@@ -25,4 +25,17 @@ public class TeamRepository {
 	public Team getById(int idTeam) {
 		return teamMapper.getById(idTeam);
 	}
+
+	public List<Team> getTeamNoTournament() {
+		return teamMapper.getTeamNoTournament();
+	}
+
+	public void newTournament(Integer idTeam, int idTournament) {
+		teamMapper.newTournament(idTeam,idTournament);
+	}
+
+	public void formatTournament(int idTournament) {
+		teamMapper.formatTournament(idTournament);
+		
+	}
 }

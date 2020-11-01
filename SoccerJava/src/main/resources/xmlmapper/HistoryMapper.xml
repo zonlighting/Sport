@@ -8,7 +8,7 @@
 		<id column="history_id" property="idHistory" />
 		<result column="id_member" property="idMember" />
 		<result column="id_team" property="idTeam" />
-		<result column="id_tour" property="idTour" />
+		<result column="id_tour" property="idTournament" />
 	</resultMap>
 
 	<insert id="create" parameterType="History">
@@ -18,7 +18,10 @@
 		id_tour)
 		VALUES
 		(#{idMember},
-		#{idTeam}, #{idTour});
+		#{idTeam}, #{idTournament});
 	</insert>
+	<delete id="delete">
+		DELETE FROM `sports`.`history_tbl` WHERE (`id_tour` = ${idTournament});
+	</delete>
 
 </mapper>

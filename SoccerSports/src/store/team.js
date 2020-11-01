@@ -1,4 +1,5 @@
 import { getTeams, createTeam } from '@/api/TeamApi'
+import { getTeamNoTournament } from '../api/TeamApi'
 
 
 const state = {
@@ -29,6 +30,16 @@ const actions = {
             })
         })
     },
+    getTeamNoTournament(){
+        return new Promise((resolve, reject) => {
+            getTeamNoTournament().then(res => {
+                resolve(res);
+            }).catch((err) => {
+                reject(err);
+            })
+        })
+    }
+
 }
 
 export default {
