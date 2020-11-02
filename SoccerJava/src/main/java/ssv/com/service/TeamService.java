@@ -9,6 +9,7 @@ import ssv.com.dto.ResponseQuery;
 import ssv.com.entity.Team;
 import ssv.com.repository.ProfileRepository;
 import ssv.com.repository.TeamRepository;
+import ssv.com.repository.TournamentRepository;
 
 @Service
 public class TeamService {
@@ -18,6 +19,9 @@ public class TeamService {
 
 	@Autowired
 	private ProfileRepository profileRepository;
+
+	@Autowired
+	private TournamentRepository tournamentRepository;
 
 	public List<Team> getTeams() {
 		return teamRepository.getTeams();
@@ -29,19 +33,28 @@ public class TeamService {
 
 	public boolean checkExistsTeam(Team team) {
 		for (Team teamExists : getTeams()) {
-			if (teamExists.getNameTeam().equals(team.getNameTeam())) {
+			if (teamExists.getNameTeam().equalsIgnoreCase(team.getNameTeam())) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	public Team getById(int idTeam) {
-		return teamRepository.getById(idTeam);
+	public Team getTeamById(int idTeam) {
+		Team team = teamRepository.getTeamById(idTeam);
+		if (team.getIdTour() != 0) {
+			team.setTourName(tournamentRepository.getById(team.getIdTour()).getNameTournament());
+		}
+		return team;
 	}
 
 	public void updateMembersInTeam(Team team) {
 		profileRepository.updateMembersInTeam(team);
+	}
+
+
+	public void updateTeam(int id, Team team) {
+		teamRepository.updateTeam(id, team);
 	}
 
 //	public ResponseQuery<?> getTeamNoTournament() {

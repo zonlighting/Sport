@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,15 +54,35 @@ public class TeamController {
 		}
 	}
 	//Lấy data theo id
-	@GetMapping(value = "getById")
-	public ResponseQuery<?> getById(@RequestParam int idTeam){
-		return ResponseQuery.success("Success", teamService.getById(idTeam));
+	@GetMapping(value = "{idTeam}")
+	public ResponseQuery<?> getById(@PathVariable int idTeam){
+		if(teamService.getTeamById(idTeam) != null) {
+			return ResponseQuery.success("Success", teamService.getTeamById(idTeam));
+		}
+		return ResponseQuery.faild("Team can't found", null);
 	}
 
 	@PostMapping(value = "updateMembersInTeam")
 	public ResponseQuery<?> update(@RequestBody Team team) {
 		teamService.updateMembersInTeam(team);
 		return ResponseQuery.success("Update Success", team);
+	}
+
+
+	@PostMapping(value = "updateInfo/{id}")
+	public ResponseQuery<?> updateTeamInfo(@PathVariable (value = "id") int id, @ModelAttribute TeamForm teamForm){
+		String path = "";
+		try {
+			path = UploadFile.saveFile(teamForm.getFile());
+			Team team = modelMapper.map(teamForm, Team.class);
+			team.setLogo(path);
+			teamService.updateTeam(id, team);
+			return ResponseQuery.success("Update Success", team);
+
+		} catch (Exception e) {
+			return ResponseQuery.faild("Failed To Update", e);
+		}
+
 	}
 
 	//lấy các team chưa có tham gia giải nào
