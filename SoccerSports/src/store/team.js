@@ -1,4 +1,4 @@
-import { getTeams, createTeam } from '@/api/TeamApi'
+import { getTeams, createTeam, updateMembersInTeam } from '@/api/TeamApi'
 import { getTeamNoTournament } from '../api/TeamApi'
 
 
@@ -38,8 +38,17 @@ const actions = {
                 reject(err);
             })
         })
-    }
+    },
 
+    updateMembersInTeam(_, data) {
+        return new Promise((resolve, reject) => {
+            updateMembersInTeam(data).then((res) => {
+                resolve(res);
+            }).catch((err) => {
+                reject(err);
+            })
+        })
+    },
 }
 
 export default {

@@ -44,18 +44,18 @@ public class TeamService {
 		profileRepository.updateMembersInTeam(team);
 	}
 
-	public ResponseQuery<?> getTeamNoTournament() {
-		List<Team> listTeam=teamRepository.getTeamNoTournament();
-		return ResponseQuery.success("Team no touranment", listTeam);
-
-	}
-	// update tour cho team
-	public void newTournament(Integer idTeam, int idTournament) {
-		 teamRepository.newTournament(idTeam,idTournament);
-		
-	}
-	// format lai tour trong team
-	public void formatTournament(int idTournament) {
-		teamRepository.formatTournament(idTournament);
-	}
+//	public ResponseQuery<?> getTeamNoTournament() {
+//		List<Team> listTeam=teamRepository.getTeamNoTournament();
+//		return ResponseQuery.success("Team no touranment", listTeam);
+//
+//	}
+//	// update tour cho team
+//	public void newTournament(Integer idTeam, int idTournament) {
+//		 teamRepository.newTournament(idTeam,idTournament);
+//
+//	}
+//	// format lai tour trong team
+//	public void formatTournament(int idTournament) {
+//		teamRepository.formatTournament(idTournament);
+//	}
 }

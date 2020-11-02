@@ -53,7 +53,7 @@ public class TournamentService {
 			// tạo dữ liệu trong bảng history
 			for (Integer listTeam : tournamentForm.getListTeam()) {
 				// getByid lấy data team theo id
-				teamService.newTournament(listTeam, tournamentRepository.getIdNew());
+//				teamService.newTournament(listTeam, tournamentRepository.getIdNew());
 				for (Profile profile : teamService.getById(listTeam).getProfile()) {
 					History history = new History(profile.getId(), listTeam, idTournament);
 					historyService.create(history);
@@ -120,7 +120,7 @@ public class TournamentService {
 
 	public ResponseQuery<?> delete(int idTournament) {
 		tournamentRepository.delete(idTournament);
-		teamService.formatTournament(idTournament);
+//		teamService.formatTournament(idTournament);
 		historyService.delete(idTournament);
 		return ResponseQuery.success("Delete successful tournament", 200);
 	}
