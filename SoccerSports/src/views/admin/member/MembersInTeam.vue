@@ -58,8 +58,8 @@ export default {
   props: {
     playersInTeam: Array,
     removedMember: {
-      type: Function
-    }
+      type: Function,
+    },
   },
   data() {
     return {
@@ -85,15 +85,16 @@ export default {
       ],
     };
   },
+
   mounted() {
-    // console.log(this.playersAvailable);
+    // console.log(this.playersInTeam);
   },
+
   computed: {
     baseUrl() {
       return ENV.BASE_IMAGE;
     },
   },
-  watch: {},
 
   methods: {
     genderFilter(value) {
@@ -131,14 +132,9 @@ export default {
     },
 
     removeMember(member) {
-      this.playersInTeam.map((element, index) => {
-        if (element.id === member.id) {
-          element.idTeam = 0;
-          this.removedMember(element);
-          this.playersInTeam.splice(index, 1);
-        }
-        return element;
-      });
+      let obj = Object.assign({}, member);
+      let newArray = this.playersInTeam.filter((element) => element.id != member.id);
+      this.removedMember(obj, newArray);
     },
   },
 };

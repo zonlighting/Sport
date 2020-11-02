@@ -62,7 +62,7 @@
 
 		<foreach collection="profile" item="item" index="index"
 			separator=";">
-			update profile_tbl set id_team = #{idTeam} where id =
+			update profile_tbl set id_team = #{idTeam} where profile_id =
 			${item.id}
 		</foreach>
 	</update>

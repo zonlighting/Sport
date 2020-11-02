@@ -18,7 +18,7 @@
           <v-col cols="12">
             <v-autocomplete
               v-model="members"
-              :items="playersInTeam"
+              :items="players"
               solo
               chips
               item-text="name"
@@ -30,7 +30,7 @@
               <template v-slot:selection="data">
                 <v-chip>
                   <v-avatar left>
-                    <v-img :src="data.item.avatar"></v-img>
+                    <v-img :src="baseUrl + data.item.avatar"></v-img>
                   </v-avatar>
                   {{ data.item.name }}
                 </v-chip>
@@ -54,15 +54,56 @@
                 :isOpenModalMember="isOpenModalMember"
               />
             </v-dialog>
-            <MembersAvailable :addedMember="addedMember" :playersAvailable="playersAvailable"/>
+            <MembersAvailable
+              :addedMember="addedMember"
+              :playersAvailable="playersAvailable"
+            />
           </v-col>
           <v-col cols="12" md="6" xl="6" xm="12">
             <h2 style="text-align: center">Members In Team</h2>
             <v-divider class="my-4"></v-divider>
-            <v-btn color="primary" dark class="mb-5" @click="isOpenModalMember">
+            <v-btn
+              color="primary"
+              dark
+              class="mb-5"
+              @click="dialogConfirm = true"
+            >
               Confirm List
             </v-btn>
-            <MembersInTeam :removedMember="removedMember" :playersInTeam = "playersInTeam"/>
+
+            <v-dialog v-model="dialogConfirm" persistent max-width="500">
+              <v-card class="container" v-if="!success">
+                <v-card-title class="headline">
+                  Confirm Apply This List Member?
+                </v-card-title>
+                <v-card-actions>
+                  <v-btn
+                    color="green darken-1"
+                    text
+                    @click="dialogConfirm = false"
+                  >
+                    Disagree
+                  </v-btn>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    color="green darken-1"
+                    text
+                    @click="updateTeam($route.params.id)"
+                  >
+                    Agree
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+              <template v-else>
+                <v-alert class="mb-0" type="success">
+                  Confirm List Success!
+                </v-alert>
+              </template>
+            </v-dialog>
+            <MembersInTeam
+              :removedMember="removedMember"
+              :playersInTeam="playersInTeam"
+            />
           </v-col>
         </v-row>
       </v-card>
@@ -73,18 +114,13 @@
 import MembersAvailable from "@/views/admin/member/MembersAvailable";
 import MembersInTeam from "@/views/admin/member/MembersInTeam";
 import CreateMember from "@/views/admin/member/CreateMember.vue";
+import { ENV } from "@/config/env.js";
 export default {
   components: { MembersAvailable, MembersInTeam, CreateMember },
   data() {
-    const srcs = {
-      1: "https://cdn.vuetifyjs.com/images/lists/1.jpg",
-      2: "https://cdn.vuetifyjs.com/images/lists/2.jpg",
-      3: "https://cdn.vuetifyjs.com/images/lists/3.jpg",
-      4: "https://cdn.vuetifyjs.com/images/lists/4.jpg",
-      5: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
-    };
-
     return {
+      success: false,
+      dialogConfirm: false,
       dialogCreateMember: false,
       teamLink: [
         {
@@ -107,46 +143,14 @@ export default {
           disabled: true,
         },
       ],
-      members: [
-        "Sandra Williams 8",
-        "Sandra Adams",
-        "Britta Holt",
-        "Ali Connors",
-        "Trevor Hansen",
-        "Tucker Smith",
-        "Sandra Williams",
-        "Ali Connors2",
-        "Britta Holt5",
-        "John Smith7",
-        "Britta Holt52",
-        "Sandra Williams 48",
-        "John Smith72",
-      ],
-      players: [
-        { name: "Sandra Adams", avatar: srcs[1] },
-        { name: "Ali Connors", avatar: srcs[2] },
-        { name: "Trevor Hansen", avatar: srcs[3] },
-        { name: "Tucker Smith", avatar: srcs[2] },
-        { name: "Britta Holt", avatar: srcs[4] },
-        { name: "Jane Smith ", avatar: srcs[5] },
-        { name: "John Smith", avatar: srcs[1] },
-        { name: "Sandra Williams", avatar: srcs[3] },
-        { name: "Sandra Adams1", avatar: srcs[1] },
-        { name: "Ali Connors2", avatar: srcs[2] },
-        { name: "Trevor Hansen3", avatar: srcs[3] },
-        { name: "Tucker Smith4", avatar: srcs[2] },
-        { name: "Britta Holt5", avatar: srcs[4] },
-        { name: "Jane Smith 6", avatar: srcs[5] },
-        { name: "John Smith7", avatar: srcs[1] },
-        { name: "Sandra Williams 8", avatar: srcs[3] },
-        { name: "Tucker Smith9", avatar: srcs[2] },
-        { name: "Britta Holt52", avatar: srcs[4] },
-        { name: "Jane Smith 624", avatar: srcs[5] },
-        { name: "John Smith72", avatar: srcs[1] },
-        { name: "Sandra Williams 48", avatar: srcs[3] },
-      ],
+      members: [],
+      players: [],
       playersAvailable: [],
       playersInTeam: [],
+      teamDetail: {
+        idTeam: parseInt(this.$route.params.id),
+        profile: [],
+      },
     };
   },
 
@@ -154,14 +158,14 @@ export default {
     this.loadListMember();
   },
 
-  methods: {
-    remove(item) {
-      const index = this.friends.indexOf(item.name);
-      if (index >= 0) this.friends.splice(index, 1);
+  computed: {
+    baseUrl() {
+      return ENV.BASE_IMAGE;
     },
+  },
 
+  methods: {
     loadMemberAfterCreate(member) {
-      console.log(member);
       this.playersAvailable.unshift(member); // unshift is add into 1st positions , push is add last positions
     },
 
@@ -171,27 +175,57 @@ export default {
         .dispatch("member/members")
         .then(function (response) {
           self.playersAvailable = response.data.payload.filter((item) => {
-            return item.idTeam === 0;
+            return item.idTeam == 0;
           });
-          // console.log(self.playersAvailable);
           self.playersInTeam = response.data.payload.filter((item) => {
-            return item.idTeam === self.$route.params.id;
+            return item.idTeam == self.$route.params.id;
           });
-          console.log(self.playersInTeam);
+          self.mapShowView(self.playersInTeam);
         })
         .catch(function (error) {
           alert(error);
         });
     },
 
-    addedMember(member) {
-      member.idTeam = this.$route.params.id;
-      this.playersInTeam.push(member);
+    updateTeam(id) {
+      let self = this;
+      // console.log(this.teamDetail);
+      this.$store
+        .dispatch("team/updateMembersInTeam", this.teamDetail)
+        .then(function () {
+          self.success = !self.success;
+          setTimeout(function () {
+            self.dialogConfirm = !self.dialogConfirm;
+            self.success = !self.success;
+            self.loadListMember(id);
+          }, 1500);
+        })
+        .catch(function (error) {
+          alert(error);
+        });
     },
 
-    removedMember(member) {
+    addedMember(member, data) {
+      member.idTeam = this.$route.params.id;
+      this.playersAvailable = data;
+      this.playersInTeam.push(member);
+      this.mapShowView(this.playersInTeam);
+    },
+
+    removedMember(member, data) {
       member.idTeam = 0;
+      this.playersInTeam = data;
       this.playersAvailable.push(member);
+      this.mapShowView(this.playersInTeam);
+    },
+
+    mapShowView(data) {
+      this.members = data.map((member) => member.name);
+      this.players = data.map((member) => ({
+        name: member.name,
+        avatar: member.avatar,
+      }));
+      this.teamDetail.profile = this.playersInTeam;
     },
 
     isOpenModalMember() {

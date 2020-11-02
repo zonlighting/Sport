@@ -151,13 +151,15 @@ export default {
       this.checkAdd = false;
       let indexRemove = 0;
       let obj = Object.assign({}, member);
-      this.addedMember(obj);
-      this.playersAvailable.forEach((element, index) => {
+      let newArray = [...this.playersAvailable];
+      newArray.forEach((element, index) => {
         if (element.id === member.id) {
           indexRemove = index;
         }
       });
-      this.playersAvailable.splice(indexRemove, 1);
+      newArray.splice(indexRemove, 1);
+      this.addedMember(obj, newArray);
+      // this.playersAvailable = newArray
     },
   },
 };

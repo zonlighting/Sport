@@ -81,4 +81,5 @@ public class TeamService {
 		}
 		return ResponseQuery.success("Detail Team", detail);
 	}
+
 }
