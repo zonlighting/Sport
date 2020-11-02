@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -43,62 +44,32 @@ public class ScheduleService {
 	}
 	//Kiểm tra điều kiện ngày và team có đang thi đấu h đó k
 	public String checkSchedule(Schedule schedule) {
+		DateTimeFormatter oldPattern = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		Date date = Date.from(schedule.getTimeStart().atZone(ZoneId.systemDefault()).toInstant());
 		Instant instant = Instant.ofEpochMilli(date.getTime());
 		LocalDate localDate = LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toLocalDate();
 		LocalDate timeTour = tournamentRepository.getById(schedule.getIdTour()).getTimeStart();
 		LocalDate timeTourEnd = tournamentRepository.getById(schedule.getIdTour()).getTimeEnd();
-		if (localDate.isAfter(timeTour)&&localDate.isBefore(timeTourEnd)) {
-			var a=scheduleRepository.getByTournament(schedule.getIdTour());
-			List<Schedule> list = scheduleRepository.getByTournament(schedule.getIdTour());
-			LocalDateTime timeStart = schedule.getTimeStart();
+		if (localDate.isBefore(timeTour)||localDate.isAfter(timeTourEnd)) {
+			return "loi"; 
+		}
+		else {
+			List<Schedule> list=scheduleRepository.getByTournament(schedule.getIdTour());
 			for (Schedule scheduleExit : list) {
-				LocalDateTime timeStartExit = scheduleExit.getTimeStart();
-				if (schedule.getLocation() == scheduleExit.getLocation()) {
-					if (timeStart.equals(timeStartExit)) {
-						return "Time coincides with" + schedule.getTimeStart();
-					} else {
-						if (!timeStart.plusHours(3).isAfter(timeStartExit)) {
-							break;
-						}
-						if (!timeStart.isAfter(timeStartExit.plusHours(3))) {
-							return "Time must way " + schedule.getTimeStart();
-						}
+				if(scheduleExit.getIdSchedule()==schedule.getIdSchedule()) {
+					continue;
+				}
+				else {
+					if(!schedule.getTimeStart().plusHours(3).isAfter(list.get(0).getTimeStart())) {
+						var a=oldPattern.format(list.get(0).getTimeStart());
+						return null;
 					}
-					if (schedule.getIdTeam1() == scheduleExit.getIdTeam1()
-							|| schedule.getIdTeam1() == scheduleExit.getIdTeam2()) {
-						if (timeStart.plusHours(3).isAfter(timeStartExit)
-								|| !timeStart.isAfter(timeStartExit.plusHours(3))) {
-							return "The team 1 is playing around this time " + timeStartExit;
-						}
+					else if (!schedule.getTimeStart().isAfter(scheduleExit.getTimeStart().plusHours(3))) {
+						var a=oldPattern.format(scheduleExit.getTimeStart());
+						return "Must be bigger : " + oldPattern.format(scheduleExit.getTimeStart());
 					}
-					if (schedule.getIdTeam2() == scheduleExit.getIdTeam1()
-							|| schedule.getIdTeam2() == scheduleExit.getIdTeam2()) {
-						if (timeStart.plusHours(3).isAfter(timeStartExit)
-								|| !timeStart.isAfter(timeStartExit.plusHours(3))) {
-							return "The team 2 is playing around this time" + timeStartExit;
-						}
-
-					}
-				} else {
-					if (schedule.getIdTeam1() == scheduleExit.getIdTeam1()
-							|| schedule.getIdTeam1() == scheduleExit.getIdTeam2()) {
-						if (timeStart.plusHours(3).isAfter(timeStartExit)
-								|| !timeStart.isAfter(timeStartExit.plusHours(3))) {
-							return "The team 1 is playing around this time " + timeStartExit;
-						}
-					}
-					if (schedule.getIdTeam2() == scheduleExit.getIdTeam1()
-							|| schedule.getIdTeam2() == scheduleExit.getIdTeam2()) {
-						if (timeStart.plusHours(3).isAfter(timeStartExit)
-								|| !timeStart.isAfter(timeStartExit.plusHours(3))) {
-							return "The team 2 is playing around this time" + timeStartExit;
-						}
-					}
-
 				}
 			}
-			return "In addition to tournament time." +"Time tournament : "+ timeTour +"->" +timeTourEnd;
 		}
 		return null;
 	}

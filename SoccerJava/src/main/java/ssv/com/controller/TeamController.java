@@ -68,5 +68,10 @@ public class TeamController {
 	public ResponseQuery<?> getTeamNoTournament(){
 		return teamService.getTeamNoTournament();
 	}
+	//thông tin các giải đấu về team
+	@GetMapping(value="detail")
+	public ResponseQuery<?> getTeamdetail(@RequestParam int idTeam){
+		return teamService.getTeamdetail(idTeam);
+	}
 
 }

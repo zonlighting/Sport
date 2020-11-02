@@ -23,4 +23,14 @@ public interface ScheduleMapper {
 
 	void updateStatus(int idSchedule);
 
+	int teamTotalMatch(int idTeam);
+
+	int teamTotalWin(int idTeam);
+
+	int teamTotalMatchByTour(int idTeam, int idTour);
+
+	int teamTotalWinByTour(int idTeam, int idTour);
+
+	int teamTotalAdrawByTour(int idTeam, int idTour);
+
 }

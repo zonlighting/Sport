@@ -166,6 +166,10 @@
 </template>
 <script>
 export default {
+  props: {
+    hideDialog: Function,
+    getData: Function,
+  },
   data() {
     return {
       valid: true,
@@ -201,24 +205,30 @@ export default {
         });
     },
     create() {
-      if(this.$refs.form.validate()){
-          
-          this.$store.commit("auth/auth_overlay");
-          this.$store
-            .dispatch("schedule/create", {
-                idTeam1:this.selectTeam1,
-                idTeam2:this.selectTeam2,
-                location:this.location,
-                idTour:this.selectTournament,
-                timeStart:this.date+"T"+this.time
-            }).then(response=>{
-                console.log(response.data)
-            })
-
-
-    }
-      else{
-          this.$refs.form.validate();
+      if (this.$refs.form.validate()) {
+        this.$store.commit("auth/auth_overlay");
+        this.$store
+          .dispatch("schedule/create", {
+            idTeam1: this.selectTeam1,
+            idTeam2: this.selectTeam2,
+            location: this.location,
+            idTour: this.selectTournament,
+            timeStart: this.date + "T" + this.time,
+          })
+          .then((response) => {
+            if (response.data.payload == 400) {
+              alert(response.data.message);
+            } else {
+              alert(response.data.message);
+              this.getData();
+              this.hideDialog();
+            }
+          })
+          .catch(function (error) {
+            alert(error);
+          });
+      } else {
+        this.$refs.form.validate();
       }
     },
     reset() {

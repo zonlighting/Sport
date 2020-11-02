@@ -38,7 +38,8 @@
 	</resultMap>
 	<select id="getAll" resultMap="tournamentMapping">
 		SELECT * FROM
-		sports.tournament_tbl;
+		sports.tournament_tbl order by tournament_tbl.tournament_id
+		DESC
 	</select>
 	<insert id="create" parameterType="Tournament">
 		INSERT INTO
@@ -81,4 +82,5 @@
 		tournament_tbl.tournament_id=team_tbl.id_tour where
 		tournament_status!=2
 	</select>
+	
 </mapper>

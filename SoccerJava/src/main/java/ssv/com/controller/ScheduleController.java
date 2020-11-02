@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import lombok.var;
 import ssv.com.dto.ResponseQuery;
 import ssv.com.entity.Schedule;
 import ssv.com.form.ScheduleForm;
