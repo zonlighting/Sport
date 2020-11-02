@@ -66,7 +66,12 @@
         </v-card>
       </v-col>
       <v-col cols="12" sm="4">
-        <v-data-table :headers="headers" :items="desserts" class="elevation-1" :items-per-page="15">
+        <v-data-table
+          :headers="headers"
+          :items="desserts"
+          class="elevation-1"
+          :items-per-page="15"
+        >
           <template v-slot:item.calories="{ item }">
             <v-chip :color="getColor(item.calories)" dark>
               {{ item.calories }}

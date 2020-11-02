@@ -10,7 +10,7 @@
       <v-row class="mx-12">
         <h1 class="titleText">Team Management</h1>
         <v-spacer></v-spacer>
-        <v-btn color="primary" dark class="ma-2"> Back To Team </v-btn>
+        <v-btn color="primary" dark class="ma-2" @click="$router.push({ path: `/admin/team/detail/${$route.params.id}` });"> Back To Team </v-btn>
       </v-row>
       <v-card max-width="95%" class="my-8 container">
         <v-img v-if="playersInTeam.length > 0">
@@ -231,6 +231,8 @@ export default {
     isOpenModalMember() {
       this.dialogCreateMember = !this.dialogCreateMember;
     },
+
+
   },
 };
 </script>
