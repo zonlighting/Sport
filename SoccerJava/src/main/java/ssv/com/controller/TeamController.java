@@ -61,12 +61,13 @@ public class TeamController {
 	@PostMapping(value = "updateMembersInTeam")
 	public ResponseQuery<?> update(@RequestBody Team team) {
 		teamService.updateMembersInTeam(team);
-		return ResponseQuery.success("Update Success", null);
+		return ResponseQuery.success("Update Success", team);
 	}
-	//lấy các team chưa có tham gia giải nào 
-	@GetMapping(value = "getTeamNoTournament")
-	public ResponseQuery<?> getTeamNoTournament(){
-		return teamService.getTeamNoTournament();
-	}
+
+	//lấy các team chưa có tham gia giải nào
+//	@GetMapping(value = "getTeamNoTournament")
+//	public ResponseQuery<?> getTeamNoTournament(){
+//		return teamService.getTeamNoTournament();
+//	}
 
 }

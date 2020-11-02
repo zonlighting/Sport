@@ -169,25 +169,6 @@ export default {
       this.editTeam(item);
     },
 
-    // customSort(items, index, isDesc) {
-    //   items.sort((a, b) => {
-    //     if (index === "date") {
-    //       if (!isDesc) {
-    //         return dateHelp.compare(a.date, b.date);
-    //       } else {
-    //         return dateHelp.compare(b.date, a.date);
-    //       }
-    //     } else {
-    //       if (!isDesc) {
-    //         return a[index] < b[index] ? -1 : 1;
-    //       } else {
-    //         return b[index] < a[index] ? -1 : 1;
-    //       }
-    //     }
-    //   });
-    //   return items;
-    // },
-
     nameTeamFilter(value) {
       // If this filter has no value we just skip the entire filter.
       if (!this.nameTeamSearch) {
@@ -195,6 +176,7 @@ export default {
       }
       return value.toLowerCase().includes(this.nameTeamSearch.toLowerCase());
     },
+
     nameTourFilter(value) {
       if (!this.tourNameSearch) {
         return true;
@@ -202,11 +184,11 @@ export default {
       if (value != undefined)
         return value.toLowerCase().includes(this.tourNameSearch.toLowerCase());
     },
+
     typeFilter(value) {
       if (!this.typeSearch) {
         return true;
       }
-
       return value === this.typeSearch;
     },
 
