@@ -34,4 +34,12 @@ public class ProfileRepository {
 	public void updateMembersInTeam(Team team) {
 		profileMapper.updateMembersInTeam(team);
 	}
+
+	public void updateProfile(int id, Profile profile) {
+		profileMapper.updateProfile(id, profile);
+	}
+
+	public Optional<Profile> findProfileById(int id) {
+		return profileMapper.findProfileById(id);
+	}
 }

@@ -57,12 +57,16 @@
         </v-row>
 
         <v-row v-else>
-          <EditTeam :getTeamById="getTeamById" :editTeam="editTeam" :team="team" />
+          <EditTeam
+            :getTeamById="getTeamById"
+            :editTeam="editTeam"
+            :team="team"
+          />
         </v-row>
 
         <v-divider class="my-8"></v-divider>
 
-        <h2 class="my-4">Members</h2>
+        <h2 class="my-4 ml-6">Members</h2>
         <template>
           <v-toolbar flat color="white">
             <v-btn color="primary" class="ma-2" dark @click="toManageMembers">
@@ -133,7 +137,7 @@
                                 <v-list-item>
                                   <v-list-item-title
                                     class="row-pointer"
-                                    @click="edit"
+                                    @click="isModalEditMember(player)"
                                     >Edit</v-list-item-title
                                   >
                                 </v-list-item>
@@ -161,6 +165,10 @@
         <template v-else>
           <h3 class="pl-5">Team Don't Have Any Members</h3>
         </template>
+
+        <v-dialog v-model="modalEditMember" max-width="35%">
+          <EditMember :teamId="team.idTeam" :getTeamById="getTeamById" :member="member" :isModalEditMember="isModalEditMember" />
+        </v-dialog>
       </v-card>
     </template>
   </div>
@@ -168,14 +176,17 @@
 <script>
 import { ENV } from "@/config/env.js";
 import EditTeam from "@/views/admin/team/EditTeam";
+import EditMember from "@/views/admin/member/EditMember";
 
 export default {
   components: {
     EditTeam,
+    EditMember,
   },
 
   data() {
     return {
+      modalEditMember: false,
       isEditTeam: true,
       teamLink: [
         {
@@ -219,6 +230,7 @@ export default {
       desserts: [],
       search: "",
       team: {},
+      member: {},
     };
   },
 
@@ -252,8 +264,9 @@ export default {
         });
     },
 
-    edit() {
-      console.log("Edit");
+    isModalEditMember(member) {
+      this.modalEditMember = !this.modalEditMember;
+      this.member = member;
     },
 
     editTeam() {
