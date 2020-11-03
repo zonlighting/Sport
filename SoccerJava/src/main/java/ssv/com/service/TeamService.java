@@ -1,13 +1,19 @@
 package ssv.com.service;
 
+import java.io.IOException;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ssv.com.dto.ResponseQuery;
 import ssv.com.dto.TeamDetail;
+import ssv.com.entity.Profile;
 import ssv.com.entity.Team;
+import ssv.com.exception.ResourceExistsException;
+import ssv.com.file.UploadFile;
+import ssv.com.form.TeamForm;
 import ssv.com.repository.ProfileRepository;
 import ssv.com.repository.ScheduleRepository;
 import ssv.com.repository.TeamRepository;
@@ -26,6 +32,9 @@ public class TeamService {
 
 	@Autowired
 	private TournamentRepository tournamentRepository;
+
+	@Autowired
+	private ModelMapper modelMapper;
 
 	public List<Team> getTeams() {
 		return teamRepository.getTeams();
@@ -94,6 +103,21 @@ public class TeamService {
 
 	public void updateTeam(int id, Team team) {
 		teamRepository.updateTeam(id, team);
+
+	public Team updateTeam(int id, TeamForm teamForm) throws Exception, ResourceExistsException {
+		Team oldTeam = teamRepository.getTeamById(id);
+		Team teamUpdate = modelMapper.map(teamForm, Team.class);
+		if (teamForm.getFile() != null && !teamForm.getFile().getOriginalFilename().isEmpty()) {
+			teamUpdate.setLogo(UploadFile.saveFile(teamForm.getFile()));
+		} else {
+			teamUpdate.setLogo(oldTeam.getLogo());
+		}
+		teamUpdate.setNameTeam(teamForm.getNameTeam());
+		teamUpdate.setCountry(teamForm.getCountry());
+		teamUpdate.setDescription(teamForm.getDescription());
+		teamRepository.updateTeam(id, teamUpdate);
+		return teamUpdate;
+
 	}
 
 

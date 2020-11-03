@@ -1,8 +1,11 @@
 <template>
   <v-card>
-    <v-card-title> Create Member </v-card-title>
+    <v-card-title> Edit Member </v-card-title>
     <v-form ref="form" v-model="valid" lazy-validation>
       <v-card-text>
+        <v-row class="ml-2">
+          <img style="width: 200px; height: 200px" :src="avatar" />
+        </v-row>
         <v-row>
           <v-col cols="12" md="6">
             <v-text-field
@@ -14,16 +17,15 @@
             ></v-text-field>
           </v-col>
           <v-col cols="12" md="6">
-            <v-text-field
-              v-model="email"
-              :rules="emailRules"
-              label="E-mail"
-              required
-            ></v-text-field>
+            <v-file-input
+              :rules="rulesImage"
+              v-model="fileImage"
+              label="Change Avatar"
+            ></v-file-input>
           </v-col>
         </v-row>
         <v-row>
-          <v-col cols="12" md="3">
+          <v-col cols="12" md="4">
             <v-text-field
               v-model="phone"
               label="PhoneNumber"
@@ -32,7 +34,7 @@
               required
             ></v-text-field>
           </v-col>
-          <v-col cols="12" md="3">
+          <v-col cols="12" md="4">
             <v-select
               v-model="gender"
               :items="defaultGender"
@@ -40,7 +42,7 @@
               label="Gender"
             ></v-select>
           </v-col>
-          <v-col cols="12" md="3">
+          <v-col cols="12" md="4">
             <v-text-field
               v-model="age"
               label="Age"
@@ -48,13 +50,6 @@
               :counter="2"
               required
             ></v-text-field>
-          </v-col>
-          <v-col cols="12" md="3">
-            <v-file-input
-              :rules="rulesImage"
-              v-model="fileImage"
-              label="Add Avatar"
-            ></v-file-input>
           </v-col>
         </v-row>
         <v-row>
@@ -76,15 +71,14 @@
         ></v-row>
       </v-card-text>
       <v-card-actions>
-        <v-btn color="error" x-large text @click="reset"> Reset Form </v-btn>
         <v-spacer> </v-spacer>
         <v-btn
           color="primary"
           x-large
           text
-          @click.prevent="onSubmit"
+          @click.prevent="onSubmit(member.id)"
           v-if="changeButton"
-          >Create</v-btn
+          >Update</v-btn
         >
         <v-btn disabled v-else>Processing</v-btn>
       </v-card-actions>
@@ -93,7 +87,7 @@
       <div class="text-center">
         <v-dialog v-model="successDialog" hide-overlay persistent width="300">
           <v-alert class="mb-0" type="success">
-            Create Member Success!
+            Update Member Success!
           </v-alert>
         </v-dialog>
       </div>
@@ -102,14 +96,18 @@
 </template>
 
 <script>
+import { ENV } from "@/config/env.js";
+
 export default {
   props: {
-    isOpenModalMember: {
+    member: Object,
+    isModalEditMember: {
       type: Function,
     },
-    loadMemberAfterCreate: {
+    getTeamById: {
       type: Function,
     },
+    teamId: Number,
   },
 
   data() {
@@ -120,21 +118,14 @@ export default {
       response: "",
       dialogCreateMember: false,
       fileImage: new File([""], ""),
-      country: "uk",
-      name: "create1",
+      country: this.member.country,
+      name: this.member.name,
+       email: this.member.email,
       number: 10,
+      avatar: ENV.BASE_IMAGE + this.member.avatar,
       countryRules: [(v) => !!v || "Country is required"],
       nameRules: [(v) => !!v || "Name is required"],
-      email: "create1@gmail.com",
-      emailRules: [
-        (v) => !!v || "Email is required",
-        (v) => {
-          let inValid = /\s/;
-          return !inValid.test(v) || "E-mail can not have white space";
-        },
-        (v) => !!/.+@.+/.test(v) || "E-mail must be valid",
-      ],
-      phone: "123456",
+      phone: this.member.phone,
       phoneRules: [
         (v) => !!v || "Phone is required",
         (v) => {
@@ -148,15 +139,15 @@ export default {
           );
         },
       ],
-      age: "21",
+      age: this.member.age,
       ageRules: [
         (v) => !!v || "Age number is required",
         (v) =>
           (v <= 60 && v >= 6) || "Age must be less than 60 and greater than 6",
       ],
-      gender: "",
+      gender: this.member.gender,
       defaultGender: ["Male", "Female", "Orther"],
-      position: "",
+      position: this.member.position,
       defaultPosition: [
         "Goalkeepers",
         "Defenders",
@@ -167,7 +158,7 @@ export default {
       rulesImage: [],
     };
   },
-  
+
   watch: {
     fileImage() {
       if (this.fileImage == undefined) {
@@ -187,18 +178,19 @@ export default {
             v.type == "image/png" ||
             v.type == "image/jpeg" ||
             v.type == "image/bmp" ||
-            "Wrong type image"
+            "Wrong type image",
         ];
+
+        this.getBase64(this.fileImage);
       }
     },
   },
 
   methods: {
-    onSubmit() {
+    onSubmit(id) {
       if (!this.$refs.form.validate()) {
         this.$refs.form.validate();
       } else {
-        // console.log(this.fileImage);
         let self = this;
         var memberForm = new FormData();
         memberForm.append("name", this.name);
@@ -209,29 +201,26 @@ export default {
         memberForm.append("country", this.country);
         memberForm.append("position", this.position);
         memberForm.append("file", this.fileImage);
-        // for (var value of memberForm.values()) {
-        //   console.log(value);
-        // }
+
         this.$store
-          .dispatch("member/createMember", memberForm)
+          .dispatch("member/updateProfile", {
+            id: id,
+            formRequest: memberForm,
+          })
           .then((response) => {
             let res = response.data;
             self.changeButton = !self.changeButton;
-            if (res.code === 9999 && res.payload === 300) {
+            if (res.code == 9999) {
               alert(res.message);
-            } else if (res.code === 9999 && res.payload === 301) {
+            } else if (res.payload == 400) {
               alert(res.message);
-            } else if (res.code === 9999 && res.payload === 400) {
-              alert("Create Failed");
             } else {
-              console.log("Run here");
-              self.isOpenModalMember();
+              self.isModalEditMember();
               self.successDialog = !self.successDialog;
-              setTimeout(function () {
+              setTimeout(() => {
                 self.successDialog = !self.successDialog;
-                self.loadMemberAfterCreate(res.payload);
+                self.getTeamById(self.teamId);
               }, 1100);
-              self.reset();
             }
           })
           .catch((e) => {
@@ -242,8 +231,16 @@ export default {
       }
     },
 
-    reset() {
-      this.$refs.form.reset();
+    getBase64(file) {
+      let self = this;
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = function () {
+        self.avatar = reader.result;
+      };
+      reader.onerror = function (error) {
+        alert("Error: ", error);
+      };
     },
   },
 };

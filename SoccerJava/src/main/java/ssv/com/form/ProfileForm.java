@@ -19,5 +19,6 @@ public class ProfileForm {
 	private String gender;
 	private String country;
 	private String position;
+	private String avatar;
 	private MultipartFile file;
 }

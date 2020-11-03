@@ -1,4 +1,4 @@
-import { createMember,  members } from '@/api/MemberApi'
+import { createMember, members, updateProfile } from '@/api/MemberApi'
 
 const state = {
 
@@ -20,6 +20,17 @@ const actions = {
     members() {
         return new Promise((resolve, reject) => {
             members().then(res => {
+                resolve(res);
+            }).catch((err) => {
+                reject(err);
+            })
+        })
+    },
+
+
+    updateProfile(_, { id, formRequest }) {
+        return new Promise((resolve, reject) => {
+            updateProfile(id, formRequest).then(res => {
                 resolve(res);
             }).catch((err) => {
                 reject(err);

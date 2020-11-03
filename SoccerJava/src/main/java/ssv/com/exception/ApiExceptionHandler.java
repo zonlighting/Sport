@@ -21,7 +21,6 @@ public class ApiExceptionHandler {
 	public ResponseQuery<?> handleAllException(Exception ex, WebRequest request) {
 		// quá trình kiểm soat lỗi diễn ra ở đây
 		return ResponseQuery.faild(ex.getLocalizedMessage(), 400);
-
 	}
 
 	/**

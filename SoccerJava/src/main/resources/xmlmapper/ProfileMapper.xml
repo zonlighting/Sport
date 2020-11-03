@@ -62,8 +62,28 @@
 
 		<foreach collection="profile" item="item" index="index"
 			separator=";">
-			update profile_tbl set id_team = #{idTeam} where profile_id =
+			update profile_tbl set id_team = #{idTeam} where profile_id
+			=
 			${item.id}
 		</foreach>
 	</update>
+
+	<update id="updateProfile" parameterType="Profile">
+		update profile_tbl SET
+		profile_name=#{name},
+		profile_phone=#{phone},
+		profile_avatar=#{avatar},
+		profile_age=#{age},
+		profile_gender=#{gender},
+		profile_country=#{country},
+		profile_position=#{position}
+		where profile_id=40
+	</update>
+
+	<select id="findProfileById" flushCache="true"
+		statementType="PREPARED" resultType="Profile"
+		resultMap="profileMapping">
+		SELECT * FROM profile_tbl WHERE
+		profile_id='${id}'
+	</select>
 </mapper>

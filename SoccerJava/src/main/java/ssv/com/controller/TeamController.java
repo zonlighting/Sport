@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ssv.com.dto.ResponseQuery;
+import ssv.com.entity.Profile;
 import ssv.com.entity.Team;
 import ssv.com.file.UploadFile;
 import ssv.com.form.TeamForm;
@@ -53,10 +54,11 @@ public class TeamController {
 			return ResponseQuery.faild("Create team fail", e);
 		}
 	}
-	//Lấy data theo id
+
+	// Lấy data theo id
 	@GetMapping(value = "{idTeam}")
-	public ResponseQuery<?> getById(@PathVariable int idTeam){
-		if(teamService.getTeamById(idTeam) != null) {
+	public ResponseQuery<?> getById(@PathVariable int idTeam) {
+		if (teamService.getTeamById(idTeam) != null) {
 			return ResponseQuery.success("Success", teamService.getTeamById(idTeam));
 		}
 		return ResponseQuery.faild("Team can't found", null);
@@ -73,27 +75,21 @@ public class TeamController {
 		return teamService.getTeamdetail(idTeam);
 	}
 
-
 	@PostMapping(value = "updateInfo/{id}")
-	public ResponseQuery<?> updateTeamInfo(@PathVariable (value = "id") int id, @ModelAttribute TeamForm teamForm){
-		String path = "";
+	public ResponseQuery<?> updateTeamInfo(@PathVariable(value = "id") int id, @ModelAttribute TeamForm teamForm) {
 		try {
-			path = UploadFile.saveFile(teamForm.getFile());
-			Team team = modelMapper.map(teamForm, Team.class);
-			team.setLogo(path);
-			teamService.updateTeam(id, team);
-			return ResponseQuery.success("Update Success", team);
-
+			return ResponseQuery.success("Upadate Success", teamService.updateTeam(id, teamForm));
 		} catch (Exception e) {
 			return ResponseQuery.faild("Failed To Update", e);
 		}
-
 	}
+
 
 	//lấy các team chưa có tham gia giải nào
 	@GetMapping(value = "getTeamNoTournament")
 	public ResponseQuery<?> getTeamNoTournament(){
 		return teamService.getTeamNoTournament();
 	}
+
 
 }
