@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card max-width="50%" class="mx-auto my-12">
     <v-card-title> Edit Member </v-card-title>
     <v-form ref="form" v-model="valid" lazy-validation>
       <v-card-text>
@@ -76,7 +76,7 @@
           color="primary"
           x-large
           text
-          @click.prevent="onSubmit(member.id)"
+          @click.prevent="onSubmit(memberEdit.id)"
           v-if="changeButton"
           >Update</v-btn
         >
@@ -99,33 +99,21 @@
 import { ENV } from "@/config/env.js";
 
 export default {
-  props: {
-    member: Object,
-    isModalEditMember: {
-      type: Function,
-    },
-    getTeamById: {
-      type: Function,
-    },
-    teamId: Number,
-  },
-
   data() {
     return {
+      memberEdit: {},
       successDialog: false,
       changeButton: true,
       valid: false,
-      response: "",
-      dialogCreateMember: false,
       fileImage: new File([""], ""),
-      country: this.member.country,
-      name: this.member.name,
-       email: this.member.email,
+      country: '',
+      name: '',
+      email: '',
       number: 10,
-      avatar: ENV.BASE_IMAGE + this.member.avatar,
+      avatar: '',
       countryRules: [(v) => !!v || "Country is required"],
       nameRules: [(v) => !!v || "Name is required"],
-      phone: this.member.phone,
+      phone: '',
       phoneRules: [
         (v) => !!v || "Phone is required",
         (v) => {
@@ -139,15 +127,15 @@ export default {
           );
         },
       ],
-      age: this.member.age,
+      age: '',
       ageRules: [
         (v) => !!v || "Age number is required",
         (v) =>
           (v <= 60 && v >= 6) || "Age must be less than 60 and greater than 6",
       ],
-      gender: this.member.gender,
+      gender: '',
       defaultGender: ["Male", "Female", "Orther"],
-      position: this.member.position,
+      position: '',
       defaultPosition: [
         "Goalkeepers",
         "Defenders",
@@ -157,6 +145,10 @@ export default {
       ],
       rulesImage: [],
     };
+  },
+
+  mounted() {
+    this.getProfile(this.$route.params.id);
   },
 
   watch: {
@@ -187,6 +179,28 @@ export default {
   },
 
   methods: {
+    getProfile(id) {
+      let self = this;
+      this.$store
+        .dispatch("member/getPlayerById", id)
+        .then((response) => {
+          let res = response.data.payload;
+          console.log(res)
+          self.memberEdit = res;
+          self.name = res.name
+          self.email = res.email
+          self.phone = res.phone
+          self.age = res.age
+          self.gender = res.gender
+          self.country = res.country
+          self.avatar = ENV.BASE_IMAGE + res.avatar
+          self.position = res.position
+        })
+        .catch((e) => {
+          alert(e);
+        });
+    },
+
     onSubmit(id) {
       if (!this.$refs.form.validate()) {
         this.$refs.form.validate();
@@ -215,12 +229,11 @@ export default {
             } else if (res.payload == 400) {
               alert(res.message);
             } else {
-              self.isModalEditMember();
               self.successDialog = !self.successDialog;
               setTimeout(() => {
                 self.successDialog = !self.successDialog;
-                self.getTeamById(self.teamId);
               }, 1100);
+              this.$router.push({ path: `/admin/team/detail/${this.memberEdit.idTeam}` });
             }
           })
           .catch((e) => {
@@ -228,6 +241,7 @@ export default {
             self.changeButton = !self.changeButton;
           });
         self.changeButton = !self.changeButton;
+        
       }
     },
 

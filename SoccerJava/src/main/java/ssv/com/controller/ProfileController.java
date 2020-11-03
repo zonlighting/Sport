@@ -49,4 +49,11 @@ public class ProfileController {
 		}
 	}
 
+	@GetMapping("/{profileId}")
+	public ResponseQuery<?> getProfileById(@PathVariable Integer profileId) {
+		if(profileService.findProfileById(profileId) != null) {
+			return ResponseQuery.success("Profile found!", profileService.findProfileById(profileId));
+		}
+		return ResponseQuery.faild("Profile not found!!!", null);
+	}
 }
