@@ -69,6 +69,11 @@ public class TeamController {
 		teamService.updateMembersInTeam(team);
 		return ResponseQuery.success("Update Success", team);
 	}
+	//thông tin các giải đấu về team
+	@GetMapping(value="detail")
+	public ResponseQuery<?> getTeamdetail(@RequestParam int idTeam){
+		return teamService.getTeamdetail(idTeam);
+	}
 
 	@PostMapping(value = "updateInfo/{id}")
 	public ResponseQuery<?> updateTeamInfo(@PathVariable(value = "id") int id, @ModelAttribute TeamForm teamForm) {
@@ -79,10 +84,12 @@ public class TeamController {
 		}
 	}
 
-	// lấy các team chưa có tham gia giải nào
-//	@GetMapping(value = "getTeamNoTournament")
-//	public ResponseQuery<?> getTeamNoTournament(){
-//		return teamService.getTeamNoTournament();
-//	}
+
+	//lấy các team chưa có tham gia giải nào
+	@GetMapping(value = "getTeamNoTournament")
+	public ResponseQuery<?> getTeamNoTournament(){
+		return teamService.getTeamNoTournament();
+	}
+
 
 }

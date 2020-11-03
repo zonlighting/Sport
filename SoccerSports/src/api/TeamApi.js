@@ -11,6 +11,9 @@ export function createTeam(teamForm){
 export function getTeamNoTournament(){
     return Api.get('/team/getTeamNoTournament')
 }
+export function getDetail(idTeam){
+    return Api.get(`/team/detail?idTeam=${idTeam}`)
+}
 
 export function updateMembersInTeam(bodyFormData){
     return Api.post('/team/updateMembersInTeam', bodyFormData)

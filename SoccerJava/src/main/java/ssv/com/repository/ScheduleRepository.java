@@ -44,5 +44,35 @@ public class ScheduleRepository {
 		
 	}
 
+	public int teamTotalMatch(int idTeam) {
+		// TODO Auto-generated method stub
+		return scheduleMapper.teamTotalMatch(idTeam);
+	}
+
+	public int teamTotalWin(int idTeam) {
+		// TODO Auto-generated method stub
+		return scheduleMapper.teamTotalWin(idTeam);
+	}
+
+	public int teamTotalMatchByTour(int idTeam, int idTour) {
+		// TODO Auto-generated method stub
+		return scheduleMapper.teamTotalMatchByTour(idTeam,idTour);
+	}
+
+	public int teamTotalWinByTour(int idTeam, int idTour) {
+		// TODO Auto-generated method stub
+		return scheduleMapper.teamTotalWinByTour(idTeam,idTour);
+	}
+
+	public int teamTotalAdrawByTour(int idTeam, int idTour) {
+		// TODO Auto-generated method stub
+		return scheduleMapper.teamTotalAdrawByTour(idTeam,idTour);
+	}
+
+	public void update(Schedule schedule) {
+		 scheduleMapper.udapte(schedule);
+		
+	}
+
 	
 }

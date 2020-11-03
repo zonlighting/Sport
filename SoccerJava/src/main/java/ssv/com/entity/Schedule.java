@@ -22,8 +22,12 @@ public class Schedule {
 	private LocalDateTime timeStart;
 	private String image;
 	private String video;
+	private int winner;
+	private int adraw;
 	private int Status;
 	private int score1;
 	private int score2;
 	private List<Team> team;
+	private Tournament tournament;
+	private List<Goal> goal;
 }

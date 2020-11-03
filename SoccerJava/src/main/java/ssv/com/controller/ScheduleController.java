@@ -1,5 +1,7 @@
 package ssv.com.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -9,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import lombok.var;
+import ssv.com.dto.GoalDto;
 import ssv.com.dto.ResponseQuery;
 import ssv.com.entity.Schedule;
 import ssv.com.form.ScheduleForm;
@@ -69,6 +71,11 @@ public class ScheduleController {
 	@PostMapping(value="update")
 	public ResponseQuery<?> update(@ModelAttribute ScheduleForm scheduleForm) {
 		return scheduleService.update(scheduleForm);
+	}
+	//Update Goal
+	@PostMapping(value="goal")
+	public  ResponseQuery<?> goal(@RequestBody List<GoalDto> goals){
+		return scheduleService.goal(goals);
 	}
 	
 	

@@ -17,6 +17,18 @@
 		<result column="schedule_team2" property="idTeam2" />
 		<result column="schedule_image" property="image" />
 		<result column="schedule_video" property="video" />
+		<result column="schedule_winner" property="winner" />
+		<result column="schedule_adraw" property="adraw" />
+
+		<association property="tournament">
+			<id column="tournament_id" property="idTournament" />
+			<result column="tournament_name" property="nameTournament" />
+			<result column="tournament_status" property="status" />
+			<result column="tournament_end" property="timeEnd" />
+			<result column="tournament_start" property="timeStart" />
+			<result column="tournament_description" property="description" />
+			<result column="tournament_banner" property="banner" />
+		</association>
 		<collection property="team" ofType="Team">
 			<id column="team_id" property="idTeam" />
 			<result column="team_name" property="nameTeam" />
@@ -25,11 +37,39 @@
 			<result column="id_tour" property="idTour" />
 			<result column="team_country" property="country" />
 			<result column="team_datecreate" property="createDate" />
+			<collection property="profile" ofType="Profile">
+				<id property="id" column="profile_id" />
+				<result property="name" column="profile_name" />
+				<result property="email" column="profile_email" />
+				<result property="phone" column="profile_phone" />
+				<result property="age" column="profile_age" />
+				<result property="gender" column="profile_gender" />
+				<result property="country" column="profile_country" />
+				<result property="avatar" column="profile_avatar" />
+				<result property="idTeam" column="id_team" />
+				<result property="position" column="profile_position" />
+				<result property="createDate" column="profile_datecreate" />
+			</collection>
 		</collection>
+		<collection property="goal" ofType="Goal">
+			<id property="idGoal" column="goal_id" />
+			<result property="idSchedule" column="id_schedule" />
+			<result property="idMember" column="member_id" />
+			<result property="time" column="goal_time" />
+			<result property="team" column="goal_team" />
+		</collection>
+
 	</resultMap>
 	<select id="getAll" resultMap="scheduleMapping">
 		SELECT * FROM
 		sports.schedule_tbl
+		inner join tournament_tbl on
+		schedule_tbl.schedule_tour=tournament_tbl.tournament_id inner join
+		team_tbl on team_tbl.team_id=schedule_tbl.schedule_team1 or
+		team_tbl.team_id=schedule_tbl.schedule_team2
+		order by
+		schedule_tbl.schedule_id
+		DESC
 	</select>
 
 	<select id="getByTournament" resultMap="scheduleMapping">
@@ -37,8 +77,19 @@
 		sports.schedule_tbl where schedule_tour=${idTour}
 	</select>
 	<select id="getById" resultMap="scheduleMapping">
-		SELECT * FROM sports.schedule_tbl
-		where schedule_id=${idSchedule}
+		SELECT * FROM
+		sports.schedule_tbl
+		inner join tournament_tbl on
+		schedule_tbl.schedule_tour=tournament_tbl.tournament_id inner join
+		(team_tbl inner join profile_tbl on
+		team_tbl.team_id=profile_tbl.id_team) on
+		team_tbl.team_id=schedule_tbl.schedule_team1 or
+		team_tbl.team_id=schedule_tbl.schedule_team2 left join goal_tbl on schedule_tbl.schedule_id=goal_tbl.id_schedule
+		where
+		schedule_id=${idSchedule}
+		order by schedule_tbl.schedule_id
+		DESC
+
 	</select>
 	<delete id="delete">
 		DELETE FROM `sports`.`schedule_tbl` WHERE
@@ -66,4 +117,47 @@
 		UPDATE `sports`.`schedule_tbl` SET
 		schedule_status='1'
 	</update>
+	<select id="teamTotalMatch" resultType="Int">
+		SELECT COUNT(schedule_id)
+		FROM schedule_tbl where schedule_tbl.schedule_team1=${idTeam} or
+		schedule_tbl.schedule_team2=${idTeam} ;
+	</select>
+	<select id="teamTotalWin" resultType="Int">
+		SELECT COUNT(schedule_id)
+		FROM schedule_tbl where schedule_tbl.schedule_winner=${idTeam};
+	</select>
+	<select id="teamTotalMatchByTour" resultType="Int">
+		SELECT
+		COUNT(schedule_id)
+		FROM schedule_tbl where
+		(schedule_tbl.schedule_team1=${idTeam} or
+		schedule_tbl.schedule_team2=${idTeam} ) and
+		schedule_tbl.schedule_tour=${idTour};
+	</select>
+	<select id="teamTotalWinByTour" resultType="Int">
+		SELECT
+		COUNT(schedule_id)
+		FROM schedule_tbl where
+		schedule_tbl.schedule_tour=${idTour} and
+		schedule_tbl.schedule_winner=${idTeam};
+	</select>
+	<select id="teamTotalAdrawByTour" resultType="int">
+		SELECT
+		COUNT(schedule_id)
+		FROM schedule_tbl where
+		(schedule_tbl.schedule_team1=${idTeam} or
+		schedule_tbl.schedule_team2=${idTeam} ) and
+		schedule_tbl.schedule_tour=${idTour} and
+		schedule_tbl.schedule_adraw=1;
+	</select>
+	<update id="udapte">
+		UPDATE `sports`.`schedule_tbl` SET `schedule_image` =
+		'${image}'
+		,schedule_video='${video}',schedule_score1=${score1},schedule_score2=${score2},schedule_winner=${winner}
+		, schedule_adraw=${adraw},schedule_end='${timeEnd}' WHERE
+		(`schedule_id`
+		= ${idSchedule});
+
+	</update>
+
 </mapper>

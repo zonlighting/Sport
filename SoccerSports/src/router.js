@@ -82,6 +82,13 @@ let routes = [
         meta: metaConfig
       },
       {
+        path: '/admin/schedule/:id',
+        name: 'ScheduleDetail',
+
+        component: () => import('@/views/admin/schedule/ScheduleDetail'),
+        meta: metaConfig
+      },
+      {
         path: '/admin/tournament',
         name: 'Tournament',
 

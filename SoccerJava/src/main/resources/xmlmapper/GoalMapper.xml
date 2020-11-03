@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ssv.com.mapper.GoalMapper">
+	<resultMap id="goalMapping" type="Goal">
+
+		<id property="idGoal" column="goal_id" />
+		<result property="idSchedule" column="id_schedule" />
+		<result property="idMember" column="member_id" />
+		<result property="time" column="goal_time" />
+		<result property="team" column="goal_team" />
+	</resultMap>
+	<insert id="create">
+		INSERT INTO goal_tbl(id_schedule,member_id,goal_time,goal_team)
+		values(${idSchedule},${idMember},'${time}',${idTeam})
+	</insert>
+	<delete id="delete">
+		DELETE FROM `sports`.`goal_tbl` WHERE (`id_schedule` =
+		${idSchedule});
+
+	</delete>
+
+
+</mapper>
