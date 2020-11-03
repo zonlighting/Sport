@@ -78,7 +78,6 @@
 <script>
 import { ENV } from "@/config/env.js";
 import CreateTeam from "@/views/admin/team/CreateTeam";
-0;
 
 export default {
   components: {
@@ -150,12 +149,6 @@ export default {
   },
 
   computed: {
-    // searchTrigger() {
-    //   if (this.search.length >= 3) {
-    //     return this.search;
-    //   }
-    // },
-
     baseUrl() {
       return ENV.BASE_IMAGE;
     },

@@ -18,3 +18,11 @@ export function getDetail(idTeam){
 export function updateMembersInTeam(bodyFormData){
     return Api.post('/team/updateMembersInTeam', bodyFormData)
 }
+
+export function getTeamById(teamId){
+    return Api.get('/team/' + teamId)
+}
+
+export function updateTeam(id, bodyFormData){
+    return Api.post(`/team/updateInfo/${id}`, bodyFormData)
+}

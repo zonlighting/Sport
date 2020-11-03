@@ -22,8 +22,8 @@ public class TeamRepository {
 		return teamMapper.createTeam(team);
 	}
 
-	public Team getById(int idTeam) {
-		return teamMapper.getById(idTeam);
+	public Team getTeamById(int idTeam) {
+		return teamMapper.getTeamById(idTeam);
 	}
 
 	public List<Team> getTeamNoTournament() {
@@ -31,11 +31,14 @@ public class TeamRepository {
 	}
 
 	public void newTournament(Integer idTeam, int idTournament) {
-		teamMapper.newTournament(idTeam,idTournament);
+		teamMapper.newTournament(idTeam, idTournament);
 	}
 
 	public void formatTournament(int idTournament) {
 		teamMapper.formatTournament(idTournament);
-		
+	}
+
+	public void updateTeam(int id, Team team) {
+		teamMapper.updateTeam(id, team);
 	}
 }
