@@ -2,15 +2,12 @@
   <v-row class="pl-5">
     <v-col cols="12" md="2" sm="2">
       <v-form ref="form" v-model="valid" lazy-validation>
-        <v-row>
-          <v-img max-width="200" :src="baseUrl + team.logo"></v-img>
-          <v-file-input
-            v-model="fileImage"
-            hide-input
-            truncate-length="15"
-            :rules="rulesImage"
-          ></v-file-input>
-        </v-row>
+        <img style="width: 200px; height: 200px;" :src="logo" />
+        <v-file-input
+          :rules="rulesImage"
+          v-model="fileImage"
+          label="Change Logo"
+        ></v-file-input>
       </v-form>
     </v-col>
     <v-col cols="12" md="2" sm="2">
@@ -89,7 +86,8 @@ export default {
     return {
       dialogSuccess: false,
       valid: true,
-      fileImage: [],
+      logo: ENV.BASE_IMAGE + this.team.logo,
+      fileImage: new File([""], ""),
       rulesImage: [],
       name: this.team.nameTeam,
       nameRules: [
@@ -98,61 +96,93 @@ export default {
       ],
       country: this.team.country,
       countryRules: [
-        (v) => !!v || "Name is required",
-        (v) => (v && v.length <= 21) || "Name must be less than 21 characters",
+        (v) => !!v || "Country is required",
+        (v) =>
+          (v && v.length <= 21) || "Country must be less than 21 characters",
       ],
     };
   },
 
   computed: {
-    baseUrl() {
-      return ENV.BASE_IMAGE;
-    },
+    // baseUrl() {
+    //   return ENV.BASE_IMAGE;
+    // },
   },
 
-  methods: {
-    confirmEdit() {
-      this.editTeam();
-    },
-
-    onSubmit(id) {
+  watch: {
+    fileImage() {
+      if (this.fileImage == undefined) {
+        this.fileImage = new File([""], "");
+        this.rulesImage = [
+          (v) => {
+            if (v == undefined || v.name == "") {
+              return true;
+            }
+          },
+        ];
+      }
       let isContainImage = !this.fileImage.name;
-      if (!this.$refs.form.validate()) {
-        this.$refs.form.validate();
-      } else if (!isContainImage) {
+      if (!isContainImage) {
         this.rulesImage = [
           (v) =>
             v.type == "image/png" ||
             v.type == "image/jpeg" ||
             v.type == "image/bmp" ||
-            alert("Wrong type image")
+            "Wrong type image",
         ];
+
+        this.getBase64(this.fileImage);
+      }
+    },
+  },
+
+  methods: {
+    onSubmit(id) {
+      if (!this.$refs.form.validate()) {
+        this.$refs.form.validate();
       } else {
         console.log("Run here");
-        console.log(id);
+
         let self = this;
         var teamForm = new FormData();
         teamForm.append("nameTeam", this.name);
-        teamForm.append("type", this.selectedType);
         teamForm.append("description", this.description);
+        teamForm.append("country", this.country);
         teamForm.append("file", this.fileImage);
         this.$store
           .dispatch("team/updateTeam", {
             id: id,
             formRequest: teamForm,
           })
-          .then((res) => {
-            console.log(res);
-            self.dialogSuccess = !self.dialogSuccess;
-            setTimeout(function () {
-              self.getTeamById(id);
+          .then((response) => {
+            let res = response.data;
+            if (res.code == 9999 || res.code == 400) {
+              alert(res.message);
+            } else {
               self.dialogSuccess = !self.dialogSuccess;
-            }, 1500);
+              setTimeout(function () {
+                self.getTeamById(id);
+                self.editTeam();
+                self.dialogSuccess = !self.dialogSuccess;
+              }, 1500);
+            }
           })
           .catch((e) => {
             alert(e);
           });
       }
+    },
+
+    getBase64(file) {
+      let self = this;
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = function () {
+        self.logo = reader.result;
+      };
+      reader.onerror = function (error) {
+        console.log("Error: ", error);
+      };
     },
   },
 };
