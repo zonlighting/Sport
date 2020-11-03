@@ -42,4 +42,8 @@ public class ProfileRepository {
 	public Optional<Profile> findProfileById(int id) {
 		return profileMapper.findProfileById(id);
 	}
+
+	public Optional<Profile> findProfileById(Integer id) {
+		return profileMapper.findProfileById(id);
+	}
 }

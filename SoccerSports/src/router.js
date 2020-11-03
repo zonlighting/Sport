@@ -98,8 +98,13 @@ let routes = [
       {
         path: '/admin/user',
         name: 'User',
-
         component: () => import('@/views/admin/user/User'),
+        meta: metaConfig
+      },
+      {
+        path: '/admin/member/:id',
+        name: "EditMember",
+        component: () => import('@/views/admin/member/EditMember'),
         meta: metaConfig
       },
       {
@@ -119,7 +124,7 @@ let routes = [
         name: "ManageTeam",
         component: () => import('@/views/admin/member/ManageMembers'),
         meta: metaConfig
-      }
+      },
     ],
     meta: metaConfig
   },

@@ -48,6 +48,17 @@
                 class="pt-3"
               ></v-text-field>
             </v-col>
+
+            <v-col cols="12" sm="3" md="3">
+              <v-text-field
+                v-model="dateSearch"
+                append-icon="mdi-magnify"
+                label="Date Search"
+                single-line
+                hide-details
+                class="pt-3"
+              ></v-text-field>
+            </v-col>
           </v-row>
         </v-toolbar>
         <v-divider class="mt-4 mb-8"></v-divider>
@@ -68,8 +79,11 @@
           style="margin: 3px 0 3px 0"
         />
       </template>
-      <template v-slot:[`item.actions`]="{ item }">
-        <v-icon class="mr-2" @click="editTeam(item)"> mdi-pencil </v-icon>
+      <template v-slot:[`item.winRate`]="{ item }">
+        {{
+          item.totalmatch != 0 ? (item.totalwin / item.totalmatch) * 100 : 0
+        }}
+        %
       </template>
     </v-data-table>
   </div>
@@ -94,7 +108,7 @@ export default {
           sortable: false,
           value: "logo",
         },
-        { text: "Create Date", value: "createDate" },
+        { text: "Create Date", value: "createDate" , filter: this.dateFilter},
         { text: "Team Name", value: "nameTeam", filter: this.nameTeamFilter },
         {
           text: "Tournament",
@@ -107,12 +121,12 @@ export default {
         },
         { text: "Total Matchs", value: "totalmatch" },
         { text: "Total Wins", value: "totalwin" },
-        { text: "Team Detail", value: "actions", sortable: false },
+        { text: "Win Rate", value: "winRate" },
       ],
       desserts: [],
       maxTeamId: 0,
       nameTeamSearch: "",
-      typeSearch: null,
+      dateSearch: "",
       tourNameSearch: "",
       teamLink: [
         {
@@ -155,9 +169,11 @@ export default {
   },
 
   methods: {
+
     editTeam(item) {
       this.$router.push({ path: `/admin/team/detail/${item.idTeam}` });
     },
+
     handleRowClick(item) {
       this.editTeam(item);
     },
@@ -178,11 +194,12 @@ export default {
         return value.toLowerCase().includes(this.tourNameSearch.toLowerCase());
     },
 
-    typeFilter(value) {
-      if (!this.typeSearch) {
+    dateFilter(value) {
+      if (!this.dateSearch) {
         return true;
       }
-      return value === this.typeSearch;
+      if (value != undefined)
+        return value.toLowerCase().includes(this.dateSearch.toLowerCase());
     },
 
     closeCreateTeamDialog() {
