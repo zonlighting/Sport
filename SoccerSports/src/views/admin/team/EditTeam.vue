@@ -55,7 +55,7 @@
       <h2>Description</h2>
       <v-textarea
         clearable
-        v-model="team.description"
+        v-model="description"
         clear-icon="mdi-close-circle"
         value="Something about team"
       ></v-textarea>
@@ -100,6 +100,7 @@ export default {
         (v) =>
           (v && v.length <= 21) || "Country must be less than 21 characters",
       ],
+      description: this.team.description
     };
   },
 
@@ -181,7 +182,7 @@ export default {
         self.logo = reader.result;
       };
       reader.onerror = function (error) {
-        console.log("Error: ", error);
+        alert("Error: ", error);
       };
     },
   },

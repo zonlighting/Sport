@@ -15,9 +15,11 @@ import ssv.com.RandomPass;
 import ssv.com.dto.ResponseQuery;
 import ssv.com.entity.Account;
 import ssv.com.entity.Profile;
+import ssv.com.entity.Team;
 import ssv.com.exception.ResourceExistsException;
 import ssv.com.file.UploadFile;
 import ssv.com.form.ProfileForm;
+import ssv.com.form.TeamForm;
 import ssv.com.repository.AccountRepository;
 import ssv.com.repository.ProfileRepository;
 
@@ -75,5 +77,28 @@ public class ProfileService {
 
 			return profile;
 		}
+	}
+
+	public Optional<Profile> updateProfile(int id , ProfileForm profileForm) throws Exception, ResourceExistsException {
+		Optional<Profile> oldProfile = profileRepository.getByEmail(profileForm.getEmail());
+		Profile profileUpdate = modelMapper.map(profileForm, Profile.class);
+		if (profileForm.getFile() != null && !profileForm.getFile().getOriginalFilename().isEmpty()) {
+			profileUpdate.setAvatar(UploadFile.saveFile(profileForm.getFile()));
+		} else {
+			profileUpdate.setAvatar(oldProfile.get().getAvatar());
+		}
+		profileUpdate.setName(profileForm.getName());
+		profileUpdate.setEmail(oldProfile.get().getEmail());
+		profileUpdate.setPhone(profileForm.getPhone());
+		profileUpdate.setAge(profileForm.getAge());
+		profileUpdate.setGender(profileForm.getGender());
+		profileUpdate.setCountry(profileForm.getCountry());
+		profileUpdate.setPosition(profileForm.getPosition());
+		try {
+			profileRepository.updateProfile(oldProfile.get().getId().intValue() ,profileUpdate);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return oldProfile;
 	}
 }
