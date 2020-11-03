@@ -167,6 +167,7 @@ export default {
       rulesImage: [],
     };
   },
+  
   watch: {
     fileImage() {
       if (this.fileImage == undefined) {

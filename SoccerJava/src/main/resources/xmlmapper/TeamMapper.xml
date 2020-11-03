@@ -89,8 +89,8 @@
 		UPDATE team_tbl SET
 		team_name = #{team.nameTeam},
 		team_description = #{team.description},
-		team_country = #{team.country}
+		team_country = #{team.country},
 		team_logo = #{team.logo}
-		WHERE id_team = ${id};
+		WHERE team_id = ${id};
 	</update>
 </mapper>
