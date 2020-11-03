@@ -1,5 +1,7 @@
 <template>
   <div>
+      
+
     <v-breadcrumbs :items="linkTournament" large>
       <template v-slot:divider>
         <v-icon>mdi-chevron-right</v-icon>
@@ -330,12 +332,12 @@ export default {
           alert(error);
         });
     },
-    startFilter(value) {
+    startFilter(event) {
       if (this.dateStart == null) {
         return true;
       }
       return (
-        new Date(Date.parse(value)).toISOString().substr(0, 10) >=
+        new Date(Date.parse(event)).toISOString().substr(0, 10) >=
         this.dateStart
       );
     },

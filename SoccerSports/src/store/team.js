@@ -1,9 +1,6 @@
-<<<<<<< HEAD
 
-import {getDetail, getTeams, createTeam, updateMembersInTeam } from '@/api/TeamApi'
-=======
-import { getTeams, createTeam, updateMembersInTeam, getTeamById, updateTeam } from '@/api/TeamApi'
->>>>>>> f95b5fbe50dbb9a361ff81ec303555a8203cd959
+
+import { getDetail,getTeams, createTeam, updateMembersInTeam, getTeamById, updateTeam } from '@/api/TeamApi'
 import { getTeamNoTournament } from '../api/TeamApi'
 
 
@@ -52,7 +49,7 @@ const actions = {
                 reject(err);
             })
         })
-    }
+    },
 
 
     updateMembersInTeam(_, data) {

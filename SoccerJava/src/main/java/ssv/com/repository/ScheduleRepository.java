@@ -69,5 +69,10 @@ public class ScheduleRepository {
 		return scheduleMapper.teamTotalAdrawByTour(idTeam,idTour);
 	}
 
+	public void update(Schedule schedule) {
+		 scheduleMapper.udapte(schedule);
+		
+	}
+
 	
 }

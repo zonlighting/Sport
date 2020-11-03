@@ -33,4 +33,6 @@ public interface ScheduleMapper {
 
 	int teamTotalAdrawByTour(int idTeam, int idTour);
 
+	void udapte(Schedule schedule);
+
 }

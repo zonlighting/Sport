@@ -11,10 +11,13 @@
 		<typeAlias type="ssv.com.entity.Tournament"
 			alias="Tournament" />
 		<typeAlias type="ssv.com.entity.History" alias="History" />
+		<typeAlias type="ssv.com.entity.Goal" alias="Goal" />
+
 
 	</typeAliases>
 	<mappers>
 		<mapper resource="xmlmapper/AccountMapper.xml" />
+		<mapper resource="xmlmapper/GoalMapper.xml" />
 		<mapper resource="xmlmapper/ProfileMapper.xml" />
 		<mapper resource="xmlmapper/ScheduleMapper.xml" />
 		<mapper resource="xmlmapper/TeamMapper.xml" />

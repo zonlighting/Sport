@@ -1,5 +1,6 @@
 package ssv.com.service;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -8,26 +9,34 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import lombok.var;
+import ssv.com.dto.GoalDto;
 import ssv.com.dto.ResponseQuery;
+import ssv.com.entity.Goal;
 import ssv.com.entity.Schedule;
+import ssv.com.file.UploadFile;
 import ssv.com.form.ScheduleForm;
+import ssv.com.repository.GoalRepository;
 import ssv.com.repository.ScheduleRepository;
 import ssv.com.repository.TournamentRepository;
 
 @Service
 public class ScheduleService {
 	@Autowired
+	private ModelMapper modelMapper = new ModelMapper();
+	@Autowired
 	private ScheduleRepository scheduleRepository;
 	@Autowired
 	private TournamentRepository tournamentRepository;
+	@Autowired
+	private GoalRepository goalRepository;
 
 	// mỗi trận đấu phải cách nhau ít nhất 3h
 	public ResponseQuery<?> create(Schedule schedule) {
-		if(tournamentRepository.getById(schedule.getIdTour()).getSchedule().size()==0) {
+		if (tournamentRepository.getById(schedule.getIdTour()).getSchedule().size() == 0) {
 			scheduleRepository.create(schedule);
 			return ResponseQuery.success("Create Success", schedule);
 		}
@@ -42,7 +51,8 @@ public class ScheduleService {
 	public List<Schedule> getByTournament(int idTournament) {
 		return scheduleRepository.getByTournament(idTournament);
 	}
-	//Kiểm tra điều kiện ngày và team có đang thi đấu h đó k
+
+	// Kiểm tra điều kiện ngày và team có đang thi đấu h đó k
 	public String checkSchedule(Schedule schedule) {
 		DateTimeFormatter oldPattern = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		Date date = Date.from(schedule.getTimeStart().atZone(ZoneId.systemDefault()).toInstant());
@@ -50,22 +60,17 @@ public class ScheduleService {
 		LocalDate localDate = LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toLocalDate();
 		LocalDate timeTour = tournamentRepository.getById(schedule.getIdTour()).getTimeStart();
 		LocalDate timeTourEnd = tournamentRepository.getById(schedule.getIdTour()).getTimeEnd();
-		if (localDate.isBefore(timeTour)||localDate.isAfter(timeTourEnd)) {
-			return "loi"; 
-		}
-		else {
-			List<Schedule> list=scheduleRepository.getByTournament(schedule.getIdTour());
+		if (localDate.isBefore(timeTour) || localDate.isAfter(timeTourEnd)) {
+			return "loi";
+		} else {
+			List<Schedule> list = scheduleRepository.getByTournament(schedule.getIdTour());
 			for (Schedule scheduleExit : list) {
-				if(scheduleExit.getIdSchedule()==schedule.getIdSchedule()) {
+				if (scheduleExit.getIdSchedule() == schedule.getIdSchedule()) {
 					continue;
-				}
-				else {
-					if(!schedule.getTimeStart().plusHours(3).isAfter(list.get(0).getTimeStart())) {
-						var a=oldPattern.format(list.get(0).getTimeStart());
+				} else {
+					if (!schedule.getTimeStart().plusHours(3).isAfter(list.get(0).getTimeStart())) {
 						return null;
-					}
-					else if (!schedule.getTimeStart().isAfter(scheduleExit.getTimeStart().plusHours(3))) {
-						var a=oldPattern.format(scheduleExit.getTimeStart());
+					} else if (!schedule.getTimeStart().isAfter(scheduleExit.getTimeStart().plusHours(3))) {
 						return "Must be bigger : " + oldPattern.format(scheduleExit.getTimeStart());
 					}
 				}
@@ -79,8 +84,8 @@ public class ScheduleService {
 	}
 
 	public void Delete(int idSchedule) {
-		 scheduleRepository.Delete(idSchedule);
-		
+		scheduleRepository.Delete(idSchedule);
+
 	}
 
 	public ResponseQuery<?> edit(Schedule schedule) {
@@ -91,14 +96,13 @@ public class ScheduleService {
 		}
 		return ResponseQuery.faild(result, 400);
 
-		
 	}
 
 	public void statusAuto() {
-		List<Schedule> list=scheduleRepository.getAll();
-		LocalDate now=LocalDate.now();
+		List<Schedule> list = scheduleRepository.getAll();
+		LocalDate now = LocalDate.now();
 		for (Schedule schedule : list) {
-			if(schedule.getTimeStart().equals(now)) {
+			if (schedule.getTimeStart().equals(now)) {
 				scheduleRepository.updateStatus(schedule.getIdSchedule());
 			}
 		}
@@ -109,7 +113,44 @@ public class ScheduleService {
 	}
 
 	public ResponseQuery<?> update(ScheduleForm scheduleForm) {
-		// TODO Auto-generated method stub
-		return null;
+		Schedule schedule = modelMapper.map(scheduleForm, Schedule.class);
+		LocalDateTime time=LocalDateTime.now();
+		schedule.setTimeEnd(time);
+		try {
+			schedule.setImage(UploadFile.saveFile(scheduleForm.getImageFile()));
+			schedule.setVideo(UploadFile.saveVideo(scheduleForm.getVideoFile()));
+			if (schedule.getScore1() > schedule.getScore2()) {
+				schedule.setWinner(scheduleRepository.getById(schedule.getIdSchedule()).getIdTeam1());
+				schedule.setAdraw(0);
+			}
+			if (schedule.getScore1() < schedule.getScore2()) {
+				schedule.setWinner(scheduleRepository.getById(schedule.getIdSchedule()).getIdTeam2());
+				schedule.setAdraw(0);
+			}
+			if (schedule.getScore1() == schedule.getScore2()) {
+				schedule.setWinner(0);
+				schedule.setAdraw(1);
+			}
+			scheduleRepository.update(schedule);
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return ResponseQuery.success("Update Success", 0);
+
+	}
+
+	public ResponseQuery<?> goal(List<GoalDto> goals) {
+		if(goals.size()!=0&&goals!=null) {
+			goalRepository.format(goals.get(0).getIdSchedule());
+		}
+		for (GoalDto goal : goals) {
+			goalRepository.create(goal.getProfile().getId(), goal.getIdSchedule(), goal.getTime(), goal.getProfile().getIdTeam());
+		}
+		return ResponseQuery.success("Update Success", goals);
 	}
 }

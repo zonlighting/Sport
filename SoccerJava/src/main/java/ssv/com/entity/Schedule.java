@@ -29,4 +29,5 @@ public class Schedule {
 	private int score2;
 	private List<Team> team;
 	private Tournament tournament;
+	private List<Goal> goal;
 }

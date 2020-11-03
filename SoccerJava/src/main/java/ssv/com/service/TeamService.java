@@ -56,7 +56,7 @@ public class TeamService {
 		profileRepository.updateMembersInTeam(team);
 	}
 
-<<<<<<< HEAD
+
 	public ResponseQuery<?> getTeamNoTournament() {
 		List<Team> listTeam=teamRepository.getTeamNoTournament();
 		return ResponseQuery.success("Team no touranment", listTeam);
@@ -76,12 +76,12 @@ public class TeamService {
 		TeamDetail detail=new TeamDetail();
 		detail.setTotalMatch(scheduleRepository.teamTotalMatch(idTeam));
 		detail.setTotalWin(scheduleRepository.teamTotalWin(idTeam));
-		if(teamRepository.getById(idTeam).getIdTour()==0) {
+		if(teamRepository.getTeamById(idTeam).getIdTour()==0) {
 			detail.setTotalMatchByTour((Integer) null);
 			detail.setTotalWinByTour((Integer) null);
 		}
 		else {
-			int idTour=teamRepository.getById(idTeam).getIdTour();
+			int idTour=teamRepository.getTeamById(idTeam).getIdTour();
 			detail.setTotalMatchByTour(scheduleRepository.teamTotalMatchByTour(idTeam,idTour));
 			detail.setTotalWinByTour(scheduleRepository.teamTotalWinByTour(idTeam,idTour));
 			detail.setTotalAdrawByTour(scheduleRepository.teamTotalAdrawByTour(idTeam,idTour));
@@ -91,25 +91,10 @@ public class TeamService {
 		return ResponseQuery.success("Detail Team", detail);
 	}
 
-=======
 
 	public void updateTeam(int id, Team team) {
 		teamRepository.updateTeam(id, team);
 	}
 
-//	public ResponseQuery<?> getTeamNoTournament() {
-//		List<Team> listTeam=teamRepository.getTeamNoTournament();
-//		return ResponseQuery.success("Team no touranment", listTeam);
-//
-//	}
-//	// update tour cho team
-//	public void newTournament(Integer idTeam, int idTournament) {
-//		 teamRepository.newTournament(idTeam,idTournament);
-//
-//	}
-//	// format lai tour trong team
-//	public void formatTournament(int idTournament) {
-//		teamRepository.formatTournament(idTournament);
-//	}
->>>>>>> f95b5fbe50dbb9a361ff81ec303555a8203cd959
+
 }

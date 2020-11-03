@@ -2,17 +2,7 @@
   <v-container>
     <v-form ref="form" v-model="valid" lazy-validation>
       <v-row>
-        <v-col>
-          <v-select
-            :items="listTournament"
-            item-text="nameTournament"
-            item-value="idTournament"
-            v-model="selectTournament"
-            label="Tournament"
-            :rules="[(v) => !!v || 'Tournament required']"
-            required
-          ></v-select>
-        </v-col>
+      
         <v-col>
           <v-text-field
             label="Location"
@@ -168,7 +158,7 @@
 export default {
   props: {
     hideDialog: Function,
-    getData: Function,
+    schedule: Function,
   },
   data() {
     return {
@@ -185,8 +175,6 @@ export default {
       selectTeam2: null,
       selectTeam1: null,
       menuTime1: false,
-      listTournament: [],
-      selectTournament: "",
       listTeam: [],
       location: "",
       date: null,
@@ -194,21 +182,14 @@ export default {
     };
   },
   created() {
-    this.getTournament();
   },
   methods: {
-    getTournament() {
-      this.$store
-        .dispatch("tournament/tournamentUpComming")
-        .then((response) => {
-          this.listTournament = response.data.payload;
-        });
-    },
+   
     create() {
       if (this.$refs.form.validate()) {
         this.$store.commit("auth/auth_overlay");
         this.$store
-          .dispatch("schedule/create", {
+          .dispatch("schedule/edit", {
             idTeam1: this.selectTeam1,
             idTeam2: this.selectTeam2,
             location: this.location,
@@ -233,26 +214,6 @@ export default {
     },
     reset() {
       this.$refs.form.reset();
-    },
-  },
-  watch: {
-    selectTournament(event) {
-      this.listTournament.forEach((element) => {
-        if (element.idTournament == event) {
-          this.listTeam = element.team;
-          this.rulesDate = [
-            (v) => {
-              if (element.timeEnd < v || element.timeStart > v) {
-                return false || "out of tournament time";
-              }
-              if (v == null) {
-                return false || "time required";
-              }
-              return true;
-            },
-          ];
-        }
-      });
     },
   },
 };

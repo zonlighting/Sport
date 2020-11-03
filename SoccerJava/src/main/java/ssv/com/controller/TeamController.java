@@ -91,9 +91,9 @@ public class TeamController {
 	}
 
 	//lấy các team chưa có tham gia giải nào
-//	@GetMapping(value = "getTeamNoTournament")
-//	public ResponseQuery<?> getTeamNoTournament(){
-//		return teamService.getTeamNoTournament();
-//	}
+	@GetMapping(value = "getTeamNoTournament")
+	public ResponseQuery<?> getTeamNoTournament(){
+		return teamService.getTeamNoTournament();
+	}
 
 }
