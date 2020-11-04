@@ -77,7 +77,7 @@
 		profile_gender=#{gender},
 		profile_country=#{country},
 		profile_position=#{position}
-		where profile_id=40
+		where profile_id=#{id}
 	</update>
 
 	<select id="findProfileById" flushCache="true"
