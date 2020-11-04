@@ -1,6 +1,5 @@
 package ssv.com.service;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import ssv.com.dto.ResponseQuery;
 import ssv.com.dto.TeamDetail;
-import ssv.com.entity.Profile;
 import ssv.com.entity.Team;
 import ssv.com.exception.ResourceExistsException;
 import ssv.com.file.UploadFile;
@@ -103,7 +101,7 @@ public class TeamService {
 
 	public void updateTeam(int id, Team team) {
 		teamRepository.updateTeam(id, team);
-
+	}
 	public Team updateTeam(int id, TeamForm teamForm) throws Exception, ResourceExistsException {
 		Team oldTeam = teamRepository.getTeamById(id);
 		Team teamUpdate = modelMapper.map(teamForm, Team.class);

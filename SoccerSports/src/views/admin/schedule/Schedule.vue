@@ -7,6 +7,7 @@
         <v-icon>mdi-chevron-right</v-icon>
       </template>
     </v-breadcrumbs>
+      <input-mask v-model="value" mask="+4\9 99 999 99" maskChar=" "></input-mask>
     <template>
       <v-data-table :headers="headers" :items="schedule">
         <template v-slot:top>
@@ -332,12 +333,12 @@ export default {
           alert(error);
         });
     },
-    startFilter(event) {
+    startFilter(value) {
       if (this.dateStart == null) {
         return true;
       }
       return (
-        new Date(Date.parse(event)).toISOString().substr(0, 10) >=
+        new Date(Date.parse(value)).toISOString().substr(0, 10) >=
         this.dateStart
       );
     },
