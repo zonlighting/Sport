@@ -109,7 +109,7 @@
 	<update id="edit" parameterType="Schedule">
 		UPDATE `sports`.`schedule_tbl`
 		SET `schedule_team1` = #{idTeam1}
-		,schedule_team2=#{idTeam2},schedule_location=#{location} WHERE
+		,schedule_team2=#{idTeam2},schedule_location=#{location},schedule_start=#{timeStart} WHERE
 		(`schedule_id` = #{idSchedule});
 
 	</update>

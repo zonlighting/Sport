@@ -103,7 +103,7 @@ public class TeamService {
 
 	public void updateTeam(int id, Team team) {
 		teamRepository.updateTeam(id, team);
-
+	}
 	public Team updateTeam(int id, TeamForm teamForm) throws Exception, ResourceExistsException {
 		Team oldTeam = teamRepository.getTeamById(id);
 		Team teamUpdate = modelMapper.map(teamForm, Team.class);
