@@ -80,6 +80,7 @@ public class ProfileService {
 		} else {
 			profileUpdate.setAvatar(oldProfile.get().getAvatar());
 		}
+		profileUpdate.setId(Long.valueOf(id));
 		profileUpdate.setName(profileForm.getName());
 		profileUpdate.setEmail(oldProfile.get().getEmail());
 		profileUpdate.setPhone(profileForm.getPhone());
@@ -88,8 +89,9 @@ public class ProfileService {
 		profileUpdate.setCountry(profileForm.getCountry());
 		profileUpdate.setPosition(profileForm.getPosition());
 		try {
-			profileRepository.updateProfile(oldProfile.get().getId().intValue(), profileUpdate);
+			profileRepository.updateProfile(profileUpdate);
 		} catch (Exception e) {
+			System.out.print(e);
 		}
 		return oldProfile;
 	}
