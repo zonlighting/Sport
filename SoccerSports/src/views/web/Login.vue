@@ -44,7 +44,20 @@
                 >
               </v-col>
             </v-row>
-            <v-alert type="success" v-if="success"> Login Success! </v-alert>
+            <template>
+              <div class="text-center">
+                <v-dialog
+                  v-model="successDialog"
+                  hide-overlay
+                  persistent
+                  width="300"
+                >
+                  <v-alert class="mb-0" type="success">
+                    Login Success!
+                  </v-alert>
+                </v-dialog>
+              </div>
+            </template>
           </v-form>
         </v-container>
       </v-card-text>
@@ -88,6 +101,7 @@ export default {
 
   data() {
     return {
+      successDialog: false,
       valid: false,
       valid1: false,
       loginForm: true,
@@ -137,9 +151,10 @@ export default {
             if (userInfo.role === null || userInfo.role === undefined) {
               self.checkProfile();
             } else if (userInfo.role === "ROLE_ADMIN") {
-              self.success = !self.success;
+              self.closeLoginDialog();
+              self.successDialog = !self.successDialog;
               setTimeout(function () {
-                self.success = !self.success;
+                self.successDialog = !self.successDialog;
                 self.$store.commit("user/user_info", userInfo);
                 self.$store.commit("user/admin_profile");
                 self.commonLogin(userInfo);
@@ -148,8 +163,10 @@ export default {
               userInfo.role === "ROLE_USER" ||
               userInfo.role === "ROLE_MEMBER"
             ) {
+              self.closeLoginDialog();
               self.success = true;
               setTimeout(function () {
+                self.closeLoginDialog();
                 self.success = false;
                 self.$store.commit("user/user_info", userInfo);
                 self.$store.commit("user/user_profile");
@@ -163,7 +180,6 @@ export default {
 
     commonLogin(userInfo) {
       console.log(userInfo);
-      this.closeLoginDialog();
       this.username = "";
       this.password = "";
     },
