@@ -22,8 +22,11 @@
               <v-spacer></v-spacer>
               <v-col cols="12" sm="3">
                 <v-select
-                  :items="tournaments.nameTournament"
-                  label="Solo field"
+                  v-model="select"
+                  :items="tournaments"
+                  item-text="nameTournament"
+                  item-value="idTournament"
+                  label="Tournaments"
                   dense
                   solo
                 ></v-select></v-col
@@ -32,7 +35,12 @@
             <v-divider class="my-2"></v-divider>
 
             <v-row>
-              <v-col cols="12" sm="6" v-for="team in teams" :key="team.idTeam">
+              <v-col
+                cols="12"
+                sm="6"
+                v-for="team in tournament.team"
+                :key="team.idTeam"
+              >
                 <v-row>
                   <v-img
                     src="https://picsum.photos/510/300?random"
@@ -85,6 +93,7 @@
 <script>
 export default {
   data: () => ({
+    select: "",
     headers: [
       {
         text: "Team",
@@ -100,8 +109,38 @@ export default {
     ],
     desserts: [],
     tournaments: [],
+    tournament: {},
   }),
+
+  mounted() {
+    this.getTours();
+  },
+
+  watch:{
+    select(value){
+      this.getTourById(parseInt(value))
+    }
+  },
+
   methods: {
+    getTourById(id) {
+      let self = this;
+      this.$store.commit("auth/auth_overlay");
+      this.$store
+        .dispatch("tournament/getById", id)
+        .then((response) => {
+          this.$store.commit("auth/auth_overlay");
+          if (response.data.code == 0) {
+            self.tournament = response.data.payload;
+          } else {
+            alert(response.data.message);
+          }
+        })
+        .catch(function (error) {
+          alert(error);
+        });
+    },
+
     getTours() {
       let self = this;
       this.$store.commit("auth/auth_overlay");
@@ -109,9 +148,10 @@ export default {
         .dispatch("tournament/getAll")
         .then((response) => {
           this.$store.commit("auth/auth_overlay");
-          if (response.data.code === 0) {
+          if (response.data.code == 0) {
             self.tournaments = response.data.payload;
-            // console.log(self.desserts)
+            self.select = self.tournaments[0].nameTournament;
+            self.getTourById(self.tournaments[0].idTournament);
           } else {
             alert(response.data.message);
           }

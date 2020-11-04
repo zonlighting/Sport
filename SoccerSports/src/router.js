@@ -135,12 +135,10 @@ let routes = [
     meta: metaConfig
   },
   {
-    path: '/404',
+    path: '/*',
     name: '404',
     component: () => import('@/views/web/404NotFound'),
   }
-
-
 ]
 
 const router = new Router({
@@ -162,19 +160,16 @@ router.beforeEach(async (to, from, next) => {
     next()
   }
   if (to.meta.requiredAuth) {
-    console.log("Run here")
     const authUser = store.state.auth
-    console.log(authUser)
     if (!authUser || !authUser.token || authUser.token == "") {
-      next("/404")
+      next("/*")
     }
     else if (to.meta.adminAuth) {
       let role = store.state.user.userInfo.role;
-      console.log(role)
       if (role === 'ROLE_ADMIN') {
         next()
       } else {
-        next("/404")
+        next("/*")
       }
     }
   }
