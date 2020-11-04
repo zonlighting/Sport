@@ -50,7 +50,7 @@
     </template>
 
     <template v-slot:[`item.actions`]="{ item }">
-      <v-btn class="mr-1" color="primary" small @click="addMember(item)"
+      <v-btn class="mr-1" color="primary" small @click="removeMember(item)"
         >Remove</v-btn
       >
       <v-btn color="primary" small @click="editPlayer(item)">Edit</v-btn>
