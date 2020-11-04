@@ -230,7 +230,7 @@ export default {
           href: "/admin/teams",
         },
         {
-          text: "Name of the team",
+          text: "",
           disabled: false,
           href: `/admin/team/detail/${this.$route.params.id}`,
         },
@@ -294,6 +294,7 @@ export default {
         .then((response) => {
           self.team = response.data.payload;
           self.membersSearch = self.team.profile;
+          self.teamLink[2].text = self.team.nameTeam;
         })
         .catch(function (error) {
           alert(error);
@@ -301,7 +302,9 @@ export default {
     },
 
     isModalEditMember(id) {
-      this.$router.push({ path: `/admin/member/${id}` });
+      this.$router.push({
+        path: `/admin/member/${id}`,
+      });
     },
 
     editTeam() {

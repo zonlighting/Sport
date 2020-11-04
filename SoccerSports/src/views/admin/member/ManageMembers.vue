@@ -10,7 +10,16 @@
       <v-row class="mx-12">
         <h1 class="titleText">Team Management</h1>
         <v-spacer></v-spacer>
-        <v-btn color="primary" dark class="ma-2" @click="$router.push({ path: `/admin/team/detail/${$route.params.id}` });"> Back To Team </v-btn>
+        <v-btn
+          color="primary"
+          dark
+          class="ma-2"
+          @click="
+            $router.push({ path: `/admin/team/detail/${$route.params.id}` })
+          "
+        >
+          Back To Team
+        </v-btn>
       </v-row>
       <v-card max-width="95%" class="my-8 container">
         <v-img v-if="playersInTeam.length > 0">
@@ -134,9 +143,9 @@ export default {
           href: "/admin/teams",
         },
         {
-          text: "Name of the team",
+          text: "",
           disabled: false,
-          href: `/admin/team/detail/${this.$route.params.id}`,
+          href: ``,
         },
         {
           text: "Manager",
@@ -156,6 +165,15 @@ export default {
 
   mounted() {
     this.loadListMember();
+    let routeLink = this.$route.params.id;
+    if (routeLink == 0 || routeLink == "undefined" || routeLink == "") {
+      alert("Can't Find Team");
+      this.$router.push({
+        path: `/admin/teams`
+      });
+    } else {
+      this.getTeam(this.$route.params.id);
+    }
   },
 
   computed: {
@@ -184,6 +202,20 @@ export default {
         })
         .catch(function (error) {
           alert(error);
+        });
+    },
+
+    getTeam(id) {
+      let self = this;
+      this.$store
+        .dispatch("team/getTeamById", id)
+        .then((response) => {
+          let res = response.data.payload;
+          self.teamLink[2].text = res.nameTeam;
+          self.teamLink[2].href = `/admin/team/detail/${res.idTeam}`;
+        })
+        .catch((e) => {
+          alert(e);
         });
     },
 
@@ -231,8 +263,6 @@ export default {
     isOpenModalMember() {
       this.dialogCreateMember = !this.dialogCreateMember;
     },
-
-
   },
 };
 </script>

@@ -1,98 +1,130 @@
 <template>
-  <v-card max-width="50%" class="mx-auto my-12">
-    <v-card-title> Edit Member </v-card-title>
-    <v-form ref="form" v-model="valid" lazy-validation>
-      <v-card-text>
-        <v-row class="ml-2">
-          <img style="width: 200px; height: 200px" :src="avatar" />
-        </v-row>
-        <v-row>
-          <v-col cols="12" md="6">
-            <v-text-field
-              v-model="name"
-              :rules="nameRules"
-              :counter="21"
-              label="Full Name"
-              required
-            ></v-text-field>
-          </v-col>
-          <v-col cols="12" md="6">
-            <v-file-input
-              :rules="rulesImage"
-              v-model="fileImage"
-              label="Change Avatar"
-            ></v-file-input>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" md="4">
-            <v-text-field
-              v-model="phone"
-              label="PhoneNumber"
-              :rules="phoneRules"
-              :counter="15"
-              required
-            ></v-text-field>
-          </v-col>
-          <v-col cols="12" md="4">
-            <v-select
-              v-model="gender"
-              :items="defaultGender"
-              :rules="[(v) => !!v || 'Gender is required']"
-              label="Gender"
-            ></v-select>
-          </v-col>
-          <v-col cols="12" md="4">
-            <v-text-field
-              v-model="age"
-              label="Age"
-              :rules="ageRules"
-              :counter="2"
-              required
-            ></v-text-field>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" md="6" xl="6">
-            <v-text-field
-              :rules="countryRules"
-              v-model="country"
-              label="Country"
-              required
-            ></v-text-field
-          ></v-col>
-          <v-col cols="12" md="6" xl="6">
-            <v-select
-              v-model="position"
-              :items="defaultPosition"
-              :rules="[(v) => !!v || 'Position is required']"
-              label="Position"
-            ></v-select> </v-col
-        ></v-row>
-      </v-card-text>
-      <v-card-actions>
-        <v-spacer> </v-spacer>
+  <div>
+    <v-row>
+      <v-col cols="12" md="3" sm="2"></v-col>
+      <v-col class="p-0">
+        <v-breadcrumbs style="color: #06b4c2" :items="teamLink" large>
+          <template v-slot:divider>
+            <v-icon>mdi-chevron-right</v-icon>
+          </template>
+        </v-breadcrumbs>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12" md="3" sm="2"></v-col>
+      <v-col>
         <v-btn
           color="primary"
-          x-large
-          text
-          @click.prevent="onSubmit(memberEdit.id)"
-          v-if="changeButton"
-          >Update</v-btn
+          dark
+          @click="toPage(true)"
+          cols="12"
+          md="3"
+          sm="2"
         >
-        <v-btn disabled v-else>Processing</v-btn>
-      </v-card-actions>
-    </v-form>
-    <template>
-      <div class="text-center">
-        <v-dialog v-model="successDialog" hide-overlay persistent width="300">
-          <v-alert class="mb-0" type="success">
-            Update Member Success!
-          </v-alert>
-        </v-dialog>
-      </div>
-    </template>
-  </v-card>
+          Manage Page
+        </v-btn>
+      </v-col>
+      <v-col class="pl-15 ml-10" v-if="idTeam != 0">
+        <v-btn color="primary" dark @click="toPage(false)">
+          Back To Team
+        </v-btn>
+      </v-col>
+    </v-row>
+    <v-card max-width="50%" class="mx-auto">
+      <v-card-title> Edit Member </v-card-title>
+      <v-form ref="form" v-model="valid" lazy-validation>
+        <v-card-text>
+          <v-row class="ml-2">
+            <img style="width: 200px; height: 200px" :src="avatar" />
+          </v-row>
+          <v-row>
+            <v-col cols="12" md="6">
+              <v-text-field
+                v-model="name"
+                :rules="nameRules"
+                :counter="21"
+                label="Full Name"
+                required
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="6">
+              <v-file-input
+                :rules="rulesImage"
+                v-model="fileImage"
+                label="Change Avatar"
+              ></v-file-input>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" md="4">
+              <v-text-field
+                v-model="phone"
+                label="PhoneNumber"
+                :rules="phoneRules"
+                :counter="15"
+                required
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="4">
+              <v-select
+                v-model="gender"
+                :items="defaultGender"
+                :rules="[(v) => !!v || 'Gender is required']"
+                label="Gender"
+              ></v-select>
+            </v-col>
+            <v-col cols="12" md="4">
+              <v-text-field
+                v-model="age"
+                label="Age"
+                :rules="ageRules"
+                :counter="2"
+                required
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" md="6" xl="6">
+              <v-text-field
+                :rules="countryRules"
+                v-model="country"
+                label="Country"
+                required
+              ></v-text-field
+            ></v-col>
+            <v-col cols="12" md="6" xl="6">
+              <v-select
+                v-model="position"
+                :items="defaultPosition"
+                :rules="[(v) => !!v || 'Position is required']"
+                label="Position"
+              ></v-select> </v-col
+          ></v-row>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer> </v-spacer>
+          <v-btn
+            color="primary"
+            x-large
+            text
+            @click.prevent="onSubmit(memberEdit.id)"
+            v-if="changeButton"
+            >Update</v-btn
+          >
+          <v-btn disabled v-else>Processing</v-btn>
+        </v-card-actions>
+      </v-form>
+      <template>
+        <div class="text-center">
+          <v-dialog v-model="successDialog" hide-overlay persistent width="300">
+            <v-alert class="mb-0" type="success">
+              Update Member Success!
+            </v-alert>
+          </v-dialog>
+        </div>
+      </template>
+    </v-card>
+  </div>
 </template>
 
 <script>
@@ -101,19 +133,20 @@ import { ENV } from "@/config/env.js";
 export default {
   data() {
     return {
+      idTeam: "",
       memberEdit: {},
       successDialog: false,
       changeButton: true,
       valid: false,
       fileImage: new File([""], ""),
-      country: '',
-      name: '',
-      email: '',
+      country: "",
+      name: "",
+      email: "",
       number: 10,
-      avatar: '',
+      avatar: "",
       countryRules: [(v) => !!v || "Country is required"],
       nameRules: [(v) => !!v || "Name is required"],
-      phone: '',
+      phone: "",
       phoneRules: [
         (v) => !!v || "Phone is required",
         (v) => {
@@ -127,15 +160,15 @@ export default {
           );
         },
       ],
-      age: '',
+      age: "",
       ageRules: [
         (v) => !!v || "Age number is required",
         (v) =>
           (v <= 60 && v >= 6) || "Age must be less than 60 and greater than 6",
       ],
-      gender: '',
+      gender: "",
       defaultGender: ["Male", "Female", "Orther"],
-      position: '',
+      position: "",
       defaultPosition: [
         "Goalkeepers",
         "Defenders",
@@ -144,6 +177,27 @@ export default {
         "Coach",
       ],
       rulesImage: [],
+      teamLink: [
+        {
+          text: "Dashboard",
+          disabled: false,
+          href: "/admin",
+        },
+        {
+          text: "Teams",
+          disabled: false,
+          href: "/admin/teams",
+        },
+        {
+          text: "",
+          disabled: false,
+          href: ``,
+        },
+        {
+          text: "Edit Profile",
+          disabled: true,
+        },
+      ],
     };
   },
 
@@ -185,16 +239,36 @@ export default {
         .dispatch("member/getPlayerById", id)
         .then((response) => {
           let res = response.data.payload;
-          console.log(res)
           self.memberEdit = res;
-          self.name = res.name
-          self.email = res.email
-          self.phone = res.phone
-          self.age = res.age
-          self.gender = res.gender
-          self.country = res.country
-          self.avatar = ENV.BASE_IMAGE + res.avatar
-          self.position = res.position
+          self.name = res.name;
+          self.email = res.email;
+          self.phone = res.phone;
+          self.age = res.age;
+          self.gender = res.gender;
+          self.country = res.country;
+          self.avatar = ENV.BASE_IMAGE + res.avatar;
+          self.position = res.position;
+          self.idTeam = res.idTeam;
+          if (res.idTeam != 0) {
+            this.getTeam(res.idTeam);
+          } else {
+            self.teamLink[2].text = "";
+            self.teamLink[2].href = ``;
+          }
+        })
+        .catch((e) => {
+          alert(e);
+        });
+    },
+
+    getTeam(id) {
+      let self = this;
+      this.$store
+        .dispatch("team/getTeamById", id)
+        .then((response) => {
+          let res = response.data.payload;
+          self.teamLink[2].text = res.nameTeam;
+          self.teamLink[2].href = `/admin/team/detail/${res.idTeam}`;
         })
         .catch((e) => {
           alert(e);
@@ -233,7 +307,9 @@ export default {
               setTimeout(() => {
                 self.successDialog = !self.successDialog;
               }, 1100);
-              this.$router.push({ path: `/admin/team/detail/${this.memberEdit.idTeam}` });
+              this.$router.push({
+                path: `/admin/team/detail/${this.memberEdit.idTeam}`,
+              });
             }
           })
           .catch((e) => {
@@ -241,7 +317,6 @@ export default {
             self.changeButton = !self.changeButton;
           });
         self.changeButton = !self.changeButton;
-        
       }
     },
 
@@ -255,6 +330,28 @@ export default {
       reader.onerror = function (error) {
         alert("Error: ", error);
       };
+    },
+
+    toPage(isCheckLink) {
+      if (isCheckLink) {
+        if (this.idTeam != 0) {
+          this.$router.push({
+            path: `/admin/team/${this.idTeam}/manage`,
+          });
+        }
+        else{
+          this.$router.go(-1)
+        }
+      } else {
+        if (this.idTeam != 0) {
+          this.$router.push({
+            path: `/admin/team/detail/${this.idTeam}`,
+          });
+        } else {
+          alert("Member are not in any team");
+          this.$router.go(-1)
+        }
+      }
     },
   },
 };
