@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-col>
     <v-breadcrumbs :items="teamLink" large>
       <template v-slot:divider>
         <v-icon>mdi-chevron-right</v-icon>
@@ -14,13 +14,13 @@
       <template v-slot:top>
         <v-toolbar flat color="white">
           <template>
-            <v-dialog v-model="createTeamDialog" max-width="1000px">
+            <v-dialog persistent v-model="createTeamDialog" max-width="1000px">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn color="primary" dark v-bind="attrs" v-on="on">
                   New Team
                 </v-btn>
               </template>
-              <CreateTeam :closeCreateTeamDialog="closeCreateTeamDialog" />
+              <CreateTeam :getTeams="getTeams" :closeCreateTeamDialog="closeCreateTeamDialog" />
             </v-dialog>
           </template>
 
@@ -66,7 +66,7 @@
 
       <template v-slot:[`item.tournament.nameTour`]="{ item }">
         <template v-if="item.idTour != 0 || item.tournament != null">
-          <div style="color: red">{{ item.tournament.nameTour }}</div>
+          <div style="color: red">{{ item.tournament.nameTournament }}</div>
         </template>
         <template v-else><div style="color: green">Available</div></template>
       </template>
@@ -80,13 +80,11 @@
         />
       </template>
       <template v-slot:[`item.winRate`]="{ item }">
-        {{
-          item.totalmatch != 0 ? (item.totalwin / item.totalmatch) * 100 : 0
-        }}
+        {{ item.totalmatch != 0 ? (item.totalwin / item.totalmatch) * 100 : 0 }}
         %
       </template>
     </v-data-table>
-  </div>
+  </v-col>
 </template>
 
 <script>
@@ -108,8 +106,9 @@ export default {
           sortable: false,
           value: "logo",
         },
-        { text: "Create Date", value: "createDate" , filter: this.dateFilter},
+        { text: "Create Date", value: "createDate", filter: this.dateFilter },
         { text: "Team Name", value: "nameTeam", filter: this.nameTeamFilter },
+        { text: "Country", value: "country" },
         {
           text: "Tournament",
           value: "tournament.nameTour",
@@ -144,22 +143,7 @@ export default {
   },
 
   mounted() {
-    let self = this;
-    this.$store.commit("auth/auth_overlay");
-    this.$store
-      .dispatch("team/getTeams")
-      .then((response) => {
-        this.$store.commit("auth/auth_overlay");
-        if (response.data.code === 0) {
-          self.desserts = response.data.payload;
-          // console.log(self.desserts)
-        } else {
-          alert(response.data.message);
-        }
-      })
-      .catch(function (error) {
-        alert(error);
-      });
+    this.getTeams();
   },
 
   computed: {
@@ -169,6 +153,24 @@ export default {
   },
 
   methods: {
+    getTeams() {
+      let self = this;
+      this.$store.commit("auth/auth_overlay");
+      this.$store
+        .dispatch("team/getTeams")
+        .then((response) => {
+          this.$store.commit("auth/auth_overlay");
+          if (response.data.code === 0) {
+            self.desserts = response.data.payload;
+            // console.log(self.desserts)
+          } else {
+            alert(response.data.message);
+          }
+        })
+        .catch(function (error) {
+          alert(error);
+        });
+    },
 
     editTeam(item) {
       this.$router.push({ path: `/admin/team/detail/${item.idTeam}` });

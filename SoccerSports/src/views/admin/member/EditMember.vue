@@ -306,11 +306,8 @@ export default {
               self.successDialog = !self.successDialog;
               setTimeout(() => {
                 self.successDialog = !self.successDialog;
-                  this.$router.push({
-                path: `/admin/team/detail/${this.memberEdit.idTeam}`,
-              });
+                this.$router.go(-1);
               }, 1200);
-            
             }
           })
           .catch((e) => {
@@ -339,9 +336,8 @@ export default {
           this.$router.push({
             path: `/admin/team/${this.idTeam}/manage`,
           });
-        }
-        else{
-          this.$router.go(-1)
+        } else {
+          this.$router.go(-1);
         }
       } else {
         if (this.idTeam != 0) {
@@ -350,7 +346,7 @@ export default {
           });
         } else {
           alert("Member are not in any team");
-          this.$router.go(-1)
+          this.$router.go(-1);
         }
       }
     },

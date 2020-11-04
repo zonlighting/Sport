@@ -70,6 +70,9 @@ export default {
     closeCreateTeamDialog: {
       type: Function,
     },
+    getTeams: {
+      type: Function,
+    },
   },
 
   data() {
@@ -150,6 +153,8 @@ export default {
               self.successDialog = !self.successDialog;
               setTimeout(function () {
                 self.successDialog = !self.successDialog;
+                self.getTeams();
+                self.reset();
               }, 1500);
             }
           })
