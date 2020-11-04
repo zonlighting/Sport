@@ -306,10 +306,11 @@ export default {
               self.successDialog = !self.successDialog;
               setTimeout(() => {
                 self.successDialog = !self.successDialog;
-              }, 1100);
-              this.$router.push({
+                  this.$router.push({
                 path: `/admin/team/detail/${this.memberEdit.idTeam}`,
               });
+              }, 1200);
+            
             }
           })
           .catch((e) => {

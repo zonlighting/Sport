@@ -185,15 +185,6 @@
         <template v-else>
           <h3 class="pl-5">Team Don't Have Any Members</h3>
         </template>
-
-        <!-- <v-dialog v-model="modalEditMember" max-width="35%">
-          <EditMember
-            :teamId="team.idTeam"
-            :getTeamById="getTeamById"
-            :memberEdit="memberEdit"
-            :isModalEditMember="isModalEditMember"
-          />
-        </v-dialog> -->
       </v-card>
     </template>
   </div>
@@ -289,9 +280,11 @@ export default {
 
     getTeamById(id) {
       let self = this;
+      this.$store.commit("auth/auth_overlay");
       this.$store
         .dispatch("team/getTeamById", id)
         .then((response) => {
+          this.$store.commit("auth/auth_overlay");
           self.team = response.data.payload;
           self.membersSearch = self.team.profile;
           self.teamLink[2].text = self.team.nameTeam;

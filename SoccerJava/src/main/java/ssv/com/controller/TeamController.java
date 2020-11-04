@@ -28,14 +28,11 @@ public class TeamController {
 
 	@GetMapping(value = "getTeams")
 	public ResponseQuery<?> getTeams() {
-		try {
-			if (teamService.getTeams() != null) {
-				return ResponseQuery.success("Connect Success", teamService.getTeams());
-			}
-			return ResponseQuery.faild("Falied To recive data", null);
-		} catch (Exception e) {
-			return ResponseQuery.faild("Error connect to server", 500);
+		if (teamService.getTeams() != null) {
+			return ResponseQuery.success("Connect Success", teamService.getTeams());
 		}
+		return ResponseQuery.faild("Falied To recive data", null);
+
 	}
 
 	@PostMapping(value = "createTeam")
@@ -69,9 +66,10 @@ public class TeamController {
 		teamService.updateMembersInTeam(team);
 		return ResponseQuery.success("Update Success", team);
 	}
-	//thông tin các giải đấu về team
-	@GetMapping(value="detail")
-	public ResponseQuery<?> getTeamdetail(@RequestParam int idTeam){
+
+	// thông tin các giải đấu về team
+	@GetMapping(value = "detail")
+	public ResponseQuery<?> getTeamdetail(@RequestParam int idTeam) {
 		return teamService.getTeamdetail(idTeam);
 	}
 
@@ -84,12 +82,10 @@ public class TeamController {
 		}
 	}
 
-
-	//lấy các team chưa có tham gia giải nào
+	// lấy các team chưa có tham gia giải nào
 	@GetMapping(value = "getTeamNoTournament")
-	public ResponseQuery<?> getTeamNoTournament(){
+	public ResponseQuery<?> getTeamNoTournament() {
 		return teamService.getTeamNoTournament();
 	}
-
 
 }
