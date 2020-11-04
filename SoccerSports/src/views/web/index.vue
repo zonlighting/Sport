@@ -239,10 +239,12 @@ export default {
     },
 
     isAdminProfile: function () {
+      console.log(this.$store.state.user.isAdminProfile)
       return this.$store.state.user.isAdminProfile;
     },
 
     isProfile: function () {
+       console.log(this.$store.state.user.isProfile)
       return this.$store.state.user.isProfile;
     },
 

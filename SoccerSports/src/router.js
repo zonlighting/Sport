@@ -61,7 +61,6 @@ let routes = [
     ],
   },
   {
-
     path: '/admin',
     name: 'admin',
     component: admin,
@@ -135,7 +134,11 @@ let routes = [
     ],
     meta: metaConfig
   },
-
+  {
+    path: '/404',
+    name: '404',
+    component: () => import('@/views/web/404NotFound'),
+  }
 
 
 ]
@@ -158,17 +161,20 @@ router.beforeEach(async (to, from, next) => {
   } else {
     next()
   }
-  if (to.meta.metaConfig.requiredAuth) {
+  if (to.meta.requiredAuth) {
+    console.log("Run here")
     const authUser = store.state.auth
-    if (!authUser || !authUser.token) {
-      next()
+    console.log(authUser)
+    if (!authUser || !authUser.token || authUser.token == "") {
+      next("/404")
     }
-    else if (to.meta.metaConfig.adminAuth) {
+    else if (to.meta.adminAuth) {
       let role = store.state.user.userInfo.role;
+      console.log(role)
       if (role === 'ROLE_ADMIN') {
         next()
       } else {
-        next('/')
+        next("/404")
       }
     }
   }

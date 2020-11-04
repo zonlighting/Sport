@@ -22,7 +22,7 @@
               <v-spacer></v-spacer>
               <v-col cols="12" sm="3">
                 <v-select
-                  :items="items"
+                  :items="tournaments.nameTournament"
                   label="Solo field"
                   dense
                   solo
@@ -42,7 +42,7 @@
                   ></v-img>
                   <v-col cols="12" sm="5" class="pt-0">
                     <a>
-                      <h5 class="nameTeam">{{team.nameTeam}}</h5>
+                      <h5 class="nameTeam">{{ team.nameTeam }}</h5>
                     </a>
                     <v-row class="pl-3">
                       <a><p class="teamlink">Results</p></a>
@@ -85,7 +85,6 @@
 <script>
 export default {
   data: () => ({
-    items: ["Foo", "Bar", "Fizz", "Buzz"],
     headers: [
       {
         text: "Team",
@@ -100,18 +99,18 @@ export default {
       { text: "Point", value: "", sortable: false },
     ],
     desserts: [],
-    teams:[]
+    tournaments: [],
   }),
   methods: {
-    getTeams() {
+    getTours() {
       let self = this;
       this.$store.commit("auth/auth_overlay");
       this.$store
-        .dispatch("team/getTeams")
+        .dispatch("tournament/getAll")
         .then((response) => {
           this.$store.commit("auth/auth_overlay");
           if (response.data.code === 0) {
-            self.teams = response.data.payload;
+            self.tournaments = response.data.payload;
             // console.log(self.desserts)
           } else {
             alert(response.data.message);
