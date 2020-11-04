@@ -48,7 +48,7 @@ public class TournamentController {
 
 	// thêm team vào giải đấu
 	@PostMapping(value = "addTeam")
-	public ResponseQuery<?> addTeam(@RequestParam Integer[] listTeam, @RequestParam int idTournament) {
+	public ResponseQuery<?> addTeam(@RequestParam int listTeam, @RequestParam int idTournament) {
 		if (tournamentService.getById(idTournament).getStatus() == 0) {
 			return tournamentService.addTeam(listTeam, idTournament);
 		}
@@ -75,6 +75,7 @@ public class TournamentController {
 		}
 		return ResponseQuery.faild("Tournaments are running or ended", 400);
 	}
+
 	// Sửa tổng quát giải đấu
 	@PostMapping(value = "update")
 	public ResponseQuery<?> update(@RequestBody TournamentForm tournamentForm) {
@@ -84,9 +85,16 @@ public class TournamentController {
 		}
 		return ResponseQuery.faild("Tournaments are running or ended", 400);
 	}
-	//danh sach tournament chưa đến ngày kết thúc
-	@GetMapping(value="tournamentUpComming")
-	public ResponseQuery<?> tournamentUpComming(){
+
+	// danh sach tournament chưa đến ngày kết thúc
+	@GetMapping(value = "tournamentUpComming")
+	public ResponseQuery<?> tournamentUpComming() {
 		return ResponseQuery.success("List Tournament Up Comming", tournamentService.tournamentUpComming());
+	}
+
+	// Danh sách xếp hạng trong giải
+	@GetMapping(value = "tournamentRank")
+	public ResponseQuery<?> tournamentRank(@RequestParam int idTournament) {
+		return ResponseQuery.success("Connect", tournamentService.tournamentRank(idTournament));
 	}
 }

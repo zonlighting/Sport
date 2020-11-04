@@ -267,7 +267,7 @@ export default {
     this.memberTeam2 = this.schedule.team[1].profile;
   },
   mounted() {
-      this.getDataOld();
+    this.getDataOld();
   },
   methods: {
     close() {
@@ -293,7 +293,6 @@ export default {
               });
             }
           });
-          
         }
         if (element.team == 2) {
           this.schedule.team[1].profile.forEach((profile) => {
@@ -305,11 +304,10 @@ export default {
               });
             }
           });
-          
         }
       });
     },
-    
+
     update() {
       this.$store.commit("auth/auth_overlay");
       this.$store.commit("auth/auth_overlay");

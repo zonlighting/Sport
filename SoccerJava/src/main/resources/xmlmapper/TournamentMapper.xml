@@ -20,6 +20,7 @@
 			<result column="id_tour" property="idTour" />
 			<result column="team_country" property="country" />
 			<result column="team_datecreate" property="createDate" />
+
 			<collection property="profile" ofType="Profile">
 				<id property="id" column="profile_id" />
 				<result property="name" column="profile_name" />
@@ -51,7 +52,11 @@
 	</resultMap>
 	<select id="getAll" resultMap="tournamentMapping">
 		SELECT * FROM
-		sports.tournament_tbl order by tournament_tbl.tournament_id
+		sports.tournament_tbl left join schedule_tbl on
+		tournament_tbl.tournament_id =schedule_tbl.schedule_tour inner join
+		(team_tbl inner join profile_tbl on
+		team_tbl.team_id=profile_tbl.id_team) on
+		tournament_tbl.tournament_id=team_tbl.id_tour order by tournament_tbl.tournament_id
 		DESC
 	</select>
 	<insert id="create" parameterType="Tournament">
@@ -96,7 +101,10 @@
 	</delete>
 	<select id="tournamentUpComming" resultMap="tournamentMapping">
 		SELECT * FROM
-		sports.tournament_tbl inner join team_tbl on
+		sports.tournament_tbl left join schedule_tbl on
+		tournament_tbl.tournament_id =schedule_tbl.schedule_tour inner join
+		(team_tbl inner join profile_tbl on
+		team_tbl.team_id=profile_tbl.id_team) on
 		tournament_tbl.tournament_id=team_tbl.id_tour where
 		tournament_status!=2
 	</select>

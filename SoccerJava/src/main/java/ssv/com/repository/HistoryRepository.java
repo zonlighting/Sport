@@ -20,4 +20,9 @@ public class HistoryRepository {
 		
 	}
 
+	public void deleteTeam(int idTeam, int idTournament) {
+		historyMapper.deleteTeam(idTeam,idTournament);
+		
+	}
+
 }	

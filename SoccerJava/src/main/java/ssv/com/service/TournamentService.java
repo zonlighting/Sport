@@ -1,6 +1,9 @@
 package ssv.com.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -9,9 +12,11 @@ import org.springframework.stereotype.Service;
 
 import lombok.val;
 import ssv.com.dto.ResponseQuery;
+import ssv.com.dto.TeamDetail;
 import ssv.com.dto.TournamentForm;
 import ssv.com.entity.History;
 import ssv.com.entity.Profile;
+import ssv.com.entity.Team;
 import ssv.com.entity.Tournament;
 import ssv.com.file.UploadFile;
 import ssv.com.repository.TournamentRepository;
@@ -26,6 +31,8 @@ public class TournamentService {
 	private HistoryService historyService;
 	@Autowired
 	private TeamService teamService;
+	@Autowired
+	private ScheduleService scheduleService;
 
 	public List<Tournament> getAll() {
 		return tournamentRepository.getAll();
@@ -71,19 +78,17 @@ public class TournamentService {
 
 	}
 
-	public ResponseQuery<?> addTeam(Integer[] listTeam, int idTournament) {
-		for (Integer idTeam : listTeam) {
-			if (teamService.getTeamById(idTeam).getIdTour() != 0) {
-				return ResponseQuery.faild("Team participated in the tournament", teamService.getTeamById(idTeam));
+	public ResponseQuery<?> addTeam(int listTeam, int idTournament) {
+		
+			if (teamService.getTeamById(listTeam).getIdTour() != 0) {
+				return ResponseQuery.faild("Team participated in the tournament", teamService.getTeamById(listTeam));
 			}
-		}
-		for (Integer idTeam : listTeam) {
-			for (Profile profile : teamService.getTeamById(idTeam).getProfile()) {
-				History history = new History(profile.getId(), idTeam, idTournament);
+			teamService.createTournament(listTeam,idTournament);
+			for (Profile profile : teamService.getTeamById(listTeam).getProfile()) {
+				History history = new History(profile.getId(), listTeam, idTournament);
 				historyService.create(history);
 			}
-		}
-
+		
 		return ResponseQuery.success("Add successful team", getById(idTournament));
 
 	}
@@ -94,12 +99,16 @@ public class TournamentService {
 
 	public ResponseQuery<?> deleteTeam(int idTeam, int idTournament) {
 		if (teamService.getTeamById(idTeam).getIdTour() == idTournament) {
-			for (Profile profile : teamService.getTeamById(idTeam).getProfile()) {
-				History history = new History(profile.getId(), idTeam, idTournament);
-				historyService.create(history);
-			}
+			teamService.formatTourTeam(idTeam);
+			scheduleService.deleteByTeamTour(idTeam,idTournament);		
+				historyService.deleteTeam(idTeam,idTournament);
+				return ResponseQuery.success("Delete successful", tournamentRepository.getById(idTournament));
+
 		}
-		return ResponseQuery.faild("Team does not exist", 400);
+		else {
+			return ResponseQuery.faild("Team does not exist", 400);
+
+		}
 	}
 
 	public ResponseQuery<?> update(TournamentForm tournamentForm) {
@@ -120,7 +129,8 @@ public class TournamentService {
 
 	public ResponseQuery<?> delete(int idTournament) {
 		tournamentRepository.delete(idTournament);
-//		teamService.formatTournament(idTournament);
+		teamService.formatTournament(idTournament);
+		scheduleService.deleteByTour(idTournament);
 		historyService.delete(idTournament);
 		return ResponseQuery.success("Delete successful tournament", 200);
 	}
@@ -128,6 +138,24 @@ public class TournamentService {
 	public List<Tournament> tournamentUpComming() {
 		// TODO Auto-generated method stub
 		return tournamentRepository.tournamentUpComming();
+	}
+
+	public List<TeamDetail> tournamentRank(int idTournament) {
+		List<TeamDetail> details=new ArrayList<TeamDetail>();
+		List<Team> teams=tournamentRepository.getById(idTournament).getTeam();
+		for (Team team : teams) {
+			details.add(teamService.getTeamdetail(team.getIdTeam()));
+		}
+		Collections.sort(details,new Comparator<TeamDetail>() {
+
+			@Override
+			public int compare(TeamDetail o1, TeamDetail o2) {
+				return o1.getPointByTour()-o2.getPointByTour();
+			}
+			
+		});
+		
+		return details;
 	}
 
 }

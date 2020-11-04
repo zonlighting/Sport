@@ -35,4 +35,8 @@ public interface ScheduleMapper {
 
 	void udapte(Schedule schedule);
 
+	void deleteByTeamTour(int idTeam, int idTournament);
+
+	void deleteByTour(int idTournament);
+
 }

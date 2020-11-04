@@ -245,7 +245,7 @@ export default {
           width: "500px",
           align: "center",
         },
-        { text: "Total Team", value: "team", width: "120px" },
+        { text: "Total Team", value: "team.length", width: "120px" },
         {
           text: "Status",
           value: "status",

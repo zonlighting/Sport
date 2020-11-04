@@ -33,6 +33,7 @@ public class ScheduleController {
 	public ResponseQuery<?> getAll(){
 		return ResponseQuery.success("Connect Success", scheduleService.getAll());
 	}
+
 	
 	//Hiển thị tất cả các  trận đấu theo giải đấu
 	@GetMapping(value = "getByTournament")

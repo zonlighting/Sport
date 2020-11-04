@@ -36,10 +36,6 @@ public class ScheduleService {
 
 	// mỗi trận đấu phải cách nhau ít nhất 3h
 	public ResponseQuery<?> create(Schedule schedule) {
-		if (tournamentRepository.getById(schedule.getIdTour()).getSchedule().size() == 0) {
-			scheduleRepository.create(schedule);
-			return ResponseQuery.success("Create Success", schedule);
-		}
 		String result = checkSchedule(schedule);
 		if (result == null) {
 			scheduleRepository.create(schedule);
@@ -61,17 +57,21 @@ public class ScheduleService {
 		LocalDate timeTour = tournamentRepository.getById(schedule.getIdTour()).getTimeStart();
 		LocalDate timeTourEnd = tournamentRepository.getById(schedule.getIdTour()).getTimeEnd();
 		if (localDate.isBefore(timeTour) || localDate.isAfter(timeTourEnd)) {
-			return "loi";
+			return "out of the tournament";
 		} else {
 			List<Schedule> list = scheduleRepository.getByTournament(schedule.getIdTour());
-			for (Schedule scheduleExit : list) {
-				if (scheduleExit.getIdSchedule() == schedule.getIdSchedule()) {
-					continue;
-				} else {
-					if (!schedule.getTimeStart().plusHours(3).isAfter(list.get(0).getTimeStart())) {
-						return null;
-					} else if (!schedule.getTimeStart().isAfter(scheduleExit.getTimeStart().plusHours(3))) {
-						return "Must be bigger : " + oldPattern.format(scheduleExit.getTimeStart());
+			if (list == null) {
+				return null;
+			} else {
+				for (Schedule scheduleExit : list) {
+					if (scheduleExit.getIdSchedule() == schedule.getIdSchedule()) {
+						continue;
+					} else {
+						if (!schedule.getTimeStart().plusHours(3).isAfter(list.get(0).getTimeStart())) {
+							return null;
+						} else if (!schedule.getTimeStart().isAfter(scheduleExit.getTimeStart().plusHours(3))) {
+							return "Must be bigger : " + oldPattern.format(scheduleExit.getTimeStart());
+						}
 					}
 				}
 			}
@@ -114,7 +114,7 @@ public class ScheduleService {
 
 	public ResponseQuery<?> update(ScheduleForm scheduleForm) {
 		Schedule schedule = modelMapper.map(scheduleForm, Schedule.class);
-		LocalDateTime time=LocalDateTime.now();
+		LocalDateTime time = LocalDateTime.now();
 		schedule.setTimeEnd(time);
 		try {
 			schedule.setImage(UploadFile.saveFile(scheduleForm.getImageFile()));
@@ -145,12 +145,24 @@ public class ScheduleService {
 	}
 
 	public ResponseQuery<?> goal(List<GoalDto> goals) {
-		if(goals.size()!=0&&goals!=null) {
+		if (goals.size() != 0 && goals != null) {
 			goalRepository.format(goals.get(0).getIdSchedule());
 		}
 		for (GoalDto goal : goals) {
-			goalRepository.create(goal.getProfile().getId(), goal.getIdSchedule(), goal.getTime(), goal.getProfile().getIdTeam());
+			goalRepository.create(goal.getProfile().getId(), goal.getIdSchedule(), goal.getTime(),
+					goal.getProfile().getIdTeam());
 		}
 		return ResponseQuery.success("Update Success", goals);
 	}
+
+	public void deleteByTeamTour(int idTeam, int idTournament) {
+		scheduleRepository.deleteByTeamTour(idTeam, idTournament);
+
+	}
+
+	public void deleteByTour(int idTournament) {
+		scheduleRepository.deleteByTour(idTournament);
+
+	}
+
 }
