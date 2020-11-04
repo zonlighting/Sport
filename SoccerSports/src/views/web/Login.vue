@@ -105,7 +105,6 @@ export default {
       valid: false,
       valid1: false,
       loginForm: true,
-      success: false,
       user: {
         email: "admin@gmail.com",
         password: "admin",
@@ -163,11 +162,9 @@ export default {
               userInfo.role === "ROLE_USER" ||
               userInfo.role === "ROLE_MEMBER"
             ) {
-              self.closeLoginDialog();
-              self.success = true;
+              self.closeLoginDialog()
               setTimeout(function () {
                 self.closeLoginDialog();
-                self.success = false;
                 self.$store.commit("user/user_info", userInfo);
                 self.$store.commit("user/user_profile");
                 self.commonLogin(userInfo);
