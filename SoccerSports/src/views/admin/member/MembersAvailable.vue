@@ -54,9 +54,11 @@
     </template>
 
     <template v-slot:[`item.actions`]="{ item }">
-      <template>
-        <v-btn small @click="addMember(item)">Add</v-btn>
-      </template>
+      <v-btn class="mr-1" color="primary" small @click="addMember(item)"
+        >Add</v-btn
+      >
+
+      <v-btn color="primary" small @click="editPlayer(item)">Edit</v-btn>
     </template>
   </v-data-table>
 </template>
@@ -73,7 +75,7 @@ export default {
     return {
       positionSearch: "",
       positionItems: [
-         "Default",
+        "Default",
         "Goalkeepers",
         "Defenders",
         "Midfielders",
@@ -161,6 +163,12 @@ export default {
       newArray.splice(indexRemove, 1);
       this.addedMember(obj, newArray);
       // this.playersAvailable = newArray
+    },
+
+    editPlayer(player) {
+      this.$router.push({
+        path: `/admin/member/${player.id}`,
+      });
     },
   },
 };

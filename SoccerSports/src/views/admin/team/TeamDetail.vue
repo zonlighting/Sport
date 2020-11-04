@@ -43,7 +43,7 @@
               Total Match: {{ team.totalmatch }}
             </h5>
             <div class="pb-15"></div>
-            <v-btn color="primary" class="ml-15" dark @click="editTeam">
+            <v-btn color="primary" class="ml-15" v-if="team.idTour == 0" dark @click="editTeam">
               Edit Team
             </v-btn>
           </v-col>
@@ -69,7 +69,7 @@
         <h2 class="my-4 ml-6">Members</h2>
         <template>
           <v-toolbar flat color="white">
-            <v-btn color="primary" class="ma-2" dark @click="toManageMembers">
+            <v-btn color="primary" class="ma-2" v-if="team.idTour == 0" dark @click="toManageMembers">
               Manage Members
             </v-btn>
             <v-divider class="mx-4" inset vertical></v-divider>
@@ -185,15 +185,6 @@
         <template v-else>
           <h3 class="pl-5">Team Don't Have Any Members</h3>
         </template>
-
-        <!-- <v-dialog v-model="modalEditMember" max-width="35%">
-          <EditMember
-            :teamId="team.idTeam"
-            :getTeamById="getTeamById"
-            :memberEdit="memberEdit"
-            :isModalEditMember="isModalEditMember"
-          />
-        </v-dialog> -->
       </v-card>
     </template>
   </div>
@@ -230,7 +221,7 @@ export default {
           href: "/admin/teams",
         },
         {
-          text: "Name of the team",
+          text: "",
           disabled: false,
           href: `/admin/team/detail/${this.$route.params.id}`,
         },
@@ -289,11 +280,14 @@ export default {
 
     getTeamById(id) {
       let self = this;
+      this.$store.commit("auth/auth_overlay");
       this.$store
         .dispatch("team/getTeamById", id)
         .then((response) => {
+          this.$store.commit("auth/auth_overlay");
           self.team = response.data.payload;
           self.membersSearch = self.team.profile;
+          self.teamLink[2].text = self.team.nameTeam;
         })
         .catch(function (error) {
           alert(error);
@@ -301,7 +295,9 @@ export default {
     },
 
     isModalEditMember(id) {
-      this.$router.push({ path: `/admin/member/${id}` });
+      this.$router.push({
+        path: `/admin/member/${id}`,
+      });
     },
 
     editTeam() {

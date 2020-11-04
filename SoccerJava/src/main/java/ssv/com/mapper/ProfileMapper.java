@@ -3,6 +3,8 @@ package ssv.com.mapper;
 import java.util.List;
 import java.util.Optional;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
 import ssv.com.entity.Profile;
 import ssv.com.entity.Team;
 
@@ -18,7 +20,7 @@ public interface ProfileMapper {
 
 	public void updateMembersInTeam(Team team);
 
-	public void updateProfile(int id, Profile profile);
+	public void updateProfile(Profile profile);
 
 	public Optional<Profile> findProfileById(Integer id);
 }

@@ -61,7 +61,6 @@ let routes = [
     ],
   },
   {
-
     path: '/admin',
     name: 'admin',
     component: admin,
@@ -135,9 +134,11 @@ let routes = [
     ],
     meta: metaConfig
   },
-
-
-
+  {
+    path: '/*',
+    name: '404',
+    component: () => import('@/views/web/404NotFound'),
+  }
 ]
 
 const router = new Router({
@@ -160,15 +161,15 @@ router.beforeEach(async (to, from, next) => {
   }
   if (to.meta.requiredAuth) {
     const authUser = store.state.auth
-    if (!authUser || !authUser.token) {
-      next()
+    if (!authUser || !authUser.token || authUser.token == "") {
+      next("/*")
     }
     else if (to.meta.adminAuth) {
       let role = store.state.user.userInfo.role;
       if (role === 'ROLE_ADMIN') {
         next()
       } else {
-        next('/')
+        next("/*")
       }
     }
   }
