@@ -165,4 +165,14 @@ public class ScheduleService {
 
 	}
 
+	public ResponseQuery<?> recentMatch() {
+		Schedule schedule=getByStatus(0).get(0);
+		return ResponseQuery.success("Connect", schedule);
+
+	}
+
+	public List<Schedule> getByStatus(int status) {
+		return scheduleRepository.getByStatus(status);
+	}
+
 }

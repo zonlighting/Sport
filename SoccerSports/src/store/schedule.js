@@ -1,4 +1,4 @@
-import { create, deleteSchedule, edit, getAll, getById, getByTour, goalUpdate, update } from "../api/ScheduleApi";
+import { create, deleteSchedule, edit, getAll, getById, getByTour, goalUpdate, recentMatch, update } from "../api/ScheduleApi";
 
 const actions = {
     getAll() {
@@ -72,7 +72,17 @@ const actions = {
                 reject(err);
             })
         })
-    }
+    },
+    
+    recentMatch(){
+        return new Promise((resolve, reject) => {
+            recentMatch().then(res => {
+                resolve(res);
+            }).catch((err) => {
+                reject(err);
+            })
+        })
+    },
     
 }
 
