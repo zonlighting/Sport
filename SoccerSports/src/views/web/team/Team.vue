@@ -31,10 +31,8 @@
                   solo
                 ></v-select></v-col
             ></v-row>
-
             <v-divider class="my-2"></v-divider>
-
-            <v-row>
+            <v-row v-if="isHavedata">
               <v-col
                 cols="12"
                 sm="6"
@@ -63,6 +61,7 @@
                 </v-row>
               </v-col>
             </v-row>
+            <h2 v-else>No Data Available</h2>
           </v-card-text>
 
           <v-divider></v-divider>
@@ -94,6 +93,7 @@
 export default {
   data: () => ({
     select: "",
+    isHavedata: true,
     headers: [
       {
         text: "Team",
@@ -148,12 +148,12 @@ export default {
         .dispatch("tournament/getAll")
         .then((response) => {
           this.$store.commit("auth/auth_overlay");
-          if (response.data.code == 0) {
+          if (response.data.code == 0 && response.data.length > 0) {
             self.tournaments = response.data.payload;
             self.select = self.tournaments[0].nameTournament;
             self.getTourById(self.tournaments[0].idTournament);
-          } else {
-            alert(response.data.message);
+          }else{
+            self.isHavedata = false
           }
         })
         .catch(function (error) {

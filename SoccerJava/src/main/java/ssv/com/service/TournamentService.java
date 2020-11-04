@@ -62,6 +62,7 @@ public class TournamentService {
 				// getByid lấy data team theo id
 				teamService.newTournament(listTeam, tournamentRepository.getIdNew());
 				for (Profile profile : teamService.getTeamById(listTeam).getProfile()) {
+
 					History history = new History(profile.getId(), listTeam, idTournament);
 					historyService.create(history);
 				}
@@ -79,16 +80,16 @@ public class TournamentService {
 	}
 
 	public ResponseQuery<?> addTeam(int listTeam, int idTournament) {
-		
-			if (teamService.getTeamById(listTeam).getIdTour() != 0) {
-				return ResponseQuery.faild("Team participated in the tournament", teamService.getTeamById(listTeam));
-			}
-			teamService.createTournament(listTeam,idTournament);
-			for (Profile profile : teamService.getTeamById(listTeam).getProfile()) {
-				History history = new History(profile.getId(), listTeam, idTournament);
-				historyService.create(history);
-			}
-		
+
+		if (teamService.getTeamById(listTeam).getIdTour() != 0) {
+			return ResponseQuery.faild("Team participated in the tournament", teamService.getTeamById(listTeam));
+		}
+		teamService.createTournament(listTeam, idTournament);
+		for (Profile profile : teamService.getTeamById(listTeam).getProfile()) {
+			History history = new History(profile.getId(), listTeam, idTournament);
+			historyService.create(history);
+		}
+
 		return ResponseQuery.success("Add successful team", getById(idTournament));
 
 	}
@@ -100,12 +101,11 @@ public class TournamentService {
 	public ResponseQuery<?> deleteTeam(int idTeam, int idTournament) {
 		if (teamService.getTeamById(idTeam).getIdTour() == idTournament) {
 			teamService.formatTourTeam(idTeam);
-			scheduleService.deleteByTeamTour(idTeam,idTournament);		
-				historyService.deleteTeam(idTeam,idTournament);
-				return ResponseQuery.success("Delete successful", tournamentRepository.getById(idTournament));
+			scheduleService.deleteByTeamTour(idTeam, idTournament);
+			historyService.deleteTeam(idTeam, idTournament);
+			return ResponseQuery.success("Delete successful", tournamentRepository.getById(idTournament));
 
-		}
-		else {
+		} else {
 			return ResponseQuery.faild("Team does not exist", 400);
 
 		}
@@ -141,20 +141,20 @@ public class TournamentService {
 	}
 
 	public List<TeamDetail> tournamentRank(int idTournament) {
-		List<TeamDetail> details=new ArrayList<TeamDetail>();
-		List<Team> teams=tournamentRepository.getById(idTournament).getTeam();
+		List<TeamDetail> details = new ArrayList<TeamDetail>();
+		List<Team> teams = tournamentRepository.getById(idTournament).getTeam();
 		for (Team team : teams) {
 			details.add(teamService.getTeamdetail(team.getIdTeam()));
 		}
-		Collections.sort(details,new Comparator<TeamDetail>() {
+		Collections.sort(details, new Comparator<TeamDetail>() {
 
 			@Override
 			public int compare(TeamDetail o1, TeamDetail o2) {
-				return o1.getPointByTour()-o2.getPointByTour();
+				return o1.getPointByTour() - o2.getPointByTour();
 			}
-			
+
 		});
-		
+
 		return details;
 	}
 

@@ -79,9 +79,12 @@
 		${idTournament});
 	</update>
 
-	<select id="getTeamNoTournament" resultMap="teamMapping1">
-		select * from
-		team_tbl where team_tbl.id_tour = 0
+	<select id="getTeamNoTournament" resultMap="teamMapping">
+		SELECT p.*, t.*, c.* FROM
+		team_tbl p
+		left join profile_tbl c on p.team_id = c.id_team
+		left join
+		tournament_tbl t on p.id_tour = t.tournament_id where team_tbl.id_tour = 0
 	</select>
 
 	<update id="newTournament" parameterType="int">
