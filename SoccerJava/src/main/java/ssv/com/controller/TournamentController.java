@@ -25,7 +25,7 @@ public class TournamentController {
 	public ResponseQuery<?> createTournament(@ModelAttribute TournamentForm tournamentForm) {
 		if (tournamentForm.getTimeEnd().isAfter(tournamentForm.getTimeStart())) {
 			if (tournamentService.checkName(tournamentForm.getNameTournament())) {
-				
+
 				return tournamentService.create(tournamentForm);
 			}
 			return ResponseQuery.faild("Tournaments of the same name", 400);
