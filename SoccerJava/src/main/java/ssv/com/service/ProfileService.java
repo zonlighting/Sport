@@ -1,25 +1,18 @@
 package ssv.com.service;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import ssv.com.RandomPass;
 import ssv.com.dto.ResponseQuery;
 import ssv.com.entity.Account;
 import ssv.com.entity.Profile;
-import ssv.com.entity.Team;
 import ssv.com.exception.ResourceExistsException;
 import ssv.com.file.UploadFile;
 import ssv.com.form.ProfileForm;
-import ssv.com.form.TeamForm;
 import ssv.com.repository.AccountRepository;
 import ssv.com.repository.ProfileRepository;
 
@@ -58,7 +51,7 @@ public class ProfileService {
 			// Create Account
 			Account account = new Account();
 			account.setEmail(profileForm.getEmail());
-			String pass = new RandomPass().randomAlphaNumeric(8);
+//			String pass = new RandomPass().randomAlphaNumeric(8);
 			account.setPassword(BCrypt.hashpw("123456", BCrypt.gensalt(12)));
 			account.setRole("ROLE_MEMBER");
 
@@ -79,7 +72,7 @@ public class ProfileService {
 		}
 	}
 
-	public Optional<Profile> updateProfile(int id , ProfileForm profileForm) throws Exception, ResourceExistsException {
+	public Optional<Profile> updateProfile(int id, ProfileForm profileForm) throws Exception, ResourceExistsException {
 		Optional<Profile> oldProfile = profileRepository.getByEmail(profileForm.getEmail());
 		Profile profileUpdate = modelMapper.map(profileForm, Profile.class);
 		if (profileForm.getFile() != null && !profileForm.getFile().getOriginalFilename().isEmpty()) {
@@ -95,10 +88,13 @@ public class ProfileService {
 		profileUpdate.setCountry(profileForm.getCountry());
 		profileUpdate.setPosition(profileForm.getPosition());
 		try {
-			profileRepository.updateProfile(oldProfile.get().getId().intValue() ,profileUpdate);
+			profileRepository.updateProfile(oldProfile.get().getId().intValue(), profileUpdate);
 		} catch (Exception e) {
-			System.out.println(e);
 		}
 		return oldProfile;
+	}
+
+	public Optional<Profile> findProfileById(Integer id) {
+		return profileRepository.findProfileById(id);
 	}
 }

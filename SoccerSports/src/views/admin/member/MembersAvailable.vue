@@ -8,11 +8,13 @@
       <v-toolbar flat color="white">
         <v-row class="mt-4">
           <v-col cols="12" sm="3" md="3">
-            <v-select
-              v-model="genderSearch"
-              :items="genderItems"
-              label="Gender"
-            ></v-select>
+            <v-text-field
+              v-model="countrySearch"
+              append-icon="mdi-magnify"
+              label="Country"
+              single-line
+              hide-details
+            ></v-text-field>
           </v-col>
           <v-col cols="12" sm="3" md="3">
             <v-text-field
@@ -24,13 +26,6 @@
             ></v-text-field>
           </v-col>
           <v-col cols="12" sm="3" md="3">
-            <v-select
-              v-model="positionSearch"
-              label="Position"
-              :items="positionItems"
-            ></v-select>
-          </v-col>
-          <v-col cols="12" sm="3" md="3">
             <v-text-field
               v-model="ageSearch"
               append-icon="mdi-magnify"
@@ -38,6 +33,13 @@
               single-line
               hide-details
             ></v-text-field>
+          </v-col>
+          <v-col cols="12" sm="3" md="3">
+            <v-select
+              v-model="positionSearch"
+              label="Position"
+              :items="positionItems"
+            ></v-select>
           </v-col>
         </v-row>
       </v-toolbar>
@@ -53,9 +55,7 @@
 
     <template v-slot:[`item.actions`]="{ item }">
       <template>
-        <v-btn small @click="addMember(item)"
-          >Add<v-icon small class="mr-2">add</v-icon></v-btn
-        >
+        <v-btn small @click="addMember(item)">Add</v-btn>
       </template>
     </template>
   </v-data-table>
@@ -73,17 +73,15 @@ export default {
     return {
       positionSearch: "",
       positionItems: [
+         "Default",
         "Goalkeepers",
         "Defenders",
         "Midfielders",
         "Forwards",
-        "Default",
       ],
-      genderSearch: "",
-      genderItems: ["Male", "Female", "Orther"],
+      countrySearch: "",
       nameMemberSearch: "",
       ageSearch: "",
-
       headers: [
         {
           text: "Avatar",
@@ -93,8 +91,9 @@ export default {
         },
         { text: "Name", value: "name", filter: this.nameMemberFilter },
         { text: "Age", value: "age", filter: this.ageFilter },
-        { text: "Gender", value: "gender", filter: this.genderFilter },
+        { text: "Gender", value: "gender" },
         { text: "Position", value: "position", filter: this.positionFilter },
+        { text: "Country", value: "country", filter: this.countryFilter },
         { text: "Actions", value: "actions", sortable: false },
       ],
     };
@@ -110,13 +109,13 @@ export default {
   watch: {},
 
   methods: {
-    genderFilter(value) {
+    countryFilter(value) {
       // If this filter has no value we just skip the entire filter.
-      if (!this.genderSearch) {
+      if (!this.countrySearch) {
         return true;
       }
 
-      return value === this.genderSearch;
+      return value === this.countrySearch;
     },
 
     nameMemberFilter(value) {
@@ -136,6 +135,8 @@ export default {
       if (this.positionSearch === "Default") {
         return true;
       }
+
+      if (this.positionSearch == "Default") return true;
       return value === this.positionSearch;
     },
 

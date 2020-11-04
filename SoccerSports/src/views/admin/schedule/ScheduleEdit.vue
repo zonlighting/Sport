@@ -1,8 +1,8 @@
 <template>
   <v-container>
     <v-form ref="form" v-model="valid" lazy-validation>
+      <h1>Edit Schedule</h1>
       <v-row>
-      
         <v-col>
           <v-text-field
             label="Location"
@@ -157,8 +157,9 @@
 <script>
 export default {
   props: {
-    hideDialog: Function,
-    schedule: Function,
+    hideDiaglog: Function,
+    schedule: Object,
+    getData: Function,
   },
   data() {
     return {
@@ -182,27 +183,45 @@ export default {
     };
   },
   created() {
+    this.getDataTeam();
+    console.log(this.schedule);
   },
   methods: {
-   
+    getDataTeam() {
+      this.$store.commit("auth/auth_overlay");
+      this.$store
+        .dispatch("tournament/getById", this.schedule.idTour)
+        .then((response) => {
+          this.$store.commit("auth/auth_overlay");
+          if (response.data.code == 0) {
+            this.listTeam = response.data.payload.team;
+          }
+          this.selectTeam1 = this.schedule.idTeam1;
+          this.selectTeam2 = this.schedule.idTeam2;
+          this.location=this.schedule.location;
+          this.date=this.schedule.timeStart.substr(0, 10);
+          this.time=this.schedule.timeStart.substr(11)
+        });
+    },
     create() {
       if (this.$refs.form.validate()) {
         this.$store.commit("auth/auth_overlay");
         this.$store
           .dispatch("schedule/edit", {
+            idSchedule: this.schedule.idSchedule,
             idTeam1: this.selectTeam1,
             idTeam2: this.selectTeam2,
             location: this.location,
-            idTour: this.selectTournament,
+            idTour:this.schedule.idTour,
             timeStart: this.date + "T" + this.time,
           })
           .then((response) => {
             if (response.data.payload == 400) {
-              alert(response.data.message); 
+              alert(response.data.message);
             } else {
               alert(response.data.message);
               this.getData();
-              this.hideDialog();
+              this.hideDiaglog();
             }
           })
           .catch(function (error) {
@@ -214,6 +233,7 @@ export default {
     },
     reset() {
       this.$refs.form.reset();
+      this.getDataTeam();
     },
   },
 };

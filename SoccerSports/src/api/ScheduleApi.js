@@ -18,3 +18,6 @@ export function update(scheduleForm){
 export function goalUpdate(data){
     return Api.post(`/schedule/goal`,data)
 }
+export function edit(data){
+    return Api.post('/schedule/edit',data)
+}

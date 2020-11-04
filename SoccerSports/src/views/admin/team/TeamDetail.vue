@@ -75,21 +75,41 @@
             <v-divider class="mx-4" inset vertical></v-divider>
             <v-spacer></v-spacer>
             <v-row class="mt-4">
-              <v-col cols="12" sm="6" md="6">
+              <v-col cols="12" sm="6" md="2">
                 <v-text-field
-                  append-icon="mdi-magnify"
+                  v-model="ageSearch"
+                  label="Age"
+                  single-line
+                  hide-details
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6" md="2">
+                <v-text-field
+                  v-model="countrySearch"
+                  label="Country"
+                  single-line
+                  hide-details
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6" md="3">
+                <v-text-field
+                  v-model="namePlayerSearch"
                   label="Name search"
                   single-line
                   hide-details
                 ></v-text-field>
               </v-col>
-              <v-col cols="12" sm="6" md="6">
-                <v-text-field
-                  append-icon="mdi-magnify"
-                  label="Age"
-                  single-line
-                  hide-details
-                ></v-text-field>
+              <v-col cols="12" sm="6" md="3">
+                <v-select
+                  v-model="positionSearch"
+                  :items="items"
+                  label="Position"
+                ></v-select>
+              </v-col>
+              <v-col cols="12" sm="3" md="1">
+                <v-btn color="primary" dark @click="searchButton">
+                  Search
+                </v-btn>
               </v-col>
             </v-row>
           </v-toolbar>
@@ -101,7 +121,7 @@
               cols="12"
               md="3"
               sm="3"
-              v-for="player in team.profile"
+              v-for="player in membersSearch"
               :key="player.id"
             >
               <v-container>
@@ -132,14 +152,14 @@
                                   <v-icon>mdi-dots-vertical</v-icon>
                                 </v-btn>
                               </template>
-
                               <v-list>
                                 <v-list-item>
                                   <v-list-item-title
                                     class="row-pointer"
-                                    @click="isModalEditMember(player)"
-                                    >Edit</v-list-item-title
+                                    @click="isModalEditMember(player.id)"
                                   >
+                                    Edit
+                                  </v-list-item-title>
                                 </v-list-item>
                               </v-list>
                             </v-menu>
@@ -166,9 +186,14 @@
           <h3 class="pl-5">Team Don't Have Any Members</h3>
         </template>
 
-        <v-dialog v-model="modalEditMember" max-width="35%">
-          <EditMember :teamId="team.idTeam" :getTeamById="getTeamById" :member="member" :isModalEditMember="isModalEditMember" />
-        </v-dialog>
+        <!-- <v-dialog v-model="modalEditMember" max-width="35%">
+          <EditMember
+            :teamId="team.idTeam"
+            :getTeamById="getTeamById"
+            :memberEdit="memberEdit"
+            :isModalEditMember="isModalEditMember"
+          />
+        </v-dialog> -->
       </v-card>
     </template>
   </div>
@@ -176,18 +201,23 @@
 <script>
 import { ENV } from "@/config/env.js";
 import EditTeam from "@/views/admin/team/EditTeam";
-import EditMember from "@/views/admin/member/EditMember";
 
 export default {
   components: {
     EditTeam,
-    EditMember,
   },
 
   data() {
     return {
-      modalEditMember: false,
       isEditTeam: true,
+      items: [
+        "Default",
+        "Goalkeepers",
+        "Defenders",
+        "Midfielders",
+        "Forwards",
+        "Coach",
+      ],
       teamLink: [
         {
           text: "Dashboard",
@@ -230,7 +260,12 @@ export default {
       desserts: [],
       search: "",
       team: {},
-      member: {},
+      memberEdit: {},
+      namePlayerSearch: "",
+      ageSearch: "",
+      positionSearch: "",
+      countrySearch: "",
+      membersSearch: [],
     };
   },
 
@@ -258,19 +293,49 @@ export default {
         .dispatch("team/getTeamById", id)
         .then((response) => {
           self.team = response.data.payload;
+          self.membersSearch = self.team.profile;
         })
         .catch(function (error) {
           alert(error);
         });
     },
 
-    isModalEditMember(member) {
-      this.modalEditMember = !this.modalEditMember;
-      this.member = member;
+    isModalEditMember(id) {
+      this.$router.push({ path: `/admin/member/${id}` });
     },
 
     editTeam() {
       this.isEditTeam = !this.isEditTeam;
+    },
+
+    searchButton() {
+      let newData = this.team.profile.filter((v) => {
+        let isSearch = true;
+        if (this.namePlayerSearch != "") {
+          console.log("1");
+          isSearch = v.name.toLowerCase().includes(this.namePlayerSearch)
+            ? false
+            : true;
+        }
+        if (this.ageSearch != "") {
+          console.log("2");
+          isSearch = v.age.toLowerCase().includes(this.ageSearch)
+            ? false
+            : true;
+        }
+        if (this.countrySearch != "") {
+          console.log("3");
+          isSearch = v.country.toLowerCase().includes(this.countrySearch)
+            ? false
+            : true;
+        }
+        if (this.positionSearch != "Default" && this.positionSearch != "") {
+          isSearch = this.positionSearch != v.position ? false : true;
+        }
+        console.log(isSearch);
+        return isSearch;
+      });
+      this.membersSearch = newData;
     },
   },
 };

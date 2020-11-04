@@ -12,3 +12,6 @@ export function updateProfile(id, bodyFormData) {
     return Api.post(`/profiles/update/${id}`, bodyFormData)
 }
 
+export function getPlayerById(id){
+    return Api.get('/profiles/' + id)
+}

@@ -1,4 +1,4 @@
-import { createMember, members, updateProfile } from '@/api/MemberApi'
+import { createMember, members, updateProfile,  getPlayerById } from '@/api/MemberApi'
 
 const state = {
 
@@ -31,6 +31,17 @@ const actions = {
     updateProfile(_, { id, formRequest }) {
         return new Promise((resolve, reject) => {
             updateProfile(id, formRequest).then(res => {
+                resolve(res);
+            }).catch((err) => {
+                reject(err);
+            })
+        })
+    },
+
+    
+    getPlayerById(_, id) {
+        return new Promise((resolve, reject) => {
+            getPlayerById(id).then(res => {
                 resolve(res);
             }).catch((err) => {
                 reject(err);

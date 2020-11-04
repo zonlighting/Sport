@@ -96,6 +96,7 @@
           </v-row>
         </template>
       </div>
+      <hr>
       <h3 style="color: blue">#Team</h3>
       <v-row>
         <v-col v-for="(team, index) in schedule.team" :key="index">
@@ -107,33 +108,6 @@
             />
             <h2>{{ team.nameTeam }}</h2>
           </div>
-          <v-list disabled>
-            <v-subheader>MEMBER</v-subheader>
-            <v-list-item-group>
-              <v-list-item v-for="(item, i) in team.profile" :key="i">
-                <v-list-item-icon>
-                  <v-avatar>
-                    <img
-                      :src="baseUrl+item.avatar"
-                      alt="avatar"
-                    />
-                  </v-avatar>
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title
-                    >{{
-                      item.name
-                    }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{
-                      item.age
-                    }}
-                    old&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{
-                      item.country
-                    }}</v-list-item-title
-                  >
-                </v-list-item-content>
-              </v-list-item>
-            </v-list-item-group>
-          </v-list>
           <v-list disabled>
             <v-subheader>Detail</v-subheader>
             <v-list-item-group>
@@ -185,6 +159,34 @@
               </v-list-item>
             </v-list-item-group>
           </v-list>
+          <v-list disabled>
+            <v-subheader>MEMBER</v-subheader>
+            <v-list-item-group>
+              <v-list-item v-for="(item, i) in team.profile" :key="i">
+                <v-list-item-icon>
+                  <v-avatar>
+                    <img
+                      :src="baseUrl+item.avatar"
+                      alt="avatar"
+                    />
+                  </v-avatar>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title
+                    >{{
+                      item.name
+                    }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{
+                      item.age
+                    }}
+                    old&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{
+                      item.country
+                    }}</v-list-item-title
+                  >
+                </v-list-item-content>
+              </v-list-item>
+            </v-list-item-group>
+          </v-list>
+          
         </v-col>
       </v-row>
       <hr />
@@ -235,7 +237,7 @@
       transition="dialog-bottom-transition"
     >
       <v-card>
-        <ScheduleEdit :hideDiaglog="hideDiaglog" :schedule="schedule" />
+        <ScheduleEdit :hideDiaglog="hideDiaglog" :schedule="schedule" :getData="getData" />
       </v-card>
     </v-dialog>
   </div>

@@ -1,6 +1,7 @@
 <template>
   <v-container>
     <v-form ref="form" v-model="valid" lazy-validation>
+      <h1>Create Schedule</h1>
       <v-row>
         <v-col>
           <v-select
@@ -235,25 +236,6 @@ export default {
       this.$refs.form.reset();
     },
   },
-  watch: {
-    selectTournament(event) {
-      this.listTournament.forEach((element) => {
-        if (element.idTournament == event) {
-          this.listTeam = element.team;
-          this.rulesDate = [
-            (v) => {
-              if (element.timeEnd < v || element.timeStart > v) {
-                return false || "out of tournament time";
-              }
-              if (v == null) {
-                return false || "time required";
-              }
-              return true;
-            },
-          ];
-        }
-      });
-    },
-  },
+
 };
 </script>
