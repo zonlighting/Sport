@@ -64,6 +64,7 @@
               />
             </v-dialog>
             <MembersAvailable
+              :isConfirm="isConfirm"
               :addedMember="addedMember"
               :playersAvailable="playersAvailable"
             />
@@ -110,6 +111,7 @@
               </template>
             </v-dialog>
             <MembersInTeam
+              :isConfirm="isConfirm"
               :removedMember="removedMember"
               :playersInTeam="playersInTeam"
             />
@@ -160,6 +162,7 @@ export default {
         idTeam: parseInt(this.$route.params.id),
         profile: [],
       },
+      idPlayer: "",
     };
   },
 
@@ -169,7 +172,7 @@ export default {
     if (routeLink == 0 || routeLink == "undefined" || routeLink == "") {
       alert("Can't Find Team");
       this.$router.push({
-        path: `/admin/teams`
+        path: `/admin/teams`,
       });
     } else {
       this.getTeam(this.$route.params.id);
@@ -230,6 +233,9 @@ export default {
             self.dialogConfirm = !self.dialogConfirm;
             self.success = !self.success;
             self.loadListMember(id);
+            self.$router.push({
+              path: `/admin/member/${self.idPlayer}`,
+            });
           }, 1500);
         })
         .catch(function (error) {
@@ -262,6 +268,11 @@ export default {
 
     isOpenModalMember() {
       this.dialogCreateMember = !this.dialogCreateMember;
+    },
+
+    isConfirm(id) {
+      this.idPlayer = id;
+      this.dialogConfirm = !this.dialogConfirm;
     },
   },
 };

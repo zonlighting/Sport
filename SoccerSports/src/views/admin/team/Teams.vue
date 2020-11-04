@@ -14,7 +14,7 @@
       <template v-slot:top>
         <v-toolbar flat color="white">
           <template>
-            <v-dialog persistent v-model="createTeamDialog" max-width="1000px">
+            <v-dialog v-model="createTeamDialog" max-width="1000px">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn color="primary" dark v-bind="attrs" v-on="on">
                   New Team

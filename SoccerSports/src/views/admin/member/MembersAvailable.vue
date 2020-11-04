@@ -70,6 +70,9 @@ export default {
     addedMember: {
       type: Function,
     },
+    isConfirm: {
+      type: Function,
+    },
   },
   data() {
     return {
@@ -166,9 +169,7 @@ export default {
     },
 
     editPlayer(player) {
-      this.$router.push({
-        path: `/admin/member/${player.id}`,
-      });
+      this.isConfirm(player.id);
     },
   },
 };
