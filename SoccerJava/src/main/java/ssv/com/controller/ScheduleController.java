@@ -52,7 +52,7 @@ public class ScheduleController {
 		scheduleService.Delete(idSchedule);
 		return ResponseQuery.success("Delete Success",200);
 		}
-		return ResponseQuery.faild("Match is ongoing or ending",200);
+		return ResponseQuery.faild("Match is ongoing or ending",400);
 
 	}
 	//Sửa trận đấu
@@ -77,6 +77,16 @@ public class ScheduleController {
 	@PostMapping(value="goal")
 	public  ResponseQuery<?> goal(@RequestBody List<GoalDto> goals){
 		return scheduleService.goal(goals);
+	}
+	//Trận đấu gần nhất
+	@GetMapping(value="recentMatch")
+	public ResponseQuery<?> recentMatch(){
+		return scheduleService.recentMatch();
+	}
+	//Hiển thị các trận đáu theo trạng thai
+	@GetMapping(value="getByStatus")
+	public ResponseQuery<?> getByStatus(@RequestParam int status){
+		return ResponseQuery.success("Connect",scheduleService.getByStatus(status));
 	}
 	
 	

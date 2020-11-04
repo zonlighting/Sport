@@ -85,5 +85,10 @@ public class ScheduleRepository {
 		
 	}
 
+	public List<Schedule> getByStatus(int status) {
+		return scheduleMapper.getByStatus(status);
+
+	}
+
 	
 }
