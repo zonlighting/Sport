@@ -236,6 +236,13 @@ export default {
       this.$refs.form.reset();
     },
   },
-
+  watch:{
+    selectTournament(){
+      this.$store
+          .dispatch("tournament/getById", this.selectTournament).then(response=>{
+            this.listTeam=response.data.payload.team;
+          })
+    }
+  }
 };
 </script>

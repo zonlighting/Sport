@@ -178,7 +178,7 @@
                   v-for="(item, index) in teamChoose"
                   :key="index"
                 >
-                  <v-avatar color="blue">
+                  <v-avatar >
                     <v-img :src="baseUrl + item.logo" />
                   </v-avatar>
                   <b style="text-transform: uppercase; margin-left: 20px">{{
@@ -199,7 +199,7 @@
                 v-for="(item, index) in listTeam"
                 :key="index"
               >
-                <v-avatar color="blue">
+                <v-avatar>
                   <v-img :src="baseUrl + item.logo"></v-img>
                 </v-avatar>
                 <b style="text-transform: uppercase; margin-left: 20px">{{

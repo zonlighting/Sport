@@ -1,13 +1,10 @@
 <template>
   <div>
-      
-
     <v-breadcrumbs :items="linkTournament" large>
       <template v-slot:divider>
         <v-icon>mdi-chevron-right</v-icon>
       </template>
     </v-breadcrumbs>
-      <input-mask v-model="value" mask="+4\9 99 999 99" maskChar=" "></input-mask>
     <template>
       <v-data-table :headers="headers" :items="schedule">
         <template v-slot:top>

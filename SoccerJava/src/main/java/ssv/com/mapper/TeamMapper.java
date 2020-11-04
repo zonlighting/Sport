@@ -20,4 +20,8 @@ public interface TeamMapper {
 	void formatTournament(int idTournament);
 
 	public void updateTeam(@Param("id") int id, @Param("team") Team team);
+
+	void formatTourTeam(int idTeam);
+
+	void createTournament(int idTeam, int idTournament);
 }

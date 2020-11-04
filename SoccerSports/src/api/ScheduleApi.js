@@ -21,3 +21,7 @@ export function goalUpdate(data){
 export function edit(data){
     return Api.post('/schedule/edit',data)
 }
+export function getByTour(idTournament){
+    return Api.get(`/schedule/getByTournament?idTournament=${idTournament}`)
+
+}

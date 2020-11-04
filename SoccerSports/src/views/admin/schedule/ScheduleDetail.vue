@@ -103,7 +103,7 @@
           <div class="text-center">
             <img
               lazy-src="https://picsum.photos/id/11/10/6"
-              style="width: 100px"
+              style="width: 100px;height:100px"
               :src="baseUrl+team.logo"
             />
             <h2>{{ team.nameTeam }}</h2>

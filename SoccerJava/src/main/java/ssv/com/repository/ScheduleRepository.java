@@ -74,5 +74,16 @@ public class ScheduleRepository {
 		
 	}
 
+	public void deleteByTeamTour(int idTeam, int idTournament) {
+		scheduleMapper.deleteByTeamTour(idTeam,idTournament);
+		
+	}
+
+	public void deleteByTour(int idTournament) {
+		scheduleMapper.deleteByTour(idTournament);
+
+		
+	}
+
 	
 }

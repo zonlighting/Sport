@@ -1,4 +1,4 @@
-import { create, deleteSchedule, edit, getAll, getById, goalUpdate, update } from "../api/ScheduleApi";
+import { create, deleteSchedule, edit, getAll, getById, getByTour, goalUpdate, update } from "../api/ScheduleApi";
 
 const actions = {
     getAll() {
@@ -22,6 +22,15 @@ const actions = {
     deleteSchedule(__,idSchedule) {
         return new Promise((resolve, reject) => {
             deleteSchedule(idSchedule).then(res => {
+                resolve(res);
+            }).catch((err) => {
+                reject(err);
+            })
+        })
+    },
+    getByTour(__,idTournament) {
+        return new Promise((resolve, reject) => {
+            getByTour(idTournament).then(res => {
                 resolve(res);
             }).catch((err) => {
                 reject(err);

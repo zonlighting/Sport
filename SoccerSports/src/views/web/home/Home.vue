@@ -1,10 +1,8 @@
 <template>
   <div>
-       <img
-       src=images/background/latestnews.jpg class=ls-bg alt="Slide
-        background"
-      />
-   
+    <img src=images/background/latestnews.jpg class=ls-bg alt="Slide background"
+    />
+
     <section class="booking bg-smallwhite">
       <div class="container">
         <v-row class="text-center">
@@ -375,10 +373,10 @@ export default {
 #title {
   color: yellow;
 }
-  tbody {
-     tr:hover {
-        background-color: transparent !important;
-        cursor: pointer;
-     }
+tbody {
+  tr:hover {
+    background-color: transparent !important;
+    cursor: pointer;
   }
+}
 </style>

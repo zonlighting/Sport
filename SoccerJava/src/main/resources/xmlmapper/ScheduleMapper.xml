@@ -65,7 +65,8 @@
 		sports.schedule_tbl
 		inner join tournament_tbl on
 		schedule_tbl.schedule_tour=tournament_tbl.tournament_id inner join
-		team_tbl on team_tbl.team_id=schedule_tbl.schedule_team1 or
+		(team_tbl inner join profile_tbl on
+		team_tbl.team_id=profile_tbl.id_team) on team_tbl.team_id=schedule_tbl.schedule_team1 or
 		team_tbl.team_id=schedule_tbl.schedule_team2
 		order by
 		schedule_tbl.schedule_id
@@ -74,7 +75,14 @@
 
 	<select id="getByTournament" resultMap="scheduleMapping">
 		SELECT * FROM
-		sports.schedule_tbl where schedule_tour=${idTour}
+		sports.schedule_tbl
+		inner join tournament_tbl on
+		schedule_tbl.schedule_tour=tournament_tbl.tournament_id inner join
+		(team_tbl inner join profile_tbl on
+		team_tbl.team_id=profile_tbl.id_team) on
+		team_tbl.team_id=schedule_tbl.schedule_team1 or
+		team_tbl.team_id=schedule_tbl.schedule_team2 left join goal_tbl on
+		schedule_tbl.schedule_id=goal_tbl.id_schedule where schedule_tour=${idTour}
 	</select>
 	<select id="getById" resultMap="scheduleMapping">
 		SELECT * FROM
@@ -84,7 +92,8 @@
 		(team_tbl inner join profile_tbl on
 		team_tbl.team_id=profile_tbl.id_team) on
 		team_tbl.team_id=schedule_tbl.schedule_team1 or
-		team_tbl.team_id=schedule_tbl.schedule_team2 left join goal_tbl on schedule_tbl.schedule_id=goal_tbl.id_schedule
+		team_tbl.team_id=schedule_tbl.schedule_team2 left join goal_tbl on
+		schedule_tbl.schedule_id=goal_tbl.id_schedule
 		where
 		schedule_id=${idSchedule}
 		order by schedule_tbl.schedule_id
@@ -109,7 +118,8 @@
 	<update id="edit" parameterType="Schedule">
 		UPDATE `sports`.`schedule_tbl`
 		SET `schedule_team1` = #{idTeam1}
-		,schedule_team2=#{idTeam2},schedule_location=#{location},schedule_start=#{timeStart} WHERE
+		,schedule_team2=#{idTeam2},schedule_location=#{location},schedule_start=#{timeStart}
+		WHERE
 		(`schedule_id` = #{idSchedule});
 
 	</update>
@@ -159,5 +169,13 @@
 		= ${idSchedule});
 
 	</update>
+	<delete id="deleteByTeamTour">
+		DELETE FROM `sports`.`schedule_tbl` WHERE
+		(`schedule_team1` = ${idTeam} or schedule_team2=${idTeam}) and schedule_tour=${idTournament};
+	</delete>
+	<delete id="deleteByTour">
+		DELETE FROM `sports`.`schedule_tbl` WHERE
+		schedule_tour=${idTournament};
+	</delete>
 
 </mapper>

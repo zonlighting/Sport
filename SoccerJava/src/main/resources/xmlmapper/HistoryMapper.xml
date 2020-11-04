@@ -23,5 +23,8 @@
 	<delete id="delete">
 		DELETE FROM `sports`.`history_tbl` WHERE (`id_tour` = ${idTournament});
 	</delete>
+	<delete id="deleteTeam">
+			DELETE FROM `sports`.`history_tbl` WHERE (`id_tour` = ${idTournament} and id_team=${idTeam});
+	</delete>
 
 </mapper>

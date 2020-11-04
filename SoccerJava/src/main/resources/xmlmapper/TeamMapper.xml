@@ -13,8 +13,8 @@
 		<result column="team_datecreate" property="createDate" />
 
 		<association property="tournament">
-			<id property="idTour" column="tournament_id" />
-			<result property="nameTour" column="tournament_name" />
+			<id property="idTournament" column="tournament_id" />
+			<result property="nameTournament" column="tournament_name" />
 		</association>
 
 		<collection property="profile" ofType="Profile"
@@ -69,20 +69,25 @@
 	</select>
 
 	<select id="getTeamById" resultMap="teamMapping">
-		select * from team_tbl left join profile_tbl on team_tbl.team_id=profile_tbl.id_team where
+		select * from team_tbl left
+		join profile_tbl on team_tbl.team_id=profile_tbl.id_team where
 		team_tbl.team_id=${idTeam}
 	</select>
 
 	<update id="formatTournament">
-			UPDATE `sports`.`team_tbl` SET `id_tour` = 0 WHERE (`id_tour` = ${idTournament});
+		UPDATE `sports`.`team_tbl` SET `id_tour` = 0 WHERE (`id_tour` =
+		${idTournament});
 	</update>
 
 	<select id="getTeamNoTournament" resultMap="teamMapping1">
-		select * from team_tbl where team_tbl.id_tour = 0
+		select * from
+		team_tbl where team_tbl.id_tour = 0
 	</select>
 
 	<update id="newTournament" parameterType="int">
-		UPDATE `sports`.`team_tbl` SET `id_tour` = ${idTournament} WHERE (`team_id` = ${idTeam});
+		UPDATE
+		`sports`.`team_tbl` SET `id_tour` = ${idTournament} WHERE (`team_id` =
+		${idTeam});
 	</update>
 
 	<update id="updateTeam">
@@ -92,5 +97,13 @@
 		team_country = #{team.country},
 		team_logo = #{team.logo}
 		WHERE team_id = ${id};
+	</update>
+	<update id="formatTourTeam">
+		UPDATE `sports`.`team_tbl` SET `id_tour` = 0 WHERE (`team_id` =
+		${idTeam});
+	</update>
+	<update id="createTournament">
+		UPDATE `sports`.`team_tbl` SET `id_tour` = ${idTournament} WHERE (`team_id` =
+		${idTeam});
 	</update>
 </mapper>

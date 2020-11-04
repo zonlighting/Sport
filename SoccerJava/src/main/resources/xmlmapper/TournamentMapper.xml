@@ -21,19 +21,19 @@
 			<result column="team_country" property="country" />
 			<result column="team_datecreate" property="createDate" />
 			<collection property="profile" ofType="Profile"
-			notNullColumn="profile_id">
-			<id property="id" column="profile_id" />
-			<result property="name" column="profile_name" />
-			<result property="email" column="profile_email" />
-			<result property="phone" column="profile_phone" />
-			<result property="age" column="profile_age" />
-			<result property="gender" column="profile_gender" />
-			<result property="country" column="profile_country" />
-			<result property="avatar" column="profile_avatar" />
-			<result property="idTeam" column="id_team" />
-			<result property="position" column="profile_position" />
-			<result property="createDate" column="profile_datecreate" />
-		</collection>
+				notNullColumn="profile_id">
+				<id property="id" column="profile_id" />
+				<result property="name" column="profile_name" />
+				<result property="email" column="profile_email" />
+				<result property="phone" column="profile_phone" />
+				<result property="age" column="profile_age" />
+				<result property="gender" column="profile_gender" />
+				<result property="country" column="profile_country" />
+				<result property="avatar" column="profile_avatar" />
+				<result property="idTeam" column="id_team" />
+				<result property="position" column="profile_position" />
+				<result property="createDate" column="profile_datecreate" />
+			</collection>
 		</collection>
 		<collection property="schedule" ofType="Schedule">
 			<id column="schedule_id" property="idSchedule" />
@@ -52,7 +52,11 @@
 	</resultMap>
 	<select id="getAll" resultMap="tournamentMapping">
 		SELECT * FROM
-		sports.tournament_tbl order by tournament_tbl.tournament_id
+		sports.tournament_tbl left join schedule_tbl on
+		tournament_tbl.tournament_id =schedule_tbl.schedule_tour inner join
+		(team_tbl inner join profile_tbl on
+		team_tbl.team_id=profile_tbl.id_team) on
+		tournament_tbl.tournament_id=team_tbl.id_tour order by tournament_tbl.tournament_id
 		DESC
 	</select>
 	<insert id="create" parameterType="Tournament">
@@ -73,8 +77,12 @@
 	</select>
 	<select id="getById" resultMap="tournamentMapping">
 		SELECT * FROM
-		sports.tournament_tbl left join schedule_tbl on tournament_tbl.tournament_id =schedule_tbl.schedule_tour inner join (team_tbl inner join profile_tbl on team_tbl.team_id=profile_tbl.id_team) on
-		tournament_tbl.tournament_id=team_tbl.id_tour  where tournament_id=${idTournamnet}
+		sports.tournament_tbl left join schedule_tbl on
+		tournament_tbl.tournament_id =schedule_tbl.schedule_tour inner join
+		(team_tbl inner join profile_tbl on
+		team_tbl.team_id=profile_tbl.id_team) on
+		tournament_tbl.tournament_id=team_tbl.id_tour where
+		tournament_id=${idTournamnet}
 	</select>
 
 	<update id="update">
@@ -93,9 +101,12 @@
 	</delete>
 	<select id="tournamentUpComming" resultMap="tournamentMapping">
 		SELECT * FROM
-		sports.tournament_tbl inner join team_tbl on
+		sports.tournament_tbl left join schedule_tbl on
+		tournament_tbl.tournament_id =schedule_tbl.schedule_tour inner join
+		(team_tbl inner join profile_tbl on
+		team_tbl.team_id=profile_tbl.id_team) on
 		tournament_tbl.tournament_id=team_tbl.id_tour where
 		tournament_status!=2
 	</select>
-	
+
 </mapper>

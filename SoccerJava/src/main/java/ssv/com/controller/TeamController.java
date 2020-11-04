@@ -28,14 +28,12 @@ public class TeamController {
 
 	@GetMapping(value = "getTeams")
 	public ResponseQuery<?> getTeams() {
-		try {
+		
 			if (teamService.getTeams() != null) {
 				return ResponseQuery.success("Connect Success", teamService.getTeams());
 			}
 			return ResponseQuery.faild("Falied To recive data", null);
-		} catch (Exception e) {
-			return ResponseQuery.faild("Error connect to server", 500);
-		}
+		
 	}
 
 	@PostMapping(value = "createTeam")
@@ -72,7 +70,7 @@ public class TeamController {
 	//thông tin các giải đấu về team
 	@GetMapping(value="detail")
 	public ResponseQuery<?> getTeamdetail(@RequestParam int idTeam){
-		return teamService.getTeamdetail(idTeam);
+		return ResponseQuery.success("Detail Team", teamService.getTeamdetail(idTeam));
 	}
 
 	@PostMapping(value = "updateInfo/{id}")

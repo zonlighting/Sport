@@ -41,4 +41,14 @@ public class TeamRepository {
 	public void updateTeam(int id, Team team) {
 		teamMapper.updateTeam(id, team);
 	}
+
+	public void formatTourTeam(int idTeam) {
+		teamMapper.formatTourTeam(idTeam);
+		
+	}
+
+	public void createTournament(int idTeam, int idTournament) {
+		teamMapper.createTournament(idTeam,idTournament);
+		
+	}
 }
