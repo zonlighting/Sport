@@ -18,7 +18,7 @@
             $router.push({ path: `/admin/teams` })
           "
         >
-          Back To Team
+          Back To Teams
         </v-btn>
       </v-row>
       <v-card max-width="95%" class="my-8 container">
