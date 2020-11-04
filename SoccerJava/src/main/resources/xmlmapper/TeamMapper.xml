@@ -75,13 +75,17 @@
 	</select>
 
 	<update id="formatTournament">
-		UPDATE `sports`.`team_tbl` SET `id_tour` = 0 WHERE (`id_tour` =
+		UPDATE `sports`.`team_tbl` SET `id_tour` = 0 WHERE
+		(`id_tour` =
 		${idTournament});
 	</update>
 
 	<select id="getTeamNoTournament" resultMap="teamMapping1">
-		select * from
-		team_tbl where team_tbl.id_tour = 0
+		SELECT p.*, c.* FROM
+		team_tbl p
+		inner join profile_tbl c on p.team_id =
+		c.id_team
+		where p.id_tour = 0
 	</select>
 
 	<update id="newTournament" parameterType="int">
@@ -99,11 +103,13 @@
 		WHERE team_id = ${id};
 	</update>
 	<update id="formatTourTeam">
-		UPDATE `sports`.`team_tbl` SET `id_tour` = 0 WHERE (`team_id` =
+		UPDATE `sports`.`team_tbl` SET `id_tour` = 0 WHERE
+		(`team_id` =
 		${idTeam});
 	</update>
 	<update id="createTournament">
-		UPDATE `sports`.`team_tbl` SET `id_tour` = ${idTournament} WHERE (`team_id` =
+		UPDATE `sports`.`team_tbl` SET `id_tour` =
+		${idTournament} WHERE (`team_id` =
 		${idTeam});
 	</update>
 </mapper>

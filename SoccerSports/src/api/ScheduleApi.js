@@ -23,5 +23,7 @@ export function edit(data){
 }
 export function getByTour(idTournament){
     return Api.get(`/schedule/getByTournament?idTournament=${idTournament}`)
-
+}
+export function recentMatch(){
+    return Api.get("/schedule/recentMatch")
 }

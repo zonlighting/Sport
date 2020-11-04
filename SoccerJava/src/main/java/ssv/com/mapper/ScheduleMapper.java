@@ -39,4 +39,6 @@ public interface ScheduleMapper {
 
 	void deleteByTour(int idTournament);
 
+	List<Schedule> getByStatus(int status);
+
 }
