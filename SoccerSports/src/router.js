@@ -158,12 +158,12 @@ router.beforeEach(async (to, from, next) => {
   } else {
     next()
   }
-  if (to.meta.requiredAuth) {
+  if (to.meta.metaConfig.requiredAuth) {
     const authUser = store.state.auth
     if (!authUser || !authUser.token) {
       next()
     }
-    else if (to.meta.adminAuth) {
+    else if (to.meta.metaConfig.adminAuth) {
       let role = store.state.user.userInfo.role;
       if (role === 'ROLE_ADMIN') {
         next()
