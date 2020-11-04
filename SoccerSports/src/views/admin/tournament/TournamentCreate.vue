@@ -285,6 +285,7 @@ export default {
       });
     },
     save() {
+      console.log(this.fileImage)
       if (!this.$refs.form.validate()) {
         this.$refs.form.validate();
       } else {
@@ -298,7 +299,7 @@ export default {
           bodyFormData.append("timeStart", this.dateStart);
           bodyFormData.append("description", this.description);
            bodyFormData.append("banner", "");
-          if(!this.fileImage.name){
+          if(this.fileImage.size>0){
           bodyFormData.append("bannerFile", this.fileImage);
           }
           bodyFormData.append("listTeam", this.teamSelected);

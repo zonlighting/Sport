@@ -1,4 +1,4 @@
-import { create, deleteSchedule, getAll, getById, goalUpdate, update } from "../api/ScheduleApi";
+import { create, deleteSchedule, edit, getAll, getById, goalUpdate, update } from "../api/ScheduleApi";
 
 const actions = {
     getAll() {
@@ -47,7 +47,6 @@ const actions = {
         })
     },
     goalUpdate(__,data) {
-        console.log(data)
         return new Promise((resolve, reject) => {
             goalUpdate(data).then(res => {
                 resolve(res);
@@ -56,6 +55,15 @@ const actions = {
             })
         })
     },
+    edit(__,data){
+        return new Promise((resolve, reject) => {
+            edit(data).then(res => {
+                resolve(res);
+            }).catch((err) => {
+                reject(err);
+            })
+        })
+    }
     
 }
 
