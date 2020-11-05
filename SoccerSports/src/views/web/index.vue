@@ -23,7 +23,6 @@
                       <li>
                          <a href="#">
                          <router-link to="/team">Team</router-link><span></span> <span></span> <span></span>
-
                           <span></span>
                         </a>
                       </li>

@@ -1,15 +1,19 @@
 
 
-import { getDetail,getTeams, createTeam, updateMembersInTeam, getTeamById, updateTeam } from '@/api/TeamApi'
+import { getDetail, getTeams, createTeam, updateMembersInTeam, getTeamById, updateTeam } from '@/api/TeamApi'
 import { getTeamNoTournament } from '../api/TeamApi'
 
 
 const state = {
-
+    currentTab: ""
 }
 
 const mutations = {
-
+    current_tab(state, index) {
+        console.log("index")
+        console.log(index)
+        state.currentTab = index
+    },
 }
 
 const actions = {
@@ -23,7 +27,7 @@ const actions = {
         })
     },
 
-    createTeam(_,teamForm) {
+    createTeam(_, teamForm) {
         return new Promise((resolve, reject) => {
             createTeam(teamForm).then((res) => {
                 resolve(res);
@@ -32,7 +36,7 @@ const actions = {
             })
         })
     },
-    getTeamNoTournament(){
+    getTeamNoTournament() {
         return new Promise((resolve, reject) => {
             getTeamNoTournament().then(res => {
                 resolve(res);
@@ -41,7 +45,7 @@ const actions = {
             })
         })
     },
-    getDetail(__,idTeam){
+    getDetail(__, idTeam) {
         return new Promise((resolve, reject) => {
             getDetail(idTeam).then(res => {
                 resolve(res);
@@ -62,7 +66,7 @@ const actions = {
         })
     },
 
-    getTeamById(_,teamId){
+    getTeamById(_, teamId) {
         return new Promise((resolve, reject) => {
             getTeamById(teamId).then((res) => {
                 resolve(res);

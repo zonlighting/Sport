@@ -1,7 +1,8 @@
 <template>
   <div>
     <v-card class="mx-auto" max-width="85%">
-      <v-row class="container ml-15">
+      <v-row class="container">
+        <v-col cols="0" sm="1"></v-col>
         <v-col cols="12" sm="7">
           <v-card-text>
             <v-row>
@@ -9,7 +10,7 @@
                 <h1 style="font-weight: bold; color: black">Soccer Teams</h1>
               </v-col>
             </v-row>
-            <v-row>
+            <v-row style="max-height:60px">
               <h3 class="pl-4">{{ tournament.nameTournament }}</h3>
               <v-spacer></v-spacer>
               <v-col cols="12" sm="3">
@@ -21,10 +22,10 @@
                   label="Select Tournaments"
                   dense
                   solo
-                ></v-select></v-col
-            ></v-row>
-
-            <v-divider class="my-2"></v-divider>
+                ></v-select>
+              </v-col>
+            </v-row>
+            <v-divider style="margin:0 !important"></v-divider>
             <v-row v-if="isHavedata">
               <v-col
                 cols="12"
@@ -33,22 +34,24 @@
                 :key="team.idTeam"
               >
                 <v-row>
+                  <router-link :to="{name: 'fixtures', params: { teamId: team.idTeam }}">
                   <v-img
                     :src="baseUrl + team.logo"
                     max-width="50"
                     max-height="50"
                     class="ml-3"
                   ></v-img>
+                  </router-link>
                   <v-col cols="12" sm="5" class="pt-0">
-                    <a>
+                    <router-link :to="{name: 'fixtures', params: { teamId: team.idTeam }}">
                       <h5 class="nameTeam">{{ team.nameTeam }}</h5>
-                    </a>
+                    </router-link>
                     <v-row class="pl-3">
-                      <a><p class="teamlink">Results</p></a>
+                      <router-link :to="{name: 'results', params: { teamId: team.idTeam }}"><p class="teamlink">Results</p></router-link>
                       <v-divider class="ml-1 mr-1" inset vertical></v-divider>
-                      <a><p class="teamlink">Squad</p></a>
+                      <router-link :to="{name: 'squad', params: { teamId: team.idTeam }}"><p class="teamlink">Squad</p></router-link>
                       <v-divider class="ml-1 mr-1" inset vertical></v-divider>
-                      <a><p class="teamlink">Stats</p></a>
+                      <router-link :to="{name: 'stats', params: { teamId: team.idTeam }}"><p class="teamlink">Stats</p></router-link>
                     </v-row>
                   </v-col>
                 </v-row>
@@ -65,7 +68,7 @@
           </v-card-actions> -->
         </v-col>
         <v-col cols="12" sm="4">
-          <v-row style="height: 150px"></v-row>
+          <v-row style="height: 107px"></v-row>
           <v-row>
             <v-data-table
               :headers="headers"
