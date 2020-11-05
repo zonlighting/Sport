@@ -27,23 +27,23 @@ let routes = [
     path: '/',
     name: 'index',
     component: index,
-    redirect: '/Home',
+    redirect: '/home',
     children: [
       {
-        path: '/Home',
+        path: '/home',
         component: Home
       },
       {
-        path: '/Schedule',
+        path: '/schedule',
         component: Schedule,
 
       },
       {
-        path: '/ScheduleDetail',
+        path: '/scheduleDetail',
         component: ScheduleDetail,
         children: [
           {
-            path: '/Summary',
+            path: '/summary',
             component: Summary,
 
           }
@@ -51,13 +51,23 @@ let routes = [
       },
 
       {
-        path: '/Tournament',
+        path: '/tournament',
         component: Tournament
       },
       {
-        path: '/Team',
-        component: Team
-      }
+        path: '/team',
+        component: () => import('@/views/web/team/index'),
+        children: [
+          {
+            path: '/teams',
+            component: Team,
+          },
+          {
+            path: '/fixtures/:id',
+            component: () => import('@/views/web/team/TeamFixtures'),
+          }
+        ]
+      },
     ],
   },
   {
