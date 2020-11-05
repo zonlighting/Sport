@@ -41,4 +41,8 @@ public interface ScheduleMapper {
 
 	List<Schedule> getByStatus(int status);
 
+	void finished(int idSchedule);
+
+	void onGame(int idSchedule);
+
 }

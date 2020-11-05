@@ -52,12 +52,13 @@
 	</resultMap>
 	<select id="getAll" resultMap="tournamentMapping">
 		SELECT * FROM
-		sports.tournament_tbl left join schedule_tbl on
-		tournament_tbl.tournament_id =schedule_tbl.schedule_tour inner join
-		(team_tbl inner join profile_tbl on
-		team_tbl.team_id=profile_tbl.id_team) on
-		tournament_tbl.tournament_id=team_tbl.id_tour order by tournament_tbl.tournament_id
-		DESC
+		sports.tournament_tbl p left join (history_tbl q left join
+		team_tbl d
+		on q.id_team=d.team_id left join
+		profile_tbl e on q.id_member=e.profile_id)on
+		p.tournament_id=q.id_tour  left join
+		schedule_tbl c on
+		p.tournament_id=c.schedule_tour ORDER BY tournament_id DESC
 	</select>
 	<insert id="create" parameterType="Tournament">
 		INSERT INTO
@@ -77,12 +78,14 @@
 	</select>
 	<select id="getById" resultMap="tournamentMapping">
 		SELECT * FROM
-		sports.tournament_tbl left join schedule_tbl on
-		tournament_tbl.tournament_id =schedule_tbl.schedule_tour inner join
-		(team_tbl inner join profile_tbl on
-		team_tbl.team_id=profile_tbl.id_team) on
-		tournament_tbl.tournament_id=team_tbl.id_tour where
-		tournament_id=${idTournamnet} order by team_tbl.team_name ASC
+		sports.tournament_tbl p left join (history_tbl q left join
+		team_tbl d
+		on q.id_team=d.team_id left join
+		profile_tbl e on q.id_member=e.profile_id)on
+		p.tournament_id=q.id_tour  left join
+		schedule_tbl c on
+		p.tournament_id=c.schedule_tour where
+		tournament_id=${idTournamnet} 
 	</select>
 
 	<update id="update">
@@ -118,5 +121,14 @@
 		tournament_status=${status}
 		 order by tournament_tbl.tournament_start
 	</select>
+	<update id="ongGame">
+	UPDATE `sports`.`tournament_tbl`
+		SET tournament_status=1 WHERE (`tournament_id` =
+		${idTournamnet});
+	</update>
+	<update id="finished">
+	UPDATE `sports`.`tournament_tbl` SET tournament_status=2 WHERE (`tournament_id` =
+		${idTournamnet});
+	</update>
 
 </mapper>

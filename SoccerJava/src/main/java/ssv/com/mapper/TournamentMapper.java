@@ -23,4 +23,8 @@ public interface TournamentMapper {
 	List<Tournament> tournamentUpComming();
 
 	List<Tournament> tournamentStatus(int status);
+
+	void finished(int idTournament);
+
+	void ongGame(int idTournament);
 }

@@ -63,48 +63,42 @@ public class TeamService {
 		profileRepository.updateMembersInTeam(team);
 	}
 
-
 	public ResponseQuery<?> getTeamNoTournament() {
-		List<Team> listTeam=teamRepository.getTeamNoTournament();
+		List<Team> listTeam = teamRepository.getTeamNoTournament();
 		return ResponseQuery.success("Team no touranment", listTeam);
 
 	}
+
 	// update tour cho team
 	public void newTournament(Integer idTeam, int idTournament) {
-		 teamRepository.newTournament(idTeam,idTournament);
-		
+		teamRepository.newTournament(idTeam, idTournament);
+
 	}
+
 	// format lai tour trong team
 	public void formatTournament(int idTournament) {
 		teamRepository.formatTournament(idTournament);
 	}
 
-	public TeamDetail getTeamdetail(int idTeam) {
-		Team team=getTeamById(idTeam);
-		TeamDetail detail=new TeamDetail();
-		detail.setTotalMatch(scheduleRepository.teamTotalMatch(idTeam));
-		detail.setTotalWin(scheduleRepository.teamTotalWin(idTeam));
-		if(teamRepository.getTeamById(idTeam).getIdTour()==0) {
-			detail.setTotalMatchByTour(0);
-			detail.setTotalWinByTour(0);
-		}
-		else {
-			int idTour=teamRepository.getTeamById(idTeam).getIdTour();
-			detail.setTotalMatchByTour(scheduleRepository.teamTotalMatchByTour(idTeam,idTour));
-			detail.setTotalWinByTour(scheduleRepository.teamTotalWinByTour(idTeam,idTour));
-			detail.setTotalAdrawByTour(scheduleRepository.teamTotalAdrawByTour(idTeam,idTour));
-			int point =detail.getTotalWinByTour()*3+detail.getTotalAdrawByTour()*1;
-			detail.setPointByTour(point);
-		}
+	public TeamDetail getTeamdetail(int idTeam, int idTournament) {
+		Team team = getTeamById(idTeam);
+		TeamDetail detail = new TeamDetail();
+
+		detail.setTotalMatchByTour(scheduleRepository.teamTotalMatchByTour(idTeam, idTournament));
+		detail.setTotalWinByTour(scheduleRepository.teamTotalWinByTour(idTeam, idTournament));
+		detail.setTotalAdrawByTour(scheduleRepository.teamTotalAdrawByTour(idTeam, idTournament));
+		int point = detail.getTotalWinByTour() * 3 + detail.getTotalAdrawByTour() * 1;
+		detail.setPointByTour(point);
+
 		detail.setNameTeam(team.getNameTeam());
 		detail.setLogo(team.getLogo());
 		return detail;
 	}
 
-
 	public void updateTeam(int id, Team team) {
 		teamRepository.updateTeam(id, team);
 	}
+
 	public Team updateTeam(int id, TeamForm teamForm) throws Exception, ResourceExistsException {
 		Team oldTeam = teamRepository.getTeamById(id);
 		Team teamUpdate = modelMapper.map(teamForm, Team.class);
@@ -123,13 +117,12 @@ public class TeamService {
 
 	public void formatTourTeam(int idTeam) {
 		teamRepository.formatTourTeam(idTeam);
-		
+
 	}
 
 	public void createTournament(int idTeam, int idTournament) {
-		teamRepository.createTournament(idTeam,idTournament);
-		
-	}
+		teamRepository.createTournament(idTeam, idTournament);
 
+	}
 
 }

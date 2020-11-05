@@ -113,4 +113,8 @@ public class TournamentController {
 	public ResponseQuery<?> rankByTour(@RequestParam int id){
 		return ResponseQuery.success("Connect",tournamentService.rankByTour(id));
 	}
+	@PostMapping(value="checkStatus")
+	public void checkStatus(){
+		tournamentService.checkStatus();
+	}
 }

@@ -246,6 +246,7 @@ export default {
           }
         },
       ],
+      valid:null,
       fileImage: [],
       fileVideo: [],
       value1: "00:00",
@@ -292,7 +293,6 @@ export default {
       this.hideDiaglog();
     },
     async getDataOld() {
-      console.log(this.schedule);
       if (this.schedule.image != null) {
         document.getElementById("image").src =
           this.baseUrl + this.schedule.image;
@@ -309,6 +309,7 @@ export default {
                 profile: profile,
                 time: element.time,
                 idSchedule: this.schedule.idSchedule,
+                 team: 1,
               });
             }
           });
@@ -322,6 +323,7 @@ export default {
                 profile: profile,
                 time: element.time,
                 idSchedule: this.schedule.idSchedule,
+                 team: 2,
               });
             }
           });
@@ -331,6 +333,7 @@ export default {
     },
 
     update() {
+      
       this.$store.commit("auth/auth_overlay");
       if (this.$refs.form.validate()) {
         const arr = this.goal1.concat(this.goal2);
@@ -346,24 +349,23 @@ export default {
         bodyFormData.append("video", this.schedule.video);
         bodyFormData.append("score1", this.goal1.length);
         bodyFormData.append("score2", this.goal2.length);
+        console.log(arr)
         this.$store
           .dispatch("schedule/update", bodyFormData)
           .then((response) => {
-            this.$store
-              .dispatch("schedule/goalUpdate", arr)
-              .then((response) => {
-                if (response.data.code == 0) {
-                  alert("Update ");
-                  this.$store.commit("auth/auth_overlay");
-                  this.getData();
-                  this.close();
-                } else {
-                  alert("Error");
-                }
-              });
             if (response.data.code == 0) {
-              console.log(response.data.payload);
-              this.getData();
+              this.$store
+                .dispatch("schedule/goalUpdate", arr)
+                .then((response) => {
+                  if (response.data.code == 0) {
+                    alert("Update ");
+                    this.getData();
+                    this.$store.commit("auth/auth_overlay");
+                    this.close();
+                  } else {
+                    alert("Error");
+                  }
+                });
             } else {
               alert("Error");
             }

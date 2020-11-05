@@ -292,14 +292,12 @@ export default {
       });
     },
     save() {
-      this.$store.commit("auth/auth_overlay");
       if (!this.$refs.form.validate()) {
         this.$refs.form.validate();
       } else {
         if (this.teamSelected.length >= 0 && this.teamSelected.length < 10) {
           alert("The tournament must have at least 10 teams participating");
         } else {
-          this.$store.commit("auth/auth_overlay");
           var bodyFormData = new FormData();
           bodyFormData.append("nameTournament", this.nameTournament);
           bodyFormData.append("timeEnd", this.dateEnd);
@@ -313,11 +311,9 @@ export default {
           this.$store
             .dispatch("tournament/create", bodyFormData)
             .then((response) => {
-              this.$store.commit("auth/auth_overlay");
               if (response.data.code == 0) {
                 this.close();
                 alert(response.data.message);
-                this.$store.commit("auth/auth_overlay");
                 this.getData();
                 this.getListTeam();
               } else {
