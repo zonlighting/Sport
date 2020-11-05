@@ -158,4 +158,8 @@ public class TournamentService {
 		return details;
 	}
 
+	public List<Tournament> tournamentStatus(int status) {
+		return tournamentRepository.tournamentStatus(status);
+	}
+
 }

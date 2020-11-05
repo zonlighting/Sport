@@ -175,4 +175,18 @@ public class ScheduleService {
 		return scheduleRepository.getByStatus(status);
 	}
 
+	public String lastVideo() {
+		List<Schedule> schedules=scheduleRepository.getByStatus(2);
+		for (int i = schedules.size()-1; i >= 0; i--) {
+			if(schedules.get(i).getVideo()!=null||schedules.get(i).getVideo()!="") {
+				return schedules.get(i).getVideo();
+			}
+		}
+		return null;
+	}
+
+	public List<Schedule> lastResults() {
+		return scheduleRepository.getByStatus(2);
+	}
+
 }

@@ -35,10 +35,10 @@
             <template slot="item" slot-scope="{ item }">
               <v-row>
                 <v-col>
-                  <v-avatar tile>
+                   <v-avatar tile>
                     <img
-                      src="https://cdn.vuetifyjs.com/images/john.jpg"
-                      alt="John"
+                      :src="baseUrl+item.logo"
+                      alt="logo"
                     />
                   </v-avatar>
                 </v-col>
@@ -74,8 +74,8 @@
                 <v-col>
                   <v-avatar tile>
                     <img
-                      src="https://cdn.vuetifyjs.com/images/john.jpg"
-                      alt="John"
+                      :src="baseUrl+item.logo"
+                      alt="logo"
                     />
                   </v-avatar>
                 </v-col>
@@ -155,11 +155,18 @@
   </v-container>
 </template>
 <script>
+import { ENV } from "@/config/env.js";
+
 export default {
   props: {
     hideDiaglog: Function,
     schedule: Object,
     getData: Function,
+  },
+  computed: {
+    baseUrl() {
+      return ENV.BASE_IMAGE;
+    },
   },
   data() {
     return {
@@ -216,6 +223,7 @@ export default {
             timeStart: this.date + "T" + this.time,
           })
           .then((response) => {
+                    this.$store.commit("auth/auth_overlay");
             if (response.data.payload == 400) {
               alert(response.data.message);
             } else {

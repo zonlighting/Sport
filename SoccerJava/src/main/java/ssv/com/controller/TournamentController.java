@@ -97,4 +97,14 @@ public class TournamentController {
 	public ResponseQuery<?> tournamentRank(@RequestParam int idTournament) {
 		return ResponseQuery.success("Connect", tournamentService.tournamentRank(idTournament));
 	}
+	//Hiển thị giải theo trạng thái
+	@GetMapping(value="tournamentStatus")
+	public ResponseQuery<?> tournamentStatus(@RequestParam int status){
+		if(tournamentService.tournamentStatus(status)==null) {
+			return ResponseQuery.faild("No Tournaments", 400);
+		}
+		else {
+			return ResponseQuery.success("Connet", tournamentService.tournamentStatus(status));
+		}
+	}
 }

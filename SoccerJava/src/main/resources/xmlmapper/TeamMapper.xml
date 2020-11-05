@@ -80,7 +80,7 @@
 		${idTournament});
 	</update>
 
-	<select id="getTeamNoTournament" resultMap="teamMapping1">
+	<select id="getTeamNoTournament" resultMap="teamMapping">
 		SELECT p.*, c.* FROM
 		team_tbl p
 		inner join profile_tbl c on p.team_id =

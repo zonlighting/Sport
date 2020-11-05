@@ -82,7 +82,7 @@
 		(team_tbl inner join profile_tbl on
 		team_tbl.team_id=profile_tbl.id_team) on
 		tournament_tbl.tournament_id=team_tbl.id_tour where
-		tournament_id=${idTournamnet}
+		tournament_id=${idTournamnet} order by team_tbl.team_name ASC
 	</select>
 
 	<update id="update">
@@ -107,6 +107,16 @@
 		team_tbl.team_id=profile_tbl.id_team) on
 		tournament_tbl.tournament_id=team_tbl.id_tour where
 		tournament_status!=2
+	</select>
+	<select id="tournamentStatus" resultMap="tournamentMapping">
+		SELECT * FROM
+		sports.tournament_tbl left join schedule_tbl on
+		tournament_tbl.tournament_id =schedule_tbl.schedule_tour inner join
+		(team_tbl inner join profile_tbl on
+		team_tbl.team_id=profile_tbl.id_team) on
+		tournament_tbl.tournament_id=team_tbl.id_tour where
+		tournament_status=${status}
+		 order by tournament_tbl.tournament_start
 	</select>
 
 </mapper>
