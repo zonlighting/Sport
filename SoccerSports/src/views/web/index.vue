@@ -14,23 +14,23 @@
                   <div class="nav-menu">
                     <ul class="nav navbar-nav menu-bar">
                       <li>
-                        <a>
-                          <router-link to="/home">Home</router-link
-                          ><span></span> <span></span> <span></span>
+                         <a href="#">
+                         <router-link to="/home">Home</router-link><span></span> <span></span> <span></span>
+
                           <span></span>
                         </a>
                       </li>
                       <li>
-                        <a>
-                          <router-link to="/team">Team</router-link
-                          ><span></span> <span></span> <span></span>
+                         <a href="#">
+                         <router-link to="/team">Team</router-link><span></span> <span></span> <span></span>
+
                           <span></span>
                         </a>
                       </li>
                       <li>
-                        <a>
-                          <router-link to="/tournament">Tournament</router-link
-                          ><span></span> <span></span> <span></span>
+                        <a href="#">
+                         <router-link to="/tournament">Tournament</router-link><span></span> <span></span> <span></span>
+
                           <span></span>
                         </a>
                         <ul class="sub-menu">
@@ -44,9 +44,9 @@
                         </ul>
                       </li>
                       <li>
-                        <a>
-                          <router-link to="/Schedule">Schedule</router-link
-                          ><span></span> <span></span> <span></span>
+                        <a href="#">
+                         <router-link to="/schedule">Schedule</router-link><span></span> <span></span> <span></span>
+
                           <span></span>
                         </a>
 
@@ -61,16 +61,16 @@
                         </ul>
                       </li>
                       <li>
-                        <a>
-                          <router-link to="/Schedule">Rank</router-link
-                          ><span></span> <span></span> <span></span>
+                        <a href="#">
+                         <router-link to="/tournament">rank</router-link><span></span> <span></span> <span></span>
+
                           <span></span>
                         </a>
                       </li>
                       <li>
-                        <a>
-                          <router-link to="/Schedule">Rank</router-link
-                          ><span></span> <span></span> <span></span>
+                        <a href="#">
+                         <router-link to="/tournament">About</router-link><span></span> <span></span> <span></span>
+
                           <span></span>
                         </a>
                       </li>

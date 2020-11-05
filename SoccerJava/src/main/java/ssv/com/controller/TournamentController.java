@@ -108,7 +108,7 @@ public class TournamentController {
 			return ResponseQuery.success("Connet", tournamentService.tournamentStatus(status));
 		}
 
-
+	}
 	@GetMapping(value="rankInTour")
 	public ResponseQuery<?> rankByTour(@RequestParam int id){
 		return ResponseQuery.success("Connect",tournamentService.rankByTour(id));

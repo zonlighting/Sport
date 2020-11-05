@@ -53,12 +53,12 @@
 
       <div>
         <h3 style="color: blue">#Schedule</h3>
-        <template v-if="schedule.statu == 2">
+        <template v-if="schedule.status != 2">
           <h1 class="text-center">
             The match is not over or has not been updated
           </h1>
         </template>
-        <template v-if="schedule.status != 2" style="font-family: arial">
+        <template v-else style="font-family: arial">
           <h1 class="text-center" style="font-size: 80px">
             {{ schedule.status==2?schedule.score1:'' }}-{{ schedule.status==2?schedule.score2:'' }}
           </h1>
@@ -226,7 +226,7 @@
       transition="dialog-bottom-transition"
     >
       <v-card>
-        <ScheduleUpdate :hideDiaglog="hideDiaglog" :schedule="schedule" />
+        <ScheduleUpdate :hideDiaglog="hideDiaglog" :schedule="schedule" :getData="getData" />
       </v-card>
     </v-dialog>
     <v-dialog
