@@ -21,6 +21,7 @@ export default {
     overlay() {
       return this.$store.state.auth.overlay;
     },
+
   },
 };
 </script>

@@ -36,10 +36,7 @@
               <v-row>
                 <v-col>
                   <v-avatar tile>
-                    <img
-                      src="https://cdn.vuetifyjs.com/images/john.jpg"
-                      alt="John"
-                    />
+                    <img :src="baseUrl + item.logo" alt="logo" />
                   </v-avatar>
                 </v-col>
                 <v-col>
@@ -73,10 +70,7 @@
               <v-row>
                 <v-col>
                   <v-avatar tile>
-                    <img
-                      src="https://cdn.vuetifyjs.com/images/john.jpg"
-                      alt="John"
-                    />
+                    <img :src="baseUrl + item.logo" alt="logo" />
                   </v-avatar>
                 </v-col>
                 <v-col>
@@ -155,11 +149,18 @@
   </v-container>
 </template>
 <script>
+import { ENV } from "@/config/env.js";
+
 export default {
   props: {
     hideDiaglog: Function,
     schedule: Object,
     getData: Function,
+  },
+  computed: {
+    baseUrl() {
+      return ENV.BASE_IMAGE;
+    },
   },
   data() {
     return {
@@ -198,9 +199,9 @@ export default {
           }
           this.selectTeam1 = this.schedule.idTeam1;
           this.selectTeam2 = this.schedule.idTeam2;
-          this.location=this.schedule.location;
-          this.date=this.schedule.timeStart.substr(0, 10);
-          this.time=this.schedule.timeStart.substr(11)
+          this.location = this.schedule.location;
+          this.date = this.schedule.timeStart.substr(0, 10);
+          this.time = this.schedule.timeStart.substr(11);
         });
     },
     create() {
@@ -212,10 +213,11 @@ export default {
             idTeam1: this.selectTeam1,
             idTeam2: this.selectTeam2,
             location: this.location,
-            idTour:this.schedule.idTour,
+            idTour: this.schedule.idTour,
             timeStart: this.date + "T" + this.time,
           })
           .then((response) => {
+            this.$store.commit("auth/auth_overlay");
             if (response.data.payload == 400) {
               alert(response.data.message);
             } else {
@@ -229,6 +231,7 @@ export default {
           });
       } else {
         this.$refs.form.validate();
+        this.$store.commit("auth/auth_overlay");
       }
     },
     reset() {

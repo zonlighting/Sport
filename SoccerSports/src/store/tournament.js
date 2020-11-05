@@ -1,4 +1,4 @@
-import { addTeam, create, deleteTeam, deleteTournament, getAll, getById, tournamentRank, tournamentUpComming } from "../api/Tournament";
+import { addTeam, create, deleteTeam, deleteTournament, getAll, getById, tournamentRank, tournamentStatus, tournamentUpComming } from "../api/Tournament";
 
 const actions = {
     getAll() {
@@ -68,6 +68,15 @@ const actions = {
     tournamentRank(__, data) {
         return new Promise((resolve, reject) => {
             tournamentRank(data).then(res => {
+                resolve(res);
+            }).catch((err) => {
+                reject(err);
+            })
+        })
+    },
+    tournamentStatus(__,status){
+        return new Promise((resolve, reject) => {
+            tournamentStatus(status).then(res => {
                 resolve(res);
             }).catch((err) => {
                 reject(err);

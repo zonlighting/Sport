@@ -28,4 +28,7 @@ export function addTeam(data){
 export function tournamentRank(idTournament){
     return Api.get(`tournament/tournamentRank?idTournament=${idTournament}`)
 }
+export function tournamentStatus(status){
+    return Api.get(`tournament/tournamentStatus?status=${status}`)
+}
 

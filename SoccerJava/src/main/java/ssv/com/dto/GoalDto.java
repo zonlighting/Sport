@@ -10,4 +10,5 @@ public class GoalDto {
 	private String time;
 	private Profile profile;
 	private int idSchedule;
+	private int team;
 }

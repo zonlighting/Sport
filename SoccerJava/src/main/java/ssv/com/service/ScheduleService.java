@@ -122,8 +122,13 @@ public class ScheduleService {
 		LocalDateTime time = LocalDateTime.now();
 		schedule.setTimeEnd(time);
 		try {
-			schedule.setImage(UploadFile.saveFile(scheduleForm.getImageFile()));
-			schedule.setVideo(UploadFile.saveVideo(scheduleForm.getVideoFile()));
+			if(scheduleForm.getImageFile()!=null) {
+				schedule.setImage(UploadFile.saveFile(scheduleForm.getImageFile()));
+
+			}if(scheduleForm.getVideoFile()!=null) {
+				schedule.setVideo(UploadFile.saveVideo(scheduleForm.getVideoFile()));
+
+			}
 			if (schedule.getScore1() > schedule.getScore2()) {
 				schedule.setWinner(scheduleRepository.getById(schedule.getIdSchedule()).getIdTeam1());
 				schedule.setAdraw(0);
@@ -155,7 +160,7 @@ public class ScheduleService {
 		}
 		for (GoalDto goal : goals) {
 			goalRepository.create(goal.getProfile().getId(), goal.getIdSchedule(), goal.getTime(),
-					goal.getProfile().getIdTeam());
+					goal.getTeam());
 		}
 		return ResponseQuery.success("Update Success", goals);
 	}
@@ -179,4 +184,20 @@ public class ScheduleService {
 	public List<Schedule> getByStatus(int status) {
 		return scheduleRepository.getByStatus(status);
 	}
+
+
+	public String lastVideo() {
+		List<Schedule> schedules=scheduleRepository.getByStatus(2);
+		for (int i = schedules.size()-1; i >= 0; i--) {
+			if(schedules.get(i).getVideo()!=null||schedules.get(i).getVideo()!="") {
+				return schedules.get(i).getVideo();
+			}
+		}
+		return null;
+	}
+
+	public List<Schedule> lastResults() {
+		return scheduleRepository.getByStatus(2);
+	}
+
 }
