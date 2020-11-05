@@ -23,19 +23,19 @@
               <v-card-text>
                 <v-row class="text-center" style="color: white">
                   <v-col
-                    ><h2 style="color: yellow">{{this.timeDate.day}}</h2>
+                    ><h2 style="color: yellow">{{ this.timeDate.day }}</h2>
                     DAYS</v-col
                   >
                   <v-col
-                    ><h2 style="color: yellow">{{this.timeDate.gio}}</h2>
+                    ><h2 style="color: yellow">{{ this.timeDate.gio }}</h2>
                     HOURS</v-col
                   >
                   <v-col
-                    ><h2 style="color: yellow">{{this.timeDate.phut}}</h2>
+                    ><h2 style="color: yellow">{{ this.timeDate.phut }}</h2>
                     MINUTES</v-col
                   >
                   <v-col
-                    ><h2 style="color: yellow">{{this.timeDate.giay}}</h2>
+                    ><h2 style="color: yellow">{{ this.timeDate.giay }}</h2>
                     SECONDS</v-col
                   >
                 </v-row>
@@ -43,8 +43,15 @@
                 <div class="my-4 subtitle-1">
                   <v-row class="text-center">
                     <v-col style="color: white"
-                      ><v-img :src="!!recentMatch?baseUrl+recentMatch.team[0].logo:''" width="100px"
-                      lazy-src="@/assets/err.png" />
+                      ><v-img
+                        :src="
+                          !!recentMatch
+                            ? baseUrl + recentMatch.team[0].logo
+                            : ''
+                        "
+                        width="100px"
+                        lazy-src="@/assets/err.png"
+                      />
                       {{
                         !!recentMatch ? recentMatch.team[0].nameTeam : ""
                       }}</v-col
@@ -53,16 +60,34 @@
                       ><h3>VS</h3></v-col
                     >
                     <v-col style="color: white"
-                      ><v-img :src="!!recentMatch?baseUrl+recentMatch.team[1].logo:''"
-                      width="100px" lazy-src="@/assets/err.png" />{{
+                      ><v-img
+                        :src="
+                          !!recentMatch
+                            ? baseUrl + recentMatch.team[1].logo
+                            : ''
+                        "
+                        width="100px"
+                        lazy-src="@/assets/err.png"
+                      />{{
                         !!recentMatch ? recentMatch.team[1].nameTeam : ""
                       }}</v-col
                     >
                   </v-row>
                 </div>
                 <div class="text-center" style="color: white">
-                  <h5>{{recentMatch.location}} | {{(new Date(time.substring(0,4),time.substring(5,7),time.substring(8,10))).toString().substring(0,18)}}</h5>
-                  <h3>{{time.substring(11,19)}}</h3> 
+                  <h5>
+                    {{ recentMatch.location }} |
+                    {{
+                      new Date(
+                        time.substring(0, 4),
+                        time.substring(5, 7),
+                        time.substring(8, 10)
+                      )
+                        .toString()
+                        .substring(0, 18)
+                    }}
+                  </h5>
+                  <h3>{{ time.substring(11, 19) }}</h3>
                 </div>
               </v-card-text>
             </v-card>
@@ -358,10 +383,10 @@ export default {
   },
   data: () => ({
     recentMatch: "",
-    day:'',
-    time:'',
+    day: "",
+    time: "",
     model: 0,
-    timeDate:'',
+    timeDate: "",
     schedule: [
       { team1: "1", team2: "b" },
       { team1: "2", team2: "b" },
@@ -388,13 +413,15 @@ export default {
   }),
   methods: {
     getRecentMatch() {
+      this.$store.commit("auth/auth_overlay");
+
       this.$store
         .dispatch("schedule/recentMatch")
         .then((response) => {
           this.$store.commit("auth/auth_overlay");
           if (response.data.code == 0) {
             this.recentMatch = response.data.payload;
-            this.time=response.data.payload.timeStart;
+            this.time = response.data.payload.timeStart;
           } else {
             alert(response.data.message);
           }
@@ -403,25 +430,27 @@ export default {
           alert(error);
         });
     },
-    setintervalTime(){
-       var a =Date.parse("2020-12-23T10:22:00")
-          var b= Date.now();
-           var c=a-b;
-         setInterval(function(){    
-           c=c-1;
-          var giay=c%60;
-          var phut=(c/60)%60
-          var gio=(c/3600)%24
-          var ngay=((c/60)/60)/24
-          this.timeDate={
-            giay:giay,
-            phut:Math.ceil(phut),
-            gio:Math.ceil(gio),
-            ngay:Math.ceil(ngay)
-          }
-          }.bind(this), 1000);
-
-    }
+    setintervalTime() {
+      var a = Date.parse("2020-12-23T10:22:00");
+      var b = Date.now();
+      var c = a - b;
+      setInterval(
+        function () {
+          c = c - 1;
+          var giay = c % 60;
+          var phut = (c / 60) % 60;
+          var gio = (c / 3600) % 24;
+          var ngay = c / 60 / 60 / 24;
+          this.timeDate = {
+            giay: giay,
+            phut: Math.ceil(phut),
+            gio: Math.ceil(gio),
+            ngay: Math.ceil(ngay),
+          };
+        }.bind(this),
+        1000
+      );
+    },
   },
 };
 </script>

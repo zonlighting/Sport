@@ -14,9 +14,7 @@
           color="primary"
           dark
           class="mr-14"
-          @click="
-            $router.push({ path: `/admin/teams` })
-          "
+          @click="$router.push({ path: `/admin/teams` })"
         >
           Back To Teams
         </v-btn>
@@ -30,9 +28,16 @@
             <h3 class="name-team-text">{{ team.nameTeam }}</h3>
             <h5 class="country-text">Country: {{ team.country }}</h5>
             <h5 style="line-height: 1.7; font-size: 1.2rem; font-weight: 300">
-              <div style="color: red" v-if="team.tourName != null">
-                {{ team.tourName }}
-              </div>
+              <router-link
+                :to="{
+                  path: `/admin/tournament/` + team.idTour,
+                }"
+                v-if="team.tourName != null"
+                style="text-decoration: none"
+              >
+                {{ team.tourName }}</router-link
+              >
+
               <div style="color: green" v-else>Not in tournament</div>
             </h5>
             <h5 style="line-height: 1.7; font-size: 1.2rem; font-weight: 300">
