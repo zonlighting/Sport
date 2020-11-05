@@ -163,6 +163,9 @@ public class TournamentService {
 		return details;
 	}
 
+	public List<Tournament> tournamentStatus(int status) {
+		return tournamentRepository.tournamentStatus(status);
+}
 	public Set<RankDto> rankByTour(int idTournament) {
 		List<Schedule> schedules = tournamentRepository.getById(idTournament).getSchedule();
 		List<Team> teams = tournamentRepository.getById(idTournament).getTeam();

@@ -48,8 +48,8 @@
                 <v-col>
                   <v-avatar tile>
                     <img
-                      src="https://cdn.vuetifyjs.com/images/john.jpg"
-                      alt="John"
+                      :src="baseUrl+item.logo"
+                      alt="logo"
                     />
                   </v-avatar>
                 </v-col>
@@ -85,8 +85,8 @@
                 <v-col>
                   <v-avatar tile>
                     <img
-                      src="https://cdn.vuetifyjs.com/images/john.jpg"
-                      alt="John"
+                      :src="baseUrl+item.logo"
+                      alt="logo"
                     />
                   </v-avatar>
                 </v-col>
@@ -166,7 +166,14 @@
   </v-container>
 </template>
 <script>
+import { ENV } from "@/config/env.js";
+
 export default {
+  computed: {
+    baseUrl() {
+      return ENV.BASE_IMAGE;
+    },
+  },
   props: {
     hideDialog: Function,
     getData: Function,
