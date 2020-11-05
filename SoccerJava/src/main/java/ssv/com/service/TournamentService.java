@@ -5,19 +5,24 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.val;
+import ssv.com.dto.RankDto;
 import ssv.com.dto.ResponseQuery;
 import ssv.com.dto.TeamDetail;
 import ssv.com.dto.TournamentForm;
 import ssv.com.entity.History;
 import ssv.com.entity.Profile;
+import ssv.com.entity.Schedule;
 import ssv.com.entity.Team;
 import ssv.com.entity.Tournament;
+import ssv.com.exception.ResourceExistsException;
 import ssv.com.file.UploadFile;
 import ssv.com.repository.TournamentRepository;
 
@@ -156,6 +161,37 @@ public class TournamentService {
 		});
 
 		return details;
+	}
+
+	public Set<RankDto> rankByTour(int idTournament) {
+		List<Schedule> schedules = tournamentRepository.getById(idTournament).getSchedule();
+		List<Team> teams = tournamentRepository.getById(idTournament).getTeam();
+		Set<RankDto> ranks = new TreeSet<RankDto>();
+		for (Team team : teams) {
+			if (schedules.size() > 0) {
+				int win = 0;
+				int lose = 0;
+				int tie = 0;
+				int point;
+				for (Schedule schedule : schedules) {
+					if (team.getIdTeam() == schedule.getWinner()) {
+						win++;
+					}
+					if (team.getIdTeam() != schedule.getWinner()) {
+						lose++;
+					}
+					if (schedule.getAdraw() == 1) {
+						tie++;
+					}
+				}
+				point = win * 3 + tie * 2 + lose * 1;
+				ranks.add(new RankDto(team.getNameTeam(), win, lose, tie, point));
+			}
+			else {
+				throw new ResourceExistsException("Tournament don't have any schedule yet!!", 300);
+			}
+		}
+		return ranks;
 	}
 
 }

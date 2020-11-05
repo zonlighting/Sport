@@ -21,8 +21,8 @@ import ssv.com.service.ScheduleService;
 @RequestMapping("/api/v1/schedule/")
 public class ScheduleController {
 	@Autowired ScheduleService scheduleService;
-	
-	
+
+
 	//Thêm trận đấu
 	@PostMapping(value = "create")
 	public ResponseQuery<?> create(@RequestBody Schedule schedule){
@@ -34,7 +34,7 @@ public class ScheduleController {
 		return ResponseQuery.success("Connect Success", scheduleService.getAll());
 	}
 
-	
+
 	//Hiển thị tất cả các  trận đấu theo giải đấu
 	@GetMapping(value = "getByTournament")
 	public ResponseQuery<?> getByTournament(@RequestParam int idTournament){
@@ -60,14 +60,14 @@ public class ScheduleController {
 	public ResponseQuery<?> edit(@RequestBody Schedule schedule){
 		return 	scheduleService.edit(schedule);
 	}
-	
-	
+
+
 	//autoUpdate Status
 	@GetMapping(value="status")
 	public void statusAuto() {
 		scheduleService.statusAuto();
 	}
-	
+
 	//Update Trận đấu
 	@PostMapping(value="update")
 	public ResponseQuery<?> update(@ModelAttribute ScheduleForm scheduleForm) {
@@ -88,6 +88,4 @@ public class ScheduleController {
 	public ResponseQuery<?> getByStatus(@RequestParam int status){
 		return ResponseQuery.success("Connect",scheduleService.getByStatus(status));
 	}
-	
-	
 }

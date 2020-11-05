@@ -128,7 +128,7 @@ export default {
       this.$store
         .dispatch("tournament/addTeam", {
           listTeam: this.selectTeam,
-          idTournament: this.tournamentData.idTournament,
+          idTournament: this.$route.params.id,
         })
         .then((response) => {
           this.$store.commit("auth/auth_overlay");
