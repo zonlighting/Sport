@@ -22,7 +22,7 @@
                       </li>
                       <li>
                         <a>
-                          <router-link to="/team">Team</router-link
+                          <router-link to="/teams">Team</router-link
                           ><span></span> <span></span> <span></span>
                           <span></span>
                         </a>

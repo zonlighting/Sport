@@ -7,7 +7,7 @@
           <v-card-text>
             <v-row>
               <v-col cols="12" sm="6">
-                <h1 class="title-h1">Albania Fixtures</h1>
+                <h1 class="title-h1">Albania Stats</h1>
               </v-col>
             </v-row>
             <v-row style="max-height:50px">
