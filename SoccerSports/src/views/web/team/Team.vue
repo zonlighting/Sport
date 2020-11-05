@@ -1,15 +1,25 @@
 <template>
   <div>
     <div>
-      <img
-        src="http://max-themes.net/demos/bigslam/soccer3/upload/page-title.jpg"
-        class="md-bg"
-        alt="Slide background"
-        style="margin-left: 60px"
-      />
-      <div style="position: absolute; top: 320px; left: 800px">
-        <p style="font-size: 70px; color: #ffffff">Teams</p>
-      </div>
+      <v-card class="container">
+        <v-img
+          src="http://max-themes.net/demos/bigslam/soccer3/upload/page-title.jpg"
+          aspect-ratio="2.75"
+        >
+          <v-row class="mt-15"></v-row>
+          <v-row class="mt-15"></v-row>
+          <v-row class="mt-15"></v-row>
+          <v-row class="mt-15"></v-row>
+          <v-row>
+            <v-col cols="12" md="5" sm="5" class="mr-10"></v-col>
+            <span class="my-span">
+              <h1 style="color: white">
+                Teams
+              </h1>
+            </span>
+          </v-row>
+        </v-img>
+      </v-card>
     </div>
     <v-row class="container ml-15">
       <v-col cols="12" sm="8">
@@ -26,11 +36,12 @@
                   :items="tournaments"
                   item-text="nameTournament"
                   item-value="idTournament"
-                  label="Tournaments"
+                  label="Select Tournaments"
                   dense
                   solo
                 ></v-select></v-col
             ></v-row>
+            <h3>{{tournament.nameTournament}}</h3>
             <v-divider class="my-2"></v-divider>
             <v-row v-if="isHavedata">
               <v-col
@@ -41,7 +52,7 @@
               >
                 <v-row>
                   <v-img
-                    src="https://picsum.photos/510/300?random"
+                    :src="baseUrl + team.logo"
                     max-width="50"
                     max-height="50"
                     class="ml-3"
@@ -89,7 +100,10 @@
     </v-row>
   </div>
 </template>
+
 <script>
+import { ENV } from "@/config/env.js";
+
 export default {
   data: () => ({
     select: "",
@@ -116,10 +130,21 @@ export default {
     this.getTours();
   },
 
-  watch:{
-    select(value){
-      this.getTourById(parseInt(value))
-    }
+  computed: {
+    tourSelect(value) {
+      return this.getTourById(value);
+    },
+
+    baseUrl() {
+      return ENV.BASE_IMAGE;
+    },
+  },
+
+  watch: {
+    select(newValue, oldValue) {
+      console.log(newValue, oldValue);
+      this.getTourById(newValue);
+    },
   },
 
   methods: {
@@ -148,12 +173,11 @@ export default {
         .dispatch("tournament/getAll")
         .then((response) => {
           this.$store.commit("auth/auth_overlay");
-          if (response.data.code == 0 && response.data.length > 0) {
+          if (response.data.code == 0 && response.data.payload.length > 0) {
             self.tournaments = response.data.payload;
-            self.select = self.tournaments[0].nameTournament;
             self.getTourById(self.tournaments[0].idTournament);
-          }else{
-            self.isHavedata = false
+          } else {
+            self.isHavedata = false;
           }
         })
         .catch(function (error) {
@@ -182,5 +206,10 @@ export default {
   color: #06c;
   font-weight: 400;
   font-size: 13px;
+}
+
+.my-span {
+  color: white;
+  font-weight: bold;
 }
 </style>

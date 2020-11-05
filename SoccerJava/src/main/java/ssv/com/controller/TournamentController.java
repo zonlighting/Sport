@@ -97,4 +97,9 @@ public class TournamentController {
 	public ResponseQuery<?> tournamentRank(@RequestParam int idTournament) {
 		return ResponseQuery.success("Connect", tournamentService.tournamentRank(idTournament));
 	}
+
+	@GetMapping(value="rankInTour")
+	public ResponseQuery<?> rankByTour(@RequestParam int id){
+		return ResponseQuery.success("Connect",tournamentService.rankByTour(id));
+	}
 }
