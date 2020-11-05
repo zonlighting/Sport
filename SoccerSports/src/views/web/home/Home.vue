@@ -80,15 +80,13 @@
                     {{ recentMatch.location }} |
                     {{
                       new Date(
-                        time.substring(0, 4),
-                        time.substring(5, 7),
-                        time.substring(8, 10)
+                       time
                       )
                         .toString()
-                        .substring(0, 18)
+                        .substring(0, 15)
                     }}
                   </h5>
-                  <h3>{{ time.substring(11, 19) }}</h3>
+                  <h3>{{ time.substring(11, 16) }}</h3>
                 </div>
               </v-card-text>
             </v-card>
@@ -181,24 +179,24 @@
           <v-col cols="12" sm="2"></v-col>
           <v-col cols="12" sm="6">
             <h1>LATEST TOURNAMENT</h1>
+          
             <v-img
               lazy-src="https://picsum.photos/id/11/10/6"
               min-width="800"
               min-height="530"
-              :src="!!tournamentResults.lengt>0?baseUrl+tournamentResults[tournamentResults.length-1].banner:''"
+              :src="tournamentResults.length>0?baseUrl+tournamentResults[tournamentResults.length-1].banner:''"
             ></v-img>
             <div style="position: absolute; bottom: 40px; color: white">
               <v-container
                 style="
                   background-image: linear-gradient(
-                    to top,
                     rgba(33, 71, 144, 0.85) 30%,
                     rgba(255, 255, 255, 0) 70%
                   );
                 "
               >
                 <h3>
-                  {{!!tournamentResults.lengt>0?
+                  {{tournamentResults.length>0?
                       new Date(
                         tournamentResults[tournamentResults.length-1].timeStart.substring(0, 4),
                         tournamentResults[tournamentResults.length-1].timeStart.substring(5, 7),
@@ -209,9 +207,9 @@
                     :''}}
 
                 </h3>
-                <h2> {{!!tournamentResults.lengt>0?tournamentResults[tournamentResults.length-1].nameTournament:''}}</h2>
-                <p>
-                  {{!!tournamentResults.lengt>0?tournamentResults[tournamentResults.length-1].description:''}}
+                <h2> {{tournamentResults.length>0?tournamentResults[tournamentResults.length-1].nameTournament:'No data'}}</h2>
+                <p style="color:blue">
+                  {{tournamentResults.length>0?tournamentResults[tournamentResults.length-1].description:''}}
                 </p>
               </v-container>
             </div>
@@ -394,6 +392,7 @@ export default {
    created() {
      this.getRecentMatch();
      this.getLastResults();
+     this.getTournament();
   },
   computed: {
     baseUrl() {
@@ -483,6 +482,7 @@ export default {
       this.$store.dispatch("tournament/tournamentStatus",2).then(response=>{
        if (response.data.code == 0) {
           this.tournamentResults=response.data.payload;
+          console.log(this.tournamentResults)
           } else {
             alert(response.data.message);
           }
@@ -495,15 +495,17 @@ export default {
       var a = Date.parse(time);
       var b = Date.now();
       var c = (a-b);
+      c =Math.floor( c / 1000);
       setInterval(
         function () {
-          c = c - 1;
-          var giay = c % 60;
-          var phut = (c*0.016666666666667)%60;
-          var gio = (c*0.00027777777777778)%24;
-          var ngay = ((c*0.00027777777777778)/24)%360;
+          c=c-1;
+          console.log(c)
+          var giay = c%60;
+          var phut = (c/60)%60;
+          var gio = (c/3600)%24;
+          var ngay = (c/86000);
           this.timeDate = {
-            giay: giay,
+            giay: Math.ceil(giay),
             phut: Math.ceil(phut),
             gio: Math.ceil(gio),
             ngay: Math.ceil(ngay),

@@ -6543,7 +6543,7 @@ h6 {
 
 .header-main .header-lower {
   background: rgba(0, 0, 0, 0.9);
-  position: absolute;
+  position: static;
   width: 100%;
   transition: background, -webkit-transform 0.7s ease-in-out;
   transition: background, transform 0.7s ease-in-out;

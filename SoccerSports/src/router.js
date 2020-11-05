@@ -43,7 +43,7 @@ let routes = [
         component: ScheduleDetail,
         children: [
           {
-            path: '/Summary',
+            path: '/Summary/:id',
             component: Summary,
 
           }
@@ -57,6 +57,10 @@ let routes = [
       {
         path: '/Team',
         component: Team
+      },{
+        path: '/test',
+        
+        component:  () => import('@/views/web/team/Test')
       }
     ],
   },

@@ -35,11 +35,8 @@
             <template slot="item" slot-scope="{ item }">
               <v-row>
                 <v-col>
-                   <v-avatar tile>
-                    <img
-                      :src="baseUrl+item.logo"
-                      alt="logo"
-                    />
+                  <v-avatar tile>
+                    <img :src="baseUrl + item.logo" alt="logo" />
                   </v-avatar>
                 </v-col>
                 <v-col>
@@ -73,10 +70,7 @@
               <v-row>
                 <v-col>
                   <v-avatar tile>
-                    <img
-                      :src="baseUrl+item.logo"
-                      alt="logo"
-                    />
+                    <img :src="baseUrl + item.logo" alt="logo" />
                   </v-avatar>
                 </v-col>
                 <v-col>
@@ -205,9 +199,9 @@ export default {
           }
           this.selectTeam1 = this.schedule.idTeam1;
           this.selectTeam2 = this.schedule.idTeam2;
-          this.location=this.schedule.location;
-          this.date=this.schedule.timeStart.substr(0, 10);
-          this.time=this.schedule.timeStart.substr(11)
+          this.location = this.schedule.location;
+          this.date = this.schedule.timeStart.substr(0, 10);
+          this.time = this.schedule.timeStart.substr(11);
         });
     },
     create() {
@@ -219,11 +213,11 @@ export default {
             idTeam1: this.selectTeam1,
             idTeam2: this.selectTeam2,
             location: this.location,
-            idTour:this.schedule.idTour,
+            idTour: this.schedule.idTour,
             timeStart: this.date + "T" + this.time,
           })
           .then((response) => {
-                    this.$store.commit("auth/auth_overlay");
+            this.$store.commit("auth/auth_overlay");
             if (response.data.payload == 400) {
               alert(response.data.message);
             } else {
@@ -237,6 +231,7 @@ export default {
           });
       } else {
         this.$refs.form.validate();
+        this.$store.commit("auth/auth_overlay");
       }
     },
     reset() {

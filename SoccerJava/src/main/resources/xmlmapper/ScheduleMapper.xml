@@ -166,7 +166,7 @@
 		UPDATE `sports`.`schedule_tbl` SET `schedule_image` =
 		'${image}'
 		,schedule_video='${video}',schedule_score1=${score1},schedule_score2=${score2},schedule_winner=${winner}
-		, schedule_adraw=${adraw},schedule_end='${timeEnd}' WHERE
+		, schedule_adraw=${adraw},schedule_end='${timeEnd}',schedule_status=2 WHERE
 		(`schedule_id`
 		= ${idSchedule});
 
@@ -193,6 +193,6 @@
 		where
 		schedule_status=${status}
 		order by schedule_tbl.schedule_start
-		DESC
+		
 	</select>
 </mapper>

@@ -1,9 +1,6 @@
 <template>
   <div class="wrapper">
     <header class="header-main">
-      <div class="header-upper">
-        <div class="container" style="min-height: 40px"></div>
-      </div>
       <div class="header-lower clearfix">
         <div class="container">
           <div class="row">
@@ -17,35 +14,20 @@
                   <div class="nav-menu">
                     <ul class="nav navbar-nav menu-bar">
                       <li>
-                        <a :href="$router.resolve({ path: '/Home' }).href"
-                          >Home<span></span> <span></span> <span></span>
+                         <a href="#">
+                         <router-link to="/home">Home</router-link><span></span> <span></span> <span></span>
                           <span></span>
                         </a>
                       </li>
                       <li>
-                        <a :href="$router.resolve({ path: '/Team' }).href"
-                          >Team<span></span> <span></span> <span></span>
+                         <a href="#">
+                         <router-link to="/team">Team</router-link><span></span> <span></span> <span></span>
                           <span></span>
                         </a>
                       </li>
                       <li>
-                        <a :href="$router.resolve({ path: '/Tournament' }).href"
-                          >Tournament<span></span> <span></span> <span></span>
-                          <span></span>
-                        </a>
-                        <ul class="sub-menu">
-                          <li><a href="gallerypage01.html">UpComming</a></li>
-                          <li>
-                            <a href="gallery02.html">Ongame</a>
-                          </li>
-                          <li>
-                            <a href="gallery03.html">Finshed</a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li>
-                        <a :href="$router.resolve({ path: '/Schedule' }).href"
-                          >Schedule<span></span> <span></span> <span></span>
+                        <a href="#">
+                         <router-link to="/tournament">Tournament</router-link><span></span> <span></span> <span></span>
                           <span></span>
                         </a>
                         <ul class="sub-menu">
@@ -59,14 +41,29 @@
                         </ul>
                       </li>
                       <li>
-                        <a href="shop.html"
-                          >Rank<span></span> <span></span> <span></span>
+                        <a href="#">
+                         <router-link to="/schedule">Schedule</router-link><span></span> <span></span> <span></span>
+                          <span></span>
+                        </a>
+                        <ul class="sub-menu">
+                          <li><a href="gallerypage01.html">UpComming</a></li>
+                          <li>
+                            <a href="gallery02.html">Ongame</a>
+                          </li>
+                          <li>
+                            <a href="gallery03.html">Finshed</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li>
+                        <a href="#">
+                         <router-link to="/tournament">rank</router-link><span></span> <span></span> <span></span>
                           <span></span>
                         </a>
                       </li>
                       <li>
-                        <a href="contact.html"
-                          >About<span></span> <span></span> <span></span>
+                        <a href="#">
+                         <router-link to="/tournament">About</router-link><span></span> <span></span> <span></span>
                           <span></span>
                         </a>
                       </li>
