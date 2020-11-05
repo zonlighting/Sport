@@ -7,7 +7,18 @@
     </v-breadcrumbs>
 
     <template>
-      <h5 class="titleText pl-10">TEAM DETAIL</h5>
+      <v-row>
+        <h5 class="titleText pl-10">TEAM DETAIL</h5>
+        <v-spacer></v-spacer>
+        <v-btn
+          color="primary"
+          dark
+          class="mr-14"
+          @click="$router.push({ path: `/admin/teams` })"
+        >
+          Back To Teams
+        </v-btn>
+      </v-row>
       <v-card max-width="95%" class="my-8 container">
         <v-row v-if="isEditTeam">
           <v-col cols="12" md="2" sm="2">
@@ -17,9 +28,16 @@
             <h3 class="name-team-text">{{ team.nameTeam }}</h3>
             <h5 class="country-text">Country: {{ team.country }}</h5>
             <h5 style="line-height: 1.7; font-size: 1.2rem; font-weight: 300">
-              <div style="color: red" v-if="team.tourName != null">
-                {{ team.tourName }}
-              </div>
+              <router-link
+                :to="{
+                  path: `/admin/tournament/` + team.idTour,
+                }"
+                v-if="team.tourName != null"
+                style="text-decoration: none"
+              >
+                {{ team.tourName }}</router-link
+              >
+
               <div style="color: green" v-else>Not in tournament</div>
             </h5>
             <h5 style="line-height: 1.7; font-size: 1.2rem; font-weight: 300">
@@ -43,7 +61,13 @@
               Total Match: {{ team.totalmatch }}
             </h5>
             <div class="pb-15"></div>
-            <v-btn color="primary" class="ml-15" v-if="team.idTour == 0" dark @click="editTeam">
+            <v-btn
+              color="primary"
+              class="ml-15"
+              v-if="team.idTour == 0"
+              dark
+              @click="editTeam"
+            >
               Edit Team
             </v-btn>
           </v-col>
@@ -69,7 +93,13 @@
         <h2 class="my-4 ml-6">Members</h2>
         <template>
           <v-toolbar flat color="white">
-            <v-btn color="primary" class="ma-2" v-if="team.idTour == 0" dark @click="toManageMembers">
+            <v-btn
+              color="primary"
+              class="ma-2"
+              v-if="team.idTour == 0"
+              dark
+              @click="toManageMembers"
+            >
               Manage Members
             </v-btn>
             <v-divider class="mx-4" inset vertical></v-divider>
@@ -126,9 +156,9 @@
             >
               <v-container>
                 <v-row justify="space-around">
-                  <v-card width="400">
+                  <v-card width="400" color="blue">
                     <v-img height="200px" src="">
-                      <v-app-bar flat color="rgba(0, 0, 0, 0)">
+                      <v-app-bar flat color="blue">
                         <v-row>
                           <v-col cols="1" md="5" xm="5"></v-col>
                           <v-col cols="10" md="4" xm="4" class="pt-12">
@@ -168,12 +198,17 @@
                       </v-app-bar>
 
                       <v-card-title class="black--text pb-0">
-                        <p class="mx-auto my-auto pt-2 pl-2">
+                        <p
+                          style="color: white"
+                          class="mx-auto my-auto pt-2 pl-2"
+                        >
                           {{ player.name }}
                         </p>
                       </v-card-title>
                       <v-card-title class="black--text">
-                        <p class="mx-auto pl-2">{{ player.position }}</p>
+                        <p style="color: white" class="mx-auto pl-2">
+                          {{ player.position }}
+                        </p>
                       </v-card-title>
                     </v-img>
                   </v-card>

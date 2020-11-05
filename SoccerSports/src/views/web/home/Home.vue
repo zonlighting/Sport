@@ -24,6 +24,7 @@
                 <v-row class="text-center" style="color: white">
                   <v-col
                     ><h2 style="color: yellow">{{ this.timeDate.ngay }}</h2>
+
                     DAYS</v-col
                   >
                   <v-col
@@ -494,7 +495,6 @@ export default {
       var a = Date.parse(time);
       var b = Date.now();
       var c = (a-b);
-      console.log(c)
       setInterval(
         function () {
           c = c - 1;

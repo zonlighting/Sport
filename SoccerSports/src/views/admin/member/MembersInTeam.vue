@@ -50,10 +50,10 @@
     </template>
 
     <template v-slot:[`item.actions`]="{ item }">
-      <v-btn class="mr-1" color="primary" small @click="removeMember(item)"
+      <v-btn class="mr-1 mb-1" color="primary" small @click="removeMember(item)"
         >Remove</v-btn
       >
-      <v-btn color="primary" small @click="editPlayer(item)">Edit</v-btn>
+      <v-btn color="primary mb-1" small @click="editPlayer(item)">Edit</v-btn>
     </template>
   </v-data-table>
 </template>
@@ -63,6 +63,9 @@ export default {
   props: {
     playersInTeam: Array,
     removedMember: {
+      type: Function,
+    },
+    isConfirm: {
       type: Function,
     },
   },
@@ -152,9 +155,7 @@ export default {
     },
 
     editPlayer(player) {
-      this.$router.push({
-        path: `/admin/member/${player.id}`,
-      });
+      this.isConfirm(player.id);
     },
   },
 };

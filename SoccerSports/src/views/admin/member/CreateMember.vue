@@ -120,12 +120,11 @@ export default {
       response: "",
       dialogCreateMember: false,
       fileImage: new File([""], ""),
-      country: "uk",
-      name: "create1",
-      number: 10,
+      country: "",
+      name: "",
       countryRules: [(v) => !!v || "Country is required"],
       nameRules: [(v) => !!v || "Name is required"],
-      email: "create1@gmail.com",
+      email: "@gmail.com",
       emailRules: [
         (v) => !!v || "Email is required",
         (v) => {
@@ -148,7 +147,7 @@ export default {
           );
         },
       ],
-      age: "21",
+      age: "",
       ageRules: [
         (v) => !!v || "Age number is required",
         (v) =>
@@ -224,14 +223,13 @@ export default {
             } else if (res.code === 9999 && res.payload === 400) {
               alert("Create Failed");
             } else {
-              console.log("Run here");
               self.isOpenModalMember();
               self.successDialog = !self.successDialog;
               setTimeout(function () {
                 self.successDialog = !self.successDialog;
                 self.loadMemberAfterCreate(res.payload);
               }, 1100);
-              self.reset();
+              // self.reset();
             }
           })
           .catch((e) => {

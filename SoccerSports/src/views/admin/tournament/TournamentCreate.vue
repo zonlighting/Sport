@@ -178,7 +178,7 @@
                   v-for="(item, index) in teamChoose"
                   :key="index"
                 >
-                  <v-avatar >
+                  <v-avatar>
                     <v-img :src="baseUrl + item.logo" />
                   </v-avatar>
                   <b style="text-transform: uppercase; margin-left: 20px">{{
@@ -230,7 +230,7 @@ import { ENV } from "@/config/env.js";
 export default {
   props: {
     hideDialog: Function,
-    getData:Function
+    getData: Function,
   },
   data: () => ({
     valid: false,
@@ -249,19 +249,21 @@ export default {
     nameTournament: "",
     listTeam: [],
     teamChoose: [],
-    rulesImage:[
+    rulesImage: [
       (v) => {
         if (v == undefined || Array.isArray(v)) {
           return true;
-        }
-       else{
-         if(v.type == "image/png"|| v.type == "image/jpeg"||v.type == "image/bmp"){
+        } else {
+          if (
+            v.type == "image/png" ||
+            v.type == "image/jpeg" ||
+            v.type == "image/bmp"
+          ) {
             return true;
-         }
-         else{
+          } else {
             return false || "Wrong data";
-         }
-       }
+          }
+        }
       },
     ],
   }),
@@ -290,11 +292,13 @@ export default {
       });
     },
     save() {
-      console.log(this.fileImage)
+      console.log(this.fileImage);
       if (!this.$refs.form.validate()) {
         this.$refs.form.validate();
       } else {
+
         if (this.teamSelected.length>=0 && this.teamSelected.length < 10) {
+
           alert("The tournament must have at least 10 teams participating");
         } else {
           this.$store.commit("auth/auth_overlay");
@@ -303,9 +307,9 @@ export default {
           bodyFormData.append("timeEnd", this.dateEnd);
           bodyFormData.append("timeStart", this.dateStart);
           bodyFormData.append("description", this.description);
-           bodyFormData.append("banner", "");
-          if(this.fileImage.size>0){
-          bodyFormData.append("bannerFile", this.fileImage);
+          bodyFormData.append("banner", "");
+          if (this.fileImage.size > 0) {
+            bodyFormData.append("bannerFile", this.fileImage);
           }
           bodyFormData.append("listTeam", this.teamSelected);
           this.$store
@@ -314,12 +318,15 @@ export default {
               this.$store.commit("auth/auth_overlay");
               if (response.data.code == 0) {
                 this.close();
-                alert(response.data.message)
+                alert(response.data.message);
                 this.getData();
                 this.getListTeam();
               } else {
-                alert("Error");
+                alert(response.data.message);
               }
+            })
+            .catch((e) => {
+              alert(e);
             });
         }
       }

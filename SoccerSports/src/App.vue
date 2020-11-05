@@ -15,14 +15,13 @@ export default {
 
   components: {},
 
-  data: () => ({
-    
-  }),
+  data: () => ({}),
 
   computed: {
-    overlay(){
-      return this.$store.state.auth.overlay
-    }
+    overlay() {
+      return this.$store.state.auth.overlay;
+    },
+
   },
 };
 </script>

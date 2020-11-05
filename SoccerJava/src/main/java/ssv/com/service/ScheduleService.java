@@ -8,15 +8,20 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ssv.com.dto.GoalDto;
+import ssv.com.dto.RankDto;
 import ssv.com.dto.ResponseQuery;
 import ssv.com.entity.Goal;
 import ssv.com.entity.Schedule;
+import ssv.com.entity.Team;
 import ssv.com.file.UploadFile;
 import ssv.com.form.ScheduleForm;
 import ssv.com.repository.GoalRepository;
@@ -166,7 +171,7 @@ public class ScheduleService {
 	}
 
 	public ResponseQuery<?> recentMatch() {
-		Schedule schedule=getByStatus(0).get(0);
+		Schedule schedule = getByStatus(0).get(0);
 		return ResponseQuery.success("Connect", schedule);
 
 	}
@@ -174,6 +179,7 @@ public class ScheduleService {
 	public List<Schedule> getByStatus(int status) {
 		return scheduleRepository.getByStatus(status);
 	}
+
 
 	public String lastVideo() {
 		List<Schedule> schedules=scheduleRepository.getByStatus(2);

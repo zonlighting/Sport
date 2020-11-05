@@ -85,7 +85,8 @@
 		team_tbl p
 		inner join profile_tbl c on p.team_id =
 		c.id_team
-		where p.id_tour = 0
+		where
+		p.id_tour = 0
 	</select>
 
 	<update id="newTournament" parameterType="int">
