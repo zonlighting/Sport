@@ -16,18 +16,21 @@
                       <li>
                          <a href="#">
                          <router-link to="/home">Home</router-link><span></span> <span></span> <span></span>
+
                           <span></span>
                         </a>
                       </li>
                       <li>
                          <a href="#">
                          <router-link to="/team">Team</router-link><span></span> <span></span> <span></span>
+
                           <span></span>
                         </a>
                       </li>
                       <li>
                         <a href="#">
                          <router-link to="/tournament">Tournament</router-link><span></span> <span></span> <span></span>
+
                           <span></span>
                         </a>
                         <ul class="sub-menu">
@@ -43,8 +46,10 @@
                       <li>
                         <a href="#">
                          <router-link to="/schedule">Schedule</router-link><span></span> <span></span> <span></span>
+
                           <span></span>
                         </a>
+
                         <ul class="sub-menu">
                           <li><a href="gallerypage01.html">UpComming</a></li>
                           <li>
@@ -58,12 +63,14 @@
                       <li>
                         <a href="#">
                          <router-link to="/tournament">rank</router-link><span></span> <span></span> <span></span>
+
                           <span></span>
                         </a>
                       </li>
                       <li>
                         <a href="#">
                          <router-link to="/tournament">About</router-link><span></span> <span></span> <span></span>
+
                           <span></span>
                         </a>
                       </li>

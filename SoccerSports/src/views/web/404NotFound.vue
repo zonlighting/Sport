@@ -20,7 +20,9 @@
 export default {
   methods: {
     toHomePage() {
-      window.open("http://localhost:8080/Home", "_self");
+      this.$router.push({
+        path: `/home`,
+      }).go();
     },
   },
 };

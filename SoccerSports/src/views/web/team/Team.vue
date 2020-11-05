@@ -1,34 +1,16 @@
 <template>
   <div>
-    <div>
-      <v-card class="container">
-        <v-img
-          src="http://max-themes.net/demos/bigslam/soccer3/upload/page-title.jpg"
-          aspect-ratio="2.75"
-        >
-          <v-row class="mt-15"></v-row>
-          <v-row class="mt-15"></v-row>
-          <v-row class="mt-15"></v-row>
-          <v-row class="mt-15"></v-row>
-          <v-row>
-            <v-col cols="12" md="5" sm="5" class="mr-10"></v-col>
-            <span class="my-span">
-              <h1 style="color: white">
-                Teams
-              </h1>
-            </span>
-          </v-row>
-        </v-img>
-      </v-card>
-    </div>
-    <v-row class="container ml-15">
-      <v-col cols="12" sm="8">
-        <v-card>
+    <v-card class="mx-auto" max-width="85%">
+      <v-row class="container ml-15">
+        <v-col cols="12" sm="7">
           <v-card-text>
             <v-row>
               <v-col cols="12" sm="6">
                 <h1 style="font-weight: bold; color: black">Soccer Teams</h1>
               </v-col>
+            </v-row>
+            <v-row>
+              <h3 class="pl-4">{{ tournament.nameTournament }}</h3>
               <v-spacer></v-spacer>
               <v-col cols="12" sm="3">
                 <v-select
@@ -41,7 +23,7 @@
                   solo
                 ></v-select></v-col
             ></v-row>
-            <h3>{{tournament.nameTournament}}</h3>
+
             <v-divider class="my-2"></v-divider>
             <v-row v-if="isHavedata">
               <v-col
@@ -75,29 +57,32 @@
             <h2 v-else>No Data Available</h2>
           </v-card-text>
 
-          <v-divider></v-divider>
+          <!-- <v-divider></v-divider> -->
 
           <!-- <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="success" depressed> Post </v-btn>
           </v-card-actions> -->
-        </v-card>
-      </v-col>
-      <v-col cols="12" sm="4">
-        <v-data-table
-          :headers="headers"
-          :items="desserts"
-          class="elevation-1"
-          :items-per-page="15"
-        >
-          <template v-slot:item.calories="{ item }">
-            <v-chip :color="getColor(item.calories)" dark>
-              {{ item.calories }}
-            </v-chip>
-          </template>
-        </v-data-table>
-      </v-col>
-    </v-row>
+        </v-col>
+        <v-col cols="12" sm="4">
+          <v-row style="height: 150px"></v-row>
+          <v-row>
+            <v-data-table
+              :headers="headers"
+              :items="desserts"
+              class="elevation-1"
+              :items-per-page="15"
+            >
+              <template v-slot:item.calories="{ item }">
+                <v-chip :color="getColor(item.calories)" dark>
+                  {{ item.calories }}
+                </v-chip>
+              </template>
+            </v-data-table>
+          </v-row>
+        </v-col>
+      </v-row>
+    </v-card>
   </div>
 </template>
 
