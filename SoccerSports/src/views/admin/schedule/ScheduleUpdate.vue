@@ -1,213 +1,195 @@
 <template>
   <v-card>
-    <v-form ref="form" v-model="valid" lazy-validation>
-      <v-toolbar dark color="primary">
-        <v-btn icon dark @click="close">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-        <v-toolbar-title>Update</v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-toolbar-items>
-          <v-btn dark text @click="update"> Update </v-btn>
-        </v-toolbar-items>
-      </v-toolbar>
+    <v-toolbar dark color="primary">
+      <v-btn icon dark @click="close">
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+      <v-toolbar-title>Update</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-toolbar-items>
+        <v-btn dark text @click="update"> Update </v-btn>
+      </v-toolbar-items>
+    </v-toolbar>
+    <v-row>
+      <v-col
+        ><v-list three-line subheader>
+          <v-subheader>Team 1</v-subheader>
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title> Add GOAL </v-list-item-title>
+              <v-list-item-subtitle>
+                <v-row>
+                  <v-col
+                    ><v-select
+                      :items="memberTeam1"
+                      item-text="name"
+                      item-value="id"
+                      v-model="selectTeam1"
+                      label="Name member"
+                    ></v-select
+                  ></v-col>
+                  <v-col>
+                    Time<br />
+                    <input-mask
+                      style="border-bottom: solid 1px; height: 32px"
+                      v-model="value1"
+                      mask="99:99"
+                      maskChar=" "
+                    ></input-mask>
+                  </v-col>
+                  <v-col style="margin-top: 10px">
+                    <v-btn color="primary" @click="ok1">OK</v-btn></v-col
+                  >
+                </v-row>
+              </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title>Detail</v-list-item-title>
+              <v-list-item-subtitle v-for="(item, index) in goal1" :key="index">
+                <v-row>
+                  <v-col>
+                    <v-icon>mdi-soccer</v-icon>{{ item.profile.name }}-{{
+                      item.time
+                    }}</v-col
+                  >
+                  <v-col
+                    ><v-icon small @click="deleteItem1(item)">
+                      mdi-delete
+                    </v-icon></v-col
+                  >
+                </v-row>
+              </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-col>
+      <v-col
+        ><v-list three-line subheader>
+          <v-subheader>Team 2</v-subheader>
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title> Add GOAL </v-list-item-title>
+              <v-list-item-subtitle>
+                <v-row>
+                  <v-col
+                    ><v-select
+                      :items="memberTeam2"
+                      item-text="name"
+                      item-value="id"
+                      v-model="selectTeam2"
+                      label="Name member"
+                    ></v-select
+                  ></v-col>
+                  <v-col>
+                    Time<br />
+                    <input-mask
+                      style="border-bottom: solid 1px; height: 32px"
+                      v-model="value2"
+                      mask="99:99"
+                      maskChar=" "
+                    ></input-mask>
+                  </v-col>
+                  <v-col style="margin-top: 10px">
+                    <v-btn color="primary" @click="ok2">OK</v-btn></v-col
+                  >
+                </v-row>
+              </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title>Detail</v-list-item-title>
+              <v-list-item-subtitle v-for="(item, index) in goal2" :key="index">
+                <v-row>
+                  <v-col>
+                    <v-icon>mdi-soccer</v-icon>{{ item.profile.name }}-{{
+                      item.time
+                    }}</v-col
+                  >
+                  <v-col
+                    ><v-icon small @click="deleteItem2(item)">
+                      mdi-delete
+                    </v-icon></v-col
+                  >
+                </v-row>
+              </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-col>
+    </v-row>
+
+    <v-divider></v-divider>
+    <v-list three-line subheader>
+      <v-subheader>Summary</v-subheader>
+      <v-list-item>
+        <v-list-item-content>
+          <h1 class="text-center">{{ score1 }}-{{ score2 }}</h1>
+        </v-list-item-content>
+      </v-list-item>
+    </v-list>
+    <hr />
+    <v-list three-line subheader>
+      <v-subheader>Video and Photo</v-subheader>
       <v-row>
-        <v-col
-          ><v-list three-line subheader>
-            <v-subheader>Team 1</v-subheader>
-            <v-list-item>
-              <v-list-item-content>
-                <v-list-item-title> Add GOAL </v-list-item-title>
-                <v-list-item-subtitle>
-                  <v-row>
-                    <v-col
-                      ><v-select
-                        :items="memberTeam1"
-                        item-text="name"
-                        item-value="id"
-                        v-model="selectTeam1"
-                        label="Name member"
-                      ></v-select
-                    ></v-col>
-                    <v-col>
-                      Time<br />
-                      <input-mask
-                        style="border-bottom: solid 1px; height: 32px"
-                        v-model="value1"
-                        mask="99:99"
-                        maskChar=" "
-                      ></input-mask>
-                    </v-col>
-                    <v-col style="margin-top: 10px">
-                      <v-btn color="primary" @click="ok1">OK</v-btn></v-col
-                    >
-                  </v-row>
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item>
-              <v-list-item-content>
-                <v-list-item-title>Detail</v-list-item-title>
-                <v-list-item-subtitle
-                  v-for="(item, index) in goal1"
-                  :key="index"
-                >
-                  <v-row>
-                    <v-col>
-                      <v-icon>mdi-soccer</v-icon>{{ item.profile.name }}-{{
-                        item.time
-                      }}</v-col
-                    >
-                    <v-col
-                      ><v-icon small @click="deleteItem1(item)">
-                        mdi-delete
-                      </v-icon></v-col
-                    >
-                  </v-row>
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list>
+        <v-col>
+          <v-container>
+            <v-file-input
+              accept="image/png, image/jpeg, image/bmp"
+              placeholder="Pick an Photo"
+              prepend-icon="mdi-camera"
+              v-model="fileImage"
+              :rules="rulesImage"
+            ></v-file-input>
+            <img
+              style="max-height: 204px"
+              src="https://sonypicturespublicity.com/dom/img/no_banner_image.gif"
+              id="image"
+            />
+          </v-container>
         </v-col>
-        <v-col
-          ><v-list three-line subheader>
-            <v-subheader>Team 2</v-subheader>
-            <v-list-item>
-              <v-list-item-content>
-                <v-list-item-title> Add GOAL </v-list-item-title>
-                <v-list-item-subtitle>
-                  <v-row>
-                    <v-col
-                      ><v-select
-                        :items="memberTeam2"
-                        item-text="name"
-                        item-value="id"
-                        v-model="selectTeam2"
-                        label="Name member"
-                      ></v-select
-                    ></v-col>
-                    <v-col>
-                      Time<br />
-                      <input-mask
-                        style="border-bottom: solid 1px; height: 32px"
-                        v-model="value2"
-                        mask="99:99"
-                        maskChar=" "
-                      ></input-mask>
-                    </v-col>
-                    <v-col style="margin-top: 10px">
-                      <v-btn color="primary" @click="ok2">OK</v-btn></v-col
-                    >
-                  </v-row>
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item>
-              <v-list-item-content>
-                <v-list-item-title>Detail</v-list-item-title>
-                <v-list-item-subtitle
-                  v-for="(item, index) in goal2"
-                  :key="index"
-                >
-                  <v-row>
-                    <v-col>
-                      <v-icon>mdi-soccer</v-icon>{{ item.profile.name }}-{{
-                        item.time
-                      }}</v-col
-                    >
-                    <v-col
-                      ><v-icon small @click="deleteItem2(item)">
-                        mdi-delete
-                      </v-icon></v-col
-                    >
-                  </v-row>
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list>
+        <v-col>
+          <v-container>
+            <v-file-input
+              accept="video/mp4"
+              placeholder="Pick an Video"
+              prepend-icon="mdi-video"
+              v-model="fileVideo"
+              :rules="rulesVideo"
+            ></v-file-input>
+            <video width="320" height="240" controls src="" id="video"></video>
+          </v-container>
         </v-col>
       </v-row>
-
-      <v-divider></v-divider>
-      <v-list three-line subheader>
-        <v-subheader>Summary</v-subheader>
-        <v-list-item>
-          <v-list-item-content>
-            <h1 class="text-center">{{ score1 }}-{{ score2 }}</h1>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-      <hr />
-      <v-list three-line subheader>
-        <v-subheader>Video and Photo</v-subheader>
-        <v-row>
-          <v-col>
-            <v-container>
-              <v-file-input
-                accept="image/png, image/jpeg, image/bmp"
-                placeholder="Pick an Photo"
-                prepend-icon="mdi-camera"
-                v-model="fileImage"
-                :rules="rulesImage"
-              ></v-file-input>
-              <img
-                style="max-height: 204px"
-                src="https://sonypicturespublicity.com/dom/img/no_banner_image.gif"
-                id="image"
-              />
-            </v-container>
-          </v-col>
-          <v-col>
-            <v-container>
-              <v-file-input
-                accept="video/mp4"
-                placeholder="Pick an Video"
-                prepend-icon="mdi-video"
-                v-model="fileVideo"
-                :rules="rulesVideo"
-              ></v-file-input>
-              <video
-                width="320"
-                height="240"
-                controls
-                src="s"
-                id="video"
-              ></video>
-            </v-container>
-          </v-col>
-        </v-row>
-      </v-list>
-      <v-dialog v-model="dialogDelete1" max-width="500px">
-        <v-card>
-          <v-card-title class="headline">Are you sure delete </v-card-title>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="closeDelete1"
-              >Cancel</v-btn
-            >
-            <v-btn color="blue darken-1" text @click="deleteItemConfirm1"
-              >OK</v-btn
-            >
-            <v-spacer></v-spacer>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-      <v-dialog v-model="dialogDelete2" max-width="500px">
-        <v-card>
-          <v-card-title class="headline">Are you sure delete </v-card-title>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="closeDelete2"
-              >Cancel</v-btn
-            >
-            <v-btn color="blue darken-1" text @click="deleteItemConfirm2"
-              >OK</v-btn
-            >
-            <v-spacer></v-spacer>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </v-form>
+    </v-list>
+    <v-dialog v-model="dialogDelete1" max-width="500px">
+      <v-card>
+        <v-card-title class="headline">Are you sure delete </v-card-title>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" text @click="closeDelete1">Cancel</v-btn>
+          <v-btn color="blue darken-1" text @click="deleteItemConfirm1"
+            >OK</v-btn
+          >
+          <v-spacer></v-spacer>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="dialogDelete2" max-width="500px">
+      <v-card>
+        <v-card-title class="headline">Are you sure delete </v-card-title>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" text @click="closeDelete2">Cancel</v-btn>
+          <v-btn color="blue darken-1" text @click="deleteItemConfirm2"
+            >OK</v-btn
+          >
+          <v-spacer></v-spacer>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-card>
 </template>
 <script>
@@ -246,7 +228,6 @@ export default {
           }
         },
       ],
-      valid:null,
       fileImage: [],
       fileVideo: [],
       value1: "00:00",
@@ -276,9 +257,9 @@ export default {
   props: {
     hideDiaglog: Function,
     schedule: Object,
-    getData: Function,
   },
   created() {
+    console.log(this.schedule);
     this.score1 = this.schedule.score1;
     this.score2 = this.schedule.score2;
 
@@ -292,7 +273,7 @@ export default {
     close() {
       this.hideDiaglog();
     },
-    async getDataOld() {
+    getDataOld() {
       if (this.schedule.image != null) {
         document.getElementById("image").src =
           this.baseUrl + this.schedule.image;
@@ -301,7 +282,7 @@ export default {
         document.getElementById("video").src =
           this.baseUrl + this.schedule.video;
       }
-      await this.schedule.goal.forEach((element) => {
+      this.schedule.goal.forEach((element) => {
         if (element.team == 1) {
           this.schedule.team[0].profile.forEach((profile) => {
             if (profile.id == element.idMember) {
@@ -309,71 +290,50 @@ export default {
                 profile: profile,
                 time: element.time,
                 idSchedule: this.schedule.idSchedule,
-                 team: 1,
               });
             }
           });
         }
         if (element.team == 2) {
           this.schedule.team[1].profile.forEach((profile) => {
-            console.log(element.idMember);
-            console.log(this.schedule.team[1].profile);
             if (profile.id == element.idMember) {
               this.goal2.push({
                 profile: profile,
                 time: element.time,
                 idSchedule: this.schedule.idSchedule,
-                 team: 2,
               });
             }
           });
         }
       });
-      console.log();
     },
 
     update() {
-      
       this.$store.commit("auth/auth_overlay");
-      if (this.$refs.form.validate()) {
-        const arr = this.goal1.concat(this.goal2);
-        var bodyFormData = new FormData();
-        bodyFormData.append("idSchedule", this.schedule.idSchedule);
-        if (this.fileImage.size > 0) {
-          bodyFormData.append("imageFile", this.fileImage);
+      this.$store.commit("auth/auth_overlay");
+      const arr = this.goal1.concat(this.goal2);
+      console.log(arr);
+      var bodyFormData = new FormData();
+      bodyFormData.append("idSchedule", this.schedule.idSchedule);
+      bodyFormData.append("imageFile", this.fileImage);
+      bodyFormData.append("videoFile", this.fileVideo);
+      bodyFormData.append("score1", this.goal1.length);
+      bodyFormData.append("score2", this.goal2.length);
+      this.$store.dispatch("schedule/update", bodyFormData).then((response) => {
+        this.$store.dispatch("schedule/goalUpdate", arr).then((response) => {
+          if (response.data.code == 0) {
+            alert("Update ");
+            this.close();
+          } else {
+            alert("Error");
+          }
+        });
+        if (response.data.code == 0) {
+          console.log(response.data.payload);
+        } else {
+          alert("Error");
         }
-        if (this.fileVideo.size > 0) {
-          bodyFormData.append("videoFile", this.fileVideo);
-        }
-        bodyFormData.append("image", this.schedule.image);
-        bodyFormData.append("video", this.schedule.video);
-        bodyFormData.append("score1", this.goal1.length);
-        bodyFormData.append("score2", this.goal2.length);
-        console.log(arr)
-        this.$store
-          .dispatch("schedule/update", bodyFormData)
-          .then((response) => {
-            if (response.data.code == 0) {
-              this.$store
-                .dispatch("schedule/goalUpdate", arr)
-                .then((response) => {
-                  if (response.data.code == 0) {
-                    alert("Update ");
-                    this.getData();
-                    this.$store.commit("auth/auth_overlay");
-                    this.close();
-                  } else {
-                    alert("Error");
-                  }
-                });
-            } else {
-              alert("Error");
-            }
-          });
-      } else {
-        this.$refs.form.validate();
-        this.$store.commit("auth/auth_overlay");
-      }
+      });
     },
     ok1() {
       this.tg1 = true;
@@ -389,7 +349,6 @@ export default {
                 profile: element,
                 time: this.value1,
                 idSchedule: this.schedule.idSchedule,
-                team: 1,
               });
             } else {
               this.goal1.forEach((time) => {
@@ -403,7 +362,6 @@ export default {
                   profile: element,
                   time: this.value1,
                   idSchedule: this.schedule.idSchedule,
-                  team: 1,
                 });
               }
             }
@@ -425,7 +383,6 @@ export default {
                 profile: element,
                 time: this.value2,
                 idSchedule: this.schedule.idSchedule,
-                team: 2,
               });
             } else {
               this.goal2.forEach((time) => {
@@ -439,7 +396,6 @@ export default {
                   profile: element,
                   time: this.value2,
                   idSchedule: this.schedule.idSchedule,
-                  team: 2,
                 });
               }
             }
@@ -495,7 +451,7 @@ export default {
     },
     fileVideo(event) {
       if (this.fileVideo == undefined || this.fileVideo == "") {
-        document.getElementById("video").src = "";
+        document.getElementById("image").src = "";
       } else {
         var reader = new FileReader();
         reader.onload = function () {

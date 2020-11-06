@@ -7,7 +7,6 @@
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
           <v-btn
-          v-if="tournament.status!=2"
             color="primary"
             dark
             class="mb-2"
@@ -17,7 +16,15 @@
         </v-toolbar>
         <v-toolbar flat>
           <v-row>
-          
+            <v-col>
+              <v-text-field
+                v-model="searchName"
+                append-icon="mdi-magnify"
+                label="Search Tournament"
+                single-line
+                hide-details
+              ></v-text-field>
+            </v-col>
             <v-col>
               <v-select
                 :items="itemSelect"
@@ -111,7 +118,7 @@
       <template v-slot:[`item.team[0].nameTeam`]="{ item }">
         <div>
           <v-avatar tile>
-            <img :src="baseUrl+item.team[0].logo" alt="Logo" />
+            <img :src="'item.team[0].logo'" alt="Logo" />
           </v-avatar>
           {{ item.team[0].nameTeam }}
         </div>
@@ -119,7 +126,7 @@
       <template v-slot:[`item.team[1].nameTeam`]="{ item }">
         <div>
           <v-avatar tile>
-            <img :src="baseUrl+item.team[1].logo" alt="Logo" />
+            <img :src="item.team[1].logo" alt="Logo" />
           </v-avatar>
           {{ item.team[1].nameTeam }}
         </div>
@@ -186,7 +193,11 @@ export default {
       searchTeam2: "",
 
       headers: [
-       
+        {
+          text: "Name",
+          value: "tournament.nameTournament",
+          filter: this.nameFilter,
+        },
         {
           text: "Time Start",
           value: "timeStart",
@@ -201,12 +212,14 @@ export default {
           text: "Home Team",
           value: "team[0].nameTeam",
           sortable: false,
+          align: "center",
           filter: this.teamFilter1,
         },
         {
           text: "Away team",
           value: "team[1].nameTeam",
           sortable: false,
+          align: "center",
           filter: this.teamFilter2,
         },
         {

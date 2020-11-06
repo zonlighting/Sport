@@ -10,10 +10,7 @@
                 <h1 class="title-h1">Albania Squad</h1>
               </v-col>
             </v-row>
-            <v-row style="max-height:50px">
-              <v-col>
-                <h2 class="pl-5">Tournament name</h2>
-              </v-col>
+            <v-row>
               <v-col cols="12" sm="3">
                 <v-select
                   class="p-0"
@@ -26,8 +23,39 @@
                   solo
                 ></v-select>
               </v-col>
+              <v-col cols="12" sm="3" md="3">
+                <v-select
+                  class="p-0"
+                  v-model="select"
+                  :items="tournaments"
+                  item-text="nameTournament"
+                  item-value="idTournament"
+                  label="2020 - 21"
+                  dense
+                  solo
+                ></v-select>
+              </v-col>
             </v-row>
-            <h5 class="table__Title">November, 2020</h5>
+            <h5 class="table__Title">Outfield Players</h5>
+            <v-divider style="margin: 0 !important"></v-divider>
+            <v-row v-if="isHavedata">
+              <v-col>
+                <v-data-table
+                  :headers="headers1"
+                  :items="desserts"
+                  class="elevation-1"
+                  :items-per-page="15"
+                >
+                  <template v-slot:item.calories="{ item }">
+                    <v-chip :color="getColor(item.calories)" dark>
+                      {{ item.calories }}
+                    </v-chip>
+                  </template>
+                </v-data-table>
+              </v-col>
+            </v-row>
+            <h2 v-else>No Data Available</h2>
+            <h5 class="table__Title">Goalkeepers</h5>
             <v-divider style="margin: 0 !important"></v-divider>
             <v-row v-if="isHavedata">
               <v-col>
@@ -83,19 +111,34 @@ export default {
     isHavedata: true,
     headers: [
       {
-        text: "DATE",
+        text: "Name",
         align: "start",
-        sortable: false,
         value: "name",
       },
-      { text: "", value: "calories", sortable: false },
-      { text: "", value: "protein", sortable: false },
-      { text: "MATCH", value: "fat", sortable: false },
-      { text: "", value: "carbs", sortable: false },
-      { text: "", value: "carbs", sortable: false },
-      { text: "TIME", value: "", sortable: false },
-      { text: "COMPETITION", value: "", sortable: false },
-      { text: "Status", value: "", sortable: false },
+      { text: "Position", value: "calories" },
+      { text: "Age", value: "protein" },
+      { text: "Nation", value: "fat" },
+      { text: "Appearances", value: "fat" },
+      { text: "Saves", value: "fat" },
+      { text: "Assists", value: "fat" },
+      { text: "Fouls Committed", value: "fat" },
+    ],
+
+     headers1: [
+      {
+        text: "Name",
+        align: "start",
+        value: "name",
+      },
+      { text: "Position", value: "calories" },
+      { text: "Age", value: "protein" },
+      { text: "Nation", value: "fat" },
+      { text: "Appearances", value: "fat" },
+      { text: "Shots", value: "fat" },
+      { text: "Saves", value: "fat" },
+      { text: "Goals", value: "fat" },
+      { text: "Assists", value: "fat" },
+      { text: "Fouls Committed", value: "fat" },
     ],
     desserts: [],
     tournaments: [],

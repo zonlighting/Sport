@@ -23,8 +23,7 @@
               <v-card-text>
                 <v-row class="text-center" style="color: white">
                   <v-col
-                    ><h2 style="color: yellow">{{ this.timeDate.ngay }}</h2>
-
+                    ><h2 style="color: yellow">{{ this.timeDate.day }}</h2>
                     DAYS</v-col
                   >
                   <v-col
@@ -81,8 +80,9 @@
                   <h5>
                     {{ recentMatch.location }} |
                     {{ new Date(time).toString().substring(0, 15) }}
+
                   </h5>
-                  <h3>{{ time.substring(11, 16) }}</h3>
+                  <h3>{{ time.substring(11, 19) }}</h3>
                 </div>
               </v-card-text>
             </v-card>
@@ -94,7 +94,7 @@
                 height="415"
               ></v-img>
               <div style="position: absolute; top: 180px">
-                <v-btn fab style="left: 270px" @click="lastVideo = true"
+                <v-btn fab style="left: 270px"
                   ><v-icon>mdi-arrow-right-drop-circle</v-icon>
                 </v-btn>
               </div>
@@ -127,12 +127,13 @@
             >
               <v-carousel-item
                 v-for="(item, i) in lastResults.length - 10"
+
                 :key="i"
               >
                 <v-sheet color="white" height="100%">
                   <v-container>
                     <v-row>
-                      <span v-for="(item, index) in lastResults" :key="index">
+                    <span v-for="(item, index) in lastResults" :key="index">
                         <template v-if="index >= i">
                           <v-col @click="detailResults(item)">
                             <div
@@ -258,6 +259,7 @@
                   </p>
                 </v-container>
               </div>
+
             </div>
           </v-col>
           <v-col cols="12" sm="3">
@@ -421,6 +423,7 @@
         style="background: black"
       ></video>
     </v-dialog>
+
   </div>
 </template>
 <script>
@@ -469,6 +472,7 @@ export default {
     },
     getRecentMatch() {
       this.$store.commit("auth/auth_overlay");
+
       this.$store
         .dispatch("schedule/recentMatch")
         .then((response) => {
@@ -569,7 +573,7 @@ export default {
           var gio = (c / 3600) % 24;
           var ngay = c / 86000;
           this.timeDate = {
-            giay: Math.ceil(giay),
+            giay: giay,
             phut: Math.ceil(phut),
             gio: Math.ceil(gio),
             ngay: Math.ceil(ngay),

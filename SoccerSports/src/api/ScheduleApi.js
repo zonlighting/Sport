@@ -35,3 +35,4 @@ export function lastResults(){
 }
 export function getByStatus(status){
     return Api.get(`/schedule/getByStatus?status=${status}`)}
+}
