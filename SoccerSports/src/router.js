@@ -83,6 +83,7 @@ let routes = [
       },
       {
         path: '/team',
+        redirect: '404',
         component: () => import('@/views/web/team/index'),
         children: [
           {

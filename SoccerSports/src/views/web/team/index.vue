@@ -5,17 +5,16 @@
       <v-col cols="11" md="9" xm="9">
         <v-row>
           <v-img
-            lazy-src="https://picsum.photos/id/11/10/6"
             max-height="70"
             max-width="70"
-            src="https://picsum.photos/id/11/500/300"
+            :src="baseUrl + team.logo"
           ></v-img>
           <v-toolbar-title class="pl-5">
             <h1 style="font-weight: 500; line-height: 34px; color: #2b2c2d">
-              Name Team
+              {{team.nameTeam}}
             </h1>
-            <h5 class="pt-3" style="font-size: 12px; font-weight: 400">
-              3rd in UEFA Nations League
+            <h5 class="pt-3" style="font-size: 18px; font-weight: 400">
+              {{team.country}}
             </h5>
           </v-toolbar-title>
         </v-row>
@@ -39,21 +38,24 @@
 </template>
 
 <script>
+import { ENV } from "@/config/env.js";
 export default {
   data() {
     return {
-      active_tab: this.$store.state.team.currentTab
+      active_tab: this.$store.state.team.currentTab,
+      team: {},
     };
   },
-
+  mounted() {
+    this.team = this.$store.state.team.teamDetail;
+  },
   computed: {
-    // active_tab() {
-    //   return this.$store.state.team.currentTab;
-    // },
+    baseUrl() {
+      return ENV.BASE_IMAGE;
+    },
   },
   methods: {
     teamRoute(check) {
-    
       this.$store.commit("team/current_tab", check);
       if (check == 0) {
         this.$router.push({

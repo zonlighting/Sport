@@ -18,16 +18,19 @@ export function getById(idTournament) {
 export function tournamentUpComming() {
     return Api.get('/tournament/tournamentUpComming')
 }
-export function deleteTeam(data){
+export function deleteTeam(data) {
     return Api.post(`tournament/deleteTeam?idTeam=${data.idTeam}&idTournament=${data.idTournament}`)
 }
-export function addTeam(data){
+export function addTeam(data) {
     return Api.post(`tournament/addTeam?listTeam=${data.listTeam}&idTournament=${data.idTournament}`)
-
 }
-export function tournamentRank(idTournament){
+export function tournamentRank(idTournament) {
     return Api.get(`tournament/tournamentRank?idTournament=${idTournament}`)
 }
+export function rankByTour(idTournament) {
+    return Api.get(`tournament/rankInTour/` + idTournament)
+}
+
 export function tournamentStatus(status){
     return Api.get(`tournament/tournamentStatus?status=${status}`)
 }

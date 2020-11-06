@@ -5,14 +5,16 @@ import { getTeamNoTournament } from '../api/TeamApi'
 
 
 const state = {
-    currentTab: ""
+    currentTab: "",
+    teamDetail:"",
 }
 
 const mutations = {
     current_tab(state, index) {
-        console.log("index")
-        console.log(index)
         state.currentTab = index
+    },
+    team_detail(state, team) {
+        state.teamDetail = team
     },
 }
 

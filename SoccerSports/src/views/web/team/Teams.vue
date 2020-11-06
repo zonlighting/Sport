@@ -10,7 +10,7 @@
                 <h1 style="font-weight: bold; color: black">Soccer Teams</h1>
               </v-col>
             </v-row>
-            <v-row style="max-height:60px">
+            <v-row style="max-height: 60px">
               <h3 class="pl-4">{{ tournament.nameTournament }}</h3>
               <v-spacer></v-spacer>
               <v-col cols="12" sm="3">
@@ -25,7 +25,7 @@
                 ></v-select>
               </v-col>
             </v-row>
-            <v-divider style="margin:0 !important"></v-divider>
+            <v-divider style="margin: 0 !important"></v-divider>
             <v-row v-if="isHavedata">
               <v-col
                 cols="12"
@@ -34,24 +34,41 @@
                 :key="team.idTeam"
               >
                 <v-row>
-                  <router-link :to="{name: 'fixtures', params: { teamId: team.idTeam }}">
                   <v-img
+                    @click="linkTeamDetail(team, 1)"
                     :src="baseUrl + team.logo"
-                    max-width="50"
-                    max-height="50"
-                    class="ml-3"
+                    max-width="60"
+                    max-height="60"
+                    class="ml-3 pointer"
                   ></v-img>
-                  </router-link>
                   <v-col cols="12" sm="5" class="pt-0">
-                    <router-link :to="{name: 'fixtures', params: { teamId: team.idTeam }}">
-                      <h5 class="nameTeam">{{ team.nameTeam }}</h5>
-                    </router-link>
+                    <h5
+                      @click="linkTeamDetail(team, 1)"
+                      class="nameTeam pointer"
+                    >
+                      {{ team.nameTeam }}
+                    </h5>
                     <v-row class="pl-3">
-                      <router-link :to="{name: 'results', params: { teamId: team.idTeam }}"><p class="teamlink">Results</p></router-link>
+                      <p
+                        @click="linkTeamDetail(team, 2)"
+                        class="teamlink pointer"
+                      >
+                        Results
+                      </p>
                       <v-divider class="ml-1 mr-1" inset vertical></v-divider>
-                      <router-link :to="{name: 'squad', params: { teamId: team.idTeam }}"><p class="teamlink">Squad</p></router-link>
+                      <p
+                        @click="linkTeamDetail(team, 3)"
+                        class="teamlink pointer"
+                      >
+                        Squad
+                      </p>
                       <v-divider class="ml-1 mr-1" inset vertical></v-divider>
-                      <router-link :to="{name: 'stats', params: { teamId: team.idTeam }}"><p class="teamlink">Stats</p></router-link>
+                      <p
+                        @click="linkTeamDetail(team, 4)"
+                        class="teamlink pointer"
+                      >
+                        Stats
+                      </p>
                     </v-row>
                   </v-col>
                 </v-row>
@@ -59,31 +76,11 @@
             </v-row>
             <h2 v-else>No Data Available</h2>
           </v-card-text>
-
-          <!-- <v-divider></v-divider> -->
-
-          <!-- <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="success" depressed> Post </v-btn>
-          </v-card-actions> -->
         </v-col>
         <v-col cols="12" sm="4">
           <v-row style="height: 107px"></v-row>
-          <v-row>
-            <v-data-table
-              :headers="headers"
-              :items="desserts"
-              class="elevation-1"
-              :items-per-page="15"
-            >
-              <template v-slot:item.calories="{ item }">
-                <v-chip :color="getColor(item.calories)" dark>
-                  {{ item.calories }}
-                </v-chip>
-              </template>
-            </v-data-table>
-          </v-row>
-        </v-col>
+          <v-row><RankByTour :tourId="tournament.idTournament" /></v-row
+        ></v-col>
       </v-row>
     </v-card>
   </div>
@@ -91,8 +88,12 @@
 
 <script>
 import { ENV } from "@/config/env.js";
+import RankByTour from "@/views/web/team/RankByTour";
 
 export default {
+  components: {
+    RankByTour,
+  },
   data: () => ({
     select: "",
     isHavedata: true,
@@ -173,10 +174,29 @@ export default {
         });
     },
 
-    getColor(calories) {
-      if (calories > 400) return "red";
-      else if (calories > 200) return "orange";
-      else return "green";
+    linkTeamDetail(team, routerLink) {
+      this.$store.commit("team/team_detail", team);
+      if (routerLink == 1) {
+        this.$router.push({
+          path: `/fixtures/${team.idTeam}`,
+          query: { tourId: team.idTour },
+        });
+      } else if (routerLink == 2) {
+        this.$router.push({
+          path: `/results/${team.idTeam}`,
+          query: { tourId: team.idTour },
+        });
+      } else if (routerLink == 3) {
+        this.$router.push({
+          path: `/squad/${team.idTeam}`,
+          query: { tourId: team.idTour },
+        });
+      } else {
+        this.$router.push({
+          path: `/stats/${team.idTeam}`,
+          query: { tourId: team.idTour },
+        });
+      }
     },
   },
 };
@@ -199,5 +219,8 @@ export default {
 .my-span {
   color: white;
   font-weight: bold;
+}
+.pointer {
+  cursor: pointer;
 }
 </style>
