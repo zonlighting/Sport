@@ -23,8 +23,7 @@
               <v-card-text>
                 <v-row class="text-center" style="color: white">
                   <v-col
-                    ><h2 style="color: yellow">{{ this.timeDate.ngay }}</h2>
-
+                    ><h2 style="color: yellow">{{ this.timeDate.day }}</h2>
                     DAYS</v-col
                   >
                   <v-col
@@ -80,13 +79,15 @@
                     {{ recentMatch.location }} |
                     {{
                       new Date(
-                       time
+                        time.substring(0, 4),
+                        time.substring(5, 7),
+                        time.substring(8, 10)
                       )
                         .toString()
-                        .substring(0, 15)
+                        .substring(0, 18)
                     }}
                   </h5>
-                  <h3>{{ time.substring(11, 16) }}</h3>
+                  <h3>{{ time.substring(11, 19) }}</h3>
                 </div>
               </v-card-text>
             </v-card>
@@ -98,7 +99,7 @@
                 height="415"
               ></v-img>
               <div style="position: absolute; top: 180px">
-                <v-btn fab style="left: 270px" @click="lastVideo = true"
+                <v-btn fab style="left: 270px"
                   ><v-icon>mdi-arrow-right-drop-circle</v-icon>
                 </v-btn>
               </div>
@@ -130,34 +131,34 @@
               style="margin-left: 80px"
             >
               <v-carousel-item
-                v-for="(item, i) in lastResults.length "
+                v-for="(item, i) in schedule.length - 2"
                 :key="i"
               >
                 <v-sheet color="white" height="100%">
                   <v-container>
                     <v-row>
-                      <span v-for="(item, index) in lastResults" :key="index">
-                        <v-col >
+                      <span v-for="(team, index) in schedule" :key="index">
+                        <v-col v-if="index >= i">
                           <div
                             style="
                               margin-left: 60px;
                               background-image: url(https://rstheme.com/products/html/khelo/images/background/result-bg.jpg);
                             "
                           >
-                            <div><h3>{{item.location}}</h3></div>
+                            <div><h3>Mestalla Stadium</h3></div>
                             <v-row>
                               <v-col>
-                                <v-img :src="baseUrl+item.team[0].logo"
+                                <v-img src=images/soccer-logo-by-Vexels.png
                                 lazy-src="@/assets/err.png" width="100px" />
-                                {{ item.team[0].nameTeam }}
+                                {{ team.team1 }}
                               </v-col>
                               <v-col style="margin-top: 20px"
-                                ><h2>{{item.score1}}-{{item.score2}}</h2></v-col
+                                ><h2>1-0</h2></v-col
                               >
                               <v-col
-                                ><v-img :src="baseUrl+item.team[1].logo"
+                                ><v-img src=images/soccer-logo-by-Vexels.png
                                 lazy-src="@/assets/err.png" width="100px" />
-                                  {{ item.team[1].nameTeam }}</v-col
+                                Valencia</v-col
                               >
                             </v-row>
                           </div>
@@ -179,37 +180,27 @@
           <v-col cols="12" sm="2"></v-col>
           <v-col cols="12" sm="6">
             <h1>LATEST TOURNAMENT</h1>
-          
             <v-img
               lazy-src="https://picsum.photos/id/11/10/6"
               min-width="800"
               min-height="530"
-              :src="tournamentResults.length>0?baseUrl+tournamentResults[tournamentResults.length-1].banner:''"
+              src="https://picsum.photos/id/11/500/300"
             ></v-img>
             <div style="position: absolute; bottom: 40px; color: white">
               <v-container
                 style="
                   background-image: linear-gradient(
+                    to top,
                     rgba(33, 71, 144, 0.85) 30%,
                     rgba(255, 255, 255, 0) 70%
                   );
                 "
               >
-                <h3>
-                  {{tournamentResults.length>0?
-                      new Date(
-                        tournamentResults[tournamentResults.length-1].timeStart.substring(0, 4),
-                        tournamentResults[tournamentResults.length-1].timeStart.substring(5, 7),
-                        tournamentResults[tournamentResults.length-1].timeStart.substring(8, 10)
-                      )
-                        .toString()
-                        .substring(0, 18)
-                    :''}}
-
-                </h3>
-                <h2> {{tournamentResults.length>0?tournamentResults[tournamentResults.length-1].nameTournament:'No data'}}</h2>
-                <p style="color:blue">
-                  {{tournamentResults.length>0?tournamentResults[tournamentResults.length-1].description:''}}
+                <h3>May 25,2019</h3>
+                <h2>Latest Point Table For The Premier League</h2>
+                <p>
+                  The snatch is a wide-grip, one-move lift. The clean and jerk
+                  is a close-grip...
                 </p>
               </v-container>
             </div>
@@ -375,42 +366,27 @@
         </v-row>
       </v-container>
     </section>
-    <v-dialog v-model="lastVideo" max-width="500px">
-        <iframe
-          width="500"
-          height="500"
-          :src="baseUrl+video"
-        >
-        </iframe>
-    </v-dialog>
   </div>
 </template>
 <script>
 import { ENV } from "@/config/env.js";
 
 export default {
-   created() {
-     this.getRecentMatch();
-     this.getLastResults();
-     this.getTournament();
+  created() {
+    this.getRecentMatch();
+    this.setintervalTime();
   },
   computed: {
     baseUrl() {
       return ENV.BASE_IMAGE;
     },
   },
-  mounted(){
-  },
   data: () => ({
-    video:"",
-    tournamentResults:{},
     recentMatch: "",
-    lastVideo: false,
     day: "",
     time: "",
     model: 0,
     timeDate: "",
-    lastResults:[],
     schedule: [
       { team1: "1", team2: "b" },
       { team1: "2", team2: "b" },
@@ -438,6 +414,7 @@ export default {
   methods: {
     getRecentMatch() {
       this.$store.commit("auth/auth_overlay");
+
       this.$store
         .dispatch("schedule/recentMatch")
         .then((response) => {
@@ -445,67 +422,27 @@ export default {
           if (response.data.code == 0) {
             this.recentMatch = response.data.payload;
             this.time = response.data.payload.timeStart;
-                this.setintervalTime(this.time);
           } else {
-            console.log(response)
+            alert(response.data.message);
           }
         })
         .catch(function (error) {
           alert(error);
         });
     },
-    getLastVideo(){
-      this.$store.dispatch("schedule/lastVideo").then(response=>{
-       if (response.data.code == 0) {
-          this.video=response.data.payload;
-          } else {
-            alert(response.data.message);
-          }
-        })
-        .catch(function (error) {
-          alert(error);
-        })
-    },
-    getLastResults(){
-       this.$store.dispatch("schedule/lastResults").then(response=>{
-       if (response.data.code == 0) {
-          this.lastResults=response.data.payload;
-          } else {
-            alert(response.data.message);
-          }
-        })
-        .catch(function (error) {
-          alert(error);
-        })
-    },
-    getTournament(){
-      this.$store.dispatch("tournament/tournamentStatus",2).then(response=>{
-       if (response.data.code == 0) {
-          this.tournamentResults=response.data.payload;
-          console.log(this.tournamentResults)
-          } else {
-            alert(response.data.message);
-          }
-        })
-        .catch(function (error) {
-          alert(error);
-        })
-    },
-    setintervalTime(time) {
-      var a = Date.parse(time);
+    setintervalTime() {
+      var a = Date.parse("2020-12-23T10:22:00");
       var b = Date.now();
-      var c = (a-b);
-      c =Math.floor( c / 1000);
+      var c = a - b;
       setInterval(
         function () {
-          c=c-1;
-          console.log(c)
-          var giay = c%60;
-          var phut = (c/60)%60;
-          var gio = (c/3600)%24;
-          var ngay = (c/86000);
+          c = c - 1;
+          var giay = c % 60;
+          var phut = (c / 60) % 60;
+          var gio = (c / 3600) % 24;
+          var ngay = c / 60 / 60 / 24;
           this.timeDate = {
-            giay: Math.ceil(giay),
+            giay: giay,
             phut: Math.ceil(phut),
             gio: Math.ceil(gio),
             ngay: Math.ceil(ngay),

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div style="margin-top:50px">
-      <v-btn color="primary" style="margin-top: 50px" @click="dialogAdd = true" v-if="tournament.status==0"
+    <div>
+      <v-btn color="primary" style="margin-top: 50px" @click="dialogAdd = true"
         >Add Team</v-btn
       >
     </div>
@@ -13,20 +13,20 @@
             <th>Logo</th>
             <th>Số thành viên</th>
             <th>Description</th>
-            <th v-if="tournament.status==0">Action</th>
+            <th>Action</th>
           </tr>
         </thead>
-        <tbody >
-          <tr v-for="(item, index) in listTeam" :key="index" >
+        <tbody>
+          <tr v-for="(item, index) in listTeam" :key="index">
             <td>{{ item.nameTeam }}</td>
             <td>
               <v-avatar>
-                <img :src="baseUrl+item.logo" alt="John" />
+                <img :src="item.logo" alt="John" />
               </v-avatar>
             </td>
             <td>{{!!item&&!!item.profile? item.profile.length:'' }}</td>
             <td>{{ item.description }}</td>
-            <td v-if="tournament.status==0">
+            <td>
               <v-icon style="cursor: pointer" @click="deleteTeam(item)"
                 >mdi-delete</v-icon
               >
@@ -56,13 +56,6 @@
         <v-divider></v-divider>
         <v-card-text style="height: 400px">
           <div v-if="this.listTeamWait.length != 0">
-             <v-row style="margin-left:20px">
-                    <v-col>
-               <b>  Logo</b>
-                    </v-col>
-                    <v-col>
-                     <b>  Name</b></v-col><v-col> <b>  Country</b></v-col>
-                  </v-row>
             <v-radio-group v-model="selectTeam" column>
               <v-radio
                 v-for="(item, index) in listTeamWait"
@@ -70,16 +63,10 @@
                 :value="item.idTeam"
               >
                 <template v-slot:label>
-                  <v-row >
-                    <v-col>
-                  <v-avatar >
+                  <v-avatar tile>
                     <img :src="baseUrl + item.logo" alt="John" />
-                  
+                    {{ item.nameTeam }}
                   </v-avatar>
-                    </v-col>
-                    <v-col>
-                    {{ item.nameTeam }}</v-col><v-col>{{item.country}}</v-col>
-                  </v-row>
                 </template>
               </v-radio>
             </v-radio-group>
@@ -159,16 +146,11 @@ export default {
     },
 
     okDelete() {
-      if(this.listTeam.length<=10){
-        alert("The tournament must have at least 10 teams participating")
-           this.cancel();
-      }
-      else{
       this.$store.commit("auth/auth_overlay");
       this.$store
         .dispatch("tournament/deleteTeam", {
           idTeam: this.idDelete,
-          idTournament: this.$route.params.id,
+          idTournament: this.tournament.idTournament,
         })
         .then((response) => {
           this.$store.commit("auth/auth_overlay");
@@ -178,14 +160,11 @@ export default {
             alert(response.data.message);
           } else {
             alert(response.data.message);
-                        this.cancel();
           }
         })
         .catch(function (error) {
           alert(error);
-                      this.cancel();
         });
-      }
     },
   },
   watch: {

@@ -123,7 +123,7 @@
         <template v-slot:[`item.team[0].nameTeam`]="{ item }">
           <div>
             <v-avatar tile>
-              <img :src="baseUrl+item.team[0].logo" alt="Logo" />
+              <img :src="'item.team[0].logo'" alt="Logo" />
             </v-avatar>
             {{ item.team[0].nameTeam }}
           </div>
@@ -131,7 +131,7 @@
         <template v-slot:[`item.team[1].nameTeam`]="{ item }">
           <div>
             <v-avatar tile>
-              <img :src="baseUrl+item.team[1].logo" alt="Logo" />
+              <img :src="item.team[1].logo" alt="Logo" />
             </v-avatar>
             {{ item.team[1].nameTeam }}
           </div>
@@ -227,12 +227,14 @@ export default {
           text: "Home Team",
           value: "team[0].nameTeam",
           sortable: false,
+          align: "center",
           filter: this.teamFilter1,
         },
         {
           text: "Away team",
           value: "team[1].nameTeam",
           sortable: false,
+          align: "center",
           filter: this.teamFilter2,
         },
         {
