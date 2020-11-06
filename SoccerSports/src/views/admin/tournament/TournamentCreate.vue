@@ -199,18 +199,23 @@
                 v-for="(item, index) in listTeam"
                 :key="index"
               >
-                <v-avatar>
-                  <v-img :src="baseUrl + item.logo"></v-img>
-                </v-avatar>
-                <b style="text-transform: uppercase; margin-left: 20px">{{
-                  item.nameTeam
-                }}</b>
-                <v-checkbox
-                  style="display: inline-block; margin-left: 20px"
-                  v-model="teamSelected"
-                  :value="item.idTeam"
-                >
-                </v-checkbox>
+                <v-row>
+                  <v-col cols="12" sm="8">
+                    <v-avatar>
+                      <v-img :src="baseUrl + item.logo"></v-img>
+                    </v-avatar>
+                    <b style="text-transform: uppercase; margin-left: 20px">{{
+                      item.nameTeam
+                    }}</b>
+                  </v-col>
+                  <v-col cols="12" sm="4">
+                    <v-checkbox
+                      style="display: inline-block; margin-left: 20px"
+                      v-model="teamSelected"
+                      :value="item.idTeam"
+                    >
+                    </v-checkbox> </v-col
+                ></v-row>
               </v-col>
             </v-row>
           </v-container>
@@ -287,14 +292,12 @@ export default {
       });
     },
     save() {
-      console.log(this.fileImage);
       if (!this.$refs.form.validate()) {
         this.$refs.form.validate();
       } else {
-        if (this.teamSelected > 0 && this.teamSelected.length < 0) {
+        if (this.teamSelected.length >= 0 && this.teamSelected.length < 10) {
           alert("The tournament must have at least 10 teams participating");
         } else {
-          this.$store.commit("auth/auth_overlay");
           var bodyFormData = new FormData();
           bodyFormData.append("nameTournament", this.nameTournament);
           bodyFormData.append("timeEnd", this.dateEnd);
@@ -308,7 +311,6 @@ export default {
           this.$store
             .dispatch("tournament/create", bodyFormData)
             .then((response) => {
-              this.$store.commit("auth/auth_overlay");
               if (response.data.code == 0) {
                 this.close();
                 alert(response.data.message);

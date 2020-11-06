@@ -1,6 +1,5 @@
 import { addTeam, create, deleteTeam, deleteTournament, getAll, getById, rankAll, tournamentCheck, tournamentRank, tournamentStatus, tournamentUpComming } from "../api/Tournament";
 
-
 const actions = {
     getAll() {
         return new Promise((resolve, reject) => {
@@ -42,6 +41,15 @@ const actions = {
     getById(__,idTournament) {
         return new Promise((resolve, reject) => {
             getById(idTournament).then(res => {
+                resolve(res);
+            }).catch((err) => {
+                reject(err);
+            })
+        })
+    },
+    tournamentCheck() {
+        return new Promise((resolve, reject) => {
+            tournamentCheck().then(res => {
                 resolve(res);
             }).catch((err) => {
                 reject(err);
@@ -92,7 +100,6 @@ const actions = {
                 reject(err);
             })
         })
-
     }
 
     
