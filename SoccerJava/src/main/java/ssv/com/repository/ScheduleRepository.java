@@ -90,5 +90,11 @@ public class ScheduleRepository {
 
 	}
 
+
+	public void updateStatus1(int idSchedule) {
+		scheduleMapper.onGame(idSchedule);
+		
+	}
+
 	
 }

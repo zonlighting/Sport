@@ -27,3 +27,9 @@ export function getByTour(idTournament){
 export function recentMatch(){
     return Api.get("/schedule/recentMatch")
 }
+export function lastVideo(){
+    return Api.get("/schedule/lastVideo")
+}
+export function lastResults(){
+    return Api.get("/schedule/lastResults")
+}

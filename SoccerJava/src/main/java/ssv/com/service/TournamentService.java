@@ -1,6 +1,7 @@
 package ssv.com.service;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -149,13 +150,13 @@ public class TournamentService {
 		List<TeamDetail> details = new ArrayList<TeamDetail>();
 		List<Team> teams = tournamentRepository.getById(idTournament).getTeam();
 		for (Team team : teams) {
-			details.add(teamService.getTeamdetail(team.getIdTeam()));
+			details.add(teamService.getTeamdetail(team.getIdTeam(),idTournament));
 		}
 		Collections.sort(details, new Comparator<TeamDetail>() {
 
 			@Override
 			public int compare(TeamDetail o1, TeamDetail o2) {
-				return o1.getPointByTour() - o2.getPointByTour();
+				return o2.getPointByTour() - o1.getPointByTour();
 			}
 
 		});
@@ -163,6 +164,9 @@ public class TournamentService {
 		return details;
 	}
 
+	public List<Tournament> tournamentStatus(int status) {
+		return tournamentRepository.tournamentStatus(status);
+}
 	public Set<RankDto> rankByTour(int idTournament) {
 		List<Schedule> schedules = tournamentRepository.getById(idTournament).getSchedule();
 		List<Team> teams = tournamentRepository.getById(idTournament).getTeam();
@@ -192,6 +196,24 @@ public class TournamentService {
 			}
 		}
 		return ranks;
+	}
+
+	public void checkStatus() {
+		LocalDate date=LocalDate.now();
+		for (Tournament tournament : tournamentRepository.getAll()) {
+			if(tournament.getTimeEnd().isBefore(date)) {
+				tournamentRepository.finished(tournament.getIdTournament());
+				teamService.formatTournament(tournament.getIdTournament());
+			}
+			else if (tournament.getTimeStart().isAfter(date)) {
+				continue;
+			}
+			else {
+				tournamentRepository.ongGame(tournament.getIdTournament());
+
+			}
+		}
+		
 	}
 
 }

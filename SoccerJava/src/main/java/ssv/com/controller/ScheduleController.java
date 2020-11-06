@@ -88,4 +88,23 @@ public class ScheduleController {
 	public ResponseQuery<?> getByStatus(@RequestParam int status){
 		return ResponseQuery.success("Connect",scheduleService.getByStatus(status));
 	}
+
+	//Hiển thị video giải kết thúc gần nhất 
+	@GetMapping(value="lastVideo")
+	public ResponseQuery<?> lastVideo(){
+		
+		return ResponseQuery.success("Connect",scheduleService.lastVideo());
+
+	}
+	//Kết quả các trận đấu gần nhất	
+	@GetMapping(value="lastResults")
+	public ResponseQuery<?> lastResults(){
+		if(scheduleService.lastResults()==null) {
+			return ResponseQuery.faild("Null", null);
+		}
+		return ResponseQuery.success("Connect", scheduleService.lastResults());
+	}
+	
+	
+
 }
