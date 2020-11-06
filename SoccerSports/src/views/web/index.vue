@@ -33,47 +33,22 @@
                           ><span></span> <span></span> <span></span>
                           <span></span>
                         </a>
-                        <ul class="sub-menu">
-                          <li><a href="gallerypage01.html">UpComming</a></li>
-                          <li>
-                            <a href="gallery02.html">Ongame</a>
-                          </li>
-                          <li>
-                            <a href="gallery03.html">Finshed</a>
-                          </li>
-                        </ul>
                       </li>
                       <li>
                         <a>
-                          <router-link to="/Schedule">Schedule</router-link
-                          ><span></span> <span></span> <span></span>
-                          <span></span>
-                        </a>
-
-                        <ul class="sub-menu">
-                          <li><a href="gallerypage01.html">UpComming</a></li>
-                          <li>
-                            <a href="gallery02.html">Ongame</a>
-                          </li>
-                          <li>
-                            <a href="gallery03.html">Finshed</a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li>
-                        <a>
-                          <router-link to="/Schedule">Rank</router-link
+                          <router-link to="/schedule">Schedule</router-link
                           ><span></span> <span></span> <span></span>
                           <span></span>
                         </a>
                       </li>
                       <li>
                         <a>
-                          <router-link to="/Schedule">Rank</router-link
+                          <router-link to="/rank">Rank</router-link
                           ><span></span> <span></span> <span></span>
                           <span></span>
                         </a>
                       </li>
+                     
                     </ul>
                   </div>
                 </div>

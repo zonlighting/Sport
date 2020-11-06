@@ -96,5 +96,10 @@ public class ScheduleRepository {
 		
 	}
 
+	public int teamAdraw(int idTeam) {
+		// TODO Auto-generated method stub
+		return scheduleMapper.teamAdraw(idTeam);
+	}
+
 	
 }

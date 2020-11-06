@@ -8,7 +8,7 @@ import Home from '@/views/web/home/Home'
 import Schedule from '@/views/web/schedule/Schedule'
 import ScheduleDetail from '@/views/web/schedule/ScheduleDetail'
 import Summary from '@/views/web/schedule/Summary'
-import Tournament from '@/views/web/tournament/Tournament'
+import indexTournament from '@/views/web/tournament/index'
 import Teams from '@/views/web/team/Teams'
 
 import admin from '@/views/admin/index'
@@ -52,7 +52,30 @@ let routes = [
 
       {
         path: '/tournament',
-        component: Tournament
+        component: indexTournament,
+        children: [
+          {
+              path: '/',
+              component: () => import('@/views/web/tournament/Tournament'),
+          },
+          {
+            path: '/tournamentDetail/:id',
+            component: () => import('@/views/web/tournament/TournamentDetail'),
+            children:[
+              {
+                path: '/',
+                name:"TournamnetHome",
+                component: () => import('@/views/web/tournament/TournamentHome'),
+            },
+            ]
+          },
+          
+        ]
+      },
+      {
+        path:'/rank',
+        name:"Rank",
+        component: () => import('@/views/web/rank/Rank')
       },
       {
         path: '/teams',

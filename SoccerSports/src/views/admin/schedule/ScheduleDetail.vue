@@ -16,7 +16,7 @@
         v-if="schedule.status == 0"
         style="right: 0px; position: absolute"
         color="blue"
-        @click="dialogEdit=true"
+        @click="dialogEdit = true"
         >Edit</v-btn
       >
       <h1 class="text-center">
@@ -53,14 +53,16 @@
 
       <div>
         <h3 style="color: blue">#Schedule</h3>
-        <template v-if="schedule.statu == 2">
+        <template v-if="schedule.status != 2">
           <h1 class="text-center">
             The match is not over or has not been updated
           </h1>
         </template>
-        <template v-if="schedule.status != 2" style="font-family: arial">
+        <template v-else style="font-family: arial">
           <h1 class="text-center" style="font-size: 80px">
-            {{ schedule.status==2?schedule.score1:'' }}-{{ schedule.status==2?schedule.score2:'' }}
+            {{ schedule.status == 2 ? schedule.score1 : "" }}-{{
+              schedule.status == 2 ? schedule.score2 : ""
+            }}
           </h1>
           <v-row>
             <v-col class="text-right">
@@ -72,7 +74,7 @@
                     style="font-size: 40px"
                   >
                     <v-icon>mdi-soccer</v-icon>{{ item.profile.name }}-{{
-                      item.time
+                      item.time.substring(0, 5)
                     }}
                   </v-list-item-subtitle>
                 </v-list-item-content>
@@ -87,7 +89,7 @@
                     style="font-size: 40px"
                   >
                     <v-icon>mdi-soccer</v-icon>{{ item.profile.name }}-{{
-                      item.time
+                      item.time.substring(0, 5)
                     }}
                   </v-list-item-subtitle>
                 </v-list-item-content>
@@ -96,15 +98,15 @@
           </v-row>
         </template>
       </div>
-      <hr>
+      <hr />
       <h3 style="color: blue">#Team</h3>
       <v-row>
         <v-col v-for="(team, index) in schedule.team" :key="index">
           <div class="text-center">
             <img
               lazy-src="https://picsum.photos/id/11/10/6"
-              style="width: 100px;height:100px"
-              :src="baseUrl+team.logo"
+              style="width: 100px; height: 100px"
+              :src="baseUrl + team.logo"
             />
             <h2>{{ team.nameTeam }}</h2>
           </div>
@@ -165,10 +167,7 @@
               <v-list-item v-for="(item, i) in team.profile" :key="i">
                 <v-list-item-icon>
                   <v-avatar>
-                    <img
-                      :src="baseUrl+item.avatar"
-                      alt="avatar"
-                    />
+                    <img :src="baseUrl + item.avatar" alt="avatar" />
                   </v-avatar>
                 </v-list-item-icon>
                 <v-list-item-content>
@@ -186,37 +185,31 @@
               </v-list-item>
             </v-list-item-group>
           </v-list>
-          
         </v-col>
       </v-row>
       <hr />
-      <template  v-if="schedule.video != null || schedule.image != null">
-      <h3
-        style="color: blue"
-       
-      >
-        #Video,Photo
-      </h3>
-      <v-row>
-        <v-col>
-          <v-container>
-            <h3>Photo</h3>
-            <img style="max-height: 204px" :src="baseUrl + schedule.image" />
-          </v-container>
-        </v-col>
-        <v-col>
-          <v-container>
-            <h3>Video</h3>
-            <video
-              width="320"
-              height="240"
-              controls
-              :src="baseUrl + schedule.video"
-              id="video"
-            ></video>
-          </v-container>
-        </v-col>
-      </v-row>
+      <template v-if="schedule.video != null || schedule.image != null">
+        <h3 style="color: blue">#Video,Photo</h3>
+        <v-row>
+          <v-col>
+            <v-container>
+              <h3>Photo</h3>
+              <img style="max-height: 204px" :src="baseUrl + schedule.image" />
+            </v-container>
+          </v-col>
+          <v-col>
+            <v-container>
+              <h3>Video</h3>
+              <video
+                width="320"
+                height="240"
+                controls
+                :src="baseUrl + schedule.video"
+                id="video"
+              ></video>
+            </v-container>
+          </v-col>
+        </v-row>
       </template>
     </v-container>
     <v-dialog
@@ -226,7 +219,11 @@
       transition="dialog-bottom-transition"
     >
       <v-card>
-        <ScheduleUpdate :hideDiaglog="hideDiaglog" :schedule="schedule" />
+        <ScheduleUpdate
+          :hideDiaglog="hideDiaglog"
+          :schedule="schedule"
+          :getData="getData"
+        />
       </v-card>
     </v-dialog>
     <v-dialog
@@ -237,7 +234,11 @@
       transition="dialog-bottom-transition"
     >
       <v-card>
-        <ScheduleEdit :hideDiaglog="hideDiaglog" :schedule="schedule" :getData="getData" />
+        <ScheduleEdit
+          :hideDiaglog="hideDiaglog"
+          :schedule="schedule"
+          :getData="getData"
+        />
       </v-card>
     </v-dialog>
   </div>
@@ -245,11 +246,11 @@
 <script>
 import { ENV } from "@/config/env.js";
 import ScheduleUpdate from "./ScheduleUpdate";
-import ScheduleEdit from "./ScheduleEdit"
+import ScheduleEdit from "./ScheduleEdit";
 export default {
   data() {
     return {
-      dialogEdit:false,
+      dialogEdit: false,
 
       goal1: [],
       goal2: [],
@@ -274,7 +275,7 @@ export default {
   },
   components: {
     ScheduleUpdate,
-    ScheduleEdit
+    ScheduleEdit,
   },
   computed: {
     baseUrl() {
@@ -288,9 +289,11 @@ export default {
   methods: {
     hideDiaglog() {
       this.dialogUpdate = false;
-      this.dialogEdit=false;
+      this.dialogEdit = false;
     },
     getDataGoal() {
+      this.goal1 = [];
+      this.goal2 = [];
       this.schedule.goal.forEach((element) => {
         if (element.team == 1) {
           this.schedule.team[0].profile.forEach((profile) => {
@@ -316,14 +319,15 @@ export default {
         }
       });
     },
-    async getData() {
+    getData() {
       this.$store.commit("auth/auth_overlay");
-      await this.$store
+      this.$store
         .dispatch("schedule/getById", this.$route.params.id)
         .then((response) => {
           this.$store.commit("auth/auth_overlay");
           if (response.data.code == 0) {
             this.schedule = response.data.payload;
+            this.getDataGoal();
             if (this.schedule.idTeam1 > this.schedule.idTeam2) {
               this.$store
                 .dispatch("team/getDetail", this.schedule.team[1].idTeam)
@@ -335,8 +339,7 @@ export default {
                 .then((response) => {
                   this.detailTeam.push(response.data.payload);
                 });
-            }
-            else{
+            } else {
               this.$store
                 .dispatch("team/getDetail", this.schedule.team[0].idTeam)
                 .then((response) => {
@@ -355,7 +358,6 @@ export default {
         .catch(function (error) {
           alert(error);
         });
-      this.getDataGoal();
     },
   },
 };

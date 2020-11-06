@@ -30,3 +30,15 @@ export function tournamentRank(idTournament) {
 export function rankByTour(idTournament) {
     return Api.get(`tournament/rankInTour/` + idTournament)
 }
+
+export function tournamentStatus(status){
+    return Api.get(`tournament/tournamentStatus?status=${status}`)
+}
+export function tournamentCheck(){
+    return Api.post(`tournament/checkStatus`)
+
+}
+export function rankAll(){
+    return Api.get('tournament/rankAll')
+}
+
