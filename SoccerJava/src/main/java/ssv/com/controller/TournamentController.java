@@ -117,4 +117,9 @@ public class TournamentController {
 	public void checkStatus(){
 		tournamentService.checkStatus();
 	}
+	//Danh sách xếp hạng toàn thể
+	@GetMapping(value="rankAll")
+	public ResponseQuery<?> rankAll(){
+		return ResponseQuery.success("Rank", tournamentService.rankAll());
+	}
 }

@@ -135,6 +135,11 @@
 		(schedule_tbl.schedule_team1=${idTeam} or schedule_tbl.schedule_team2=${idTeam}) and
 		schedule_tbl.schedule_status=2
 	</select>
+	<select id="teamAdraw" resultType="Int">
+	SELECT COUNT(schedule_id) FROM schedule_tbl where
+		(schedule_tbl.schedule_team1=${idTeam} or schedule_tbl.schedule_team2=${idTeam})and schedule_tbl.schedule_adraw and
+		schedule_tbl.schedule_status=2
+	</select>
 	<select id="teamTotalWin" resultType="Int">
 		SELECT COUNT(schedule_id)
 		FROM schedule_tbl where schedule_tbl.schedule_winner=${idTeam} ;

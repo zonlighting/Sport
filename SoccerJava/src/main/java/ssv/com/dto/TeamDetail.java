@@ -10,8 +10,11 @@ public class TeamDetail {
 	private String logo;
 	private int totalMatch;
 	private int totalWin;
+	private int totalAdraw;
 	private int totalMatchByTour;
 	private int totalWinByTour;
 	private int pointByTour;
 	private int totalAdrawByTour;
+	private int pointAll;
+	private int idTeam;
 }

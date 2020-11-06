@@ -49,6 +49,7 @@
                             ? baseUrl + recentMatch.team[0].logo
                             : ''
                         "
+                        style="height: 100px"
                         width="100px"
                         lazy-src="@/assets/err.png"
                       />
@@ -68,6 +69,7 @@
                         "
                         width="100px"
                         lazy-src="@/assets/err.png"
+                        style="height: 100px"
                       />{{
                         !!recentMatch ? recentMatch.team[1].nameTeam : ""
                       }}</v-col
@@ -77,15 +79,8 @@
                 <div class="text-center" style="color: white">
                   <h5>
                     {{ recentMatch.location }} |
-                    {{
-                      new Date(
-                        time.substring(0, 4),
-                        time.substring(5, 7),
-                        time.substring(8, 10)
-                      )
-                        .toString()
-                        .substring(0, 18)
-                    }}
+                    {{ new Date(time).toString().substring(0, 15) }}
+
                   </h5>
                   <h3>{{ time.substring(11, 19) }}</h3>
                 </div>
@@ -125,44 +120,63 @@
           <v-col cols="12" md="2" />
           <v-col cols="12" md="8">
             <v-carousel
-              v-model="model"
+              v-model="model1"
               height="210"
               hide-delimiters
               style="margin-left: 80px"
             >
               <v-carousel-item
-                v-for="(item, i) in schedule.length - 2"
+                v-for="(item, i) in lastResults.length - 10"
+
                 :key="i"
               >
                 <v-sheet color="white" height="100%">
                   <v-container>
                     <v-row>
-                      <span v-for="(team, index) in schedule" :key="index">
-                        <v-col v-if="index >= i">
-                          <div
-                            style="
-                              margin-left: 60px;
-                              background-image: url(https://rstheme.com/products/html/khelo/images/background/result-bg.jpg);
-                            "
-                          >
-                            <div><h3>Mestalla Stadium</h3></div>
-                            <v-row>
-                              <v-col>
-                                <v-img src=images/soccer-logo-by-Vexels.png
-                                lazy-src="@/assets/err.png" width="100px" />
-                                {{ team.team1 }}
-                              </v-col>
-                              <v-col style="margin-top: 20px"
-                                ><h2>1-0</h2></v-col
-                              >
-                              <v-col
-                                ><v-img src=images/soccer-logo-by-Vexels.png
-                                lazy-src="@/assets/err.png" width="100px" />
-                                Valencia</v-col
-                              >
-                            </v-row>
-                          </div>
-                        </v-col>
+                    <span v-for="(item, index) in lastResults" :key="index">
+                        <template v-if="index >= i">
+                          <v-col @click="detailResults(item)">
+                            <div
+                              style="
+                                margin-left: 60px;
+                                background-image: url(https://rstheme.com/products/html/khelo/images/background/result-bg.jpg);
+                              "
+                            >
+                              <div>
+                                <h3>{{ item.location }}</h3>
+                              </div>
+                              <v-row>
+                                <v-col>
+                                  <v-img
+                                    :src="baseUrl + item.team[0].logo"
+                                    style="
+                                      margin-left: 20px;
+                                      height: 100px;
+                                      width: 70px;
+                                    "
+                                    lazy-src="@/assets/err.png"
+                                    max-width="70px"
+                                  />
+                                  {{ item.team[0].nameTeam }}
+                                </v-col>
+                                <v-col style="margin-top: 20px"
+                                  ><h2>
+                                    {{ item.score1 }}-{{ item.score2 }}
+                                  </h2></v-col
+                                >
+                                <v-col
+                                  ><v-img
+                                    :src="baseUrl + item.team[1].logo"
+                                    style="margin-right: 20px"
+                                    lazy-src="@/assets/err.png"
+                                    max-width="70px"
+                                  />
+                                  {{ item.team[1].nameTeam }}</v-col
+                                >
+                              </v-row>
+                            </div>
+                          </v-col>
+                        </template>
                       </span>
                     </v-row>
                     <v-card> </v-card>
@@ -180,29 +194,72 @@
           <v-col cols="12" sm="2"></v-col>
           <v-col cols="12" sm="6">
             <h1>LATEST TOURNAMENT</h1>
-            <v-img
-              lazy-src="https://picsum.photos/id/11/10/6"
-              min-width="800"
-              min-height="530"
-              src="https://picsum.photos/id/11/500/300"
-            ></v-img>
-            <div style="position: absolute; bottom: 40px; color: white">
-              <v-container
-                style="
-                  background-image: linear-gradient(
-                    to top,
-                    rgba(33, 71, 144, 0.85) 30%,
-                    rgba(255, 255, 255, 0) 70%
-                  );
+            <div
+              @click="
+                detailTournament(
+                  tournamentResults[tournamentResults.length - 1].idTournament
+                )
+              "
+              style="cursor: pointer"
+            >
+              <v-img
+                lazy-src="https://picsum.photos/id/11/10/6"
+                min-width="800"
+                min-height="530"
+                :src="
+                  tournamentResults.length > 0
+                    ? baseUrl +
+                      tournamentResults[tournamentResults.length - 1].banner
+                    : ''
                 "
-              >
-                <h3>May 25,2019</h3>
-                <h2>Latest Point Table For The Premier League</h2>
-                <p>
-                  The snatch is a wide-grip, one-move lift. The clean and jerk
-                  is a close-grip...
-                </p>
-              </v-container>
+              ></v-img>
+              <div style="position: absolute; bottom: 40px; color: white">
+                <v-container
+                  style="
+                    background-image: linear-gradient(
+                      rgba(33, 71, 144, 0.85) 30%,
+                      rgba(255, 255, 255, 0) 70%
+                    );
+                  "
+                >
+                  <h3>
+                    {{
+                      tournamentResults.length > 0
+                        ? new Date(
+                            tournamentResults[
+                              tournamentResults.length - 1
+                            ].timeStart.substring(0, 4),
+                            tournamentResults[
+                              tournamentResults.length - 1
+                            ].timeStart.substring(5, 7),
+                            tournamentResults[
+                              tournamentResults.length - 1
+                            ].timeStart.substring(8, 10)
+                          )
+                            .toString()
+                            .substring(0, 18)
+                        : ""
+                    }}
+                  </h3>
+                  <h2>
+                    {{
+                      tournamentResults.length > 0
+                        ? tournamentResults[tournamentResults.length - 1]
+                            .nameTournament
+                        : "No data"
+                    }}
+                  </h2>
+                  <p style="color: blue">
+                    {{
+                      tournamentResults.length > 0
+                        ? tournamentResults[tournamentResults.length - 1]
+                            .description
+                        : ""
+                    }}
+                  </p>
+                </v-container>
+              </div>
+
             </div>
           </v-col>
           <v-col cols="12" sm="3">
@@ -226,13 +283,19 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="item in rank" :key="item.name">
-                      <th style="color: white">{{ item.stt }}</th>
-                      <th style="color: white">{{ item.team }}</th>
-                      <th style="color: white">{{ item.win }}</th>
-                      <th style="color: white">9</th>
-                      <th style="color: white">{{ item.lose }}</th>
-                      <th style="color: white">{{ item.pts }}</th>
+                    <tr v-for="(item, index) in rankAll" :key="index">
+                      <template v-if="index < 12" @click="detailTeam(item.idTeam)">
+                        <th style="color: white">{{ index + 1 }}</th>
+                        <th style="color: white">{{ item.nameTeam }}</th>
+                        <th style="color: white">{{ item.totalWin }}</th>
+                        <th style="color: white">{{ item.totalAdraw }}</th>
+                        <th style="color: white">
+                          {{
+                            item.totalMatch - item.totalWin - item.totalAdraw
+                          }}
+                        </th>
+                        <th style="color: white">{{ item.pointAll }}</th>
+                      </template>
                     </tr>
                   </tbody>
                 </template>
@@ -248,36 +311,14 @@
           <v-col cols="12" sm="2"> </v-col>
           <v-col cols="12" sm="6">
             <v-row>
-              <v-col
-                ><v-card max-width="250">
-                  <v-img
-                    height="250"
-                    src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-                  ></v-img>
+              <v-col v-for="(item, index) in tournamentResults" :key="index"
+                ><v-card
+                  max-width="250"
+                  @click="detailTournament(item.idTournament)"
+                >
+                  <v-img height="250" :src="baseUrl + item.banner"></v-img>
 
-                  <v-card-title>Cafe Badilico</v-card-title>
-
-                  <v-card-text> </v-card-text> </v-card
-              ></v-col>
-              <v-col
-                ><v-card max-width="250">
-                  <v-img
-                    height="250"
-                    src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-                  ></v-img>
-
-                  <v-card-title>Cafe Badilico</v-card-title>
-
-                  <v-card-text> </v-card-text> </v-card
-              ></v-col>
-              <v-col
-                ><v-card max-width="250">
-                  <v-img
-                    height="250"
-                    src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-                  ></v-img>
-
-                  <v-card-title>Cafe Badilico</v-card-title>
+                  <v-card-title>{{ item.nameTournament }}</v-card-title>
 
                   <v-card-text> </v-card-text> </v-card
               ></v-col>
@@ -285,8 +326,8 @@
           </v-col>
           <v-col cols="12" sm="3">
             <h1>MATCH FIXTURES</h1>
-            <v-carousel v-model="model" height="210" hide-delimiters>
-              <v-carousel-item v-for="(item, i) in schedule" :key="i">
+            <v-carousel v-model="model2" height="210" hide-delimiters>
+              <v-carousel-item v-for="(item, i) in matchFixtures" :key="i">
                 <v-sheet color="white" height="100%">
                   <v-container>
                     <div
@@ -294,20 +335,31 @@
                         background-image: url(https://rstheme.com/products/html/khelo/images/background/result-bg.jpg);
                       "
                     >
-                      <div><h3 class="text-center">Mestalla Stadium</h3></div>
+                      <div>
+                        <h3 class="text-center">{{ item.location }}</h3>
+                      </div>
                       <v-row>
                         <v-col class="text-center">
-                          <v-img src=images/soccer-logo-by-Vexels.png
-                          lazy-src="@/assets/err.png" width="100px" />
-                          {{ item.team1 }}
+                          <v-img
+                            :src="baseUrl + item.team[0].logo"
+                            lazy-src="@/assets/err.png"
+                            width="100px"
+                            height="100xp"
+                            style="height: 100px"
+                          />
+                          {{ item.team[0].nameTeam }}
                         </v-col>
                         <v-col style="margin-top: 20px" class="text-center"
-                          ><h5>24-4-2019</h5>
-                          19:00:00</v-col
+                          ><h5>{{ item.timeStart.substring(0, 10) }}</h5>
+                          {{ item.timeStart.substring(11, 16) }}</v-col
                         >
                         <v-col class="text-center"
-                          ><v-img src=images/soccer-logo-by-Vexels.png
-                          lazy-src="@/assets/err.png" width="100px" />
+                          ><v-img
+                            :src="baseUrl + item.team[1].logo"
+                            lazy-src="@/assets/err.png"
+                            width="100px"
+                            style="height: 100px"
+                          />
                           Valencia</v-col
                         >
                       </v-row>
@@ -327,17 +379,14 @@
         <v-row class="text-center">
           <v-col cols="12" md="2" />
           <v-col cols="12" md="9">
-            <v-carousel v-model="model" height="370" hide-delimiters>
-              <v-carousel-item
-                v-for="(item, i) in schedule.length - 2"
-                :key="i"
-              >
+            <v-carousel v-model="model3" height="350" hide-delimiters>
+              <v-carousel-item v-for="(items, i) in team.length-2" :key="i">
                 <v-sheet color="white" height="100%">
                   <v-container>
                     <v-row>
-                      <span v-for="(team, index) in schedule" :key="index">
-                        <v-col v-if="index >= i">
-                          <div
+                      <span v-for="(item, index) in team" :key="index">
+                        <v-col v-if="index>i">
+                          <div @click="detailTeam(item.idTeam)"
                             style="
                               margin-left: 12px;
                               background-image: url(https://rstheme.com/products/html/khelo/images/background/result-bg.jpg);
@@ -346,10 +395,9 @@
                             <v-card width="290">
                               <v-img
                                 height="250"
-                                src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+                                :src="baseUrl+item.logo"
                               ></v-img>
-
-                              <v-card-title>Cafe Badilico</v-card-title>
+                              <v-card-title>{{item.nameTeam}}</v-card-title>
 
                               <v-card-text> </v-card-text>
                             </v-card>
@@ -366,6 +414,16 @@
         </v-row>
       </v-container>
     </section>
+    <v-dialog v-model="lastVideo" max-width="500px">
+      <video
+        controls
+        width="500"
+        height="500"
+        :src="baseUrl + video"
+        style="background: black"
+      ></video>
+    </v-dialog>
+
   </div>
 </template>
 <script>
@@ -374,44 +432,44 @@ import { ENV } from "@/config/env.js";
 export default {
   created() {
     this.getRecentMatch();
-    this.setintervalTime();
+    this.getLastResults();
+    this.getTournament();
+    this.getLastVideo();
+    this.getRank();
+    this.getMatchFixtures();
+    this.getTeam();
   },
   computed: {
     baseUrl() {
       return ENV.BASE_IMAGE;
     },
   },
+  mounted() {},
   data: () => ({
-    recentMatch: "",
+    rankAll: [],
+    video: "",
+    tournamentResults: [],
+    recentMatch: [],
+    lastVideo: false,
     day: "",
     time: "",
-    model: 0,
+    model1: 0,
+    model2: 0,
+    model3: 0,
     timeDate: "",
-    schedule: [
-      { team1: "1", team2: "b" },
-      { team1: "2", team2: "b" },
-      { team1: "3", team2: "b" },
-      { team1: "4", team2: "b" },
-      { team1: "5", team2: "b" },
-      { team1: "6", team2: "b" },
-      { team1: "7", team2: "b" },
-      { team1: "8", team2: "b" },
-      { team1: "9", team2: "b" },
-    ],
-    rank: [
-      { stt: "1", team: "Mancity", win: "2", lose: "3", pts: "4" },
-      { stt: "2", team: "Mancity", win: "2", lose: "3", pts: "4" },
-      { stt: "3", team: "Mancity", win: "2", lose: "3", pts: "4" },
-      { stt: "4", team: "Mancity", win: "2", lose: "3", pts: "4" },
-      { stt: "5", team: "Mancity", win: "2", lose: "3", pts: "4" },
-      { stt: "6", team: "Mancity", win: "2", lose: "3", pts: "4" },
-      { stt: "7", team: "Mancity", win: "2", lose: "3", pts: "4" },
-      { stt: "8", team: "Mancity", win: "2", lose: "3", pts: "4" },
-      { stt: "9", team: "Mancity", win: "2", lose: "3", pts: "4" },
-      { stt: "10", team: "Mancity", win: "2", lose: "3", pts: "4" },
-    ],
+    lastResults: [],
+    matchFixtures: [],
+    team:[]
   }),
   methods: {
+    detailResults(item) {
+      console.log(item);
+    },
+    getTeam() {
+      this.$store.dispatch("team/getTeams").then(response=>{
+        this.team=response.data.payload;
+      })
+    },
     getRecentMatch() {
       this.$store.commit("auth/auth_overlay");
 
@@ -422,6 +480,21 @@ export default {
           if (response.data.code == 0) {
             this.recentMatch = response.data.payload;
             this.time = response.data.payload.timeStart;
+            this.setintervalTime(this.time);
+          } else {
+            console.log(response);
+          }
+        })
+        .catch(function (error) {
+          alert(error);
+        });
+    },
+    getLastVideo() {
+      this.$store
+        .dispatch("schedule/lastVideo")
+        .then((response) => {
+          if (response.data.code == 0) {
+            this.video = response.data.payload;
           } else {
             alert(response.data.message);
           }
@@ -430,17 +503,75 @@ export default {
           alert(error);
         });
     },
-    setintervalTime() {
-      var a = Date.parse("2020-12-23T10:22:00");
+    getLastResults() {
+      this.$store
+        .dispatch("schedule/lastResults")
+        .then((response) => {
+          if (response.data.code == 0) {
+            this.lastResults = response.data.payload;
+          } else {
+            alert(response.data.message);
+          }
+        })
+        .catch(function (error) {
+          alert(error);
+        });
+    },
+    getTournament() {
+      this.$store
+        .dispatch("tournament/tournamentStatus", 2)
+        .then((response) => {
+          if (response.data.code == 0) {
+            this.tournamentResults = response.data.payload;
+          } else {
+            alert(response.data.message);
+          }
+        })
+        .catch(function (error) {
+          alert(error);
+        });
+    },
+    getRank() {
+      this.$store
+        .dispatch("tournament/rankAll")
+        .then((response) => {
+          if (response.data.code == 0) {
+            this.rankAll = response.data.payload;
+          } else {
+            alert(response.data.message);
+          }
+        })
+        .catch(function (error) {
+          alert(error);
+        });
+    },
+    getMatchFixtures() {
+      this.$store
+        .dispatch("schedule/getByStatus", 0)
+        .then((response) => {
+          if (response.data.code == 0) {
+            this.matchFixtures = response.data.payload;
+          } else {
+            alert(response.data.message);
+          }
+        })
+        .catch(function (error) {
+          alert(error);
+        });
+    },
+    setintervalTime(time) {
+      console.log(time);
+      var a = Date.parse(time);
       var b = Date.now();
       var c = a - b;
+      c = Math.floor(c / 1000);
       setInterval(
         function () {
-          c = c - 1;
+          c = c - 5;
           var giay = c % 60;
           var phut = (c / 60) % 60;
           var gio = (c / 3600) % 24;
-          var ngay = c / 60 / 60 / 24;
+          var ngay = c / 86000;
           this.timeDate = {
             giay: giay,
             phut: Math.ceil(phut),
@@ -448,7 +579,7 @@ export default {
             ngay: Math.ceil(ngay),
           };
         }.bind(this),
-        1000
+        5000
       );
     },
   },
