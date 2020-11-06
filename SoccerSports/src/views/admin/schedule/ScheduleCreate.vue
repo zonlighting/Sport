@@ -47,7 +47,10 @@
               <v-row>
                 <v-col>
                   <v-avatar tile>
-                    <img :src="baseUrl + item.logo" alt="logo" />
+                    <img
+                      src="https://cdn.vuetifyjs.com/images/john.jpg"
+                      alt="John"
+                    />
                   </v-avatar>
                 </v-col>
                 <v-col>
@@ -81,7 +84,10 @@
               <v-row>
                 <v-col>
                   <v-avatar tile>
-                    <img :src="baseUrl + item.logo" alt="logo" />
+                    <img
+                      src="https://cdn.vuetifyjs.com/images/john.jpg"
+                      alt="John"
+                    />
                   </v-avatar>
                 </v-col>
                 <v-col>
@@ -160,14 +166,7 @@
   </v-container>
 </template>
 <script>
-import { ENV } from "@/config/env.js";
-
 export default {
-  computed: {
-    baseUrl() {
-      return ENV.BASE_IMAGE;
-    },
-  },
   props: {
     hideDialog: Function,
     getData: Function,
@@ -207,7 +206,6 @@ export default {
         });
     },
     create() {
-      this.$store.commit("auth/auth_overlay");
       if (this.$refs.form.validate()) {
         this.$store.commit("auth/auth_overlay");
         this.$store
@@ -220,10 +218,9 @@ export default {
           })
           .then((response) => {
             if (response.data.payload == 400) {
-              alert(response.data.message);
+              alert(response.data.message); 
             } else {
               alert(response.data.message);
-              this.reset();
               this.getData();
               this.hideDialog();
             }
@@ -233,36 +230,19 @@ export default {
           });
       } else {
         this.$refs.form.validate();
-        this.$store.commit("auth/auth_overlay");
       }
     },
     reset() {
       this.$refs.form.reset();
     },
   },
-  watch: {
-    selectTournament() {
+  watch:{
+    selectTournament(){
       this.$store
-        .dispatch("tournament/getById", this.selectTournament)
-        .then((response) => {
-          this.listTeam = response.data.payload.team;
-          this.rulesDate = [
-            (v) => {
-              if (v == null) {
-                return false || "time required";
-              }
-              if (
-                v < response.data.payload.timeStart ||
-                v > response.data.payload.timeEnd
-              ) {
-                return false || "Past tournament time";
-              } else {
-                return true;
-              }
-            },
-          ];
-        });
-    },
-  },
+          .dispatch("tournament/getById", this.selectTournament).then(response=>{
+            this.listTeam=response.data.payload.team;
+          })
+    }
+  }
 };
 </script>

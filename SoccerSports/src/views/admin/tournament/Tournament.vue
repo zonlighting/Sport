@@ -146,7 +146,8 @@
         <template v-slot:[`item.actions`]="{ item }">
           <router-link
             :to="{
-              path: `tournament/` + item.idTournament
+              path: `tournament/` + item.idTournament,
+              params: { userId: 123 },
             }"
             style="text-decoration: none"
           >
