@@ -35,4 +35,7 @@ export function tournamentCheck(){
     return Api.post(`tournament/checkStatus`)
 
 }
+export function rankAll(){
+    return Api.get('tournament/rankAll')
+}
 

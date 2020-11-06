@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.xml.soap.Detail;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -214,6 +216,23 @@ public class TournamentService {
 			}
 		}
 		
+	}
+
+	public List<TeamDetail> rankAll() {
+		List<TeamDetail> details = new ArrayList<TeamDetail>();
+		List<Team> teams=teamService.getTeams();
+		for (Team team : teams) {
+			details.add(teamService.getTeamdetail(team.getIdTeam(),0));
+		}
+		Collections.sort(details, new Comparator<TeamDetail>() {
+
+			@Override
+			public int compare(TeamDetail o1, TeamDetail o2) {
+				return o2.getPointAll() - o1.getPointAll();
+			}
+
+		});
+		return details;
 	}
 
 }

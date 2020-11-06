@@ -45,4 +45,6 @@ public interface ScheduleMapper {
 
 	void onGame(int idSchedule);
 
+	int teamAdraw(int idTeam);
+
 }

@@ -33,3 +33,5 @@ export function lastVideo(){
 export function lastResults(){
     return Api.get("/schedule/lastResults")
 }
+export function getByStatus(status){
+    return Api.get(`/schedule/getByStatus?status=${status}`)}

@@ -160,11 +160,11 @@ let routes = [
     ],
     meta: metaConfig
   },
-  {
-    path: '/*',
-    name: '404',
-    component: () => import('@/views/web/404NotFound'),
-  }
+  // {
+  //   path: '/*',
+  //   name: '404',
+  //   component: () => import('@/views/web/404NotFound'),
+  // }
 ]
 
 const router = new Router({
