@@ -1,6 +1,5 @@
 import { create, deleteSchedule, edit, getAll, getById, getByStatus, getByTour, goalUpdate, lastResults, lastVideo, recentMatch, update } from "../api/ScheduleApi";
 
-
 const actions = {
     getAll() {
         return new Promise((resolve, reject) => {

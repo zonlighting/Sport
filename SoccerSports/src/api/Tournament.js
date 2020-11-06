@@ -39,4 +39,3 @@ export function rankAll(){
     return Api.get('tournament/rankAll')
 }
 
-

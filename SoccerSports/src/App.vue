@@ -14,7 +14,13 @@ export default {
   name: "App",
 
   components: {},
+  created() {
+    this.$store.commit("auth/auth_overlay");
 
+    this.$store
+      .dispatch("tournament/tournamentCheck")
+      .then(this.$store.commit("auth/auth_overlay"));
+  },
   data: () => ({}),
 
   computed: {

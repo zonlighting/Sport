@@ -215,7 +215,7 @@ public class TournamentService {
 
 			}
 		}
-
+		
 	}
 
 	public List<TeamDetail> rankAll() {
