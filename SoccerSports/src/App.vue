@@ -14,14 +14,15 @@ export default {
   name: "App",
 
   components: {},
-
+  created() {
+    this.$store.dispatch("tournament/tournamentCheck");
+  },
   data: () => ({}),
 
   computed: {
     overlay() {
       return this.$store.state.auth.overlay;
     },
-
   },
 };
 </script>

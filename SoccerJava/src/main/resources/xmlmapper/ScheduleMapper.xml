@@ -80,9 +80,9 @@
 		inner join tournament_tbl on
 		schedule_tbl.schedule_tour=tournament_tbl.tournament_id inner join
 		(team_tbl inner join profile_tbl on
-		team_tbl.team_id=profile_tbl.id_team) on
+		team_tbl.team_id=profile_tbl.id_team) on (
 		team_tbl.team_id=schedule_tbl.schedule_team1 or
-		team_tbl.team_id=schedule_tbl.schedule_team2 left join goal_tbl on
+		team_tbl.team_id=schedule_tbl.schedule_team2) left join goal_tbl on
 		schedule_tbl.schedule_id=goal_tbl.id_schedule where
 		schedule_tour=${idTour}
 	</select>
@@ -92,13 +92,13 @@
 		inner join tournament_tbl on
 		schedule_tbl.schedule_tour=tournament_tbl.tournament_id inner join
 		(team_tbl inner join profile_tbl on
-		team_tbl.team_id=profile_tbl.id_team) on
+		team_tbl.team_id=profile_tbl.id_team) on (
 		team_tbl.team_id=schedule_tbl.schedule_team1 or
-		team_tbl.team_id=schedule_tbl.schedule_team2 left join goal_tbl on
+		team_tbl.team_id=schedule_tbl.schedule_team2) left join goal_tbl on
 		schedule_tbl.schedule_id=goal_tbl.id_schedule
 		where
 		schedule_id=${idSchedule}
-		order by schedule_tbl.schedule_id
+		order by schedule_tbl.schedule_start
 		DESC
 
 	</select>
@@ -125,13 +125,14 @@
 		(`schedule_id` = #{idSchedule});
 
 	</update>
-	<update id="updateStatus">
+	<update id="onGame">
 		UPDATE `sports`.`schedule_tbl` SET
-		schedule_status='1'
+		schedule_status='1' where schedule_id=${idSchedule}
 	</update>
+
 	<select id="teamTotalMatch" resultType="Int">
 		SELECT COUNT(schedule_id) FROM schedule_tbl where
-		(schedule_tbl.schedule_team1=1 or schedule_tbl.schedule_team2=1) and
+		(schedule_tbl.schedule_team1=${idTeam} or schedule_tbl.schedule_team2=${idTeam}) and
 		schedule_tbl.schedule_status=2
 	</select>
 	<select id="teamTotalWin" resultType="Int">
@@ -144,14 +145,14 @@
 		FROM schedule_tbl where
 		(schedule_tbl.schedule_team1=${idTeam} or
 		schedule_tbl.schedule_team2=${idTeam} ) and
-		schedule_tbl.schedule_tour=${idTour} and schedule_tbl.schedule_status=2;
+		schedule_tbl.schedule_tour=${idTour} and schedule_tbl.schedule_status=2 and schedule_tbl.schedule_tour=${idTour};
 	</select>
 	<select id="teamTotalWinByTour" resultType="Int">
 		SELECT
 		COUNT(schedule_id)
 		FROM schedule_tbl where
 		schedule_tbl.schedule_tour=${idTour} and
-		schedule_tbl.schedule_winner=${idTeam} ;
+		schedule_tbl.schedule_winner=${idTeam}  ;
 	</select> 
 	<select id="teamTotalAdrawByTour" resultType="int">
 		SELECT
@@ -186,9 +187,9 @@
 		inner join tournament_tbl on
 		schedule_tbl.schedule_tour=tournament_tbl.tournament_id inner join
 		(team_tbl inner join profile_tbl on
-		team_tbl.team_id=profile_tbl.id_team) on
+		team_tbl.team_id=profile_tbl.id_team) on (
 		team_tbl.team_id=schedule_tbl.schedule_team1 or
-		team_tbl.team_id=schedule_tbl.schedule_team2 left join goal_tbl on
+		team_tbl.team_id=schedule_tbl.schedule_team2 )left join goal_tbl on
 		schedule_tbl.schedule_id=goal_tbl.id_schedule
 		where
 		schedule_status=${status}

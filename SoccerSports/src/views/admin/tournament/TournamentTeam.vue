@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div>
-      <v-btn color="primary" style="margin-top: 50px" @click="dialogAdd = true"
+    <div style="margin-top:50px">
+      <v-btn color="primary" style="margin-top: 50px" @click="dialogAdd = true" v-if="tournament.status==0"
         >Add Team</v-btn
       >
     </div>
@@ -13,7 +13,7 @@
             <th>Logo</th>
             <th>Số thành viên</th>
             <th>Description</th>
-            <th>Action</th>
+            <th v-if="tournament.status==0">Action</th>
           </tr>
         </thead>
         <tbody >
@@ -21,12 +21,12 @@
             <td>{{ item.nameTeam }}</td>
             <td>
               <v-avatar>
-                <img :src="item.logo" alt="John" />
+                <img :src="baseUrl+item.logo" alt="John" />
               </v-avatar>
             </td>
             <td>{{!!item&&!!item.profile? item.profile.length:'' }}</td>
             <td>{{ item.description }}</td>
-            <td>
+            <td v-if="tournament.status==0">
               <v-icon style="cursor: pointer" @click="deleteTeam(item)"
                 >mdi-delete</v-icon
               >
@@ -125,7 +125,6 @@ export default {
     tournament: Object,
   },
   mounted(){
-    console.log()
   },
 
   methods: {
@@ -179,10 +178,12 @@ export default {
             alert(response.data.message);
           } else {
             alert(response.data.message);
+                        this.cancel();
           }
         })
         .catch(function (error) {
           alert(error);
+                      this.cancel();
         });
       }
     },

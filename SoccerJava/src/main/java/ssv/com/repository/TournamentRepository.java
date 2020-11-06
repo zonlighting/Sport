@@ -49,4 +49,14 @@ public class TournamentRepository {
 		return tournamentMapper.tournamentStatus(status);
 
 	}
+
+	public void finished(int idTournament) {
+		tournamentMapper.finished(idTournament);
+		
+	}
+
+	public void ongGame(int idTournament) {
+		tournamentMapper.ongGame(idTournament);
+		
+	}
 }

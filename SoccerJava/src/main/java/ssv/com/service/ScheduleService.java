@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -16,6 +17,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.var;
 import ssv.com.dto.GoalDto;
 import ssv.com.dto.RankDto;
 import ssv.com.dto.ResponseQuery;
@@ -64,6 +66,7 @@ public class ScheduleService {
 		if (localDate.isBefore(timeTour) || localDate.isAfter(timeTourEnd)) {
 			return "out of the tournament";
 		} else {
+
 			List<Schedule> list = scheduleRepository.getByTournament(schedule.getIdTour());
 			if (list == null) {
 				return null;
@@ -75,7 +78,10 @@ public class ScheduleService {
 						if (!schedule.getTimeStart().plusHours(3).isAfter(list.get(0).getTimeStart())) {
 							return null;
 						} else if (!schedule.getTimeStart().isAfter(scheduleExit.getTimeStart().plusHours(3))) {
-							return "Must be bigger : " + oldPattern.format(scheduleExit.getTimeStart());
+							if (schedule.getTimeStart().plusHours(3).isAfter(scheduleExit.getTimeStart())) {
+								return "Must be bigger : " + oldPattern.format(scheduleExit.getTimeStart());
+
+							}
 						}
 					}
 				}
@@ -85,7 +91,17 @@ public class ScheduleService {
 	}
 
 	public Schedule getById(int idSchedule) {
-		return scheduleRepository.getById(idSchedule);
+		Schedule schedule = scheduleRepository.getById(idSchedule);
+		if (schedule.getIdTeam1() > schedule.getIdTeam2()) {
+			List<Team> list = new ArrayList<Team>();
+			list.add(schedule.getTeam().get(1));
+			list.add(schedule.getTeam().get(0));
+			schedule.setTeam(list);
+			return schedule;
+
+		} else {
+			return schedule;
+		}
 	}
 
 	public void Delete(int idSchedule) {
@@ -105,11 +121,14 @@ public class ScheduleService {
 
 	public void statusAuto() {
 		List<Schedule> list = scheduleRepository.getAll();
-		LocalDate now = LocalDate.now();
+		LocalDateTime now = LocalDateTime.now();
 		for (Schedule schedule : list) {
-			if (schedule.getTimeStart().equals(now)) {
-				scheduleRepository.updateStatus(schedule.getIdSchedule());
+			if (schedule.getTimeEnd() == null) {
+				if (schedule.getTimeStart().isBefore(now)) {
+					scheduleRepository.updateStatus1(schedule.getIdSchedule());
+				}
 			}
+
 		}
 	}
 
@@ -122,10 +141,11 @@ public class ScheduleService {
 		LocalDateTime time = LocalDateTime.now();
 		schedule.setTimeEnd(time);
 		try {
-			if(scheduleForm.getImageFile()!=null) {
+			if (scheduleForm.getImageFile() != null) {
 				schedule.setImage(UploadFile.saveFile(scheduleForm.getImageFile()));
 
-			}if(scheduleForm.getVideoFile()!=null) {
+			}
+			if (scheduleForm.getVideoFile() != null) {
 				schedule.setVideo(UploadFile.saveVideo(scheduleForm.getVideoFile()));
 
 			}
@@ -159,8 +179,7 @@ public class ScheduleService {
 			goalRepository.format(goals.get(0).getIdSchedule());
 		}
 		for (GoalDto goal : goals) {
-			goalRepository.create(goal.getProfile().getId(), goal.getIdSchedule(), goal.getTime(),
-					goal.getTeam());
+			goalRepository.create(goal.getProfile().getId(), goal.getIdSchedule(), goal.getTime(), goal.getTeam());
 		}
 		return ResponseQuery.success("Update Success", goals);
 	}
@@ -185,11 +204,10 @@ public class ScheduleService {
 		return scheduleRepository.getByStatus(status);
 	}
 
-
 	public String lastVideo() {
-		List<Schedule> schedules=scheduleRepository.getByStatus(2);
-		for (int i = schedules.size()-1; i >= 0; i--) {
-			if(schedules.get(i).getVideo()!=null||schedules.get(i).getVideo()!="") {
+		List<Schedule> schedules = scheduleRepository.getByStatus(2);
+		for (int i = schedules.size() - 1; i >= 0; i--) {
+			if (schedules.get(i).getVideo() != null || schedules.get(i).getVideo() != "") {
 				return schedules.get(i).getVideo();
 			}
 		}
