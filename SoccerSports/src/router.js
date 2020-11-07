@@ -43,7 +43,7 @@ let routes = [
         component: ScheduleDetail,
         children: [
           {
-            path: '/summary',
+            path: '/summary/:id',
             component: Summary,
 
           }
@@ -55,26 +55,43 @@ let routes = [
         component: indexTournament,
         children: [
           {
-              path: '/',
-              component: () => import('@/views/web/tournament/Tournament'),
+            path: '/',
+            component: () => import('@/views/web/tournament/Tournament'),
           },
           {
             path: '/tournamentDetail/:id',
             component: () => import('@/views/web/tournament/TournamentDetail'),
-            children:[
+            children: [
               {
                 path: '/',
-                name:"TournamnetHome",
-                component: () => import('@/views/web/tournament/TournamentHome'),
-            },
+                name: "TournamentTeam",
+                component: () => import('@/views/web/tournament/TournamentTeam'),
+              },
+              {
+                path: '/tournamentDetail/:id/team',
+                name: "TournamentTeam",
+                component: () => import('@/views/web/tournament/TournamentTeam'),
+              },
+              {
+                path: '/tournamentDetail/:id/results',
+                name: "TournamentResults",
+                component: () => import('@/views/web/tournament/TournamentResults'),
+              },
+              {
+                path: '/tournamentDetail/:id/fixtures',
+                name: "TournamentSchedule",
+                component: () => import('@/views/web/tournament/TournamentSchedule'),
+              },
+
+
             ]
           },
-          
+
         ]
       },
       {
-        path:'/rank',
-        name:"Rank",
+        path: '/rank',
+        name: "Rank",
         component: () => import('@/views/web/rank/Rank')
       },
       {

@@ -337,6 +337,9 @@ export default {
       this.hideDialog();
     },
   },
+  updated(){
+    this.getListTeam();
+  },
 
   watch: {
     fileImage(event) {

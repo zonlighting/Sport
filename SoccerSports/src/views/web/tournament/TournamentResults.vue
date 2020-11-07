@@ -33,7 +33,7 @@
         </router-link>
       </div>
     </template>
-    <template v-slot:no-data>
+      <template v-slot:no-data>
         <div class="text-center">
       <v-img
         max-height="500"
@@ -94,7 +94,7 @@ export default {
       console.log(a);
 
       a.forEach((element) => {
-        if (element.status != 2) {
+        if (element.status == 2) {
           this.schedule.push(element);
         }
       });

@@ -21,6 +21,7 @@
               >
 
               <v-card-text>
+                <template v-if="recentMatch.length>0"> 
                 <v-row class="text-center" style="color: white">
                   <v-col
                     ><h2 style="color: yellow">{{ this.timeDate.ngay }}</h2>
@@ -84,6 +85,10 @@
                   </h5>
                   <h3>{{ time.substring(11, 16) }}</h3>
                 </div>
+                </template>
+                <template v-else>
+                  <h2 style="color:white"> No Recent Match</h2>
+                </template>
               </v-card-text>
             </v-card>
           </v-col>
@@ -282,7 +287,10 @@
                   </thead>
                   <tbody>
                     <tr v-for="(item, index) in rankAll" :key="index">
-                      <template v-if="index < 12" @click="detailTeam(item.idTeam)">
+                      <template
+                        v-if="index < 12"
+                        @click="detailTeam(item.idTeam)"
+                      >
                         <th style="color: white">{{ index + 1 }}</th>
                         <th style="color: white">{{ item.nameTeam }}</th>
                         <th style="color: white">{{ item.totalWin }}</th>
@@ -311,7 +319,8 @@
             <v-row>
               <v-col v-for="(item, index) in tournamentResults" :key="index"
                 ><v-card
-                  max-width="250" min-height="360px"
+                  max-width="250"
+                  min-height="360px"
                   @click="detailTournament(item.idTournament)"
                 >
                   <v-img height="250" :src="baseUrl + item.banner"></v-img>
@@ -324,49 +333,52 @@
           </v-col>
           <v-col cols="12" sm="3">
             <h1>MATCH FIXTURES</h1>
-            <v-carousel v-model="model2" height="210" hide-delimiters>
-              <v-carousel-item v-for="(item, i) in matchFixtures" :key="i">
-                <v-sheet color="white" height="100%">
-                  <v-container>
-                    <div
-                      style="
-                        background-image: url(https://rstheme.com/products/html/khelo/images/background/result-bg.jpg);
-                      "
-                    >
-                      <div>
-                        <h3 class="text-center">{{ item.location }}</h3>
+            <template v-if="matchFixtures.length > 0">
+              <v-carousel v-model="model2" height="210" hide-delimiters>
+                <v-carousel-item v-for="(item, i) in matchFixtures" :key="i">
+                  <v-sheet color="white" height="100%">
+                    <v-container>
+                      <div
+                        style="
+                          background-image: url(https://rstheme.com/products/html/khelo/images/background/result-bg.jpg);
+                        "
+                      >
+                        <div>
+                          <h3 class="text-center">{{ item.location }}</h3>
+                        </div>
+                        <v-row>
+                          <v-col class="text-center">
+                            <v-img
+                              :src="baseUrl + item.team[0].logo"
+                              lazy-src="@/assets/err.png"
+                              width="100px"
+                              height="100xp"
+                              style="height: 100px"
+                            />
+                            {{ item.team[0].nameTeam }}
+                          </v-col>
+                          <v-col style="margin-top: 20px" class="text-center"
+                            ><h5>{{ item.timeStart.substring(0, 10) }}</h5>
+                            {{ item.timeStart.substring(11, 16) }}</v-col
+                          >
+                          <v-col class="text-center"
+                            ><v-img
+                              :src="baseUrl + item.team[1].logo"
+                              lazy-src="@/assets/err.png"
+                              width="100px"
+                              style="height: 100px"
+                            />
+                            Valencia</v-col
+                          >
+                        </v-row>
                       </div>
-                      <v-row>
-                        <v-col class="text-center">
-                          <v-img
-                            :src="baseUrl + item.team[0].logo"
-                            lazy-src="@/assets/err.png"
-                            width="100px"
-                            height="100xp"
-                            style="height: 100px"
-                          />
-                          {{ item.team[0].nameTeam }}
-                        </v-col>
-                        <v-col style="margin-top: 20px" class="text-center"
-                          ><h5>{{ item.timeStart.substring(0, 10) }}</h5>
-                          {{ item.timeStart.substring(11, 16) }}</v-col
-                        >
-                        <v-col class="text-center"
-                          ><v-img
-                            :src="baseUrl + item.team[1].logo"
-                            lazy-src="@/assets/err.png"
-                            width="100px"
-                            style="height: 100px"
-                          />
-                          Valencia</v-col
-                        >
-                      </v-row>
-                    </div>
-                    <v-card> </v-card>
-                  </v-container>
-                </v-sheet>
-              </v-carousel-item>
-            </v-carousel>
+                      <v-card> </v-card>
+                    </v-container>
+                  </v-sheet>
+                </v-carousel-item>
+              </v-carousel>
+            </template>
+            <template v-else> No Match Fixtures </template>
           </v-col>
         </v-row>
       </v-container>
@@ -378,13 +390,14 @@
           <v-col cols="12" md="2" />
           <v-col cols="12" md="9">
             <v-carousel v-model="model3" height="350" hide-delimiters>
-              <v-carousel-item v-for="(items, i) in team.length-2" :key="i">
+              <v-carousel-item v-for="(items, i) in team.length - 2" :key="i">
                 <v-sheet color="white" height="100%">
                   <v-container>
                     <v-row>
                       <span v-for="(item, index) in team" :key="index">
-                        <v-col v-if="index>i">
-                          <div @click="detailTeam(item.idTeam)"
+                        <v-col v-if="index > i">
+                          <div
+                            @click="detailTeam(item.idTeam)"
                             style="
                               margin-left: 12px;
                               background-image: url(https://rstheme.com/products/html/khelo/images/background/result-bg.jpg);
@@ -393,9 +406,9 @@
                             <v-card width="290">
                               <v-img
                                 height="250"
-                                :src="baseUrl+item.logo"
+                                :src="baseUrl + item.logo"
                               ></v-img>
-                              <v-card-title>{{item.nameTeam}}</v-card-title>
+                              <v-card-title>{{ item.nameTeam }}</v-card-title>
 
                               <v-card-text> </v-card-text>
                             </v-card>
@@ -428,7 +441,7 @@ import { ENV } from "@/config/env.js";
 
 export default {
   created() {
-          this.$store.commit("auth/auth_overlay");
+    this.$store.commit("auth/auth_overlay");
     this.getRecentMatch();
     this.getLastResults();
     this.getTournament();
@@ -457,17 +470,16 @@ export default {
     timeDate: "",
     lastResults: [],
     matchFixtures: [],
-    team:[]
+    team: [],
   }),
   methods: {
     detailResults(item) {
       console.log(item);
     },
     getTeam() {
-      this.$store.dispatch("team/getTeams").then(response=>{
-        this.team=response.data.payload;
-        
-      })
+      this.$store.dispatch("team/getTeams").then((response) => {
+        this.team = response.data.payload;
+      });
     },
     getRecentMatch() {
       this.$store.commit("auth/auth_overlay");
@@ -477,11 +489,13 @@ export default {
           this.$store.commit("auth/auth_overlay");
           if (response.data.code == 0) {
             this.recentMatch = response.data.payload;
-            this.time = response.data.payload.timeStart;
-            this.setintervalTime(this.time);
-                  this.$store.commit("auth/auth_overlay");
-
+            if (this.recentMatch.length > 0) {
+              this.time = response.data.payload.timeStart;
+              this.setintervalTime(this.time);
+              this.$store.commit("auth/auth_overlay");
+            }
           } else {
+            this.$store.commit("auth/auth_overlay");
             console.log(response);
           }
         })
@@ -581,7 +595,6 @@ export default {
         }.bind(this),
         5000
       );
-      
     },
   },
 };

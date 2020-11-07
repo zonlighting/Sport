@@ -21,7 +21,7 @@
             <td>{{ item.nameTeam }}</td>
             <td>
               <v-avatar>
-                <img :src="item.logo" alt="John" />
+                <img :src="baseUrl+item.logo" alt="John" />
               </v-avatar>
             </td>
             <td>{{!!item&&!!item.profile? item.profile.length:'' }}</td>
