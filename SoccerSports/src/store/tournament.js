@@ -1,6 +1,4 @@
 
-
-
 import {rankByTour, addTeam, create, deleteTeam, deleteTournament, getAll, getById, rankAll, tournamentCheck, tournamentRank, tournamentStatus, tournamentUpComming } from "../api/Tournament";
 
 
@@ -96,7 +94,7 @@ const actions = {
                 reject(err);
             })
         })
-    }
+    },
 
     rankAll() {
         return new Promise((resolve, reject) => {
