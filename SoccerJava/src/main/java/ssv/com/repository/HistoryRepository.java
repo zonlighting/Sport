@@ -1,5 +1,7 @@
 package ssv.com.repository;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -23,6 +25,11 @@ public class HistoryRepository {
 	public void deleteTeam(int idTeam, int idTournament) {
 		historyMapper.deleteTeam(idTeam,idTournament);
 		
+	}
+
+	public List<History> historyMember(int idTour, int idTeam) {
+		// TODO Auto-generated method stub
+		return historyMapper.historyMember(idTour,idTeam);
 	}
 
 }	
