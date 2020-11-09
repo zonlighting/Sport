@@ -15,3 +15,6 @@ export function updateProfile(id, bodyFormData) {
 export function getPlayerById(id){
     return Api.get('/profiles/' + id)
 }
+export function getTourGoal(data){
+    return Api.get(`/profiles/getTourGoal?idTeam=${data}`)
+}

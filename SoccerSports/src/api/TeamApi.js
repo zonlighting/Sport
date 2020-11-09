@@ -11,8 +11,8 @@ export function createTeam(teamForm){
 export function getTeamNoTournament(){
     return Api.get('/team/getTeamNoTournament')
 }
-export function getDetail(idTeam){
-    return Api.get(`/team/detail?idTeam=${idTeam}`)
+export function getDetail(data){
+    return Api.get(`/team/detail?idTeam=${data.idTeam}&idTournament=${data.idTournament}`)
 }
 
 export function updateMembersInTeam(bodyFormData){
@@ -25,4 +25,7 @@ export function getTeamById(teamId){
 
 export function updateTeam(id, bodyFormData){
     return Api.post(`/team/updateInfo/${id}`, bodyFormData)
+}
+export function getHistory(data){
+    return Api.get(`/team/getHistory?idTour=${data.idTour}&idTeam=${data.idTeam}&idSchedule=${data.idSchedule}`)
 }

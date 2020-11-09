@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-form ref="form" v-model="valid" lazy-validation>
+    <v-form ref="form"  lazy-validation>
       <v-toolbar dark color="primary">
         <v-btn icon dark @click="close">
           <v-icon>mdi-close</v-icon>
@@ -170,7 +170,7 @@
                 width="320"
                 height="240"
                 controls
-                src="s"
+                :src="baseUrl+schedule.video"
                 id="video"
               ></video>
             </v-container>
@@ -286,6 +286,9 @@ export default {
   },
   mounted() {
     this.getDataOld();
+  },
+  updated(){
+    
   },
   methods: {
     close() {
@@ -504,6 +507,10 @@ export default {
         reader.readAsDataURL(event);
       }
     },
+    schedule(){
+      console.log("a")
+      this.getDataOld();
+    }
   },
 };
 </script>

@@ -139,7 +139,7 @@
                     <v-row>
                       <span v-for="(item, index) in lastResults" :key="index">
                         <template v-if="index >= i">
-                          <v-col @click="detailResults(item)">
+                          <v-col @click="detailResults(item)" style="    cursor: pointer">
                             <div
                               style="
                                 margin-left: 60px;
@@ -473,9 +473,7 @@ export default {
     team: [],
   }),
   methods: {
-    detailResults(item) {
-      console.log(item);
-    },
+  
     getTeam() {
       this.$store.dispatch("team/getTeams").then((response) => {
         this.team = response.data.payload;
@@ -558,6 +556,14 @@ export default {
         .catch(function (error) {
           alert(error);
         });
+    },
+    detailTournament(item){
+        this.$router.push({ path: '/tournamentDetail/'+item })
+    },
+    detailResults(item){
+      console.log(item.idSchedule)
+        this.$router.push({ path: '/summary/'+item.idSchedule })
+
     },
     getMatchFixtures() {
       this.$store

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ssv.com.dto.ResponseQuery;
@@ -56,4 +57,13 @@ public class ProfileController {
 		}
 		return ResponseQuery.faild("Profile not found!!!", null);
 	}
+	//Hiển thị thành viên có số bàn thắng trong tour
+	@GetMapping("/getTourGoal")
+	public ResponseQuery<?> getTourGoal(@RequestParam int idTeam){
+		if(profileService.getTourGoal(idTeam) != null) {
+			return ResponseQuery.success("Connect!", profileService.getTourGoal(idTeam));
+		}
+		return ResponseQuery.faild("Profile not join!!!", null);
+	}
+	
 }

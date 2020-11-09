@@ -39,12 +39,30 @@ let routes = [
 
       },
       {
-        path: '/scheduleDetail',
+        path: '/scheduleDetail/:id',
         component: ScheduleDetail,
         children: [
           {
+            path: '/',
+            component: Summary,
+
+          },
+          {
             path: '/summary/:id',
             component: Summary,
+
+          },
+          
+          {
+            path: '/statistics/:id',
+            component: () => import('@/views/web/schedule/Statistic'),
+
+          }
+          ,
+          
+          {
+            path: '/video/:id',
+            component: () => import('@/views/web/schedule/Video'),
 
           }
         ]
@@ -64,12 +82,10 @@ let routes = [
             children: [
               {
                 path: '/',
-                name: "TournamentTeam",
                 component: () => import('@/views/web/tournament/TournamentTeam'),
               },
               {
                 path: '/tournamentDetail/:id/team',
-                name: "TournamentTeam",
                 component: () => import('@/views/web/tournament/TournamentTeam'),
               },
               {

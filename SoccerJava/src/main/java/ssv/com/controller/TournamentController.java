@@ -39,6 +39,15 @@ public class TournamentController {
 	public ResponseQuery<?> getAll() {
 		return ResponseQuery.success("Connect Success", tournamentService.getAll());
 	}
+	@GetMapping(value = "getAllSchedule")
+	public ResponseQuery<?> getAllSchedule() {
+		return ResponseQuery.success("Connect Success", tournamentService.getAllSchedule());
+	}
+	@GetMapping(value = "getAllScheduleStatus")
+	public ResponseQuery<?> getAllScheduleStatus(@RequestParam int status) {
+		return ResponseQuery.success("Connect Success", tournamentService.getAllScheduleStatus(status));
+	}
+
 
 	// Hiển thị giải đấu theo id
 	@GetMapping(value = "getById")

@@ -218,4 +218,9 @@ public class ScheduleService {
 		return scheduleRepository.getByStatus(2);
 	}
 
+	public List<Schedule> teamResults(int idTeam, int idTournament) {
+		// TODO Auto-generated method stub
+		return scheduleRepository.teamResults(idTeam,idTournament);
+	}
+
 }

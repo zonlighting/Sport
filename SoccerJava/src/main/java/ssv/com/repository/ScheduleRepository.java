@@ -101,5 +101,10 @@ public class ScheduleRepository {
 		return scheduleMapper.teamAdraw(idTeam);
 	}
 
+	public List<Schedule> teamResults(int idTeam, int idTournament) {
+		// TODO Auto-generated method stub
+		return scheduleMapper.teamResults(idTeam,idTournament);
+	}
+
 	
 }

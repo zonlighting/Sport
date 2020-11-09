@@ -89,5 +89,11 @@ public class TeamController {
 	public ResponseQuery<?> getTeamNoTournament() {
 		return teamService.getTeamNoTournament();
 	}
+	//Team theo tour và member của lịch sử đấu
+	@GetMapping(value="getHistory")
+	public ResponseQuery<?> getHistory(@RequestParam int idTour,@RequestParam int idTeam,@RequestParam int idSchedule){
+		return teamService.getHistory(idTour,idTeam,idSchedule);
+
+	}
 
 }
