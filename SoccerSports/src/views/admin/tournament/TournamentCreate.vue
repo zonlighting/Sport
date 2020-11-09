@@ -1,5 +1,6 @@
 <template>
   <v-card>
+    <v-overlay :value="overlay"></v-overlay>
     <v-toolbar dark color="primary">
       <v-btn icon dark @click="close">
         <v-icon>mdi-close</v-icon>
@@ -249,6 +250,7 @@ export default {
     nameTournament: "",
     listTeam: [],
     teamChoose: [],
+    overlay: false,
     rulesImage: [
       (v) => {
         if (v == undefined || Array.isArray(v)) {
@@ -295,6 +297,7 @@ export default {
       if (!this.$refs.form.validate()) {
         this.$refs.form.validate();
       } else {
+        this.overlay = !this.overlay;
         if (this.teamSelected.length >= 0 && this.teamSelected.length < 10) {
           alert("The tournament must have at least 10 teams participating");
         } else {
@@ -312,6 +315,8 @@ export default {
             .dispatch("tournament/create", bodyFormData)
             .then((response) => {
               if (response.data.code == 0) {
+                this.overlay = !this.overlay;
+
                 this.close();
                 alert(response.data.message);
                 this.getData();
@@ -322,6 +327,7 @@ export default {
             })
             .catch((e) => {
               alert(e);
+              this.overlay = !this.overlay;
             });
         }
       }
@@ -337,8 +343,8 @@ export default {
       this.hideDialog();
     },
   },
-  updated(){
-    this.getListTeam();
+  updated() {
+  
   },
 
   watch: {
@@ -362,7 +368,6 @@ export default {
         this.listTeam.forEach((team) => {
           if (team.idTeam == element) {
             this.teamChoose.push(team);
-            console.log(this.teamChoose);
           }
         });
       });

@@ -6567,7 +6567,7 @@ h6 {
   min-height: 1px;
   padding-left: 15px;
   padding-right: 15px;
-  position: relative;
+  position: static;
   min-height: 1px;
   padding-left: 15px;
   padding-right: 15px; }
@@ -6578,7 +6578,7 @@ h6 {
 
 .header-main .sub-menu {
   list-style-type: none;
-  position: absolute;
+  position: static;
   background: #dd2c2f;
   top: 100%;
   height: auto;
