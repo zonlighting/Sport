@@ -201,4 +201,9 @@
 		order by schedule_tbl.schedule_start
 		
 	</select>
+	<select id="teamResults" resultMap="scheduleMapping">
+	SELECT * FROM sports.schedule_tbl inner join team_tbl on (
+		team_tbl.team_id=schedule_tbl.schedule_team1 or
+		team_tbl.team_id=schedule_tbl.schedule_team2 ) where( schedule_tbl.schedule_team1=${idTeam} or schedule_tbl.schedule_team2=${idTeam}) and schedule_tbl.schedule_tour=${idTournament};
+	</select>
 </mapper>

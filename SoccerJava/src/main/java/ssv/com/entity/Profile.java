@@ -1,6 +1,7 @@
 package ssv.com.entity;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,4 +24,6 @@ public class Profile {
 	private int idTeam;
 	private String position;
 	private LocalDate createDate = LocalDate.now();
+	private int numberGoal;
+	private List<History> history;
 }

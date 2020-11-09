@@ -16,7 +16,7 @@
           <img :src="baseUrl + item.team[0].logo" />
         </v-avatar>
         <b style="font-size: 25px; margin-left: 40px; margin-right: 40px"
-          >{{ item.score1 }}-{{ item.score2 }}</b
+          >vs</b
         ><v-avatar>
           <img :src="baseUrl + item.team[1].logo" />
         </v-avatar>

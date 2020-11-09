@@ -129,4 +129,8 @@ public class TeamService {
 
 	}
 
+	public ResponseQuery<?> getHistory(int idTour, int idTeam, int idSchedule) {
+		return ResponseQuery.success("Connect", teamRepository.getHistory(idTour,idTeam,idSchedule));
+	}
+
 }

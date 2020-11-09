@@ -1,5 +1,9 @@
 package ssv.com.service;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import org.modelmapper.ModelMapper;
@@ -8,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ssv.com.dto.ResponseQuery;
+import ssv.com.dto.TeamDetail;
 import ssv.com.entity.Account;
 import ssv.com.entity.Profile;
 import ssv.com.exception.ResourceExistsException;
@@ -98,5 +103,17 @@ public class ProfileService {
 
 	public Optional<Profile> findProfileById(Integer id) {
 		return profileRepository.findProfileById(id);
+	}
+
+	public HashSet<Profile> getTourGoal(int idTeam) {
+		List<Profile> list=new ArrayList<Profile>();
+		HashSet<Profile> profiles=new HashSet<Profile>();
+		list=profileRepository.getByTeamTour(idTeam);
+		for (Profile profile : list) {
+			profile.setNumberGoal(profileRepository.getNumberGoal(idTeam,profile.getId()));
+			profiles.add(profile);
+		}
+	
+		return profiles;
 	}
 }

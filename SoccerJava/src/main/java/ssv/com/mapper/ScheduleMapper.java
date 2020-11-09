@@ -47,4 +47,6 @@ public interface ScheduleMapper {
 
 	int teamAdraw(int idTeam);
 
+	List<Schedule> teamResults(int idTeam, int idTournament);
+
 }

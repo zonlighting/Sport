@@ -235,4 +235,25 @@ public class TournamentService {
 		return details;
 	}
 
+	public List<Tournament> getAllSchedule() {
+		List<Tournament> list=tournamentRepository.getAllSchedule();
+		for (Tournament tournament : list) {
+			for (Schedule schedule : tournament.getSchedule()) {
+				if (schedule.getIdTeam1() > schedule.getIdTeam2()) {
+					List<Team> list1 = new ArrayList<Team>();
+					list1.add(schedule.getTeam().get(1));
+					list1.add(schedule.getTeam().get(0));
+					schedule.setTeam(list1);
+				}
+			}
+		}
+		return list;
+			
+	}
+
+	public List<Tournament>   getAllScheduleStatus(int status) {
+		// TODO Auto-generated method stub
+		return tournamentRepository.getAllScheduleStatus(status);
+	}
+
 }

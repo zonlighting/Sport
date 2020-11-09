@@ -59,4 +59,14 @@ public class TournamentRepository {
 		tournamentMapper.ongGame(idTournament);
 		
 	}
+
+	public List<Tournament> getAllSchedule() {
+		// TODO Auto-generated method stub
+		return tournamentMapper.getAllSchedule();
+	}
+
+	public List<Tournament> getAllScheduleStatus(int status) {
+		// TODO Auto-generated method stub
+		return tournamentMapper.getAllScheduleStatus(status);
+	}
 }

@@ -1,4 +1,4 @@
-import { createMember, members, updateProfile,  getPlayerById } from '@/api/MemberApi'
+import { createMember, members, updateProfile,  getPlayerById ,getTourGoal} from '@/api/MemberApi'
 
 const state = {
 
@@ -48,6 +48,15 @@ const actions = {
             })
         })
     },
+    getTourGoal(__,data){
+        return new Promise((resolve, reject) => {
+            getTourGoal(data).then(res => {
+                resolve(res);
+            }).catch((err) => {
+                reject(err);
+            })
+        })
+    }
 }
 
 export default {

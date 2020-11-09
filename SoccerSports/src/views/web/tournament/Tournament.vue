@@ -51,18 +51,18 @@
                   <v-row class="pl-3">
                     <router-link
                       :to="{
-                        name: 'results',
+                        path: 'tournamentDetail/'+item.idTournament+'/results',
                       }"
                       ><p class="teamlink">Fixtures & Results</p></router-link
                     >
                     <v-divider class="ml-1 mr-1" inset vertical></v-divider>
-                    <router-link :to="{ name: 'squad' }"
+                     <router-link
+                      :to="{
+                        path: 'tournamentDetail/'+item.idTournament+'/team',
+                      }"
                       ><p class="teamlink">Table</p></router-link
                     >
-                    <v-divider class="ml-1 mr-1" inset vertical></v-divider>
-                    <router-link :to="{ name: 'stats' }"
-                      ><p class="teamlink">Team</p></router-link
-                    >
+                   
                   </v-row>
                 </v-col>
               </v-row>
@@ -81,18 +81,7 @@
       <v-col cols="12" sm="4">
         <v-row style="height: 107px"></v-row>
         <v-row>
-          <v-data-table
-            :headers="headers"
-            :items="desserts"
-            class="elevation-1"
-            :items-per-page="15"
-          >
-            <template v-slot:[`item.calories`]="{ item }">
-              <v-chip :color="getColor(item.calories)" dark>
-                {{ item.calories }}
-              </v-chip>
-            </template>
-          </v-data-table>
+         <v-img src="https://i.pinimg.com/originals/dc/95/9f/dc959fd2539127fcd5a1ca32715551cc.jpg"></v-img>
         </v-row>
       </v-col>
     </v-row>

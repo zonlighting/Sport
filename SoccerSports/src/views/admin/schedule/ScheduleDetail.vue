@@ -188,7 +188,7 @@
         </v-col>
       </v-row>
       <hr />
-      <template v-if="schedule.video != null || schedule.image != null">
+      <template v-if="schedule.video != 'null' || schedule.image != 'null'">
         <h3 style="color: blue">#Video,Photo</h3>
         <v-row>
           <v-col>
@@ -330,23 +330,37 @@ export default {
             this.getDataGoal();
             if (this.schedule.idTeam1 > this.schedule.idTeam2) {
               this.$store
-                .dispatch("team/getDetail", this.schedule.team[1].idTeam)
+                .dispatch("team/getDetail",   {
+                  idTeam: this.schedule.team[1].idTeam,
+                  idTournament: this.$route.params.id
+                })
                 .then((response) => {
                   this.detailTeam.push(response.data.payload);
                 });
               this.$store
-                .dispatch("team/getDetail", this.schedule.team[0].idTeam)
+                .dispatch("team/getDetail", 
+                {
+                  idTeam: this.schedule.team[0].idTeam,
+                  idTournament: this.$route.params.id
+                }
+               )
                 .then((response) => {
                   this.detailTeam.push(response.data.payload);
                 });
             } else {
               this.$store
-                .dispatch("team/getDetail", this.schedule.team[0].idTeam)
+                .dispatch("team/getDetail",   {
+                  idTeam: this.schedule.team[0].idTeam,
+                  idTournament: this.$route.params.id
+                })
                 .then((response) => {
                   this.detailTeam.push(response.data.payload);
                 });
               this.$store
-                .dispatch("team/getDetail", this.schedule.team[1].idTeam)
+                .dispatch("team/getDetail",   {
+                  idTeam: this.schedule.team[1].idTeam,
+                  idTournament: this.$route.params.id
+                })
                 .then((response) => {
                   this.detailTeam.push(response.data.payload);
                 });

@@ -51,4 +51,9 @@ public class TeamRepository {
 		teamMapper.createTournament(idTeam,idTournament);
 		
 	}
+
+	public Team getHistory(int idTour, int idTeam, int idSchedule) {
+		// TODO Auto-generated method stub
+		return teamMapper.getHistory(idTour,idTeam,idSchedule);
+	}
 }

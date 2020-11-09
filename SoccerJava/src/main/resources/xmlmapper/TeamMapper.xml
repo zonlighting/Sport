@@ -31,6 +31,30 @@
 			<result property="position" column="profile_position" />
 			<result property="createDate" column="profile_datecreate" />
 		</collection>
+		<collection property="schedule" ofType="Schedule">
+			<id column="schedule_id" property="idSchedule" />
+			<result column="schedule_score1" property="score1" />
+			<result column="schedule_score2" property="score2" />
+			<result column="schedule_status" property="status" />
+			<result column="schedule_location" property="location" />
+			<result column="schedule_tour" property="idTour" />
+			<result column="schedule_start" property="timeStart" />
+			<result column="schedule_end" property="timeEnd" />
+			<result column="schedule_team1" property="idTeam1" />
+			<result column="schedule_team2" property="idTeam2" />
+			<result column="schedule_image" property="image" />
+			<result column="schedule_video" property="video" />
+			<result column="schedule_winner" property="winner" />
+			<result column="schedule_adraw" property="adraw" />
+			<collection property="goal" ofType="Goal">
+				<id property="idGoal" column="goal_id" />
+				<result property="idSchedule" column="id_schedule" />
+				<result property="idMember" column="member_id" />
+				<result property="time" column="goal_time" />
+				<result property="team" column="goal_team" />
+			</collection>
+
+		</collection>
 	</resultMap>
 	<resultMap type="Team" id="teamMapping1">
 		<id column="team_id" property="idTeam" />
@@ -113,4 +137,17 @@
 		${idTournament} WHERE (`team_id` =
 		${idTeam});
 	</update>
+	<select id="getHistory" resultMap="teamMapping">
+		SELECT * FROM sports.team_tbl
+		left join (history_tbl inner join profile_tbl
+		on
+		history_tbl.id_member=profile_tbl.profile_id inner join
+		tournament_tbl
+		on tournament_tbl.tournament_id=history_tbl.id_tour ) on
+		history_tbl.id_team=team_tbl.team_id left join (schedule_tbl left join goal_tbl on
+		schedule_tbl.schedule_id=goal_tbl.id_schedule  ) on schedule_tbl.schedule_team1=team_tbl.team_id or schedule_tbl.schedule_team2=team_tbl.team_id where
+		team_tbl.team_id=${idTeam}
+		and tournament_tbl.tournament_id=${idTour} and schedule_tbl.schedule_id=${idSchedule};
+	</select>
+	
 </mapper>
