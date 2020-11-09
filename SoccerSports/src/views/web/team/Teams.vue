@@ -11,7 +11,18 @@
               </v-col>
             </v-row>
             <v-row style="max-height: 60px">
-              <h3 class="pl-4">{{ tournament.nameTournament }}</h3>
+              <h3 class="pl-4">
+                {{ tournament.nameTournament }}
+                <h5 style="color: green" v-if="tournament.status == 0">
+                  (Upcomming Tournament)
+                </h5>
+                <h5 style="color: blue" v-else-if="tournament.status == 1">
+                  (On happening)
+                </h5>
+                <h5 style="color: red" v-else>
+                  (Ended)
+                </h5>
+              </h3>
               <v-spacer></v-spacer>
               <v-col cols="12" sm="3">
                 <v-select
