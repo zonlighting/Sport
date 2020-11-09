@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import ssv.com.dto.ResponseQuery;
 import ssv.com.dto.TeamDetail;
+import ssv.com.entity.Schedule;
 import ssv.com.entity.Team;
 import ssv.com.exception.ResourceExistsException;
 import ssv.com.file.UploadFile;
@@ -25,6 +26,7 @@ public class TeamService {
 
 	@Autowired
 	private ProfileRepository profileRepository;
+
 	@Autowired
 	private ScheduleRepository scheduleRepository;
 
@@ -35,7 +37,32 @@ public class TeamService {
 	private ModelMapper modelMapper;
 
 	public List<Team> getTeams() {
-		return teamRepository.getTeams();
+		List<Team> teams = teamRepository.getTeams();
+		for (Team team : teams) {
+			List<Schedule> schedules = scheduleRepository.getAll();
+			int totalMacth = 0;
+			int totalWin = 0;
+			for (Schedule schedule : schedules) {
+				if ((schedule.getIdTeam1() == team.getIdTeam() || schedule.getIdTeam2() == team.getIdTeam())
+						&& schedule.getStatus() == 2) {
+					totalMacth++;
+					if (schedule.getWinner() == team.getIdTeam()) {
+						totalWin++;
+					}
+				}
+			}
+			if (totalMacth != 0) {
+				team.setTotalmatch(totalMacth);
+				team.setTotalwin(totalWin);
+				team.setRate(((float)totalWin / totalMacth) * 100);
+			}
+			else {
+				team.setTotalmatch(0);
+				team.setTotalwin(0);
+				team.setRate(0);
+			}
+		}
+		return teams;
 	}
 
 	public Long createTeam(Team team) {
@@ -90,7 +117,7 @@ public class TeamService {
 		detail.setTotalWinByTour(scheduleRepository.teamTotalWinByTour(idTeam, idTournament));
 		detail.setTotalAdrawByTour(scheduleRepository.teamTotalAdrawByTour(idTeam, idTournament));
 		int point = detail.getTotalWinByTour() * 3 + detail.getTotalAdrawByTour() * 1;
-		int pointAll=detail.getTotalWin()*3 + detail.getTotalAdraw()*1;
+		int pointAll = detail.getTotalWin() * 3 + detail.getTotalAdraw() * 1;
 		detail.setPointByTour(point);
 		detail.setPointAll(pointAll);
 		detail.setNameTeam(team.getNameTeam());
@@ -130,7 +157,7 @@ public class TeamService {
 	}
 
 	public ResponseQuery<?> getHistory(int idTour, int idTeam, int idSchedule) {
-		return ResponseQuery.success("Connect", teamRepository.getHistory(idTour,idTeam,idSchedule));
+		return ResponseQuery.success("Connect", teamRepository.getHistory(idTour, idTeam, idSchedule));
 	}
 
 }

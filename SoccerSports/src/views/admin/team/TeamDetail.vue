@@ -80,13 +80,12 @@
           </v-col>
         </v-row>
 
-        <v-row v-else>
-          <EditTeam
-            :getTeamById="getTeamById"
-            :editTeam="editTeam"
-            :team="team"
-          />
-        </v-row>
+        <EditTeam
+          v-else
+          :getTeamById="getTeamById"
+          :editTeam="editTeam"
+          :team="team"
+        />
 
         <v-divider class="my-8"></v-divider>
 
@@ -340,26 +339,40 @@ export default {
     },
 
     searchButton() {
-      let newData = this.team.profile.filter((v) => {
-        let isSearch = true;
-        if (this.namePlayerSearch != "") {
-          console.log("1");
-          isSearch = v.name.toLowerCase().includes(this.namePlayerSearch.toLowerCase())
-        }
-        if (this.ageSearch != "") {
-          console.log("2");
-          console.log(v.age)
-          isSearch = v.age == this.ageSearch;
-        }
-        if (this.countrySearch != "") {
-          isSearch = v.country.toLowerCase().includes(this.countrySearch.toLowerCase());
-        }
-        if (this.positionSearch != "Default" && this.positionSearch != "") {
-          isSearch = this.positionSearch != v.position
-        }
-        console.log(isSearch);
-        return isSearch;
-      });
+      let newData = this.team.profile
+        .filter((v) => {
+          let isSearch = true;
+          if (this.namePlayerSearch != "") {
+            
+            isSearch = v.name
+              .toLowerCase()
+              .includes(this.namePlayerSearch.toLowerCase());
+          }
+          return isSearch;
+        })
+        .filter((v) => {
+          let isSearch = true;
+          if (this.ageSearch != "") {
+            isSearch = v.age == this.ageSearch;
+          }
+          return isSearch;
+        })
+        .filter((v) => {
+          let isSearch = true;
+          if (this.countrySearch != "") {
+            isSearch = v.country
+              .toLowerCase()
+              .includes(this.countrySearch.toLowerCase());
+          }
+          return isSearch;
+        })
+        .filter((v) => {
+          let isSearch = true;
+          if (this.positionSearch != "Default" && this.positionSearch != "") {
+            isSearch = this.positionSearch != v.position;
+          }
+          return isSearch
+        });
       this.membersSearch = newData;
     },
   },
