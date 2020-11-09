@@ -136,7 +136,7 @@ export default {
         {
           text: "Teams",
           disabled: false,
-          href: "/admin/team",
+          href: "/admin/teams",
         },
       ],
     };

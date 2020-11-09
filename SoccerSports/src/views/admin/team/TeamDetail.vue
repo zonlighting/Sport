@@ -344,24 +344,18 @@ export default {
         let isSearch = true;
         if (this.namePlayerSearch != "") {
           console.log("1");
-          isSearch = v.name.toLowerCase().includes(this.namePlayerSearch)
-            ? false
-            : true;
+          isSearch = v.name.toLowerCase().includes(this.namePlayerSearch.toLowerCase())
         }
         if (this.ageSearch != "") {
           console.log("2");
-          isSearch = v.age.toLowerCase().includes(this.ageSearch)
-            ? false
-            : true;
+          console.log(v.age)
+          isSearch = v.age == this.ageSearch;
         }
         if (this.countrySearch != "") {
-          console.log("3");
-          isSearch = v.country.toLowerCase().includes(this.countrySearch)
-            ? false
-            : true;
+          isSearch = v.country.toLowerCase().includes(this.countrySearch.toLowerCase());
         }
         if (this.positionSearch != "Default" && this.positionSearch != "") {
-          isSearch = this.positionSearch != v.position ? false : true;
+          isSearch = this.positionSearch != v.position
         }
         console.log(isSearch);
         return isSearch;
