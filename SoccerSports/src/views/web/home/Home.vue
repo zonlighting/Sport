@@ -21,7 +21,7 @@
               >
 
               <v-card-text>
-                <template v-if="recentMatch.length>0"> 
+                <template v-if=" Object.keys(this.recentMatch).length > 0"> 
                 <v-row class="text-center" style="color: white">
                   <v-col
                     ><h2 style="color: yellow">{{ this.timeDate.ngay }}</h2>
@@ -480,17 +480,16 @@ export default {
       });
     },
     getRecentMatch() {
-      this.$store.commit("auth/auth_overlay");
       this.$store
         .dispatch("schedule/recentMatch")
         .then((response) => {
-          this.$store.commit("auth/auth_overlay");
           if (response.data.code == 0) {
             this.recentMatch = response.data.payload;
-            if (this.recentMatch.length > 0) {
+            if ( Object.keys(this.recentMatch).length > 0) {
               this.time = response.data.payload.timeStart;
+                    this.$store.commit("auth/auth_overlay");
+
               this.setintervalTime(this.time);
-              this.$store.commit("auth/auth_overlay");
             }
           } else {
             this.$store.commit("auth/auth_overlay");

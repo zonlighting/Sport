@@ -343,8 +343,13 @@ export default {
       this.hideDialog();
     },
   },
+  mounted() {
+    this.getListTeam();
+  },
   updated() {
-  
+    if ((this.listTeam.length == 0)) {
+      this.getListTeam();
+    }
   },
 
   watch: {
@@ -371,7 +376,6 @@ export default {
           }
         });
       });
-      console.log(this.teamChoose);
     },
   },
 };

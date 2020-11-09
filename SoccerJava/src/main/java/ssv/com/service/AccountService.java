@@ -1,5 +1,7 @@
 package ssv.com.service;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +49,11 @@ public class AccountService {
 		} catch (Exception e) {
 			ResponseQuery.faild("Create profile failed", acount);
 		}
+	}
+
+	public List<Account> getAll() {
+		// TODO Auto-generated method stub
+		return accountRepository.getAll();
 	}
 
 }

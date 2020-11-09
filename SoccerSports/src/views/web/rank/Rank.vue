@@ -101,7 +101,7 @@ export default {
     },
     getTournament(){
          this.$store.commit("auth/auth_overlay");
-      this.$store.dispatch("tournament/getAll").then((response) => {
+      this.$store.dispatch("tournament/tournamentStatus",2).then((response) => {
         this.$store.commit("auth/auth_overlay");
         if (response.data.code == 0) {
           this.tournament = response.data.payload;
