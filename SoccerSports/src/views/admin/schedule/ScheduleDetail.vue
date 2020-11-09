@@ -33,15 +33,31 @@
             alt="John"
           />
         </v-avatar>
-        <h4 style="display: inline-block">
-          {{ !!schedule ? schedule.team[0].nameTeam : "" }}
-        </h4>
+        <router-link
+          :to="{
+            path: '/admin/team/detail/' + schedule.team[0].idTeam,
+          }"
+          style="text-decoration: none"
+        >
+          <h4 style="display: inline-block">
+            {{ !!schedule ? schedule.team[0].nameTeam : "" }}
+          </h4></router-link
+        >
         <v-avatar style="margin-left: 50px; margin-right: 50px">
           <img src="@/assets/vs.png" alt="John" />
         </v-avatar>
-        <h4 style="display: inline-block">
-          {{ !!schedule ? schedule.team[1].nameTeam : "" }}
-        </h4>
+
+        <router-link
+          :to="{
+            path: '/admin/team/detail/' + schedule.team[1].idTeam,
+          }"
+          style="text-decoration: none"
+        >
+          <h4 style="display: inline-block">
+            {{ !!schedule ? schedule.team[1].nameTeam : "" }}
+          </h4>
+        </router-link>
+
         <v-avatar tile>
           <img
             :src="!!schedule ? baseUrl + schedule.team[1].logo : ''"
@@ -188,7 +204,7 @@
         </v-col>
       </v-row>
       <hr />
-      <template v-if="schedule.status==2">
+      <template v-if="schedule.status == 2">
         <h3 style="color: blue">#Video,Photo</h3>
         <v-row>
           <v-col>
@@ -330,36 +346,34 @@ export default {
             this.getDataGoal();
             if (this.schedule.idTeam1 > this.schedule.idTeam2) {
               this.$store
-                .dispatch("team/getDetail",   {
+                .dispatch("team/getDetail", {
                   idTeam: this.schedule.team[1].idTeam,
-                  idTournament: this.$route.params.id
+                  idTournament: this.$route.params.id,
                 })
                 .then((response) => {
                   this.detailTeam.push(response.data.payload);
                 });
               this.$store
-                .dispatch("team/getDetail", 
-                {
+                .dispatch("team/getDetail", {
                   idTeam: this.schedule.team[0].idTeam,
-                  idTournament: this.$route.params.id
-                }
-               )
+                  idTournament: this.$route.params.id,
+                })
                 .then((response) => {
                   this.detailTeam.push(response.data.payload);
                 });
             } else {
               this.$store
-                .dispatch("team/getDetail",   {
+                .dispatch("team/getDetail", {
                   idTeam: this.schedule.team[0].idTeam,
-                  idTournament: this.$route.params.id
+                  idTournament: this.$route.params.id,
                 })
                 .then((response) => {
                   this.detailTeam.push(response.data.payload);
                 });
               this.$store
-                .dispatch("team/getDetail",   {
+                .dispatch("team/getDetail", {
                   idTeam: this.schedule.team[1].idTeam,
-                  idTournament: this.$route.params.id
+                  idTournament: this.$route.params.id,
                 })
                 .then((response) => {
                   this.detailTeam.push(response.data.payload);

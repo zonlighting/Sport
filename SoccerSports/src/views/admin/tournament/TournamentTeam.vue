@@ -1,7 +1,11 @@
 <template>
   <div>
     <div>
-      <v-btn color="primary" style="margin-top: 50px" @click="dialogAdd = true" v-if="tournamentData.status==0"
+      <v-btn
+        color="primary"
+        style="margin-top: 50px"
+        @click="dialogAdd = true"
+        v-if="tournamentData.status == 0"
         >Add Team</v-btn
       >
     </div>
@@ -16,18 +20,27 @@
             <th>Action</th>
           </tr>
         </thead>
-        <tbody >
-          <tr v-for="(item, index) in listTeam" :key="index" >
+        <tbody>
+          <tr v-for="(item, index) in listTeam" :key="index">
             <td>{{ item.nameTeam }}</td>
             <td>
               <v-avatar>
-                <img :src="baseUrl+item.logo" alt="John" />
+                <img :src="baseUrl + item.logo" alt="John" />
               </v-avatar>
             </td>
-            <td>{{!!item&&!!item.profile? item.profile.length:'' }}</td>
+            <td>{{ !!item && !!item.profile ? item.profile.length : "" }}</td>
             <td>{{ item.description }}</td>
             <td>
-              <v-icon style="cursor: pointer" @click="deleteTeam(item)"
+              <router-link
+                :to="{
+                  path: '/admin/team/detail/' + item.idTeam,
+                  
+                }"
+                style="text-decoration: none"
+              >
+                <v-icon small class="mr-2"> mdi-arrow-right-bold </v-icon>
+              </router-link>
+              <v-icon style="cursor: pointer" @click="deleteTeam(item)" v-if="tournamentData.status==0"
                 >mdi-delete</v-icon
               >
             </td>
@@ -56,13 +69,13 @@
         <v-divider></v-divider>
         <v-card-text style="height: 400px">
           <div v-if="this.listTeamWait.length != 0">
-             <v-row style="margin-left:20px">
-                    <v-col>
-               <b>  Logo</b>
-                    </v-col>
-                    <v-col>
-                     <b>  Name</b></v-col><v-col> <b>  Country</b></v-col>
-                  </v-row>
+            <v-row style="margin-left: 20px">
+              <v-col>
+                <b> Logo</b>
+              </v-col>
+              <v-col> <b> Name</b></v-col
+              ><v-col> <b> Country</b></v-col>
+            </v-row>
             <v-radio-group v-model="selectTeam" column>
               <v-radio
                 v-for="(item, index) in listTeamWait"
@@ -70,15 +83,14 @@
                 :value="item.idTeam"
               >
                 <template v-slot:label>
-                  <v-row >
+                  <v-row>
                     <v-col>
-                  <v-avatar >
-                    <img :src="baseUrl + item.logo" alt="John" />
-                  
-                  </v-avatar>
+                      <v-avatar>
+                        <img :src="baseUrl + item.logo" alt="John" />
+                      </v-avatar>
                     </v-col>
-                    <v-col>
-                    {{ item.nameTeam }}</v-col><v-col>{{item.country}}</v-col>
+                    <v-col> {{ item.nameTeam }}</v-col
+                    ><v-col>{{ item.country }}</v-col>
                   </v-row>
                 </template>
               </v-radio>
@@ -124,8 +136,8 @@ export default {
     getData: Function,
     tournament: Object,
   },
-  mounted(){
-    console.log(this.tournamentData)
+  mounted() {
+    console.log(this.tournamentData);
   },
 
   methods: {
@@ -160,37 +172,36 @@ export default {
     },
 
     okDelete() {
-      if(this.listTeam.length<=10){
-        alert("The tournament must have at least 10 teams participating")
-           this.cancel();
-      }
-      else{
-      this.$store.commit("auth/auth_overlay");
-      this.$store
-        .dispatch("tournament/deleteTeam", {
-          idTeam: this.idDelete,
-          idTournament: this.$route.params.id,
-        })
-        .then((response) => {
-          this.$store.commit("auth/auth_overlay");
-          if (response.data.code == 0) {
-            this.listTeam.splice(this.editedIndex, 1);
-            this.cancel();
-            alert(response.data.message);
-          } else {
-            alert(response.data.message);
-          }
-        })
-        .catch(function (error) {
-          alert(error);
-        });
+      if (this.listTeam.length <= 10) {
+        alert("The tournament must have at least 10 teams participating");
+        this.cancel();
+      } else {
+        this.$store.commit("auth/auth_overlay");
+        this.$store
+          .dispatch("tournament/deleteTeam", {
+            idTeam: this.idDelete,
+            idTournament: this.$route.params.id,
+          })
+          .then((response) => {
+            this.$store.commit("auth/auth_overlay");
+            if (response.data.code == 0) {
+              this.listTeam.splice(this.editedIndex, 1);
+              this.cancel();
+              alert(response.data.message);
+            } else {
+              alert(response.data.message);
+            }
+          })
+          .catch(function (error) {
+            alert(error);
+          });
       }
     },
   },
   watch: {
     tournament() {
-      this.tournamentData=this.tournament;
-      this.listTeam=this.tournament.team;
+      this.tournamentData = this.tournament;
+      this.listTeam = this.tournament.team;
     },
     listTeam() {
       this.$store.dispatch("team/getTeamNoTournament").then((response) => {

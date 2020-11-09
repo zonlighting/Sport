@@ -24,64 +24,78 @@
             </v-col>
           </v-row>
           <v-divider style="margin: 0 !important"></v-divider>
-          <v-row v-if="isHavedata">
-            <v-col cols="12" sm="6" v-for="(item, i) in tournament" :key="i">
+          <v-row v-for="(item, i) in tournament" :key="i">
+            <v-card width="900px" height="200px">
               <v-row>
-                <router-link
-                  :to="{
-                    path: `/tournamentDetail/${item.idTournament}`,
-                  }"
-                >
+                <v-col cols="12" sm="4">
                   <v-img
+                    lazy-src="https://picsum.photos/id/11/10/6"
+                    max-height="150"
+                    max-width="250"
                     :src="baseUrl + item.banner"
-                    max-width="50"
-                    max-height="50"
-                    class="ml-3"
-                  >
-                  </v-img>
-                </router-link>
-                <v-col cols="12" sm="6" class="pt-0">
+                  ></v-img>
+                </v-col>
+                <v-col>
                   <router-link
-                    :to="{
-                      path: `/tournamentDetail/${item.idTournament}`,
-                    }"
+                    :to="{ path: '/tournamentDetail/' + item.idTournament }"
+                    style="color: black"
                   >
-                    <h5 class="nameTeam">{{ item.nameTournament }}</h5>
-                  </router-link>
-                  <v-row class="pl-3">
+                    <h1>{{ item.nameTournament }}</h1></router-link
+                  >
+                  <h4
+                    :style="
+                      item.status == 0
+                        ? 'color:green'
+                        : item.status == 1
+                        ? 'color:blue'
+                        : 'red'
+                    "
+                  >
+                    {{
+                      item.status == 0
+                        ? "UpComming"
+                        : item.status == 1
+                        ? "OnGame"
+                        : "Ended"
+                    }}
+                  </h4>
+                  <h5>
                     <router-link
                       :to="{
-                        path: 'tournamentDetail/'+item.idTournament+'/results',
+                        path:
+                          '/tournamentDetail/' +
+                          item.idTournament +
+                          '/schedule',
                       }"
-                      ><p class="teamlink">Fixtures & Results</p></router-link
+                      >Fixtures||</router-link
                     >
-                    <v-divider class="ml-1 mr-1" inset vertical></v-divider>
-                     <router-link
+                    <router-link
                       :to="{
-                        path: 'tournamentDetail/'+item.idTournament+'/team',
+                        path:
+                          '/tournamentDetail/' + item.idTournament + '/results',
                       }"
-                      ><p class="teamlink">Table</p></router-link
+                      >Results</router-link
                     >
-                   
-                  </v-row>
+                    <router-link
+                      :to="{
+                        path:
+                          '/tournamentDetail/' + item.idTournament + '/team',
+                      }"
+                      >||Table</router-link
+                    >
+                  </h5>
                 </v-col>
               </v-row>
-            </v-col>
+            </v-card>
           </v-row>
-          <h2 v-else>No Data Available</h2>
         </v-card-text>
-
-        <!-- <v-divider></v-divider> -->
-
-        <!-- <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="success" depressed> Post </v-btn>
-          </v-card-actions> -->
       </v-col>
       <v-col cols="12" sm="4">
         <v-row style="height: 107px"></v-row>
         <v-row>
-         <v-img src="https://i.pinimg.com/originals/dc/95/9f/dc959fd2539127fcd5a1ca32715551cc.jpg"></v-img>
+          <v-img
+            src="https://i.pinimg.com/originals/dc/95/9f/dc959fd2539127fcd5a1ca32715551cc.jpg"
+          ></v-img>
         </v-row>
       </v-col>
     </v-row>

@@ -147,7 +147,7 @@
           <router-link
             :to="{
               path: `tournament/` + item.idTournament,
-              params: { userId: 123 },
+          
             }"
             style="text-decoration: none"
           >

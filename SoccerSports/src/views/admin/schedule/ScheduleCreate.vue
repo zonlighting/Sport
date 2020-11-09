@@ -115,7 +115,11 @@
                 :rules="rulesDate"
               ></v-text-field>
             </template>
-            <v-date-picker v-model="date" no-title scrollable>
+            <v-date-picker v-model="date" no-title scrollable :min="
+                new Date(new Date().setDate(new Date().getDate() + 1))
+                  .toISOString()
+                  .substr(0, 10)
+              ">
               <v-spacer></v-spacer>
               <v-btn text color="primary" @click="menu = false"> Cancel </v-btn>
               <v-btn text color="primary" @click="$refs.menu.save(date)">
@@ -152,11 +156,7 @@
               v-model="time"
               full-width
               @click:minute="$refs.menuTime.save(time)"
-              :min="
-                new Date(new Date().setDate(new Date().getDate() + 1))
-                  .toISOString()
-                  .substr(0, 10)
-              "
+              
             ></v-time-picker> </v-menu
         ></v-col>
       </v-row>

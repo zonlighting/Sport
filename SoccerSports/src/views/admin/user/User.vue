@@ -1,36 +1,59 @@
 <template>
   <div>
     <v-row>
-      <v-col cols="12" sm="2">
-      </v-col>
+      <v-col cols="12" sm="2"> </v-col>
       <v-col cols="12" sm="8">
-    <v-card>
-      <v-card-title>
-        User
-        <v-spacer></v-spacer>
-        <v-row>
-          <v-col>
-            <v-text-field
-              v-model="searchName"
-              append-icon="mdi-magnify"
-              label="Search Email"
-              single-line
-            ></v-text-field>
-          </v-col>
-         <v-col>
-            <v-select label="Choose Role" v-model="searchRole" :items="role" item-value="value" item-text="text"> </v-select>
-          </v-col>
-        </v-row>
-      </v-card-title>
-      <v-data-table :headers="headers" :items="user">
-        <template v-slot:[`items.role`]="{ item }"> 
-          {{item.role=="ROLE_ADMIN"?"ADMIN":item.role=="ROLE_MEMBER"?'MEMBER':'USER' }}
-        </template>
-      </v-data-table>
-    </v-card>
+        <v-card>
+          <v-card-title>
+            User
+            <v-spacer></v-spacer>
+            <v-row>
+              <v-col>
+                <v-text-field
+                  v-model="searchName"
+                  append-icon="mdi-magnify"
+                  label="Search Email"
+                  single-line
+                ></v-text-field>
+              </v-col>
+              <v-col>
+                <v-select
+                  label="Choose Role"
+                  v-model="searchRole"
+                  :items="role"
+                  item-value="value"
+                  item-text="text"
+                >
+                </v-select>
+              </v-col>
+            </v-row>
+          </v-card-title>
+          <v-data-table :headers="headers" :items="user" >
+            <template v-slot:[`item.role`]="{ item }">
+              {{
+                item.role == "ROLE_ADMIN"
+                  ? "ADMIN"
+                  : item.role == "ROLE_MEMBER"
+                  ? "MEMBER"
+                  : "USER"
+              }}
+            </template>
+            <template v-slot:[`item.profile`]="{ item }" >
+              <div v-if="item.profile.idTeam!=0">
+                <router-link
+                  :to="{
+                    path: '/admin/member/' + item.profile.id,
+                  }"
+                  style="text-decoration: none"
+                >
+                  <v-icon small class="mr-2"> mdi-arrow-right-bold </v-icon>
+                </router-link>
+              </div>
+            </template>
+          </v-data-table>
+        </v-card>
       </v-col>
-      <v-col>
-      </v-col>
+      <v-col> </v-col>
     </v-row>
   </div>
 </template>
@@ -44,15 +67,16 @@ export default {
       headers: [
         { text: "No", value: "id" },
         { text: "Email", value: "email", filter: this.emailFilter },
-        { text: "Role", value: "role",filter: this.roleFilter },
+        { text: "Role", value: "role", filter: this.roleFilter },
+        { text: "Action", value: "profile", sortable: false },
       ],
       user: [],
-      role:[
-        {value :"ALL",text:"ALL"},
-        {value:"ROLE_ADMIN",text:"ADMIN"},
-        {value:"ROLE_MEMBER",text:"MEMBER"},
-        {value:"ROLE_USER",text:"USER"}
-      ]
+      role: [
+        { value: "ALL", text: "ALL" },
+        { value: "ROLE_ADMIN", text: "ADMIN" },
+        { value: "ROLE_MEMBER", text: "MEMBER" },
+        { value: "ROLE_USER", text: "USER" },
+      ],
     };
   },
   created() {
@@ -65,14 +89,14 @@ export default {
       }
       return value.toLowerCase().includes(this.searchName.toLowerCase());
     },
-    roleFilter(value){
-      if(!this.searchRole){
-        return true
+    roleFilter(value) {
+      if (!this.searchRole) {
+        return true;
       }
-      if(this.searchRole=="ALL"){
-        return true
+      if (this.searchRole == "ALL") {
+        return true;
       }
-      return value==this.searchRole
+      return value == this.searchRole;
     },
     getData() {
       this.$store.dispatch("user/getAll").then((response) => {
