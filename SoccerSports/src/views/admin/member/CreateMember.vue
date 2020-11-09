@@ -76,8 +76,9 @@
         ></v-row>
       </v-card-text>
       <v-card-actions>
-        <v-btn color="error" x-large text @click="reset"> Reset Form </v-btn>
+        <v-btn color="error" x-large text @click="isOpenModalMember"> Cancel </v-btn>
         <v-spacer> </v-spacer>
+         <v-btn color="error" x-large text @click="reset"> Reset Form </v-btn>
         <v-btn
           color="primary"
           x-large
@@ -133,7 +134,7 @@ export default {
         },
         (v) => !!/.+@.+/.test(v) || "E-mail must be valid",
       ],
-      phone: "123456",
+      phone: "",
       phoneRules: [
         (v) => !!v || "Phone is required",
         (v) => {
@@ -229,7 +230,7 @@ export default {
                 self.successDialog = !self.successDialog;
                 self.loadMemberAfterCreate(res.payload);
               }, 1100);
-              // self.reset();
+              self.reset();
             }
           })
           .catch((e) => {

@@ -57,7 +57,7 @@
             <v-btn color="primary" dark class="mb-5" @click="isOpenModalMember">
               Create Member
             </v-btn>
-            <v-dialog v-model="dialogCreateMember" max-width="68%">
+            <v-dialog persistent v-model="dialogCreateMember" max-width="68%">
               <CreateMember
                 :loadMemberAfterCreate="loadMemberAfterCreate"
                 :isOpenModalMember="isOpenModalMember"
@@ -233,9 +233,6 @@ export default {
             self.dialogConfirm = !self.dialogConfirm;
             self.success = !self.success;
             self.loadListMember(id);
-            self.$router.push({
-              path: `/admin/member/${self.idPlayer}`,
-            });
           }, 1500);
         })
         .catch(function (error) {
