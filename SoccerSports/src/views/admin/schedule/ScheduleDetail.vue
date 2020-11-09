@@ -188,7 +188,7 @@
         </v-col>
       </v-row>
       <hr />
-      <template v-if="schedule.video != 'null' || schedule.image != 'null'">
+      <template v-if="schedule.status==2">
         <h3 style="color: blue">#Video,Photo</h3>
         <v-row>
           <v-col>

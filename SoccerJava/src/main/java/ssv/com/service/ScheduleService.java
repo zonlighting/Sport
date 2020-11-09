@@ -113,7 +113,7 @@ public class ScheduleService {
 		String result = checkSchedule(schedule);
 		if (result == null) {
 			scheduleRepository.edit(schedule);
-			return ResponseQuery.success("Create Success", scheduleRepository.getById(schedule.getIdSchedule()));
+			return ResponseQuery.success("Edit Success", scheduleRepository.getById(schedule.getIdSchedule()));
 		}
 		return ResponseQuery.faild(result, 400);
 

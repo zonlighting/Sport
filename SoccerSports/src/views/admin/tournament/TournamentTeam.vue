@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <v-btn color="primary" style="margin-top: 50px" @click="dialogAdd = true"
+      <v-btn color="primary" style="margin-top: 50px" @click="dialogAdd = true" v-if="tournamentData.status==0"
         >Add Team</v-btn
       >
     </div>
@@ -125,7 +125,7 @@ export default {
     tournament: Object,
   },
   mounted(){
-    console.log()
+    console.log(this.tournamentData)
   },
 
   methods: {
@@ -189,6 +189,7 @@ export default {
   },
   watch: {
     tournament() {
+      this.tournamentData=this.tournament;
       this.listTeam=this.tournament.team;
     },
     listTeam() {

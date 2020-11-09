@@ -190,7 +190,7 @@ public class TournamentService {
 						tie++;
 					}
 				}
-				point = win * 3 + tie * 2 + lose * 1;
+				point = win * 3 + tie;
 				ranks.add(new RankDto(team.getNameTeam(), win, lose, tie, point));
 			}
 			else {

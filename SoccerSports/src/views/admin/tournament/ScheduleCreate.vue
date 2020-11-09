@@ -36,10 +36,7 @@
               <v-row>
                 <v-col>
                   <v-avatar tile>
-                    <img
-                      src="https://cdn.vuetifyjs.com/images/john.jpg"
-                      alt="John"
-                    />
+                    <img :src="baseUrl + item.logo" alt="Logo" />
                   </v-avatar>
                 </v-col>
                 <v-col>
@@ -73,10 +70,7 @@
               <v-row>
                 <v-col>
                   <v-avatar tile>
-                    <img
-                      src="https://cdn.vuetifyjs.com/images/john.jpg"
-                      alt="John"
-                    />
+                    <img :src="baseUrl + item.logo" alt="Logo" />
                   </v-avatar>
                 </v-col>
                 <v-col>
@@ -155,15 +149,21 @@
   </v-container>
 </template>
 <script>
+import { ENV } from "@/config/env.js";
+
 export default {
   props: {
     hideDialog: Function,
     getData: Function,
-    idSchedule: Number,
+  },
+  computed: {
+    baseUrl() {
+      return ENV.BASE_IMAGE;
+    },
   },
   data() {
     return {
-      tournmanet: {},
+      tournament: {},
       valid: true,
       rulesDate: [
         (v) => {
@@ -187,9 +187,10 @@ export default {
   },
   created() {
     this.$store
-      .dispatch("tournament/getById", this.idSchedule)
+      .dispatch("tournament/getById", this.$route.params.id)
       .then((response) => {
         this.listTeam = response.data.payload.team;
+        this.tournament = response.data.payload;
       });
   },
   methods: {
@@ -201,15 +202,17 @@ export default {
             idTeam1: this.selectTeam1,
             idTeam2: this.selectTeam2,
             location: this.location,
-            idTour: this.idSchedule,
+            idTour: this.$route.params.id,
             timeStart: this.date + "T" + this.time,
           })
           .then((response) => {
+            this.$store.commit("auth/auth_overlay");
             if (response.data.payload == 400) {
               alert(response.data.message);
             } else {
               alert(response.data.message);
               this.getData();
+              this.reset();
               this.hideDialog();
             }
           })
@@ -222,6 +225,22 @@ export default {
     },
     reset() {
       this.$refs.form.reset();
+    },
+  },
+  watch: {
+    date() {
+      this.rulesDate = [
+        (v) => {
+          if (v == null) {
+            return false || "time required";
+          }
+          if (v < this.tournament.timeStart || v > this.tournament.timeEnd) {
+            return false || "Past tournament time";
+          } else {
+            return true;
+          }
+        },
+      ];
     },
   },
 };
