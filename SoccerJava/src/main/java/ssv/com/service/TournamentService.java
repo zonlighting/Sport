@@ -167,10 +167,10 @@ public class TournamentService {
 	public List<Tournament> tournamentStatus(int status) {
 		return tournamentRepository.tournamentStatus(status);
 }
-	public Set<RankDto> rankByTour(int idTournament) {
+	public List<RankDto> rankByTour(int idTournament) {
 		List<Schedule> schedules = tournamentRepository.getById(idTournament).getSchedule();
 		List<Team> teams = tournamentRepository.getById(idTournament).getTeam();
-		Set<RankDto> ranks = new TreeSet<RankDto>();
+		List<RankDto> ranks = new ArrayList<RankDto>();
 		for (Team team : teams) {
 			if (schedules.size() > 0) {
 				int win = 0;
@@ -188,7 +188,7 @@ public class TournamentService {
 						tie++;
 					}
 				}
-				point = win * 3 + tie * 2 + lose * 1;
+				point = win * 3 + tie;
 				ranks.add(new RankDto(team.getNameTeam(), win, lose, tie, point));
 			}
 			else {
