@@ -14,3 +14,6 @@ export function autoLogin() {
 export function getAll(){
     return Api.get('/account/getAll')
 }
+export function forgetEmail(email){
+    return Api.post('/account/forget/'+email)
+}

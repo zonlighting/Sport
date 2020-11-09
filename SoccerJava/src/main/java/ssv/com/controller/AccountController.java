@@ -107,12 +107,15 @@ public class AccountController {
 			if (!accountService.checkEmail(email)) {
 				SimpleMailMessage message = new SimpleMailMessage();
 				message.setTo(email);
-				message.setSubject("Password");
+				message.setSubject("Tạo lại mật khẩu tài khoản");
 				Account account = new Account();
 				account.setEmail(email);
-				account.setPassword(new RandomPass().randomAlphaNumeric(8));
-//				accountService.replacePass(account);
-				message.setText(account.getPassword());
+				String pass=new RandomPass().randomAlphaNumeric(8);
+				String hash = BCrypt.hashpw(pass, BCrypt.gensalt(12));
+				account.setPassword(hash);
+				accountService.replacePass(account);
+				message.setText("Xin chào mừng bạn đễn với trang thể thao .Xin chào "+account.getEmail()+" .Bạn nhận được email này vì bạn  yêu cầu đặt lại mật khẩu . Mật khẩu mới sẽ là :" +pass);
+				
 				this.emailSender.send(message);
 				return ResponseQuery.success("Change password success , please check email to recive password",
 						account);
@@ -132,3 +135,4 @@ public class AccountController {
 		return ResponseQuery.success("Recivce Success", accountService.getAll());
 	}
 }
+	

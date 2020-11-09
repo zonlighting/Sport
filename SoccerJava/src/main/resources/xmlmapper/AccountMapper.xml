@@ -48,8 +48,14 @@
 		where a.account_email='${email}'
 	</select>
 		<select id="getAll" resultMap="accountMapping">
-		SELECT * FROM account_tbl ORDER
+		SELECT
+		a.*, p.*
+		From
+		account_tbl a left join profile_tbl p on
+		a.account_email=p.profile_email ORDER
 		BY account_id DESC
 	</select>
-	
+	<update id="replacePass" parameterType="Account">
+		UPDATE `sports`.`account_tbl` SET `account_password` = #{password} WHERE (`account_email` = #{email});
+	</update>
 </mapper>

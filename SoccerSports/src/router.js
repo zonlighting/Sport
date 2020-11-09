@@ -106,6 +106,11 @@ let routes = [
         ]
       },
       {
+        path:'/profile',
+        name: "profile",
+        component: () => import('@/views/web/Profile')
+      },
+      {
         path: '/rank',
         name: "Rank",
         component: () => import('@/views/web/rank/Rank')

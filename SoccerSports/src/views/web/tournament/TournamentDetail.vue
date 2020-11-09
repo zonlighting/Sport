@@ -4,10 +4,13 @@
       <v-col cols="11" md="1" style="margin-left: 80px"></v-col>
       <v-col cols="11" md="9">
         <v-img
-          lazy-src="https://picsum.photos/id/11/10/6"
           max-height="200px"
           min-width="140px"
-          :src="baseUrl + tournament.banner"
+          :src="
+            tournament.banner != null
+              ? baseUrl + tournament.banner
+              : 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcR3XsIP30DtgqB3coyj-Azvfgng0w7v5b4dIw&usqp=CAU'
+          "
         ></v-img>
         <v-toolbar-title class="pl-5">
           <h1

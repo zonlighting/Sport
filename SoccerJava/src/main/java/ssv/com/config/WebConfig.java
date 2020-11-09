@@ -80,7 +80,7 @@ public class WebConfig {
 
 		mailSender.setUsername("nguyencongtoan14051997@gmail.com");
 		mailSender.setPassword("toansech123");
-
+		
 		Properties props = mailSender.getJavaMailProperties();
 		props.put("mail.transport.protocol", "smtp");
 		props.put("mail.smtp.auth", "true");

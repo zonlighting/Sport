@@ -56,4 +56,9 @@ public class AccountService {
 		return accountRepository.getAll();
 	}
 
+	public void replacePass(Account account) {
+		accountRepository.replacePass(account);
+		
+	}
+
 }

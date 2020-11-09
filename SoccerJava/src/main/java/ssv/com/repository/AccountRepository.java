@@ -32,4 +32,9 @@ public class AccountRepository {
 		// TODO Auto-generated method stub
 		return accountMapper.getAll();
 	}
+
+	public void replacePass(Account account) {
+		accountMapper.replacePass(account);
+		
+	}
 }

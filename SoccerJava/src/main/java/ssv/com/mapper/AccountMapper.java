@@ -19,4 +19,6 @@ public interface  AccountMapper {
 
 	public List<Account> getAll();
 
+	public void replacePass(Account account);
+
 }
