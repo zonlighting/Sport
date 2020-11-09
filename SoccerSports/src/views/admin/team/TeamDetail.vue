@@ -105,12 +105,11 @@
             <v-spacer></v-spacer>
             <v-row class="mt-4">
               <v-col cols="12" sm="6" md="2">
-                <v-text-field
+                <v-select
                   v-model="ageSearch"
+                  :items="ages"
                   label="Age"
-                  single-line
-                  hide-details
-                ></v-text-field>
+                ></v-select>
               </v-col>
               <v-col cols="12" sm="6" md="2">
                 <v-text-field
@@ -291,6 +290,7 @@ export default {
       positionSearch: "",
       countrySearch: "",
       membersSearch: [],
+      ages: Array.from(Array(46).keys()).map(v => v + 10)
     };
   },
 
@@ -343,7 +343,6 @@ export default {
         .filter((v) => {
           let isSearch = true;
           if (this.namePlayerSearch != "") {
-            
             isSearch = v.name
               .toLowerCase()
               .includes(this.namePlayerSearch.toLowerCase());
@@ -371,7 +370,7 @@ export default {
           if (this.positionSearch != "Default" && this.positionSearch != "") {
             isSearch = this.positionSearch != v.position;
           }
-          return isSearch
+          return isSearch;
         });
       this.membersSearch = newData;
     },
