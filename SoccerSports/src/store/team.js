@@ -1,7 +1,7 @@
 
 
 import { getDetail, getTeams, createTeam, updateMembersInTeam, getTeamById, updateTeam } from '@/api/TeamApi'
-import { getTeamNoTournament } from '../api/TeamApi'
+import { getHistory, getTeamNoTournament } from '../api/TeamApi'
 
 
 const state = {
@@ -47,9 +47,9 @@ const actions = {
             })
         })
     },
-    getDetail(__, idTeam) {
+    getDetail(__, data) {
         return new Promise((resolve, reject) => {
-            getDetail(idTeam).then(res => {
+            getDetail(data).then(res => {
                 resolve(res);
             }).catch((err) => {
                 reject(err);
@@ -87,6 +87,15 @@ const actions = {
             })
         })
     },
+    getHistory(__,data){
+        return new Promise((resolve, reject) => {
+            getHistory(data).then((res) => {
+                resolve(res);
+            }).catch((err) => {
+                reject(err);
+            })
+        })
+    }
 }
 
 export default {

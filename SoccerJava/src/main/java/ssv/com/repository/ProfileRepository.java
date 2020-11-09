@@ -1,5 +1,6 @@
 package ssv.com.repository;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,5 +46,14 @@ public class ProfileRepository {
 
 	public Optional<Profile> findProfileById(Integer id) {
 		return profileMapper.findProfileById(id);
+	}
+
+	public List<Profile> getByTeamTour(int idTeam) {
+		return profileMapper.getByTeamTour(idTeam);
+	}
+
+	public int getNumberGoal(int idTeam, Long idMember) {
+		// TODO Auto-generated method stub
+		return profileMapper.getNumberGoal(idTeam,idMember);
 	}
 }

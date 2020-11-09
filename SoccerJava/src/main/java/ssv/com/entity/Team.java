@@ -27,4 +27,5 @@ public class Team {
 	private Tournament tournament;
 	private List<Profile> profile;
 	private String tourName;
+	private List<Schedule> schedule;
 }

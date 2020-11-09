@@ -6554,7 +6554,7 @@ h6 {
       -ms-transform: translateY(0);
           transform: translateY(0); }
   .header-main .header-lower.nav-down {
-    position: fixed;
+    position: relative;
     top: 0;
     -webkit-transform: translateY(-100%);
         -ms-transform: translateY(-100%);

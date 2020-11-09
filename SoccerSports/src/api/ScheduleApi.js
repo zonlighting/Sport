@@ -27,3 +27,14 @@ export function getByTour(idTournament){
 export function recentMatch(){
     return Api.get("/schedule/recentMatch")
 }
+export function lastVideo(){
+    return Api.get("/schedule/lastVideo")
+}
+export function lastResults(){
+    return Api.get("/schedule/lastResults")
+}
+export function getByStatus(status){
+    return Api.get(`/schedule/getByStatus?status=${status}`)}
+export function teamResults(data){
+    return Api.get(`/schedule/teamResults?idTeam=${data.idTeam}&idTournament=${data.idTournament}`)
+}

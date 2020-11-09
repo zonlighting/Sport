@@ -1,4 +1,6 @@
-import {rankByTour, addTeam, create, deleteTeam, deleteTournament, getAll, getById, tournamentRank, tournamentUpComming } from "../api/Tournament";
+
+import {rankByTour, addTeam, create, deleteTeam, deleteTournament, getAll, getById, rankAll, tournamentCheck, tournamentRank, tournamentStatus, tournamentUpComming, getAllSchedule, getAllScheduleStatus } from "../api/Tournament";
+
 
 const actions = {
     getAll() {
@@ -47,6 +49,15 @@ const actions = {
             })
         })
     },
+    tournamentCheck() {
+        return new Promise((resolve, reject) => {
+            tournamentCheck().then(res => {
+                resolve(res);
+            }).catch((err) => {
+                reject(err);
+            })
+        })
+    },
     deleteTournament(__, idTournament) {
         return new Promise((resolve, reject) => {
             deleteTournament(idTournament).then(res => {
@@ -74,6 +85,7 @@ const actions = {
             })
         })
     },
+
     rankByTour(_, id) {
         return new Promise((resolve, reject) => {
             rankByTour(id).then(res => {
@@ -82,7 +94,45 @@ const actions = {
                 reject(err);
             })
         })
-    }
+    },
+
+    rankAll() {
+        return new Promise((resolve, reject) => {
+            rankAll().then(res => {
+                resolve(res);
+            }).catch((err) => {
+                reject(err);
+            })
+        })
+    },
+    tournamentStatus(__,status){
+        return new Promise((resolve, reject) => {
+            tournamentStatus(status).then(res => {
+                resolve(res);
+            }).catch((err) => {
+                reject(err);
+            })
+        })
+    },
+    getAllSchedule(){
+        return new Promise((resolve, reject) => {
+            getAllSchedule().then(res => {
+                resolve(res);
+            }).catch((err) => {
+                reject(err);
+            })
+        })
+    },
+    getAllScheduleStatus(__,id){
+        return new Promise((resolve, reject) => {
+            getAllScheduleStatus(id).then(res => {
+                resolve(res);
+            }).catch((err) => {
+                reject(err);
+            })
+        })
+    },
+    
 }
 
 export default {

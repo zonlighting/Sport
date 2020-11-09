@@ -16,7 +16,12 @@
 		<result property="position" column="profile_position" />
 		<result property="createDate" column="profile_datecreate" />
 		<result property="idTeam" column="id_team" />
-
+		<collection property="history" ofType="History">
+			<id column="history_id" property="idHistory" />
+			<result column="id_member" property="idMember" />
+			<result column="id_team" property="idTeam" />
+			<result column="id_tour" property="idTournament" />
+		</collection>
 	</resultMap>
 
 	<insert id="saveProfile" flushCache="true"
@@ -77,7 +82,8 @@
 		profile_gender=#{gender},
 		profile_country=#{country},
 		profile_position=#{position}
-		where profile_id=#{id}
+		where
+		profile_id=#{id}
 	</update>
 
 	<select id="findProfileById" flushCache="true"
@@ -85,5 +91,18 @@
 		resultMap="profileMapping">
 		SELECT * FROM profile_tbl WHERE
 		profile_id='${id}'
+	</select>
+	<select id="getByTeamTour" resultMap="profileMapping">
+		SELECT * FROM
+		sports.profile_tbl inner join history_tbl on
+		history_tbl.id_member=profile_tbl.profile_id where
+		history_tbl.id_team=${idTeam};
+	</select>
+	<select id="getNumberGoal" resultType="int">
+		SELECT
+		COUNT(history_id)
+		FROM history_tbl where
+		history_tbl.id_member=${idMember} and
+		history_tbl.id_team=${idTeam} ;
 	</select>
 </mapper>

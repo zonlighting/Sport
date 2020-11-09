@@ -8,7 +8,7 @@ import Home from '@/views/web/home/Home'
 import Schedule from '@/views/web/schedule/Schedule'
 import ScheduleDetail from '@/views/web/schedule/ScheduleDetail'
 import Summary from '@/views/web/schedule/Summary'
-import Tournament from '@/views/web/tournament/Tournament'
+import indexTournament from '@/views/web/tournament/index'
 import Teams from '@/views/web/team/Teams'
 
 import admin from '@/views/admin/index'
@@ -39,12 +39,30 @@ let routes = [
 
       },
       {
-        path: '/scheduleDetail',
+        path: '/scheduleDetail/:id',
         component: ScheduleDetail,
         children: [
           {
-            path: '/summary',
+            path: '/',
             component: Summary,
+
+          },
+          {
+            path: '/summary/:id',
+            component: Summary,
+
+          },
+          
+          {
+            path: '/statistics/:id',
+            component: () => import('@/views/web/schedule/Statistic'),
+
+          }
+          ,
+          
+          {
+            path: '/video/:id',
+            component: () => import('@/views/web/schedule/Video'),
 
           }
         ]
@@ -52,7 +70,45 @@ let routes = [
 
       {
         path: '/tournament',
-        component: Tournament
+        component: indexTournament,
+        children: [
+          {
+            path: '/',
+            component: () => import('@/views/web/tournament/Tournament'),
+          },
+          {
+            path: '/tournamentDetail/:id',
+            component: () => import('@/views/web/tournament/TournamentDetail'),
+            children: [
+              {
+                path: '/',
+                component: () => import('@/views/web/tournament/TournamentTeam'),
+              },
+              {
+                path: '/tournamentDetail/:id/team',
+                component: () => import('@/views/web/tournament/TournamentTeam'),
+              },
+              {
+                path: '/tournamentDetail/:id/results',
+                name: "TournamentResults",
+                component: () => import('@/views/web/tournament/TournamentResults'),
+              },
+              {
+                path: '/tournamentDetail/:id/fixtures',
+                name: "TournamentSchedule",
+                component: () => import('@/views/web/tournament/TournamentSchedule'),
+              },
+
+
+            ]
+          },
+
+        ]
+      },
+      {
+        path: '/rank',
+        name: "Rank",
+        component: () => import('@/views/web/rank/Rank')
       },
       {
         path: '/teams',

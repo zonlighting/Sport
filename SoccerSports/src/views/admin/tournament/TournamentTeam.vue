@@ -16,12 +16,12 @@
             <th>Action</th>
           </tr>
         </thead>
-        <tbody>
-          <tr v-for="(item, index) in listTeam" :key="index">
+        <tbody >
+          <tr v-for="(item, index) in listTeam" :key="index" >
             <td>{{ item.nameTeam }}</td>
             <td>
               <v-avatar>
-                <img :src="item.logo" alt="John" />
+                <img :src="baseUrl+item.logo" alt="John" />
               </v-avatar>
             </td>
             <td>{{!!item&&!!item.profile? item.profile.length:'' }}</td>
@@ -56,6 +56,13 @@
         <v-divider></v-divider>
         <v-card-text style="height: 400px">
           <div v-if="this.listTeamWait.length != 0">
+             <v-row style="margin-left:20px">
+                    <v-col>
+               <b>  Logo</b>
+                    </v-col>
+                    <v-col>
+                     <b>  Name</b></v-col><v-col> <b>  Country</b></v-col>
+                  </v-row>
             <v-radio-group v-model="selectTeam" column>
               <v-radio
                 v-for="(item, index) in listTeamWait"
@@ -63,10 +70,16 @@
                 :value="item.idTeam"
               >
                 <template v-slot:label>
-                  <v-avatar tile>
+                  <v-row >
+                    <v-col>
+                  <v-avatar >
                     <img :src="baseUrl + item.logo" alt="John" />
-                    {{ item.nameTeam }}
+                  
                   </v-avatar>
+                    </v-col>
+                    <v-col>
+                    {{ item.nameTeam }}</v-col><v-col>{{item.country}}</v-col>
+                  </v-row>
                 </template>
               </v-radio>
             </v-radio-group>
@@ -112,6 +125,7 @@ export default {
     tournament: Object,
   },
   mounted(){
+    console.log()
   },
 
   methods: {
@@ -146,11 +160,16 @@ export default {
     },
 
     okDelete() {
+      if(this.listTeam.length<=10){
+        alert("The tournament must have at least 10 teams participating")
+           this.cancel();
+      }
+      else{
       this.$store.commit("auth/auth_overlay");
       this.$store
         .dispatch("tournament/deleteTeam", {
           idTeam: this.idDelete,
-          idTournament: this.tournament.idTournament,
+          idTournament: this.$route.params.id,
         })
         .then((response) => {
           this.$store.commit("auth/auth_overlay");
@@ -165,6 +184,7 @@ export default {
         .catch(function (error) {
           alert(error);
         });
+      }
     },
   },
   watch: {

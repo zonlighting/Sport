@@ -48,6 +48,42 @@
 			<result column="schedule_team2" property="idTeam2" />
 			<result column="schedule_image" property="image" />
 			<result column="schedule_video" property="video" />
+			<result column="schedule_winner" property="winner" />
+			<result column="schedule_adraw" property="adraw" />
+		</collection>
+	</resultMap>
+	<resultMap type="Tournament" id="tournamentMapping1">
+		<id column="tournament_id" property="idTournament" />
+		<result column="tournament_name" property="nameTournament" />
+		<result column="tournament_status" property="status" />
+		<result column="tournament_end" property="timeEnd" />
+		<result column="tournament_start" property="timeStart" />
+		<result column="tournament_description" property="description" />
+		<result column="tournament_banner" property="banner" />
+		<collection property="schedule" ofType="Schedule">
+			<id column="schedule_id" property="idSchedule" />
+			<result column="schedule_score1" property="score1" />
+			<result column="schedule_score2" property="score2" />
+			<result column="schedule_status" property="status" />
+			<result column="schedule_location" property="location" />
+			<result column="schedule_tour" property="idTour" />
+			<result column="schedule_start" property="timeStart" />
+			<result column="schedule_end" property="timeEnd" />
+			<result column="schedule_team1" property="idTeam1" />
+			<result column="schedule_team2" property="idTeam2" />
+			<result column="schedule_image" property="image" />
+			<result column="schedule_video" property="video" />
+			<result column="schedule_winner" property="winner" />
+			<result column="schedule_adraw" property="adraw" />
+			<collection property="team" ofType="Team">
+			<id column="team_id" property="idTeam" />
+			<result column="team_name" property="nameTeam" />
+			<result column="team_description" property="description" />
+			<result column="team_logo" property="logo" />
+			<result column="id_tour" property="idTour" />
+			<result column="team_country" property="country" />
+			<result column="team_datecreate" property="createDate" />		
+		</collection>
 		</collection>
 	</resultMap>
 	<select id="getAll" resultMap="tournamentMapping">
@@ -55,10 +91,12 @@
 		sports.tournament_tbl p left join (history_tbl q left join
 		team_tbl d
 		on q.id_team=d.team_id left join
-		profile_tbl e on q.id_member=e.profile_id)on
-		p.tournament_id=q.id_tour  left join
+		profile_tbl e on
+		q.id_member=e.profile_id)on
+		p.tournament_id=q.id_tour left join
 		schedule_tbl c on
-		p.tournament_id=c.schedule_tour ORDER BY tournament_id DESC
+		p.tournament_id=c.schedule_tour ORDER BY
+		tournament_id DESC
 	</select>
 	<insert id="create" parameterType="Tournament">
 		INSERT INTO
@@ -81,11 +119,12 @@
 		sports.tournament_tbl p left join (history_tbl q left join
 		team_tbl d
 		on q.id_team=d.team_id left join
-		profile_tbl e on q.id_member=e.profile_id)on
-		p.tournament_id=q.id_tour  left join
+		profile_tbl e on
+		q.id_member=e.profile_id)on
+		p.tournament_id=q.id_tour left join
 		schedule_tbl c on
 		p.tournament_id=c.schedule_tour where
-		tournament_id=${idTournamnet} 
+		tournament_id=${idTournamnet}
 	</select>
 
 	<update id="update">
@@ -113,22 +152,47 @@
 	</select>
 	<select id="tournamentStatus" resultMap="tournamentMapping">
 		SELECT * FROM
-		sports.tournament_tbl left join schedule_tbl on
-		tournament_tbl.tournament_id =schedule_tbl.schedule_tour inner join
-		(team_tbl inner join profile_tbl on
-		team_tbl.team_id=profile_tbl.id_team) on
-		tournament_tbl.tournament_id=team_tbl.id_tour where
+		sports.tournament_tbl p left join (history_tbl q left join
+		team_tbl d
+		on q.id_team=d.team_id left join
+		profile_tbl e on
+		q.id_member=e.profile_id)on
+		p.tournament_id=q.id_tour left join
+		schedule_tbl c on
+		p.tournament_id=c.schedule_tour where
 		tournament_status=${status}
-		 order by tournament_tbl.tournament_start
+		order by tournament_start
 	</select>
 	<update id="ongGame">
-	UPDATE `sports`.`tournament_tbl`
-		SET tournament_status=1 WHERE (`tournament_id` =
+		UPDATE `sports`.`tournament_tbl`
+		SET tournament_status=1 WHERE
+		(`tournament_id` =
 		${idTournamnet});
 	</update>
 	<update id="finished">
-	UPDATE `sports`.`tournament_tbl` SET tournament_status=2 WHERE (`tournament_id` =
+		UPDATE `sports`.`tournament_tbl` SET tournament_status=2 WHERE
+		(`tournament_id` =
 		${idTournamnet});
 	</update>
-
+	<select id="getAllSchedule" resultMap="tournamentMapping1">
+		SELECT * FROM
+		sports.tournament_tbl p inner join
+		(schedule_tbl c inner join
+		team_tbl on (
+		team_tbl.team_id=c.schedule_team1 or
+		team_tbl.team_id=c.schedule_team2 ))on
+		p.tournament_id=c.schedule_tour ORDER BY
+		tournament_start DESC
+	</select>
+	<select id="getAllScheduleStatus" resultMap="tournamentMapping1">
+		SELECT * FROM
+		sports.tournament_tbl p inner join
+		(schedule_tbl c inner join
+		team_tbl on (
+		team_tbl.team_id=c.schedule_team1 or
+		team_tbl.team_id=c.schedule_team2 ))on
+		p.tournament_id=c.schedule_tour where schedule_status=${status} ORDER BY
+		tournament_start DESC
+	</select>
+	
 </mapper>

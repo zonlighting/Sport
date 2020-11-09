@@ -28,5 +28,24 @@ export function tournamentRank(idTournament) {
     return Api.get(`tournament/tournamentRank?idTournament=${idTournament}`)
 }
 export function rankByTour(idTournament) {
-    return Api.get(`tournament/rankInTour/` + idTournament)
+    return Api.get(`tournament/rankInTour?id=${idTournament}`)
 }
+
+export function tournamentStatus(status){
+    return Api.get(`tournament/tournamentStatus?status=${status}`)
+}
+export function tournamentCheck(){
+    return Api.post(`tournament/checkStatus`)
+
+}
+export function rankAll(){
+    return Api.get('tournament/rankAll')
+}
+export function getAllSchedule() {
+    return Api.get('/tournament/getAllSchedule')
+}
+export function getAllScheduleStatus(status) {
+    return Api.get(`/tournament/getAllScheduleStatus?status=${status}`)
+}
+
+

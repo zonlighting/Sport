@@ -83,15 +83,19 @@ public class TeamService {
 	public TeamDetail getTeamdetail(int idTeam, int idTournament) {
 		Team team = getTeamById(idTeam);
 		TeamDetail detail = new TeamDetail();
-
+		detail.setTotalMatch(scheduleRepository.teamTotalMatch(idTeam));
+		detail.setTotalWin(scheduleRepository.teamTotalWin(idTeam));
+		detail.setTotalAdraw(scheduleRepository.teamAdraw(idTeam));
 		detail.setTotalMatchByTour(scheduleRepository.teamTotalMatchByTour(idTeam, idTournament));
 		detail.setTotalWinByTour(scheduleRepository.teamTotalWinByTour(idTeam, idTournament));
 		detail.setTotalAdrawByTour(scheduleRepository.teamTotalAdrawByTour(idTeam, idTournament));
 		int point = detail.getTotalWinByTour() * 3 + detail.getTotalAdrawByTour() * 1;
+		int pointAll=detail.getTotalWin()*3 + detail.getTotalAdraw()*1;
 		detail.setPointByTour(point);
-
+		detail.setPointAll(pointAll);
 		detail.setNameTeam(team.getNameTeam());
 		detail.setLogo(team.getLogo());
+		detail.setIdTeam(idTeam);
 		return detail;
 	}
 
@@ -123,6 +127,10 @@ public class TeamService {
 	public void createTournament(int idTeam, int idTournament) {
 		teamRepository.createTournament(idTeam, idTournament);
 
+	}
+
+	public ResponseQuery<?> getHistory(int idTour, int idTeam, int idSchedule) {
+		return ResponseQuery.success("Connect", teamRepository.getHistory(idTour,idTeam,idSchedule));
 	}
 
 }

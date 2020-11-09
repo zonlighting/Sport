@@ -135,6 +135,11 @@
 		(schedule_tbl.schedule_team1=${idTeam} or schedule_tbl.schedule_team2=${idTeam}) and
 		schedule_tbl.schedule_status=2
 	</select>
+	<select id="teamAdraw" resultType="Int">
+	SELECT COUNT(schedule_id) FROM schedule_tbl where
+		(schedule_tbl.schedule_team1=${idTeam} or schedule_tbl.schedule_team2=${idTeam})and schedule_tbl.schedule_adraw and
+		schedule_tbl.schedule_status=2
+	</select>
 	<select id="teamTotalWin" resultType="Int">
 		SELECT COUNT(schedule_id)
 		FROM schedule_tbl where schedule_tbl.schedule_winner=${idTeam} ;
@@ -195,5 +200,10 @@
 		schedule_status=${status}
 		order by schedule_tbl.schedule_start
 		
+	</select>
+	<select id="teamResults" resultMap="scheduleMapping">
+	SELECT * FROM sports.schedule_tbl inner join team_tbl on (
+		team_tbl.team_id=schedule_tbl.schedule_team1 or
+		team_tbl.team_id=schedule_tbl.schedule_team2 ) where( schedule_tbl.schedule_team1=${idTeam} or schedule_tbl.schedule_team2=${idTeam}) and schedule_tbl.schedule_tour=${idTournament};
 	</select>
 </mapper>

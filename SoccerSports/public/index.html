@@ -10,10 +10,10 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css">
   <link rel="shortcut icon" href=favicon.ico>
-  <link rel=stylesheet href=vendor.css>
-  <link rel=stylesheet href=style.css>
-  <link rel=stylesheet type=text/css href=css/layerslider.css>
-  <script src=js/vendor/modernizr.js></script>
+  <link rel=stylesheet href="<%= BASE_URL %>vendor.css">
+  <link rel=stylesheet href="<%= BASE_URL %>style.css">
+  <link rel=stylesheet type="text/css" href="<%= BASE_URL %>css/layerslider.css">
+  <script src="<%= BASE_URL %>js/vendor/modernizr.js"></script>
 </head>
 
 <body>
@@ -23,8 +23,8 @@
   </noscript>
   <div id="app"></div>
   <!-- built files will be auto injected -->
-  <script src=js/vendor/vendor.js></script>
-  <script src=js/main.js></script>
+  <script src="<%= BASE_URL %>js/vendor/vendor.js"></script>
+  <script src="<%= BASE_URL %>js/main.js"></script>
 </body>
 
 </html>

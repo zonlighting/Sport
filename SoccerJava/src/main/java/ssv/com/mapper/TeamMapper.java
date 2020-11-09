@@ -24,4 +24,6 @@ public interface TeamMapper {
 	void formatTourTeam(int idTeam);
 
 	void createTournament(int idTeam, int idTournament);
+
+	Team getHistory(int idTour, int idTeam, int idSchedule);
 }

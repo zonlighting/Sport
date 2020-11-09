@@ -27,4 +27,8 @@ public interface TournamentMapper {
 	void finished(int idTournament);
 
 	void ongGame(int idTournament);
+
+	List<Tournament> getAllSchedule();
+
+	List<Tournament> getAllScheduleStatus(int status);
 }

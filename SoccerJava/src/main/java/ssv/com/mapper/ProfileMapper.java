@@ -1,5 +1,6 @@
 package ssv.com.mapper;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import org.apache.ibatis.annotations.Mapper;
@@ -23,4 +24,8 @@ public interface ProfileMapper {
 	public void updateProfile(Profile profile);
 
 	public Optional<Profile> findProfileById(Integer id);
+
+	public List<Profile> getByTeamTour(int idTeam);
+
+	public int getNumberGoal(int idTeam, Long idMember);
 }
