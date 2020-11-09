@@ -152,6 +152,11 @@
               v-model="time"
               full-width
               @click:minute="$refs.menuTime.save(time)"
+              :min="
+                new Date(new Date().setDate(new Date().getDate() + 1))
+                  .toISOString()
+                  .substr(0, 10)
+              "
             ></v-time-picker> </v-menu
         ></v-col>
       </v-row>

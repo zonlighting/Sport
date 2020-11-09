@@ -27,4 +27,9 @@ public class AccountRepository {
 	public Long create(Account account) {
 		return accountMapper.create(account);
 	}
+
+	public List<Account> getAll() {
+		// TODO Auto-generated method stub
+		return accountMapper.getAll();
+	}
 }

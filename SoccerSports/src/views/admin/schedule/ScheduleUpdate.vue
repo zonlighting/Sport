@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-form ref="form"  lazy-validation>
+    <v-form ref="form" lazy-validation>
       <v-toolbar dark color="primary">
         <v-btn icon dark @click="close">
           <v-icon>mdi-close</v-icon>
@@ -170,7 +170,7 @@
                 width="320"
                 height="240"
                 controls
-                :src="baseUrl+schedule.video"
+                :src="baseUrl + schedule.video"
                 id="video"
               ></video>
             </v-container>
@@ -287,9 +287,7 @@ export default {
   mounted() {
     this.getDataOld();
   },
-  updated(){
-    
-  },
+  updated() {},
   methods: {
     close() {
       this.hideDiaglog();
@@ -299,10 +297,6 @@ export default {
       if (this.schedule.image != null) {
         document.getElementById("image").src =
           this.baseUrl + this.schedule.image;
-      }
-      if (this.schedule.video != null) {
-        document.getElementById("video").src =
-          this.baseUrl + this.schedule.video;
       }
       await this.schedule.goal.forEach((element) => {
         if (element.team == 1) {
@@ -386,14 +380,28 @@ export default {
         this.memberTeam1.forEach((element) => {
           if (element.id == this.selectTeam1) {
             if (this.goal1.length == "") {
-              this.goal1.push({
-                profile: element,
-                time: this.value1,
-                idSchedule: this.schedule.idSchedule,
-                team: 1,
+               this.goal2.forEach((time) => {
+                if (time.time == this.value1) {
+                  alert("Time coincides");
+                  this.tg1 = false;
+                }
               });
+              if (this.tg1 == true) {
+                this.goal1.push({
+                  profile: element,
+                  time: this.value1,
+                  idSchedule: this.schedule.idSchedule,
+                  team: 1,
+                });
+              }
             } else {
               this.goal1.forEach((time) => {
+                if (time.time == this.value1) {
+                  alert("Time coincides");
+                  this.tg1 = false;
+                }
+              });
+               this.goal2.forEach((time) => {
                 if (time.time == this.value1) {
                   alert("Time coincides");
                   this.tg1 = false;
@@ -422,14 +430,28 @@ export default {
         this.memberTeam2.forEach((element) => {
           if (element.id == this.selectTeam2) {
             if (this.goal2.length == "") {
-              this.goal2.push({
-                profile: element,
-                time: this.value2,
-                idSchedule: this.schedule.idSchedule,
-                team: 2,
+               this.goal1.forEach((time) => {
+                if (time.time == this.value2) {
+                  alert("Time coincides");
+                  this.tg2 = false;
+                }
               });
+              if (this.tg2 == true) {
+                this.goal2.push({
+                  profile: element,
+                  time: this.value2,
+                  idSchedule: this.schedule.idSchedule,
+                  team: 2,
+                });
+              }
             } else {
               this.goal2.forEach((time) => {
+                if (time.time == this.value2) {
+                  alert("Time coincides");
+                  this.tg2 = false;
+                }
+              });
+               this.goal1.forEach((time) => {
                 if (time.time == this.value2) {
                   alert("Time coincides");
                   this.tg2 = false;
@@ -499,17 +521,20 @@ export default {
         document.getElementById("video").src = "";
       } else {
         var reader = new FileReader();
+        reader.readAsDataURL(event);
         reader.onload = function () {
           var dataURL = reader.result;
           var output = document.getElementById("video");
-          output.src = dataURL;
+          output.setAttribute("src", dataURL);
         };
-        reader.readAsDataURL(event);
       }
     },
-    schedule(){
-      console.log("a")
-      this.getDataOld();
+    value1(){
+      
+        this.value1=this.value1.replace(" ",0);
+    },
+    value2(){
+        this.value2=this.value2.replace(" ",0);
     }
   },
 };

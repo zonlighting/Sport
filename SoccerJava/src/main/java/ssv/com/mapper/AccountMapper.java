@@ -17,4 +17,6 @@ public interface  AccountMapper {
 
 	public Long create(Account account);
 
+	public List<Account> getAll();
+
 }

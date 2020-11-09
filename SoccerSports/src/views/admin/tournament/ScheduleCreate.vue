@@ -104,7 +104,16 @@
                 :rules="rulesDate"
               ></v-text-field>
             </template>
-            <v-date-picker v-model="date" no-title scrollable>
+            <v-date-picker
+              v-model="date"
+              no-title
+              scrollable
+              :min="
+                new Date(new Date().setDate(new Date().getDate() + 1))
+                  .toISOString()
+                  .substr(0, 10)
+              "
+            >
               <v-spacer></v-spacer>
               <v-btn text color="primary" @click="menu = false"> Cancel </v-btn>
               <v-btn text color="primary" @click="$refs.menu.save(date)">
@@ -155,6 +164,7 @@ export default {
   props: {
     hideDialog: Function,
     getData: Function,
+    tournamentData: Object,
   },
   computed: {
     baseUrl() {
@@ -241,6 +251,14 @@ export default {
           }
         },
       ];
+    },
+    tournamentData() {
+      this.$store
+        .dispatch("tournament/getById", this.$route.params.id)
+        .then((response) => {
+          this.listTeam = response.data.payload.team;
+          this.tournament = response.data.payload;
+        });
     },
   },
 };

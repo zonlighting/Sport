@@ -11,3 +11,6 @@ export function register(register) {
 export function autoLogin() {
     return Api.post('/account/autoLogin');
 }
+export function getAll(){
+    return Api.get('/account/getAll')
+}

@@ -1,4 +1,5 @@
 import { autoLogin } from '@/api/AuthApi';
+import { getAll } from '../api/AuthApi';
 
 const state = {
     userInfo: null,
@@ -29,6 +30,15 @@ const actions = {
             })
         })
     },
+    getAll() {
+        return new Promise((resolve, reject) => {
+            getAll().then((res) => {
+                resolve(res);
+            }).catch((err) => {
+                reject(err);
+            })
+        })
+    }
 }
 
 export default {

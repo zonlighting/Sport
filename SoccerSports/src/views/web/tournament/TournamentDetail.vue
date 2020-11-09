@@ -1,9 +1,9 @@
 <template>
   <div>
     <v-row class="pl-10">
-      <v-col cols="11" md="1" style="margin-left:80px"></v-col>
+      <v-col cols="11" md="1" style="margin-left: 80px"></v-col>
       <v-col cols="11" md="9">
-        <v-img 
+        <v-img
           lazy-src="https://picsum.photos/id/11/10/6"
           max-height="200px"
           min-width="140px"
@@ -14,7 +14,13 @@
             style="font-weight: 500; line-height: 34px; color: #2b2c2d"
             class="text-center"
           >
-            {{ tournament.nameTournament }}-<b style="color:blue">{{tournament.status==0?"Up Comming":tournament.status==1?"On Game":"Finished"}}</b>
+            {{ tournament.nameTournament }}-<b style="color: blue">{{
+              tournament.status == 0
+                ? "Up Comming"
+                : tournament.status == 1
+                ? "On Game"
+                : "Finished"
+            }}</b>
           </h1>
           <h5
             class="pt-3 text-center"
@@ -22,7 +28,7 @@
           >
             <v-icon>mdi-alarm-check</v-icon>{{ tournament.timeStart }}/{{
               tournament.timeEnd
-            }} 
+            }}
           </h5>
         </v-toolbar-title>
       </v-col>
@@ -33,15 +39,17 @@
       <v-col>
         <ul style="border-bottom: solid 1px; width: 260px" id="myDIV">
           <li>
-            <router-link  class="btn active"
+            <router-link
+              class="btn active"
               :to="{
                 path: `/tournamentDetail/${tournament.idTournament}/team`,
               }"
-              >Rank</router-link 
+              >Rank</router-link
             >
           </li>
           <li>
-            <router-link class="btn"
+            <router-link
+              class="btn"
               :to="{
                 path: `/tournamentDetail/${tournament.idTournament}/results`,
               }"
@@ -49,7 +57,8 @@
             >
           </li>
           <li>
-            <router-link class="btn"
+            <router-link
+              class="btn"
               :to="{
                 path: `/tournamentDetail/${tournament.idTournament}/fixtures`,
               }"
@@ -60,13 +69,11 @@
       </v-col>
     </v-row>
     <v-col cols="12" md="2" xm="2"></v-col>
-    
-    <v-col  >
-        <v-row>
-          <v-col cols="12" sm="10">
-       <router-view></router-view></v-col>
-        </v-row></v-col>
 
+    <v-col>
+      <v-row>
+        <v-col cols="12" sm="10"> <router-view></router-view></v-col> </v-row
+    ></v-col>
   </div>
 </template>
 <script>
@@ -92,16 +99,16 @@ export default {
         this.$store.commit("auth/auth_overlay");
         this.tournament = response.data.payload;
       });
-    
+
     var header = document.getElementById("myDIV");
-var btns = header.getElementsByClassName("btn");
-for (var i = 0; i < btns.length; i++) {
-  btns[i].addEventListener("click", function() {
-  var current = document.getElementsByClassName("active");
-  current[0].className = current[0].className.replace(" active", "");
-  this.className += " active";
-  });
-}
+    var btns = header.getElementsByClassName("btn");
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].addEventListener("click", function () {
+        var current = document.getElementsByClassName("active");
+        current[0].className = current[0].className.replace(" active", "");
+        this.className += " active";
+      });
+    }
   },
 };
 </script>
@@ -131,7 +138,8 @@ li a {
 }
 
 /* Style the active class, and buttons on mouse-over */
-.active, .btn:hover {
+.active,
+.btn:hover {
   background-color: #666;
   color: white;
 }

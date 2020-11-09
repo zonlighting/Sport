@@ -47,4 +47,9 @@
 		a.account_email=p.profile_email
 		where a.account_email='${email}'
 	</select>
+		<select id="getAll" resultMap="accountMapping">
+		SELECT * FROM account_tbl ORDER
+		BY account_id DESC
+	</select>
+	
 </mapper>
