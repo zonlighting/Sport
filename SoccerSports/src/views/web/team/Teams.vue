@@ -19,9 +19,7 @@
                 <h5 style="color: blue" v-else-if="tournament.status == 1">
                   (On happening)
                 </h5>
-                <h5 style="color: red" v-else>
-                  (Ended)
-                </h5>
+                <h5 style="color: red" v-else>(Ended)</h5>
               </h3>
               <v-spacer></v-spacer>
               <v-col cols="12" sm="3">
@@ -190,22 +188,22 @@ export default {
       if (routerLink == 1) {
         this.$router.push({
           path: `/fixtures/${team.idTeam}`,
-          query: { tourId: team.idTour },
+          query: { tourId: team.idTour, tourName: this.tournament.nameTournament },
         });
       } else if (routerLink == 2) {
         this.$router.push({
           path: `/results/${team.idTeam}`,
-          query: { tourId: team.idTour },
+          query: { tourId: team.idTour, tourName: this.tournament.nameTournament },
         });
       } else if (routerLink == 3) {
         this.$router.push({
           path: `/squad/${team.idTeam}`,
-          query: { tourId: team.idTour },
+          query: { tourId: team.idTour, tourName: this.tournament.nameTournament },
         });
       } else {
         this.$router.push({
           path: `/stats/${team.idTeam}`,
-          query: { tourId: team.idTour },
+          query: { tourId: team.idTour, tourName: this.tournament.nameTournament },
         });
       }
     },

@@ -480,7 +480,6 @@ export default {
       });
     },
     getRecentMatch() {
-      this.$store.commit("auth/auth_overlay");
       this.$store
         .dispatch("schedule/recentMatch")
         .then((response) => {

@@ -26,6 +26,11 @@ export function getTeamById(teamId){
 export function updateTeam(id, bodyFormData){
     return Api.post(`/team/updateInfo/${id}`, bodyFormData)
 }
+
 export function getHistory(data){
     return Api.get(`/team/getHistory?idTour=${data.idTour}&idTeam=${data.idTeam}&idSchedule=${data.idSchedule}`)
+}
+
+export function teamMatchs(idTeam){
+    return Api.get('/team/teamMatchs/' + idTeam)
 }

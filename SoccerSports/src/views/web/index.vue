@@ -275,7 +275,7 @@ export default {
     },
 
     roleFunction(role) {
-      // console.log(role);
+      console.log(role);
       if (role === "ROLE_MEMBER") {
         this.controlModalMember();
       } else {

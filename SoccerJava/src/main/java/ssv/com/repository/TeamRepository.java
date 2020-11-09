@@ -44,12 +44,11 @@ public class TeamRepository {
 
 	public void formatTourTeam(int idTeam) {
 		teamMapper.formatTourTeam(idTeam);
-		
 	}
 
 	public void createTournament(int idTeam, int idTournament) {
 		teamMapper.createTournament(idTeam,idTournament);
-		
+
 	}
 
 	public Team getHistory(int idTour, int idTeam, int idSchedule) {

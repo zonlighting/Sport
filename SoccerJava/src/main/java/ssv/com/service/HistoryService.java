@@ -15,16 +15,16 @@ public class HistoryService {
 
 	public void create(History history) {
 		historyRepository.create(history);
-		
+
 	}
 
 	public void delete(int idTournament) {
-		historyRepository.delete(idTournament);		
+		historyRepository.delete(idTournament);
 	}
 
 	public void deleteTeam(int idTeam, int idTournament) {
 		historyRepository.deleteTeam(idTeam,idTournament);
-		
+
 	}
 
 	public List<History> historyMember(int idTour, int idTeam) {
