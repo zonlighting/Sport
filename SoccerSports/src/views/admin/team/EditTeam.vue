@@ -1,17 +1,16 @@
 <template>
-  <v-row class="pl-5">
-    <v-col cols="12" md="2" sm="2">
-      <v-form ref="form" v-model="valid" lazy-validation>
-        <img style="width: 200px; height: 200px;" :src="logo" />
+  <v-form ref="form" lazy-validation>
+    <v-row>
+      <v-col class="ml-3" cols="12" md="2" xm="2">
+        <v-img max-width="200" :src="logo" />
         <v-file-input
+          accept="image/png, image/jpeg, image/bmp"
           :rules="rulesImage"
           v-model="fileImage"
           label="Change Logo"
         ></v-file-input>
-      </v-form>
-    </v-col>
-    <v-col cols="12" md="2" sm="2">
-      <v-form ref="form" v-model="valid" lazy-validation>
+      </v-col>
+      <v-col class="ml-3" cols="12" md="2" xm="2">
         <v-text-field
           v-model="name"
           :rules="nameRules"
@@ -24,48 +23,55 @@
           :counter="21"
           required
         ></v-text-field>
-      </v-form>
-      <h5 style="line-height: 1.7; font-size: 1.2rem; font-weight: 300">
-        <div style="color: red" v-if="team.tourName != null">
-          {{ team.tourName }}
-        </div>
-        <div style="color: green" v-else>Not in tournament</div>
-      </h5>
-      <h5 style="line-height: 1.7; font-size: 1.2rem; font-weight: 300">
-        Current Members:
-        {{ team.profile && team.profile.length ? team.profile.length : 0 }}
-      </h5>
-    </v-col>
-    <v-col cols="12" md="2" sm="2" class="pt-15 pl-10">
-      <h5 class="country-text">
-        Win Rate:
-        {{ team.totalmatch > 0 ? (team.totalwin / team.totalmatch) * 100 : 0 }}
-      </h5>
-      <h5 class="country-text">Total Win : {{ team.totalwin }}</h5>
-      <h5 style="line-height: 1.7; font-size: 1.2rem; font-weight: 300">
-        Total Match: {{ team.totalmatch }}
-      </h5>
-      <div class="pb-15"></div>
-      <v-btn color="primary" class="ml-15" dark @click="onSubmit(team.idTeam)">
-        Confirm
-      </v-btn>
-    </v-col>
-    <v-divider class="mx-4" inset vertical></v-divider>
-    <v-col cols="12" md="5" sm="5">
-      <h2>Description</h2>
-      <v-textarea
-        clearable
-        v-model="description"
-        clear-icon="mdi-close-circle"
-        value="Something about team"
-      ></v-textarea>
-    </v-col>
-    <v-dialog persistent v-model="dialogSuccess" max-width="500">
-      <template>
-        <v-alert class="mb-0" type="success"> Update Success! </v-alert>
-      </template>
-    </v-dialog>
-  </v-row>
+        <h5 style="line-height: 1.7; font-size: 1.2rem; font-weight: 300">
+          <div style="color: red" v-if="team.tourName != null">
+            {{ team.tourName }}
+          </div>
+          <div style="color: green" v-else>Not in tournament</div>
+        </h5>
+        <h5 style="line-height: 1.7; font-size: 1.2rem; font-weight: 300">
+          Current Members:
+          {{ team.profile && team.profile.length ? team.profile.length : 0 }}
+        </h5>
+      </v-col>
+      <v-col cols="12" md="2" sm="2" class="pt-15 pl-10">
+        <h5 class="country-text">
+          Win Rate:
+          {{
+            team.totalmatch > 0 ? (team.totalwin / team.totalmatch) * 100 : 0
+          }}
+        </h5>
+        <h5 class="country-text">Total Win : {{ team.totalwin }}</h5>
+        <h5 style="line-height: 1.7; font-size: 1.2rem; font-weight: 300">
+          Total Match: {{ team.totalmatch }}
+        </h5>
+        <div class="pb-15"></div>
+        <v-btn
+          color="primary"
+          class="ml-15"
+          dark
+          @click="onSubmit(team.idTeam)"
+        >
+          Confirm
+        </v-btn>
+      </v-col>
+      <v-divider class="mx-4" inset vertical></v-divider>
+      <v-col cols="12" md="5" sm="5" class="pt-15 pl-10">
+        <h2>Description</h2>
+        <v-textarea
+          clearable
+          v-model="description"
+          clear-icon="mdi-close-circle"
+          value="Something about team"
+        ></v-textarea>
+      </v-col>
+      <v-dialog persistent v-model="dialogSuccess" max-width="500">
+        <template>
+          <v-alert class="mb-0" type="success"> Update Success! </v-alert>
+        </template>
+      </v-dialog>
+    </v-row>
+  </v-form>
 </template>
 
 <script>
@@ -85,7 +91,6 @@ export default {
   data() {
     return {
       dialogSuccess: false,
-      valid: true,
       logo: ENV.BASE_IMAGE + this.team.logo,
       fileImage: new File([""], ""),
       rulesImage: [],
@@ -100,7 +105,7 @@ export default {
         (v) =>
           (v && v.length <= 21) || "Country must be less than 21 characters",
       ],
-      description: this.team.description
+      description: this.team.description,
     };
   },
 
@@ -131,8 +136,6 @@ export default {
             v.type == "image/bmp" ||
             "Wrong type image",
         ];
-
-        this.getBase64(this.fileImage);
       }
     },
   },
@@ -142,8 +145,7 @@ export default {
       if (!this.$refs.form.validate()) {
         this.$refs.form.validate();
       } else {
-        console.log("Run here");
-
+        console.log(this.fileImage);
         let self = this;
         var teamForm = new FormData();
         teamForm.append("nameTeam", this.name);

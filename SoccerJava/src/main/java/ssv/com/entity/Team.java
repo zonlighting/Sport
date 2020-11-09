@@ -28,4 +28,5 @@ public class Team {
 	private List<Profile> profile;
 	private String tourName;
 	private List<Schedule> schedule;
+	private double rate;
 }

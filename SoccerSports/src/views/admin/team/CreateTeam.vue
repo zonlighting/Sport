@@ -5,7 +5,7 @@
     </v-card-title>
     <v-card-text>
       <v-container>
-        <v-form ref="form" v-model="valid" lazy-validation>
+        <v-form ref="form" lazy-validation>
           <v-row>
             <v-col cols="12" sm="6" md="4">
               <v-text-field
@@ -77,7 +77,6 @@ export default {
 
   data() {
     return {
-      valid: true,
       successDialog: false,
       idTeam: 0,
       name: "",

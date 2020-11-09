@@ -20,7 +20,10 @@
                   New Team
                 </v-btn>
               </template>
-              <CreateTeam :getTeams="getTeams" :closeCreateTeamDialog="closeCreateTeamDialog" />
+              <CreateTeam
+                :getTeams="getTeams"
+                :closeCreateTeamDialog="closeCreateTeamDialog"
+              />
             </v-dialog>
           </template>
 
@@ -79,10 +82,7 @@
           style="margin: 3px 0 3px 0"
         />
       </template>
-      <template v-slot:[`item.winRate`]="{ item }">
-        {{ item.totalmatch != 0 ? (item.totalwin / item.totalmatch) * 100 : 0 }}
-        %
-      </template>
+      <template v-slot:[`item.rate`]="{ item }"> {{ item.rate }} % </template>
     </v-data-table>
   </v-col>
 </template>
@@ -120,7 +120,7 @@ export default {
         },
         { text: "Total Matchs", value: "totalmatch" },
         { text: "Total Wins", value: "totalwin" },
-        { text: "Win Rate", value: "winRate" },
+        { text: "Win Rate", value: "rate" },
       ],
       desserts: [],
       maxTeamId: 0,
