@@ -6,16 +6,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-
-import javax.xml.soap.Detail;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import lombok.val;
 import ssv.com.dto.RankDto;
 import ssv.com.dto.ResponseQuery;
 import ssv.com.dto.TeamDetail;
@@ -152,7 +145,7 @@ public class TournamentService {
 		List<TeamDetail> details = new ArrayList<TeamDetail>();
 		List<Team> teams = tournamentRepository.getById(idTournament).getTeam();
 		for (Team team : teams) {
-			details.add(teamService.getTeamdetail(team.getIdTeam(),idTournament));
+			details.add(teamService.getTeamdetail(team.getIdTeam(), idTournament));
 		}
 		Collections.sort(details, new Comparator<TeamDetail>() {
 
@@ -168,61 +161,76 @@ public class TournamentService {
 
 	public List<Tournament> tournamentStatus(int status) {
 		return tournamentRepository.tournamentStatus(status);
-}
+	}
+
 	public List<RankDto> rankByTour(int idTournament) {
 		List<Schedule> schedules = tournamentRepository.getById(idTournament).getSchedule();
 		List<Team> teams = tournamentRepository.getById(idTournament).getTeam();
 		List<RankDto> ranks = new ArrayList<RankDto>();
 		for (Team team : teams) {
+			int win = 0;
+			int lose = 0;
+			int tie = 0;
+			int point;
+			int matchPlayed = 0;
 			if (schedules.size() > 0) {
-				int win = 0;
-				int lose = 0;
-				int tie = 0;
-				int point;
 				for (Schedule schedule : schedules) {
-					if (team.getIdTeam() == schedule.getWinner()) {
-						win++;
-					}
-					if (team.getIdTeam() != schedule.getWinner()) {
-						lose++;
-					}
-					if (schedule.getAdraw() == 1) {
-						tie++;
+					if ((team.getIdTeam() == schedule.getIdTeam1() || team.getIdTeam() == schedule.getIdTeam2()) && (schedule.getWinner() != 0 || schedule.getAdraw() != 0) ) {
+						matchPlayed++;
+						if (team.getIdTeam() == schedule.getWinner()) {
+							win++;
+						}
+						else if (team.getIdTeam() != schedule.getWinner() && schedule.getWinner() != 0) {
+							lose++;
+						}
+						else if (schedule.getAdraw() == 1 ) {
+							tie++;
+						}
 					}
 				}
 				point = win * 3 + tie;
-				ranks.add(new RankDto(team.getNameTeam(), win, lose, tie, point));
-			}
-			else {
+				ranks.add(new RankDto(team.getNameTeam(), matchPlayed, win, lose, tie, point));
+			} else {
 				throw new ResourceExistsException("Tournament don't have any schedule yet!!", 300);
 			}
+
 		}
+		ranks.sort(new Comparator<RankDto>() {
+			@Override
+			public int compare(RankDto o1, RankDto o2) {
+				if (o1.getPoint() > o2.getPoint()) {
+					return -1;
+				} else if (o1.getPoint() < o2.getPoint()) {
+					return 1;
+				}
+				return 0;
+			}
+
+		});
 		return ranks;
 	}
 
 	public void checkStatus() {
-		LocalDate date=LocalDate.now();
+		LocalDate date = LocalDate.now();
 		for (Tournament tournament : tournamentRepository.getAll()) {
-			if(tournament.getTimeEnd().isBefore(date)) {
+			if (tournament.getTimeEnd().isBefore(date)) {
 				tournamentRepository.finished(tournament.getIdTournament());
 				teamService.formatTournament(tournament.getIdTournament());
-			}
-			else if (tournament.getTimeStart().isAfter(date)) {
+			} else if (tournament.getTimeStart().isAfter(date)) {
 				continue;
-			}
-			else {
+			} else {
 				tournamentRepository.ongGame(tournament.getIdTournament());
 
 			}
 		}
-		
+
 	}
 
 	public List<TeamDetail> rankAll() {
 		List<TeamDetail> details = new ArrayList<TeamDetail>();
-		List<Team> teams=teamService.getTeams();
+		List<Team> teams = teamService.getTeams();
 		for (Team team : teams) {
-			details.add(teamService.getTeamdetail(team.getIdTeam(),0));
+			details.add(teamService.getTeamdetail(team.getIdTeam(), 0));
 		}
 		Collections.sort(details, new Comparator<TeamDetail>() {
 
@@ -236,7 +244,7 @@ public class TournamentService {
 	}
 
 	public List<Tournament> getAllSchedule() {
-		List<Tournament> list=tournamentRepository.getAllSchedule();
+		List<Tournament> list = tournamentRepository.getAllSchedule();
 		for (Tournament tournament : list) {
 			for (Schedule schedule : tournament.getSchedule()) {
 				if (schedule.getIdTeam1() > schedule.getIdTeam2()) {
@@ -248,10 +256,10 @@ public class TournamentService {
 			}
 		}
 		return list;
-			
+
 	}
 
-	public List<Tournament>   getAllScheduleStatus(int status) {
+	public List<Tournament> getAllScheduleStatus(int status) {
 		// TODO Auto-generated method stub
 		return tournamentRepository.getAllScheduleStatus(status);
 	}
