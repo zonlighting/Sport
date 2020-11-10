@@ -10,6 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SquadDto {
+	private int idMember;
 	private String name;
 	private String pos;
 	private String age;

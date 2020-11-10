@@ -81,8 +81,8 @@ export default {
         .dispatch("tournament/rankByTour", id)
         .then(function (response) {
           if (response.data.code == 9999) {
-            console.log("Run here 7");
-            alert(response.data.message);
+            console.log("Run here Rank tour");
+            // alert(response.data.message);
           } else {
             self.desserts = response.data.payload;
           }

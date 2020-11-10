@@ -121,4 +121,6 @@ public class TeamController {
 		}
 		return ResponseQuery.faild("No data", null);
 	}
+
+
 }

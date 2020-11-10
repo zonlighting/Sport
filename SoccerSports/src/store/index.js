@@ -6,6 +6,7 @@ import team from '@/store/team'
 import tournament from '@/store/tournament'
 import member from '@/store/member'
 import schedule from '@/store/schedule'
+import createPersistedState from 'vuex-persistedstate'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -33,4 +34,7 @@ export default new Vuex.Store({
 			state.SidebarColor = payload
 		},
 	},
+	plugins: [createPersistedState({
+        storage: window.sessionStorage,
+    })],
 })
