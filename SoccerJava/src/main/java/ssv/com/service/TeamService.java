@@ -9,14 +9,15 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ssv.com.dto.MonthYearDto;
-import ssv.com.dto.RankDto;
 import ssv.com.dto.ResponseQuery;
 import ssv.com.dto.SquadDto;
+import ssv.com.dto.StreaksDto;
 import ssv.com.dto.TeamDetail;
 import ssv.com.dto.TeamScheduleDto;
 import ssv.com.entity.History;
@@ -97,7 +98,28 @@ public class TeamService {
 	public Team getTeamById(int idTeam) {
 		Team team = teamRepository.getTeamById(idTeam);
 		if (team.getIdTour() != 0) {
+			List<Schedule> schedules = scheduleRepository.getAll();
 			team.setTourName(tournamentRepository.getById(team.getIdTour()).getNameTournament());
+			int totalMacth = 0;
+			int totalWin = 0;
+			for (Schedule schedule : schedules) {
+				if ((schedule.getIdTeam1() == team.getIdTeam() || schedule.getIdTeam2() == team.getIdTeam())
+						&& schedule.getStatus() == 2) {
+					totalMacth++;
+					if (schedule.getWinner() == team.getIdTeam()) {
+						totalWin++;
+					}
+				}
+			}
+			if (totalMacth != 0) {
+				team.setTotalmatch(totalMacth);
+				team.setTotalwin(totalWin);
+				team.setRate(((float) totalWin / totalMacth) * 100);
+			} else {
+				team.setTotalmatch(0);
+				team.setTotalwin(0);
+				team.setRate(0);
+			}
 		}
 		return team;
 	}
@@ -198,7 +220,7 @@ public class TeamService {
 		for (Schedule schedule : schedules) {
 			Team team1 = teamRepository.getTeamById(schedule.getIdTeam1());
 			Team team2 = teamRepository.getTeamById(schedule.getIdTeam2());
-			MonthYearDto monthYearDto = new MonthYearDto();
+//			MonthYearDto monthYearDto = new MonthYearDto();
 			TeamScheduleDto match = new TeamScheduleDto();
 			match.setMonthStart(
 					monthName[schedule.getTimeStart().getMonthValue() - 1] + " , " + schedule.getTimeStart().getYear());
@@ -219,7 +241,8 @@ public class TeamService {
 			matchs.add(match);
 		}
 
-		Map<String, List<TeamScheduleDto>> maps = matchs.stream().collect(Collectors.groupingBy(TeamScheduleDto::getMonthStart));
+		Map<String, List<TeamScheduleDto>> maps = matchs.stream()
+				.collect(Collectors.groupingBy(TeamScheduleDto::getMonthStart));
 		maps.forEach((k, v) -> {
 			monthYearDtos.add(new MonthYearDto(k, v));
 		});
@@ -246,6 +269,7 @@ public class TeamService {
 		for (History history : histories) {
 			SquadDto squadDto = new SquadDto();
 			Optional<Profile> profile = profileRepository.findProfileById(history.getIdMember().intValue());
+			squadDto.setIdMember(history.getIdMember().intValue());
 			squadDto.setName(profile.get().getName());
 			squadDto.setPos(profile.get().getPosition());
 			squadDto.setAge(profile.get().getAge());

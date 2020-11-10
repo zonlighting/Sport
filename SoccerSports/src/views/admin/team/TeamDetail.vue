@@ -54,7 +54,7 @@
                 team.totalmatch > 0
                   ? (team.totalwin / team.totalmatch) * 100
                   : 0
-              }}
+              }} %
             </h5>
             <h5 class="country-text">Total Win : {{ team.totalwin }}</h5>
             <h5 style="line-height: 1.7; font-size: 1.2rem; font-weight: 300">

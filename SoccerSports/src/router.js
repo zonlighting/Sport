@@ -120,6 +120,10 @@ let routes = [
         component: Teams,
       },
       {
+        path: '/player/:id',
+        component: () => import('@/views/web/player/Player'),
+      },
+      {
         path: '/team',
         redirect: '404',
         component: () => import('@/views/web/team/index'),
@@ -139,11 +143,6 @@ let routes = [
             name: "squad",
             component: () => import('@/views/web/team/TeamSquad'),
           },
-          {
-            path: '/stats/:id',
-            name: "stats",
-            component: () => import('@/views/web/team/TeamStats'),
-          }
         ]
       },
     ],

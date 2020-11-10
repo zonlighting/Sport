@@ -29,6 +29,7 @@
             <v-row v-if="isHavedata">
               <v-col>
                 <v-data-table
+                  @click:row="handleRowClick"
                   :headers="headers"
                   :items="desserts"
                   class="elevation-1"
@@ -49,6 +50,7 @@
             <v-row v-if="isHavedata">
               <v-col>
                 <v-data-table
+                  @click:row="handleRowClick"
                   :headers="headers1"
                   :items="desserts1"
                   class="elevation-1"
@@ -127,11 +129,11 @@ export default {
   },
 
   mounted() {
-    this.getTours(this.team.idTeam);
     // console.log(this.$route)
     if (this.team.idTeam == undefined) {
       this.$router.push({ path: `/teams` });
     } else {
+      this.getTours(this.team.idTeam);
       this.getSquad(this.team.idTeam, this.idTour);
     }
   },
@@ -139,7 +141,9 @@ export default {
   watch: {
     select(newValue) {
       // console.log(newValue);
-      this.getSquad(this.team.idTeam, newValue);
+      if (newValue != undefined) {
+        this.getSquad(this.team.idTeam, newValue);
+      }
     },
   },
 
@@ -183,12 +187,18 @@ export default {
           if (response.data.code == 0) {
             self.tournaments = response.data.payload;
           } else {
+            console.log("Squad");
             alert(response.data.message);
           }
         })
         .catch(function (error) {
           alert(error);
         });
+    },
+
+    handleRowClick(item) {
+      this.$store.commit("member/player_profile", item);
+      this.$router.push({ path: `/player/${item.idMember}` });
     },
   },
 };

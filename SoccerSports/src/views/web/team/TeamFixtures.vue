@@ -9,7 +9,7 @@
                 <h1 class="title-h1">{{ team.nameTeam }} Fixtures</h1>
               </v-col>
             </v-row>
-            <h4 class="pl-5">{{ $route.query.tourName }}</h4>
+            <h4 class="pl-5">{{ $store.state.team.tourName }}</h4>
             <v-divider style="margin: 0 !important"></v-divider>
 
             <div v-for="(item, index) in schedules" :key="index">

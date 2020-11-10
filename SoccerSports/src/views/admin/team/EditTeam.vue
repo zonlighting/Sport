@@ -2,7 +2,7 @@
   <v-form ref="form" lazy-validation>
     <v-row>
       <v-col class="ml-3" cols="12" md="2" xm="2">
-        <v-img max-width="200" :src="logo" />
+        <v-img max-width="200" style="height: 200px" :src="logo" />
         <v-file-input
           accept="image/png, image/jpeg, image/bmp"
           :rules="rulesImage"
@@ -60,7 +60,7 @@
         <h2>Description</h2>
         <v-textarea
           clearable
-          v-model="description"
+          v-model.trim="description"
           clear-icon="mdi-close-circle"
           value="Something about team"
         ></v-textarea>
@@ -136,20 +136,26 @@ export default {
             v.type == "image/bmp" ||
             "Wrong type image",
         ];
+
+        this.getBase64(this.fileImage);
       }
     },
   },
 
   methods: {
     onSubmit(id) {
-      if (!this.$refs.form.validate()) {
+       if (!this.$refs.form.validate()) {
         this.$refs.form.validate();
       } else {
         console.log(this.fileImage);
         let self = this;
         var teamForm = new FormData();
         teamForm.append("nameTeam", this.name);
-        teamForm.append("description", this.description);
+        if (this.description != undefined && this.description != "") {
+          teamForm.append("description", this.description);
+        } else {
+          teamForm.append("description", "No Information");
+        }
         teamForm.append("country", this.country);
         teamForm.append("file", this.fileImage);
         this.$store

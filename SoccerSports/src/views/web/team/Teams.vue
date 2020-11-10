@@ -71,13 +71,6 @@
                       >
                         Squad
                       </p>
-                      <v-divider class="ml-1 mr-1" inset vertical></v-divider>
-                      <p
-                        @click="linkTeamDetail(team, 4)"
-                        class="teamlink pointer"
-                      >
-                        Stats
-                      </p>
                     </v-row>
                   </v-col>
                 </v-row>
@@ -178,18 +171,18 @@ export default {
           self.$store.commit("auth/auth_overlay");
           if (response.data.code == 0 && response.data.payload.length > 0) {
             self.tournaments = response.data.payload;
-            console.log(self.tourId);
-            console.log(self.tournaments[0].idTournament);
             if (self.tourId == undefined || self.tourId == 0) {
               self.getTourById(self.tournaments[0].idTournament);
             } else {
               self.getTourById(self.tourId);
             }
           } else {
+            console.log("Run here Teams Client");
             self.isHavedata = false;
           }
         })
         .catch(function (error) {
+          console.log("Run here Teams Client");
           console.log("Run here 3");
           alert(error);
         });
@@ -198,23 +191,18 @@ export default {
     linkTeamDetail(team, routerLink) {
       this.$store.commit("team/team_detail", team);
       this.$store.commit("team/tour_id", team.idTour);
+      this.$store.commit("team/tour_name", this.tournament.nameTournament);
       if (routerLink == 1) {
         this.$router.push({
           path: `/fixtures/${team.idTeam}`,
-          query: { tourName: this.tournament.nameTournament },
         });
       } else if (routerLink == 2) {
         this.$router.push({
           path: `/results/${team.idTeam}`,
-          query: { tourName: this.tournament.nameTournament },
-        });
-      } else if (routerLink == 3) {
-        this.$router.push({
-          path: `/squad/${team.idTeam}`,
         });
       } else {
         this.$router.push({
-          path: `/stats/${team.idTeam}`,
+          path: `/squad/${team.idTeam}`,
         });
       }
     },

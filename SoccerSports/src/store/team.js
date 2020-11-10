@@ -7,7 +7,8 @@ import { getHistory, getTeamNoTournament } from '../api/TeamApi'
 const state = {
     currentTab: "",
     teamDetail: "",
-    tourId: 0
+    tourId: 0,
+    tourName: ""
 }
 
 const mutations = {
@@ -19,6 +20,9 @@ const mutations = {
     },
     tour_id(state, id) {
         state.tourId = id
+    },
+    tour_name(state, id) {
+        state.tourName = id
     }
 }
 

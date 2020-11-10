@@ -1,10 +1,14 @@
 import { createMember, members, updateProfile,  getPlayerById ,getTourGoal} from '@/api/MemberApi'
 
 const state = {
-
+    playerProfile: {}
 }
 
-const mutations = {}
+const mutations = {
+    player_profile(state, player) {
+        state.playerProfile = player
+    },
+}
 
 const actions = {
     createMember(_, formMember) {
