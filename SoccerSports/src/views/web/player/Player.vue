@@ -40,18 +40,47 @@
             <p class="status-player">Country: {{ playerStatus.nation }}</p>
           </v-col>
           <v-col>
-            <v-card class="mx-auto" max-width="400">
+            <v-card class="mx-auto" max-width="600">
               <v-row style="max-height: 30px">
                 <v-col cols="4"></v-col>
-                <v-col style="color: black" cols="4">2020 MLS STATS</v-col>
+                <v-col
+                  style="
+                    color: black;
+                    font-weight: 600;
+                    line-height: 34px;
+                    font-size: 24px;
+                  "
+                  cols="5"
+                  >2020 MLS STATS</v-col
+                >
                 <v-col cols="4"></v-col>
               </v-row>
+              <v-divider style="margin-bottom: 0 !important"></v-divider>
               <v-row>
                 <v-col cols="1"></v-col>
-                <v-col cols="2"></v-col>
-                <v-col cols="2"></v-col>
-                <v-col cols="2"></v-col>
-                <v-col cols="2"></v-col>
+                <v-col cols="2">
+                  <h5>Goals</h5>
+                  <p class="statusStyle pl-3">{{ playerStatus.goal }}</p>
+                </v-col>
+                <v-col cols="2"
+                  ><h5>Saves</h5>
+                  <p class="statusStyle pl-3">{{ playerStatus.save }}</p></v-col
+                >
+                <v-col cols="2">
+                  <h5>Assists</h5>
+                  <p class="statusStyle pl-3">
+                    {{ playerStatus.assists }}
+                  </p></v-col
+                >
+                <v-col cols="2"
+                  ><h5>Y Card</h5>
+                  <p class="statusStyle pl-3">{{ playerStatus.yc }}</p></v-col
+                >
+                <v-col cols="2"
+                  ><h5>R Card</h5>
+                  <p class="statusStyle pl-3">{{ playerStatus.rc }}</p></v-col
+                >
+                <v-col cols="1"></v-col>
               </v-row>
             </v-card>
           </v-col>
@@ -132,7 +161,12 @@ export default {
 .status-player {
   color: #6c6d6f;
   font-weight: 600;
-  line-height: 16px;
-  font-size: 12px;
+  line-height: 21px;
+  font-size: 16px;
+}
+.statusStyle {
+  font-weight: 600;
+  line-height: 34px;
+  font-size: 24px;
 }
 </style>

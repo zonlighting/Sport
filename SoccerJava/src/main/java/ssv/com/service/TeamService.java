@@ -290,35 +290,34 @@ public class TeamService {
 				squadDto.setAssists(0 + (int) (Math.random() * 12));
 				squadDto.setGa(0 + (int) (Math.random() * 30));
 			}
-			;
+
 			if (profile.get().getPosition().equalsIgnoreCase("Forwards")) {
 				squadDto.setGoal(0 + (int) (Math.random() * 12));
 				squadDto.setSave(0);
 				squadDto.setAssists(0 + (int) (Math.random() * 2));
 			}
-			;
+
 			if (profile.get().getPosition().equalsIgnoreCase("Midfielders")) {
 				squadDto.setGoal(0 + (int) (Math.random() * 2));
 				squadDto.setSave(0 + (int) (Math.random() * 2));
 				squadDto.setAssists(0 + (int) (Math.random() * 12));
 			}
-			;
+
 			if (profile.get().getPosition().equalsIgnoreCase("Defenders")) {
 				squadDto.setGoal(0 + (int) (Math.random() * 0));
 				squadDto.setSave(0 + (int) (Math.random() * 6));
 				squadDto.setAssists(0 + (int) (Math.random() * 6));
 			}
-			;
 			squadDto.setFc(0 + (int) (Math.random() * 8));
 			if (squadDto.getFc() > 4 && squadDto.getFc() < 8) {
 				squadDto.setYc(1);
 				squadDto.setRc(0);
 			} else if (squadDto.getFc() == 8) {
-				squadDto.setFc(1);
-				squadDto.setYc(0);
+				squadDto.setYc(1);
+				squadDto.setRc(0);
 			} else {
-				squadDto.setFc(0);
 				squadDto.setYc(0);
+				squadDto.setRc(0);
 			}
 			squad.add(squadDto);
 		}
