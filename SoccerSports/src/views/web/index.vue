@@ -81,12 +81,9 @@
                       <v-list>
                         <v-list-item>
                           <v-list-item-title>
-                            <div
-                              @click="roleFunction(profile.role)"
-                              class="fixButton row-pointer"
-                            >
-                              Profile
-                            </div>
+
+                            <div  @click="roleFunction(profile.role)" class="fixButton row-pointer">Profile</div>
+
                           </v-list-item-title>
                         </v-list-item>
                         <v-list-item>
@@ -130,16 +127,6 @@
                               @click="toAdminPage"
                             >
                               Admin Page
-                            </div>
-                          </v-list-item-title>
-                        </v-list-item>
-                        <v-list-item>
-                          <v-list-item-title>
-                            <div
-                              class="fixButton ml-4 row-pointer"
-                              @click="roleFunction(profile.role)"
-                            >
-                              Profile
                             </div>
                           </v-list-item-title>
                         </v-list-item>
@@ -281,7 +268,7 @@ export default {
     roleFunction(role) {
       console.log(role);
       if (role === "ROLE_MEMBER") {
-        this.controlModalMember();
+      this.$router.push('/profile/'+this.$store.state.user.userInfo.profile.id)
       } else {
         this.controlModalUser();
       }

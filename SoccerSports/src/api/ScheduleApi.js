@@ -1,40 +1,51 @@
 import Api from './BaseApi';
 
-export function getAll(){
+export function getAll() {
     return Api.get("/schedule/getAll")
 }
-export function create(schedule){
-    return Api.post("/schedule/create",schedule)
+export function create(schedule) {
+    return Api.post("/schedule/create", schedule)
 }
-export function deleteSchedule(idSchedule){
+export function deleteSchedule(idSchedule) {
     return Api.post(`/schedule/deleteSchedule?idSchedule=${idSchedule}`)
 }
-export function getById(idSchedule){
+export function getById(idSchedule) {
     return Api.get(`/schedule/getById?idSchedule=${idSchedule}`)
 }
-export function update(scheduleForm){
-    return Api.post("/schedule/update",scheduleForm)
+export function update(scheduleForm) {
+    return Api.post("/schedule/update", scheduleForm)
 }
-export function goalUpdate(data){
-    return Api.post(`/schedule/goal`,data)
+export function goalUpdate(data) {
+    return Api.post(`/schedule/goal`, data)
 }
-export function edit(data){
-    return Api.post('/schedule/edit',data)
+export function edit(data) {
+    return Api.post('/schedule/edit', data)
 }
-export function getByTour(idTournament){
+export function getByTour(idTournament) {
     return Api.get(`/schedule/getByTournament?idTournament=${idTournament}`)
 }
-export function recentMatch(){
+export function recentMatch() {
     return Api.get("/schedule/recentMatch")
 }
-export function lastVideo(){
+export function lastVideo() {
     return Api.get("/schedule/lastVideo")
 }
-export function lastResults(){
+export function lastResults() {
     return Api.get("/schedule/lastResults")
 }
-export function getByStatus(status){
-    return Api.get(`/schedule/getByStatus?status=${status}`)}
-export function teamResults(data){
+export function getByStatus(status) {
+    return Api.get(`/schedule/getByStatus?status=${status}`)
+}
+export function teamResults(data) {
     return Api.get(`/schedule/teamResults?idTeam=${data.idTeam}&idTournament=${data.idTournament}`)
 }
+export function scheduleCheck() {
+    return Api.get(`/schedule/status`)
+}
+export function teamLastResults(idTeam){
+    return Api.get(`/schedule/teamLastResults?idTeam=${idTeam}`)
+}
+export function scheduleTeam(idTeam){
+    return Api.get(`/schedule/scheduleTeam?idTeam=${idTeam}`);
+}
+

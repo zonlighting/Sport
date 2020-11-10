@@ -11,27 +11,39 @@
                 lazy-src="https://picsum.photos/id/11/10/6"
                 max-height="150"
                 max-width="250"
-                src="https://picsum.photos/id/11/500/300"
+                :src="baseUrl + profile.avatar"
               ></v-img>
             </v-col>
             <v-col>
-              <h2><b>JORDAN PICKFORD</b></h2>
+              <h2>
+                <b>{{ profile.name }}</b>
+              </h2>
               <v-avatar tile>
-                <img
-                  src="https://cdn.vuetifyjs.com/images/john.jpg"
-                  alt="John"
-                />
+                <img :src="baseUrl + team.logo" alt="John" />
               </v-avatar>
-              <h3 style="display: inline-block"><b>Man City</b></h3>
-              <h3>Position:<b>Defenders</b></h3>
+              <h3 style="display: inline-block">
+                <b>{{ team.nameTeam }}</b>
+              </h3>
+              <h3>
+                Position:<b>{{ profile.position }}</b>
+              </h3>
               <h5 style="font-family: time new roman; font-size: 20px">
-                Tournament:<b>AFF Cup</b>
+                Tournament:<b>{{ team.tourName }}</b>
               </h5>
             </v-col>
             <v-col>
-              <h3>Country:<b>America</b></h3>
-              <h3>Age:<b>23</b></h3>
-              <h3>Sex:<b>Male</b></h3>
+              <h3>
+                Country:<b>{{ profile.country }}</b>
+              </h3>
+              <h3>
+                Age:<b>{{ profile.age }}</b>
+              </h3>
+              <h3>
+                Sex:<b>{{ profile.gender }}</b>
+              </h3>
+              <h3>
+                Phone:<b>{{ profile.phone }}</b>
+              </h3>
             </v-col>
           </v-row>
         </v-card>
@@ -48,29 +60,34 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(item, i) in 5" :key="i">
-                  <td>AFF CUP</td>
-                  <td>May 5 2020 05:40</td>
-                  <td>
-                    <v-row>
-                      <v-col>
-                        <v-avatar tile>
-                          <img
-                            src="https://cdn.vuetifyjs.com/images/john.jpg"
-                            alt="John"
-                          /> </v-avatar></v-col
-                      ><v-col> ManCity</v-col><v-col>-1 1-</v-col
-                      ><v-col>Mu</v-col
-                      ><v-col>
-                        <v-avatar tile>
-                          <img
-                            src="https://cdn.vuetifyjs.com/images/john.jpg"
-                            alt="John"
-                          /> </v-avatar
-                      ></v-col>
-                    </v-row>
-                  </td>
-                  <td>Bắc Triều Tiên</td>
+                <tr v-for="(item, i) in lastResultsData" :key="i">
+                  <template v-if="i < 5">
+                    <td>{{ item.tournament.nameTournament }}</td>
+                    <td>
+                      {{ new Date(item.timeStart).toString().substring(0, 21) }}
+                    </td>
+                    <td>
+                      <v-row>
+                        <v-col>
+                          <v-avatar tile>
+                            <img
+                              :src="baseUrl + item.team[0].logo"
+                              alt="John"
+                            /> </v-avatar></v-col
+                        ><v-col> {{ item.team[0].nameTeam }}</v-col
+                        ><v-col><b>1 - 1</b></v-col
+                        ><v-col> {{ item.team[1].nameTeam }}</v-col
+                        ><v-col>
+                          <v-avatar tile>
+                            <img
+                              :src="baseUrl + item.team[1].logo"
+                              alt="John"
+                            /> </v-avatar
+                        ></v-col>
+                      </v-row>
+                    </td>
+                    <td>{{ item.location }}</td>
+                  </template>
                 </tr>
               </tbody>
             </template>
@@ -118,22 +135,15 @@
                 >
                   <v-card color="grey lighten-4" min-width="350px" flat>
                     <v-toolbar :color="selectedEvent.color" dark>
-                      <v-btn icon>
-                        <v-icon>mdi-pencil</v-icon>
-                      </v-btn>
+                   
                       <v-toolbar-title
-                        v-html="selectedEvent.name"
+                        v-html="selectedEvent.tournament"
                       ></v-toolbar-title>
                       <v-spacer></v-spacer>
-                      <v-btn icon>
-                        <v-icon>mdi-heart</v-icon>
-                      </v-btn>
-                      <v-btn icon>
-                        <v-icon>mdi-dots-vertical</v-icon>
-                      </v-btn>
+                      
                     </v-toolbar>
                     <v-card-text>
-                      <span v-html="selectedEvent.details"></span>
+                      <span v-html="selectedEvent.name"></span>
                     </v-card-text>
                     <v-card-actions>
                       <v-btn
@@ -155,37 +165,32 @@
   </v-container>
 </template>
 <script>
+import { ENV } from "@/config/env.js";
+
 export default {
+  computed: {
+    baseUrl() {
+      return ENV.BASE_IMAGE;
+    },
+  },
   data: () => ({
     focus: "",
+    team: "",
+    profile: "",
     selectedEvent: {},
     selectedElement: null,
     selectedOpen: false,
-    events: [
-      {
-        end: "2020-11-06 03:39:28",
-        start: "2020-11-06 03:39:28",
-        timed: true,
-        name: "Hiliday",
-      },
-      {
-        end: "2020-11-06 03:39:28",
-        start: "2020-11-06 03:39:28",
-        timed: true,
-        name: "Hiliday",
-      },
-      {
-        end: "2020-11-06 03:39:28",
-
-        start: "2020-11-06 03:39:28",
-        timed: true,
-        name: "Hiliday",
-      },
-    ],
+    lastResultsData: [],
+    schedule: [],
+    events: []
   }),
-  mounted() {
-    this.$refs.calendar.checkChange();
+  created() {
+    this.profile = this.$store.state.user.userInfo.profile;
+    this.lastResults();
+    this.getTeam();
+    this.scheduleTeam();
   },
+
   methods: {
     prev() {
       this.$refs.calendar.prev();
@@ -217,6 +222,40 @@ export default {
 
     rnd(a, b) {
       return Math.floor((b - a + 1) * Math.random()) + a;
+    },
+    getTeam() {
+      this.$store
+        .dispatch("team/getTeamById", this.profile.idTeam)
+        .then((response) => {
+          this.team = response.data.payload;
+        });
+    },
+    lastResults() {
+      this.$store
+        .dispatch("schedule/teamLastResults", this.profile.idTeam)
+        .then((response) => {
+          this.lastResultsData = response.data.payload;
+        });
+    },
+    async scheduleTeam() {
+     await this.$store
+        .dispatch("schedule/scheduleTeam", this.profile.idTeam)
+        .then((response) => {
+          this.schedule = response.data.payload;
+        });
+      this.schedule.forEach((element) => {
+        element.team.forEach((item) => {
+          if (item.idTeam != this.profile.idTeam) {
+            this.events.push({
+              start: element.timeStart,
+              timed: true,
+              name: "VS "+item.nameTeam,
+              tournament:element.tournament.nameTournament
+            });
+          }
+        });
+        console.log(this.events)
+      });
     },
   },
 };
