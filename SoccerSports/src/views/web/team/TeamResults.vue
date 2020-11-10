@@ -31,7 +31,7 @@
                     <template v-slot:[`item.logoTeam1`]="{ item }">
                       <img
                         :src="baseUrl + item.logoTeam1"
-                        width="50px"
+                        width="70px"
                         height="50px"
                         style="margin: 3px 0 3px 0"
                       />
@@ -42,7 +42,7 @@
                     <template v-slot:[`item.logoTeam2`]="{ item }">
                       <img
                         :src="baseUrl + item.logoTeam2"
-                        width="50px"
+                        width="70px"
                         height="50px"
                         style="margin: 3px 0 3px 0"
                       />
@@ -52,15 +52,8 @@
                         {{ item.nameTeam2 }}
                       </p>
                     </template>
-                    <template v-slot:[`item.status`]="{ item }">
-                      <p
-                        class="pt-3"
-                        style="color: green"
-                        v-if="item.status == 0"
-                      >
-                        Upcomming
-                      </p>
-                      <p class="pt-3" style="color: blue" v-else>On Game</p>
+                    <template v-slot:[`item.status`]="{}">
+                      <p class="pt-3" style="color: red">Ended</p>
                     </template>
                   </v-data-table>
                 </v-col>
@@ -87,7 +80,7 @@ export default {
   },
   data() {
     return {
-      team: {},
+      team: this.$store.state.team.teamDetail,
       schedules: {},
       headers: [
         {
@@ -111,8 +104,6 @@ export default {
 
   mounted() {
     // console.log(this.$route)
-    let teamStore = this.$store.state.team;
-    this.team = teamStore.teamDetail;
     if (this.team.idTeam == undefined) {
       this.$router.push({ path: `/teams` });
     } else {

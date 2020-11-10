@@ -241,7 +241,7 @@ public class TeamService {
 
 	public List<SquadDto> squad(int idTeam, int idTour) {
 		Random ran = new Random();
-		List<History> histories = historyRepository.historyMember(idTeam, idTour);
+		List<History> histories = historyRepository.historyMember(idTour, idTeam);
 		List<SquadDto> squad = new ArrayList<>();
 		for (History history : histories) {
 			SquadDto squadDto = new SquadDto();
@@ -256,7 +256,7 @@ public class TeamService {
 				squadDto.setHeight("5'" + (int) (heightRan * 10));
 			}
 			int weightRan = 130 + ran.nextInt(70);
-			squadDto.setWeight(weightRan + "Ibs");
+			squadDto.setWeight(weightRan + " Ibs");
 			squadDto.setNation(profile.get().getCountry());
 			int played = 0 + (int) (Math.random() * 6);
 			squadDto.setPlayed(played);
@@ -264,6 +264,7 @@ public class TeamService {
 				squadDto.setGoal(0);
 				squadDto.setSave(0 + (int) (Math.random() * 12));
 				squadDto.setAssists(0 + (int) (Math.random() * 12));
+				squadDto.setGa(0 + (int) (Math.random() * 30));
 			}
 			;
 			if (profile.get().getPosition().equalsIgnoreCase("Forwards")) {
@@ -285,7 +286,6 @@ public class TeamService {
 			}
 			;
 			squadDto.setFc(0 + (int) (Math.random() * 8));
-			squadDto.setFa(0 + (int) (Math.random() * 1));
 			if (squadDto.getFc() > 4 && squadDto.getFc() < 8) {
 				squadDto.setYc(1);
 				squadDto.setRc(0);

@@ -139,8 +139,8 @@ export default {
   },
 
   watch: {
-    select(newValue, oldValue) {
-      console.log(newValue, oldValue);
+    select(newValue) {
+      // console.log(newValue, oldValue);
       this.getTourById(newValue);
     },
   },
@@ -187,7 +187,6 @@ export default {
     },
 
     linkTeamDetail(team, routerLink) {
-      console.log(team);
       this.$store.commit("team/team_detail", team);
       this.$store.commit("team/tour_id", team.idTour);
       if (routerLink == 1) {
@@ -203,12 +202,10 @@ export default {
       } else if (routerLink == 3) {
         this.$router.push({
           path: `/squad/${team.idTeam}`,
-          query: { tourName: this.tournament.nameTournament },
         });
       } else {
         this.$router.push({
           path: `/stats/${team.idTeam}`,
-          query: { tourName: this.tournament.nameTournament },
         });
       }
     },

@@ -15,7 +15,7 @@ public interface HistoryMapper {
 
 	void deleteTeam(int idTeam, int idTournament);
 
-	List<History> historyMember(int idTour, int idTeam);
+	List<History> historyMember( int idTour, int idTeam);
 
 	List<History> getToursByTeam(int idTeam);
 }

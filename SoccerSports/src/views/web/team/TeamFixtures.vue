@@ -89,7 +89,7 @@ export default {
   data() {
     return {
       isHavedata: true,
-      team: {},
+      team: this.$store.state.team.teamDetail,
       schedules: {},
       headers: [
         {
@@ -113,8 +113,6 @@ export default {
 
   mounted() {
     // console.log(this.$route)
-    let teamStore = this.$store.state.team;
-    this.team = teamStore.teamDetail;
     if (this.team.idTeam == undefined) {
       this.$router.push({ path: `/teams` });
     } else {

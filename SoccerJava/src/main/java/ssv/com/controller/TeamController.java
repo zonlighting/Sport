@@ -104,15 +104,21 @@ public class TeamController {
 			return ResponseQuery.success("Get Success", teamService.teamSchedules(idTeam));
 		}
 		return ResponseQuery.faild("Team don't have any schedule", null);
-
 	}
 
 	@GetMapping(value = "squad")
 	public ResponseQuery<?> squad(@RequestParam int idTeam, @RequestParam int idTour) {
-		if (teamService.squad(idTeam, idTour) != null) {
+		if (teamService.squad(idTeam, idTour) != null || !teamService.squad(idTeam, idTour).isEmpty()) {
 			return ResponseQuery.success("Get Success", teamService.squad(idTeam, idTour));
 		}
 		return ResponseQuery.faild("No data", null);
 	}
 
+	@GetMapping(value = "toursByTeam/{idTeam}")
+	public ResponseQuery<?> toursByTeam(@PathVariable int idTeam) {
+		if (teamService.getTourByTeam(idTeam) != null || !teamService.getTourByTeam(idTeam).isEmpty()) {
+			return ResponseQuery.success("Get Success", teamService.getTourByTeam(idTeam));
+		}
+		return ResponseQuery.faild("No data", null);
+	}
 }
