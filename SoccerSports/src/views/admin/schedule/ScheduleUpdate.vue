@@ -170,7 +170,7 @@
                 width="320"
                 height="240"
                 controls
-                :src="baseUrl + schedule.video"
+                :src="sources"
                 id="video"
               ></video>
             </v-container>
@@ -214,8 +214,17 @@
 import { ENV } from "@/config/env.js";
 
 export default {
+  directives: {
+    reload(el, binding) {
+      if (binding.oldValue !== binding.value) {
+        el.load();
+      }
+    },
+  },
   data() {
     return {
+      selected: 0,
+      sources: "",
       rulesImage: [
         (v) => {
           if (v == undefined || Array.isArray(v)) {
@@ -280,7 +289,7 @@ export default {
   created() {
     this.score1 = this.schedule.score1;
     this.score2 = this.schedule.score2;
-
+    this.sources = this.baseUrl + this.schedule.video;
     this.memberTeam1 = this.schedule.team[0].profile;
     this.memberTeam2 = this.schedule.team[1].profile;
   },
@@ -380,7 +389,7 @@ export default {
         this.memberTeam1.forEach((element) => {
           if (element.id == this.selectTeam1) {
             if (this.goal1.length == "") {
-               this.goal2.forEach((time) => {
+              this.goal2.forEach((time) => {
                 if (time.time == this.value1) {
                   alert("Time coincides");
                   this.tg1 = false;
@@ -401,7 +410,7 @@ export default {
                   this.tg1 = false;
                 }
               });
-               this.goal2.forEach((time) => {
+              this.goal2.forEach((time) => {
                 if (time.time == this.value1) {
                   alert("Time coincides");
                   this.tg1 = false;
@@ -430,7 +439,7 @@ export default {
         this.memberTeam2.forEach((element) => {
           if (element.id == this.selectTeam2) {
             if (this.goal2.length == "") {
-               this.goal1.forEach((time) => {
+              this.goal1.forEach((time) => {
                 if (time.time == this.value2) {
                   alert("Time coincides");
                   this.tg2 = false;
@@ -451,7 +460,7 @@ export default {
                   this.tg2 = false;
                 }
               });
-               this.goal1.forEach((time) => {
+              this.goal1.forEach((time) => {
                 if (time.time == this.value2) {
                   alert("Time coincides");
                   this.tg2 = false;
@@ -516,26 +525,23 @@ export default {
         reader.readAsDataURL(event);
       }
     },
-    fileVideo(event) {
+    async fileVideo(event) {
       if (this.fileVideo == undefined || this.fileVideo == "") {
         document.getElementById("video").src = "";
       } else {
         var reader = new FileReader();
+        await setTimeout(() => {
+          this.sources = reader.result;
+        }, 4000);
         reader.readAsDataURL(event);
-        reader.onload = function () {
-          var dataURL = reader.result;
-          var output = document.getElementById("video");
-          output.setAttribute("src", dataURL);
-        };
       }
     },
-    value1(){
-      
-        this.value1=this.value1.replace(" ",0);
+    value1() {
+      this.value1 = this.value1.replace(" ", 0);
     },
-    value2(){
-        this.value2=this.value2.replace(" ",0);
-    }
+    value2() {
+      this.value2 = this.value2.replace(" ", 0);
+    },
   },
 };
 </script>

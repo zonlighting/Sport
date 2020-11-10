@@ -21,73 +21,73 @@
               >
 
               <v-card-text>
-                <template v-if=" Object.keys(this.recentMatch).length > 0"> 
-                <v-row class="text-center" style="color: white">
-                  <v-col
-                    ><h2 style="color: yellow">{{ this.timeDate.ngay }}</h2>
+                <template v-if="Object.keys(this.recentMatch).length > 0">
+                  <v-row class="text-center" style="color: white">
+                    <v-col
+                      ><h2 style="color: yellow">{{ this.timeDate.ngay }}</h2>
 
-                    DAYS</v-col
-                  >
-                  <v-col
-                    ><h2 style="color: yellow">{{ this.timeDate.gio }}</h2>
-                    HOURS</v-col
-                  >
-                  <v-col
-                    ><h2 style="color: yellow">{{ this.timeDate.phut }}</h2>
-                    MINUTES</v-col
-                  >
-                  <v-col
-                    ><h2 style="color: yellow">{{ this.timeDate.giay }}</h2>
-                    SECONDS</v-col
-                  >
-                </v-row>
-
-                <div class="my-4 subtitle-1">
-                  <v-row class="text-center">
-                    <v-col style="color: white"
-                      ><v-img
-                        :src="
-                          !!recentMatch
-                            ? baseUrl + recentMatch.team[0].logo
-                            : ''
-                        "
-                        style="height: 100px"
-                        width="100px"
-                        lazy-src="@/assets/err.png"
-                      />
-                      {{
-                        !!recentMatch ? recentMatch.team[0].nameTeam : ""
-                      }}</v-col
+                      DAYS</v-col
                     >
-                    <v-col style="margin-top: 20px; color: yellow"
-                      ><h3>VS</h3></v-col
+                    <v-col
+                      ><h2 style="color: yellow">{{ this.timeDate.gio }}</h2>
+                      HOURS</v-col
                     >
-                    <v-col style="color: white"
-                      ><v-img
-                        :src="
-                          !!recentMatch
-                            ? baseUrl + recentMatch.team[1].logo
-                            : ''
-                        "
-                        width="100px"
-                        lazy-src="@/assets/err.png"
-                        style="height: 100px"
-                      />{{
-                        !!recentMatch ? recentMatch.team[1].nameTeam : ""
-                      }}</v-col
+                    <v-col
+                      ><h2 style="color: yellow">{{ this.timeDate.phut }}</h2>
+                      MINUTES</v-col
+                    >
+                    <v-col
+                      ><h2 style="color: yellow">{{ this.timeDate.giay }}</h2>
+                      SECONDS</v-col
                     >
                   </v-row>
-                </div>
-                <div class="text-center" style="color: white">
-                  <h5>
-                    {{ recentMatch.location }} |
-                    {{ new Date(time).toString().substring(0, 15) }}
-                  </h5>
-                  <h3>{{ time.substring(11, 16) }}</h3>
-                </div>
+
+                  <div class="my-4 subtitle-1">
+                    <v-row class="text-center">
+                      <v-col style="color: white"
+                        ><v-img
+                          :src="
+                            !!recentMatch
+                              ? baseUrl + recentMatch.team[0].logo
+                              : ''
+                          "
+                          style="height: 100px"
+                          width="100px"
+                          lazy-src="@/assets/err.png"
+                        />
+                        {{
+                          !!recentMatch ? recentMatch.team[0].nameTeam : ""
+                        }}</v-col
+                      >
+                      <v-col style="margin-top: 20px; color: yellow"
+                        ><h3>VS</h3></v-col
+                      >
+                      <v-col style="color: white"
+                        ><v-img
+                          :src="
+                            !!recentMatch
+                              ? baseUrl + recentMatch.team[1].logo
+                              : ''
+                          "
+                          width="100px"
+                          lazy-src="@/assets/err.png"
+                          style="height: 100px"
+                        />{{
+                          !!recentMatch ? recentMatch.team[1].nameTeam : ""
+                        }}</v-col
+                      >
+                    </v-row>
+                  </div>
+                  <div class="text-center" style="color: white">
+                    <h5>
+                      {{ recentMatch.location }} |
+                      {{ new Date(time).toString().substring(0, 15) }}
+                    </h5>
+                    <h3>{{ time.substring(11, 16) }}</h3>
+                  </div>
                 </template>
                 <template v-else>
-                  <h2 style="color:white"> No Recent Match</h2>
+                  <h2 style="color: white">No Recent Match</h2>
                 </template>
               </v-card-text>
             </v-card>
@@ -124,42 +124,38 @@
         <v-row class="text-center">
           <v-col cols="12" md="2" />
           <v-col cols="12" md="8">
-            <v-carousel
-              v-model="model1"
-              height="210"
-              hide-delimiters
-              style="margin-left: 80px"
-            >
-              <v-carousel-item
-                v-for="(item, i) in lastResults.length - 10"
-                :key="i"
-              >
+            <v-carousel height="210" hide-delimiters style="margin-left: 80px">
+              <v-carousel-item v-for="(item, i) in lastResults" :key="i">
                 <v-sheet color="white" height="100%">
                   <v-container>
                     <v-row>
                       <span v-for="(item, index) in lastResults" :key="index">
-                        <template v-if="index >= i">
-                          <v-col @click="detailResults(item)" style="    cursor: pointer">
+                        <template v-if="index + 3 > i">
+                          <v-col
+                            @click="detailResults(item)"
+                            style="cursor: pointer"
+                          >
                             <div
                               style="
                                 margin-left: 60px;
                                 background-image: url(https://rstheme.com/products/html/khelo/images/background/result-bg.jpg);
                               "
+                              
                             >
                               <div>
-                                <h3>{{ item.location }}</h3>
+                                <h4 style="color:white">{{ item.location.length>30?item.location.substring(0,23)+'...':item.location }}</h4>
                               </div>
                               <v-row>
                                 <v-col>
                                   <v-img
                                     :src="baseUrl + item.team[0].logo"
                                     style="
-                                      margin-left: 20px;
+                                      margin-right: 20px;
                                       height: 100px;
                                       width: 70px;
                                     "
                                     lazy-src="@/assets/err.png"
-                                    max-width="70px"
+                                    min-width="30px"
                                   />
                                   {{ item.team[0].nameTeam }}
                                 </v-col>
@@ -171,9 +167,13 @@
                                 <v-col
                                   ><v-img
                                     :src="baseUrl + item.team[1].logo"
-                                    style="margin-right: 20px"
+                                    style="
+                                      margin-right: 20px;
+                                      height: 100px;
+                                      width: 70px;
+                                    "
                                     lazy-src="@/assets/err.png"
-                                    max-width="70px"
+                                    min-width="30px"
                                   />
                                   {{ item.team[1].nameTeam }}</v-col
                                 >
@@ -389,13 +389,13 @@
         <v-row class="text-center">
           <v-col cols="12" md="2" />
           <v-col cols="12" md="9">
-            <v-carousel v-model="model3" height="350" hide-delimiters>
-              <v-carousel-item v-for="(items, i) in team.length - 2" :key="i">
+            <v-carousel  height="350" hide-delimiters>
+              <v-carousel-item v-for="(items, i) in team.length" :key="i">
                 <v-sheet color="white" height="100%">
                   <v-container>
                     <v-row>
                       <span v-for="(item, index) in team" :key="index">
-                        <v-col v-if="index > i">
+                        <v-col v-if="index>i">
                           <div
                             @click="detailTeam(item.idTeam)"
                             style="
@@ -473,7 +473,6 @@ export default {
     team: [],
   }),
   methods: {
-  
     getTeam() {
       this.$store.dispatch("team/getTeams").then((response) => {
         this.team = response.data.payload;
@@ -485,9 +484,9 @@ export default {
         .then((response) => {
           if (response.data.code == 0) {
             this.recentMatch = response.data.payload;
-            if ( Object.keys(this.recentMatch).length > 0) {
+            if (Object.keys(this.recentMatch).length > 0) {
               this.time = response.data.payload.timeStart;
-                    this.$store.commit("auth/auth_overlay");
+              this.$store.commit("auth/auth_overlay");
 
               this.setintervalTime(this.time);
             }
@@ -556,13 +555,12 @@ export default {
           alert(error);
         });
     },
-    detailTournament(item){
-        this.$router.push({ path: '/tournamentDetail/'+item })
+    detailTournament(item) {
+      this.$router.push({ path: "/tournamentDetail/" + item });
     },
-    detailResults(item){
-      console.log(item.idSchedule)
-        this.$router.push({ path: '/summary/'+item.idSchedule })
-
+    detailResults(item) {
+      console.log(item.idSchedule);
+      this.$router.push({ path: "/summary/" + item.idSchedule });
     },
     getMatchFixtures() {
       this.$store
@@ -578,6 +576,7 @@ export default {
           alert(error);
         });
     },
+    
     setintervalTime(time) {
       console.log(time);
       var a = Date.parse(time);

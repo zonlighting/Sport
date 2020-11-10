@@ -9,8 +9,7 @@
         <v-container>
           <p>Defaut Account:</p>
           <p>1. admin - admin (Role_admin)</p>
-          <p>2. (Role Member)</p>
-          <p>3. (Role User)</p>
+          <p>2. nguyencongtoan14051997@gmail.com-123456</p>
           <h6
             style="color: red"
             align="center"
@@ -162,8 +161,10 @@ export default {
               userInfo.role === "ROLE_USER" ||
               userInfo.role === "ROLE_MEMBER"
             ) {
-              self.closeLoginDialog()
+              self.closeLoginDialog();
+              self.successDialog = !self.successDialog;
               setTimeout(function () {
+                self.successDialog = !self.successDialog;
                 self.closeLoginDialog();
                 self.$store.commit("user/user_info", userInfo);
                 self.$store.commit("user/user_profile");

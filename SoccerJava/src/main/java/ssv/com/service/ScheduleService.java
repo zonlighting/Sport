@@ -131,7 +131,7 @@ public class ScheduleService {
 
 		}
 	}
-
+ 
 	public List<Schedule> getAll() {
 		return scheduleRepository.getAll();
 	}
@@ -221,6 +221,15 @@ public class ScheduleService {
 	public List<Schedule> teamResults(int idTeam, int idTournament) {
 		// TODO Auto-generated method stub
 		return scheduleRepository.teamResults(idTeam,idTournament);
+	}
+
+	public List<Schedule> teamLastResults(int idTeam) {
+		// TODO Auto-generated method stub
+		return scheduleRepository.teamLastResults(idTeam);
+	}
+
+	public List<Schedule> scheduleTeam(int idTeam) {
+		return scheduleRepository.scheduleTeam(idTeam);
 	}
 
 }

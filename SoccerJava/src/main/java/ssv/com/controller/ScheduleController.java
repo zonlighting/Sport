@@ -107,11 +107,17 @@ public class ScheduleController {
 	//kết quả của team trong giải 
 	@GetMapping(value="teamResults")
 	public ResponseQuery<?> teamResults(@RequestParam int idTeam,@RequestParam int idTournament){
-		if(scheduleService.teamResults(idTeam,idTournament)==null) {
-			return ResponseQuery.faild("Null", null);
-		}
 		return ResponseQuery.success("Connect", scheduleService.teamResults(idTeam,idTournament));
 	}
-	
+	//Các kết quả gần nhất của team đó
+	@GetMapping(value="teamLastResults")
+	public ResponseQuery<?> teamLastResults(@RequestParam int idTeam){
+		return ResponseQuery.success("Connect", scheduleService.teamLastResults(idTeam));
+	}
+	//Lịch thi đấu của team 
+	@GetMapping(value="scheduleTeam")
+	public ResponseQuery<?> scheduleTeam(@RequestParam int idTeam){
+		return ResponseQuery.success("connect", scheduleService.scheduleTeam(idTeam));
+	}
 
 }

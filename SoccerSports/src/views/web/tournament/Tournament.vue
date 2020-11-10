@@ -65,7 +65,7 @@
                         path:
                           '/tournamentDetail/' +
                           item.idTournament +
-                          '/schedule',
+                          '/fixtures',
                       }"
                       >Fixtures||</router-link
                     >

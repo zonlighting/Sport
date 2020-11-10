@@ -1,4 +1,4 @@
-import { create, deleteSchedule, edit, getAll, getById, getByStatus, getByTour, goalUpdate, lastResults, lastVideo, recentMatch, teamResults, update } from "../api/ScheduleApi";
+import { create, deleteSchedule, edit, getAll, getById, getByStatus, getByTour, goalUpdate, lastResults, lastVideo, recentMatch, scheduleCheck, scheduleTeam, teamLastResults, teamResults, update } from "../api/ScheduleApi";
 
 const actions = {
     getAll() {
@@ -118,7 +118,35 @@ const actions = {
                 reject(err);
             })
         })
-    }
+    },
+    
+    scheduleCheck(){
+        return new Promise((resolve, reject) => {
+            scheduleCheck().then(res => {
+                resolve(res);
+            }).catch((err) => {
+                reject(err);
+            })
+        })
+    },
+    teamLastResults(__,idTeam){
+        return new Promise((resolve, reject) => {
+            teamLastResults(idTeam).then(res => {
+                resolve(res);
+            }).catch((err) => {
+                reject(err);
+            })
+        })
+    },
+    scheduleTeam(__,idTeam){
+        return new Promise((resolve, reject) => {
+            scheduleTeam(idTeam).then(res => {
+                resolve(res);
+            }).catch((err) => {
+                reject(err);
+            })
+        })
+    },
     
     
 }
