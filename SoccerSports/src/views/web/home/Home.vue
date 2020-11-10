@@ -1,8 +1,11 @@
 <template>
   <div>
-    <img src="https://i.pinimg.com/564x/38/d2/c3/38d2c37984a06bd6cdc0fa46bf01ea64.jpg" style="    width: -webkit-fill-available" class=ls-bg alt="Slide background"
+    <img
+      src="https://i.pinimg.com/564x/38/d2/c3/38d2c37984a06bd6cdc0fa46bf01ea64.jpg"
+      style="width: -webkit-fill-available"
+      class="ls-bg"
+      alt="Slide background"
     />
-    
 
     <section class="booking bg-smallwhite">
       <div class="container">
@@ -156,15 +159,21 @@
                                   <v-img
                                     :src="baseUrl + item.team[0].logo"
                                     style="
-                                      margin-right: 20px;
+                                      margin-left: 20px;
                                       height: 100px;
                                       width: 70px;
                                     "
                                     lazy-src="@/assets/err.png"
                                     min-width="30px"
                                   />
-                                  {{ item.team[0].nameTeam }}
-                                </v-col>
+                                  {{
+                                    item.team[0].nameTeam.length > 10
+                                      ? item.team[0].nameTeam
+                                          .toString()
+                                          .substring(0, 8)
+                                      : item.team[0].nameTeam
+                                  }}</v-col
+                                >
                                 <v-col style="margin-top: 20px"
                                   ><h2>
                                     {{ item.score1 }}-{{ item.score2 }}
@@ -181,7 +190,13 @@
                                     lazy-src="@/assets/err.png"
                                     min-width="30px"
                                   />
-                                  {{ item.team[1].nameTeam }}</v-col
+                                  {{
+                                    item.team[1].nameTeam.length > 10
+                                      ? item.team[1].nameTeam
+                                          .toString()
+                                          .substring(0, 8)
+                                      : item.team[1].nameTeam
+                                  }}</v-col
                                 >
                               </v-row>
                             </div>
@@ -344,8 +359,10 @@
                 <v-carousel-item v-for="(item, i) in matchFixtures" :key="i">
                   <v-sheet color="white" height="100%">
                     <v-container>
-                      <div @click="detailResults(item)"
-                        style=" cursor: pointer;
+                      <div
+                        @click="detailResults(item)"
+                        style="
+                          cursor: pointer;
                           background-image: url(https://rstheme.com/products/html/khelo/images/background/result-bg.jpg);
                         "
                       >
@@ -405,7 +422,8 @@
                           <div
                             @click="detailTeam(item)"
                             style="
-                              margin-left: 12px;cursor: pointer;
+                              margin-left: 12px;
+                              cursor: pointer;
                               background-image: url(https://rstheme.com/products/html/khelo/images/background/result-bg.jpg);
                             "
                           >
@@ -581,7 +599,7 @@ export default {
         });
     },
     detailTeam() {
-      this.$router.push()
+      this.$router.push();
     },
 
     setintervalTime(time) {
