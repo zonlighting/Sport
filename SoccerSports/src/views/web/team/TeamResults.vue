@@ -70,7 +70,7 @@
         </v-col>
         <v-col cols="12" sm="4">
           <v-row style="height: 107px"></v-row>
-          <v-row><RankByTour :tourId="parseInt($route.query.tourId)" /></v-row
+          <v-row><RankByTour :tourId="parseInt(idTour)" /></v-row
         ></v-col>
       </v-row>
     </v-card>
@@ -85,30 +85,34 @@ export default {
   components: {
     RankByTour,
   },
-  data: () => ({
-    team: {},
-    schedules: {},
-    headers: [
-      {
-        text: "DATE",
-        align: "start",
-        sortable: false,
-        value: "dayStart",
-      },
-      { text: "", value: "nameTeam1", sortable: false },
-      { text: "", value: "logoTeam1", sortable: false },
-      { text: "MATCH", value: "vs", sortable: false },
-      { text: "", value: "logoTeam2", sortable: false },
-      { text: "", value: "nameTeam2", sortable: false },
-      { text: "TIME", value: "timeStart", sortable: false },
-      { text: "COMPETITION", value: "nameTour", sortable: false },
-      { text: "STATUS", value: "status", sortable: false },
-    ],
-  }),
+  data() {
+    return {
+      team: {},
+      schedules: {},
+      headers: [
+        {
+          text: "DATE",
+          align: "start",
+          sortable: false,
+          value: "dayStart",
+        },
+        { text: "", value: "nameTeam1", sortable: false },
+        { text: "", value: "logoTeam1", sortable: false },
+        { text: "MATCH", value: "vs", sortable: false },
+        { text: "", value: "logoTeam2", sortable: false },
+        { text: "", value: "nameTeam2", sortable: false },
+        { text: "TIME", value: "timeStart", sortable: false },
+        { text: "COMPETITION", value: "nameTour", sortable: false },
+        { text: "STATUS", value: "status", sortable: false },
+      ],
+      idTour: this.$store.state.team.tourId,
+    };
+  },
 
   mounted() {
     // console.log(this.$route)
-    this.team = this.$store.state.team.teamDetail;
+    let teamStore = this.$store.state.team;
+    this.team = teamStore.teamDetail;
     if (this.team.idTeam == undefined) {
       this.$router.push({ path: `/teams` });
     } else {
