@@ -1,7 +1,8 @@
 <template>
   <div>
-    <img src=images/background/latestnews.jpg class=ls-bg alt="Slide background"
+    <img src="https://i.pinimg.com/564x/38/d2/c3/38d2c37984a06bd6cdc0fa46bf01ea64.jpg" style="    width: -webkit-fill-available" class=ls-bg alt="Slide background"
     />
+    
 
     <section class="booking bg-smallwhite">
       <div class="container">
@@ -140,10 +141,15 @@
                                 margin-left: 60px;
                                 background-image: url(https://rstheme.com/products/html/khelo/images/background/result-bg.jpg);
                               "
-                              
                             >
                               <div>
-                                <h4 style="color:white">{{ item.location.length>30?item.location.substring(0,23)+'...':item.location }}</h4>
+                                <h4 style="color: white">
+                                  {{
+                                    item.location.length > 30
+                                      ? item.location.substring(0, 23) + "..."
+                                      : item.location
+                                  }}
+                                </h4>
                               </div>
                               <v-row>
                                 <v-col>
@@ -253,7 +259,7 @@
                         : "No data"
                     }}
                   </h2>
-                  <p style="color: blue">
+                  <p style="color: white">
                     {{
                       tournamentResults.length > 0
                         ? tournamentResults[tournamentResults.length - 1]
@@ -338,8 +344,8 @@
                 <v-carousel-item v-for="(item, i) in matchFixtures" :key="i">
                   <v-sheet color="white" height="100%">
                     <v-container>
-                      <div
-                        style="
+                      <div @click="detailResults(item)"
+                        style=" cursor: pointer;
                           background-image: url(https://rstheme.com/products/html/khelo/images/background/result-bg.jpg);
                         "
                       >
@@ -389,17 +395,17 @@
         <v-row class="text-center">
           <v-col cols="12" md="2" />
           <v-col cols="12" md="9">
-            <v-carousel  height="350" hide-delimiters>
+            <v-carousel height="350" hide-delimiters>
               <v-carousel-item v-for="(items, i) in team.length" :key="i">
                 <v-sheet color="white" height="100%">
                   <v-container>
                     <v-row>
                       <span v-for="(item, index) in team" :key="index">
-                        <v-col v-if="index>i">
+                        <v-col v-if="index > i">
                           <div
-                            @click="detailTeam(item.idTeam)"
+                            @click="detailTeam(item)"
                             style="
-                              margin-left: 12px;
+                              margin-left: 12px;cursor: pointer;
                               background-image: url(https://rstheme.com/products/html/khelo/images/background/result-bg.jpg);
                             "
                           >
@@ -576,7 +582,10 @@ export default {
           alert(error);
         });
     },
-    
+    detailTeam() {
+      this.$router.push()
+    },
+
     setintervalTime(time) {
       console.log(time);
       var a = Date.parse(time);
@@ -610,7 +619,7 @@ export default {
 }
 tbody {
   tr:hover {
-    background-color: transparent !important;
+    background-color: red !important;
     cursor: pointer;
   }
 }
