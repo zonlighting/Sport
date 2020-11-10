@@ -19,12 +19,12 @@ public class HistoryRepository {
 
 	public void delete(int idTournament) {
 		historyMapper.delete(idTournament);
-		
+
 	}
 
 	public void deleteTeam(int idTeam, int idTournament) {
 		historyMapper.deleteTeam(idTeam,idTournament);
-		
+
 	}
 
 	public List<History> historyMember(int idTour, int idTeam) {
@@ -32,4 +32,7 @@ public class HistoryRepository {
 		return historyMapper.historyMember(idTour,idTeam);
 	}
 
-}	
+	public List<History> getToursByTeam(int idTeam) {
+		return historyMapper.getToursByTeam(idTeam);
+	}
+}

@@ -48,7 +48,6 @@
                           <span></span>
                         </a>
                       </li>
-                     
                     </ul>
                   </div>
                 </div>
@@ -82,7 +81,9 @@
                       <v-list>
                         <v-list-item>
                           <v-list-item-title>
+
                             <div  @click="roleFunction(profile.role)" class="fixButton row-pointer">Profile</div>
+
                           </v-list-item-title>
                         </v-list-item>
                         <v-list-item>
@@ -265,7 +266,7 @@ export default {
     },
 
     roleFunction(role) {
-      // console.log(role);
+      console.log(role);
       if (role === "ROLE_MEMBER") {
       this.$router.push('/profile/'+this.$store.state.user.userInfo.profile.id)
       } else {

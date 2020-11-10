@@ -1,12 +1,13 @@
 
 
-import { getDetail, getTeams, createTeam, updateMembersInTeam, getTeamById, updateTeam } from '@/api/TeamApi'
+import { toursByTeam, squad, getDetail, getTeams, createTeam, updateMembersInTeam, getTeamById, updateTeam, teamMatchs } from '@/api/TeamApi'
 import { getHistory, getTeamNoTournament } from '../api/TeamApi'
 
 
 const state = {
     currentTab: "",
-    teamDetail:"",
+    teamDetail: "",
+    tourId: 0
 }
 
 const mutations = {
@@ -16,6 +17,9 @@ const mutations = {
     team_detail(state, team) {
         state.teamDetail = team
     },
+    tour_id(state, id) {
+        state.tourId = id
+    }
 }
 
 const actions = {
@@ -87,7 +91,8 @@ const actions = {
             })
         })
     },
-    getHistory(__,data){
+
+    getHistory(__, data) {
         return new Promise((resolve, reject) => {
             getHistory(data).then((res) => {
                 resolve(res);
@@ -95,7 +100,37 @@ const actions = {
                 reject(err);
             })
         })
-    }
+    },
+
+    teamMatchs(__, idTeam) {
+        return new Promise((resolve, reject) => {
+            teamMatchs(idTeam).then((res) => {
+                resolve(res);
+            }).catch((err) => {
+                reject(err);
+            })
+        })
+    },
+
+    squad(__, data) {
+        return new Promise((resolve, reject) => {
+            squad(data).then((res) => {
+                resolve(res);
+            }).catch((err) => {
+                reject(err);
+            })
+        })
+    },
+
+    toursByTeam(__, idTeam) {
+        return new Promise((resolve, reject) => {
+            toursByTeam(idTeam).then((res) => {
+                resolve(res);
+            }).catch((err) => {
+                reject(err);
+            })
+        })
+    },
 }
 
 export default {

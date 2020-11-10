@@ -34,14 +34,24 @@
 		#{idTeam}, #{idTournament});
 	</insert>
 	<delete id="delete">
-		DELETE FROM `sports`.`history_tbl` WHERE (`id_tour` = ${idTournament});
+		DELETE FROM `sports`.`history_tbl` WHERE (`id_tour` =
+		${idTournament});
 	</delete>
 	<delete id="deleteTeam">
-			DELETE FROM `sports`.`history_tbl` WHERE (`id_tour` = ${idTournament} and id_team=${idTeam});
+		DELETE FROM `sports`.`history_tbl` WHERE (`id_tour` = ${idTournament} and
+		id_team=${idTeam});
 	</delete>
-	
+
 	<select id="historyMember" resultMap="historyMapping">
-		SELECT * FROM sports.history_tbl inner join profile_tbl on history_tbl.id_member=profile_tbl.profile_id where history_tbl.id_tour=${idTour} and history_tbl.id_team=${idTeam};
+		SELECT * FROM
+		sports.history_tbl inner join profile_tbl on
+		history_tbl.id_member=profile_tbl.profile_id where
+		history_tbl.id_tour=${idTour} and history_tbl.id_team=${idTeam};
+	</select>
+
+	<select id="getToursByTeam" resultMap="historyMapping">
+		select * from `sports`.`history_tbl`
+		where id_team=${idTeam};
 	</select>
 
 </mapper>

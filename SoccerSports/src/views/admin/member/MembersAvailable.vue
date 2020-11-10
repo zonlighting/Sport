@@ -111,7 +111,6 @@ export default {
       return ENV.BASE_IMAGE;
     },
   },
-  watch: {},
 
   methods: {
     countryFilter(value) {

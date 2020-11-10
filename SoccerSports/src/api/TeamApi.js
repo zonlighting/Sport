@@ -26,6 +26,22 @@ export function getTeamById(teamId){
 export function updateTeam(id, bodyFormData){
     return Api.post(`/team/updateInfo/${id}`, bodyFormData)
 }
+
 export function getHistory(data){
     return Api.get(`/team/getHistory?idTour=${data.idTour}&idTeam=${data.idTeam}&idSchedule=${data.idSchedule}`)
 }
+
+export function teamMatchs(idTeam){
+    return Api.get('/team/teamMatchs/' + idTeam)
+}
+
+export function squad(data){
+    return Api.get(`/team/squad?idTeam=${data.idTeam}&idTour=${data.idTour}`)
+}
+
+export function toursByTeam(idTeam){
+    return Api.get(`http://localhost:8090/api/v1/team/toursByTeam/${idTeam}`)
+}
+
+
+

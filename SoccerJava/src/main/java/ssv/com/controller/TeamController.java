@@ -68,10 +68,10 @@ public class TeamController {
 		return ResponseQuery.success("Update Success", team);
 	}
 
-	//thông tin các giải đấu về team
-	@GetMapping(value="detail")
-	public ResponseQuery<?> getTeamdetail(@RequestParam int idTeam,@RequestParam int idTournament){
-		return ResponseQuery.success("Detail Team", teamService.getTeamdetail(idTeam,idTournament));
+	// thông tin các giải đấu về team
+	@GetMapping(value = "detail")
+	public ResponseQuery<?> getTeamdetail(@RequestParam int idTeam, @RequestParam int idTournament) {
+		return ResponseQuery.success("Detail Team", teamService.getTeamdetail(idTeam, idTournament));
 
 	}
 
@@ -89,11 +89,36 @@ public class TeamController {
 	public ResponseQuery<?> getTeamNoTournament() {
 		return teamService.getTeamNoTournament();
 	}
-	//Team theo tour và member của lịch sử đấu
-	@GetMapping(value="getHistory")
-	public ResponseQuery<?> getHistory(@RequestParam int idTour,@RequestParam int idTeam,@RequestParam int idSchedule){
-		return teamService.getHistory(idTour,idTeam,idSchedule);
+
+	// Team theo tour và member của lịch sử đấu
+	@GetMapping(value = "getHistory")
+	public ResponseQuery<?> getHistory(@RequestParam int idTour, @RequestParam int idTeam,
+			@RequestParam int idSchedule) {
+		return teamService.getHistory(idTour, idTeam, idSchedule);
 
 	}
 
+	@GetMapping(value = "teamMatchs/{idTeam}")
+	public ResponseQuery<?> teamMatchs(@PathVariable int idTeam) {
+		if (teamService.teamSchedules(idTeam) != null) {
+			return ResponseQuery.success("Get Success", teamService.teamSchedules(idTeam));
+		}
+		return ResponseQuery.faild("Team don't have any schedule", null);
+	}
+
+	@GetMapping(value = "squad")
+	public ResponseQuery<?> squad(@RequestParam int idTeam, @RequestParam int idTour) {
+		if (teamService.squad(idTeam, idTour) != null || !teamService.squad(idTeam, idTour).isEmpty()) {
+			return ResponseQuery.success("Get Success", teamService.squad(idTeam, idTour));
+		}
+		return ResponseQuery.faild("No data", null);
+	}
+
+	@GetMapping(value = "toursByTeam/{idTeam}")
+	public ResponseQuery<?> toursByTeam(@PathVariable int idTeam) {
+		if (teamService.getTourByTeam(idTeam) != null || !teamService.getTourByTeam(idTeam).isEmpty()) {
+			return ResponseQuery.success("Get Success", teamService.getTourByTeam(idTeam));
+		}
+		return ResponseQuery.faild("No data", null);
+	}
 }
