@@ -19,9 +19,7 @@
                 <h5 style="color: blue" v-else-if="tournament.status == 1">
                   (On happening)
                 </h5>
-                <h5 style="color: red" v-else>
-                  (Ended)
-                </h5>
+                <h5 style="color: red" v-else>(Ended)</h5>
               </h3>
               <v-spacer></v-spacer>
               <v-col cols="12" sm="3">
@@ -154,14 +152,16 @@ export default {
       this.$store
         .dispatch("tournament/getById", id)
         .then((response) => {
-          this.$store.commit("auth/auth_overlay");
+          self.$store.commit("auth/auth_overlay");
           if (response.data.code == 0) {
             self.tournament = response.data.payload;
           } else {
+            console.log("Run here 1");
             alert(response.data.message);
           }
         })
         .catch(function (error) {
+          console.log("Run here 1");
           alert(error);
         });
     },
@@ -172,7 +172,7 @@ export default {
       this.$store
         .dispatch("tournament/getAll")
         .then((response) => {
-          this.$store.commit("auth/auth_overlay");
+          self.$store.commit("auth/auth_overlay");
           if (response.data.code == 0 && response.data.payload.length > 0) {
             self.tournaments = response.data.payload;
             self.getTourById(self.tournaments[0].idTournament);
@@ -181,31 +181,34 @@ export default {
           }
         })
         .catch(function (error) {
+          console.log("Run here 3");
           alert(error);
         });
     },
 
     linkTeamDetail(team, routerLink) {
+      console.log(team);
       this.$store.commit("team/team_detail", team);
+      this.$store.commit("team/tour_id", team.idTour);
       if (routerLink == 1) {
         this.$router.push({
           path: `/fixtures/${team.idTeam}`,
-          query: { tourId: team.idTour },
+          query: { tourName: this.tournament.nameTournament },
         });
       } else if (routerLink == 2) {
         this.$router.push({
           path: `/results/${team.idTeam}`,
-          query: { tourId: team.idTour },
+          query: { tourName: this.tournament.nameTournament },
         });
       } else if (routerLink == 3) {
         this.$router.push({
           path: `/squad/${team.idTeam}`,
-          query: { tourId: team.idTour },
+          query: { tourName: this.tournament.nameTournament },
         });
       } else {
         this.$router.push({
           path: `/stats/${team.idTeam}`,
-          query: { tourId: team.idTour },
+          query: { tourName: this.tournament.nameTournament },
         });
       }
     },

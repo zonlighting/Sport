@@ -2,105 +2,150 @@
   <div>
     <v-card class="mx-auto" max-width="85%">
       <v-row class="container">
-        <v-col cols="0" sm="1"></v-col>
-        <v-col cols="12" sm="7">
+        <v-col cols="12" sm="8">
           <v-card-text>
-            <v-row>
+            <v-row class="mb-5">
               <v-col cols="12" sm="6">
-                <h1 class="title-h1">Albania Results</h1>
+                <h1 class="title-h1">{{ team.nameTeam }} Fixtures</h1>
               </v-col>
             </v-row>
-            <v-row style="max-height:50px">
-              <v-col>
-                <h2 class="pl-5">Tournament name</h2>
-              </v-col>
-              <v-col cols="12" sm="3">
-                <v-select
-                  class="p-0"
-                  v-model="select"
-                  :items="tournaments"
-                  item-text="nameTournament"
-                  item-value="idTournament"
-                  label="All Competitions"
-                  dense
-                  solo
-                ></v-select>
-              </v-col>
-            </v-row>
-            <h5 class="table__Title">November, 2020</h5>
+            <h4 class="pl-5">{{ $route.query.tourName }}</h4>
             <v-divider style="margin: 0 !important"></v-divider>
-            <v-row v-if="isHavedata">
-              <v-col>
-                <v-data-table
-                  :headers="headers"
-                  :items="desserts"
-                  class="elevation-1"
-                  :items-per-page="15"
-                >
-                  <template v-slot:item.calories="{ item }">
-                    <v-chip :color="getColor(item.calories)" dark>
-                      {{ item.calories }}
-                    </v-chip>
-                  </template>
-                </v-data-table>
-              </v-col>
-            </v-row>
-            <h2 v-else>No Data Available</h2>
+
+            <div v-for="(item, index) in schedules" :key="index">
+              <h5 class="table__Title">{{ item.monthStart }}</h5>
+              <v-row>
+                <v-col>
+                  <v-data-table
+                    :headers="headers"
+                    :items="item.teamSchedules.filter((s) => s.status == 2)"
+                    class="elevation-1"
+                    hide-default-footer
+                    :items-per-page="15"
+                  >
+                    <template v-slot:[`item.nameTeam1`]="{ item }">
+                      <p class="pt-3" style="color: red">
+                        {{ item.nameTeam1 }}
+                      </p>
+                    </template>
+                    <template v-slot:[`item.logoTeam1`]="{ item }">
+                      <img
+                        :src="baseUrl + item.logoTeam1"
+                        width="50px"
+                        height="50px"
+                        style="margin: 3px 0 3px 0"
+                      />
+                    </template>
+                    <template v-slot:[`item.vs`]="{}">
+                      <p class="pt-3" style="color: blue">VS</p>
+                    </template>
+                    <template v-slot:[`item.logoTeam2`]="{ item }">
+                      <img
+                        :src="baseUrl + item.logoTeam2"
+                        width="50px"
+                        height="50px"
+                        style="margin: 3px 0 3px 0"
+                      />
+                    </template>
+                    <template v-slot:[`item.nameTeam2`]="{ item }">
+                      <p class="pt-3" style="color: red">
+                        {{ item.nameTeam2 }}
+                      </p>
+                    </template>
+                    <template v-slot:[`item.status`]="{ item }">
+                      <p
+                        class="pt-3"
+                        style="color: green"
+                        v-if="item.status == 0"
+                      >
+                        Upcomming
+                      </p>
+                      <p class="pt-3" style="color: blue" v-else>On Game</p>
+                    </template>
+                  </v-data-table>
+                </v-col>
+              </v-row>
+            </div>
           </v-card-text>
-
-          <!-- <v-divider></v-divider> -->
-
-          <!-- <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="success" depressed> Post </v-btn>
-          </v-card-actions> -->
         </v-col>
         <v-col cols="12" sm="4">
-          <!-- <v-row style="height: 102px"></v-row> -->
-          <v-row>
-            <v-data-table
-              :headers="headers"
-              :items="desserts"
-              class="elevation-1"
-              :items-per-page="15"
-            >
-              <template v-slot:item.calories="{ item }">
-                <v-chip :color="getColor(item.calories)" dark>
-                  {{ item.calories }}
-                </v-chip>
-              </template>
-            </v-data-table>
-          </v-row>
-        </v-col>
+          <v-row style="height: 107px"></v-row>
+          <v-row><RankByTour :tourId="parseInt(idTour)" /></v-row
+        ></v-col>
       </v-row>
     </v-card>
   </div>
 </template>
+
 <script>
+import RankByTour from "@/views/web/team/RankByTour";
+import { ENV } from "@/config/env.js";
+
 export default {
-  data: () => ({
-    select: "",
-    isHavedata: true,
-    headers: [
-      {
-        text: "DATE",
-        align: "start",
-        sortable: false,
-        value: "name",
-      },
-      { text: "", value: "calories", sortable: false },
-      { text: "", value: "protein", sortable: false },
-      { text: "MATCH", value: "fat", sortable: false },
-      { text: "", value: "carbs", sortable: false },
-      { text: "", value: "carbs", sortable: false },
-      { text: "TIME", value: "", sortable: false },
-      { text: "COMPETITION", value: "", sortable: false },
-      { text: "Status", value: "", sortable: false },
-    ],
-    desserts: [],
-    tournaments: [],
-    tournament: {},
-  }),
+  components: {
+    RankByTour,
+  },
+  data() {
+    return {
+      team: {},
+      schedules: {},
+      headers: [
+        {
+          text: "DATE",
+          align: "start",
+          sortable: false,
+          value: "dayStart",
+        },
+        { text: "", value: "nameTeam1", sortable: false },
+        { text: "", value: "logoTeam1", sortable: false },
+        { text: "MATCH", value: "vs", sortable: false },
+        { text: "", value: "logoTeam2", sortable: false },
+        { text: "", value: "nameTeam2", sortable: false },
+        { text: "TIME", value: "timeStart", sortable: false },
+        { text: "COMPETITION", value: "nameTour", sortable: false },
+        { text: "STATUS", value: "status", sortable: false },
+      ],
+      idTour: this.$store.state.team.tourId,
+    };
+  },
+
+  mounted() {
+    // console.log(this.$route)
+    let teamStore = this.$store.state.team;
+    this.team = teamStore.teamDetail;
+    if (this.team.idTeam == undefined) {
+      this.$router.push({ path: `/teams` });
+    } else {
+      this.getMatchsByTeamId(this.team.idTeam);
+    }
+  },
+
+  computed: {
+    baseUrl() {
+      return ENV.BASE_IMAGE;
+    },
+  },
+
+  methods: {
+    getMatchsByTeamId(id) {
+      let self = this;
+      this.$store.commit("auth/auth_overlay");
+      this.$store
+        .dispatch("team/teamMatchs", id)
+        .then((response) => {
+          let schedules = response.data.payload;
+          this.$store.commit("auth/auth_overlay");
+          if (response.data.code == 0) {
+            self.schedules = schedules;
+          } else {
+            alert(response.data.message);
+          }
+        })
+        .catch(function (error) {
+          alert(error);
+        });
+    },
+  },
 };
 </script>
 <style >

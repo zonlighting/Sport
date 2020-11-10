@@ -11,10 +11,10 @@
           ></v-img>
           <v-toolbar-title class="pl-5">
             <h1 style="font-weight: 500; line-height: 34px; color: #2b2c2d">
-              {{team.nameTeam}}
+              {{ team.nameTeam }}
             </h1>
             <h5 class="pt-3" style="font-size: 18px; font-weight: 400">
-              {{team.country}}
+              {{ team.country }}
             </h5>
           </v-toolbar-title>
         </v-row>
@@ -66,7 +66,8 @@ export default {
         this.$router.push({
           path: `/fixtures/1`,
         });
-      } else if (check == 2) {
+      }
+      if (check == 2) {
         this.$router.push({
           path: `/results/1`,
         });

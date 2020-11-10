@@ -2,39 +2,76 @@
   <div>
     <v-card class="mx-auto" max-width="85%">
       <v-row class="container">
-        <v-col cols="0" sm="1"></v-col>
-        <v-col cols="12" sm="7">
+        <v-col cols="12" sm="8">
           <v-card-text>
             <v-row class="mb-5">
               <v-col cols="12" sm="6">
                 <h1 class="title-h1">{{ team.nameTeam }} Fixtures</h1>
               </v-col>
             </v-row>
-
-            <h2 class="pl-5">Tournament name</h2>
-
+            <h4 class="pl-5">{{ $route.query.tourName }}</h4>
             <v-divider style="margin: 0 !important"></v-divider>
-            <h5 class="table__Title">{{ month.name }} , {{ year }}</h5>
-            <v-row v-if="isHavedata">
-              <v-col>
-                <v-data-table
-                  :headers="headers"
-                  :items="desserts"
-                  class="elevation-1"
-                  :items-per-page="15"
-                >
-                  <template v-slot:[`item.date`]="{ item }">
-                   {{getMonth(item.timeStart)}} , {{ new Date(item.timeStart).getDate() }}
-                  </template>
-                </v-data-table>
-              </v-col>
-            </v-row>
-            <h2 v-else>No Data Available</h2>
+
+            <div v-for="(item, index) in schedules" :key="index">
+              <h5 class="table__Title">{{ item.monthStart }}</h5>
+              <v-row>
+                <v-col>
+                  <v-data-table
+                    :headers="headers"
+                    :items="item.teamSchedules.filter((s) => s.status != 2)"
+                    class="elevation-1"
+                    hide-default-footer
+                    :items-per-page="15"
+                  >
+                    <template v-slot:[`item.nameTeam1`]="{ item }">
+                      <p class="pt-3" style="color: red">
+                        {{ item.nameTeam1 }}
+                      </p>
+                    </template>
+                    <template v-slot:[`item.logoTeam1`]="{ item }">
+                      <img
+                        :src="baseUrl + item.logoTeam1"
+                        width="50px"
+                        height="50px"
+                        style="margin: 3px 0 3px 0"
+                      />
+                    </template>
+                    <template v-slot:[`item.vs`]="{}">
+                      <p class="pt-3" style="color: blue">VS</p>
+                    </template>
+                    <template v-slot:[`item.logoTeam2`]="{ item }">
+                      <img
+                        :src="baseUrl + item.logoTeam2"
+                        width="50px"
+                        height="50px"
+                        style="margin: 3px 0 3px 0"
+                      />
+                    </template>
+                    <template v-slot:[`item.nameTeam2`]="{ item }">
+                      <p class="pt-3" style="color: red">
+                        {{ item.nameTeam2 }}
+                      </p>
+                    </template>
+                    <template v-slot:[`item.status`]="{ item }">
+                      <p
+                        class="pt-3"
+                        style="color: green"
+                        v-if="item.status == 0"
+                      >
+                        Upcomming
+                      </p>
+                      <p class="pt-3" style="color: blue" v-else>On Game</p>
+                    </template>
+                  </v-data-table>
+                </v-col>
+              </v-row>
+              <!-- <h4 v-else>No Match Available</h4> -->
+            </div>
           </v-card-text>
         </v-col>
         <v-col cols="12" sm="4">
           <v-row style="height: 107px"></v-row>
-          <v-row><RankByTour :tourId="parseInt($route.query.tourId)" /></v-row
+          <v-row> <RankByTour :tourId="idTour" /></v-row
         ></v-col>
       </v-row>
     </v-card>
@@ -43,101 +80,75 @@
 
 <script>
 import RankByTour from "@/views/web/team/RankByTour";
-const d = new Date();
-const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
+import { ENV } from "@/config/env.js";
+
 export default {
   components: {
     RankByTour,
   },
-  data: () => ({
-    select: "",
-    isHavedata: true,
-    headers: [
-      {
-        text: "DATE",
-        align: "start",
-        sortable: false,
-        value: "date",
-      },
-      { text: "", value: "team1", sortable: false },
-      { text: "", value: "logo1", sortable: false },
-      { text: "MATCH", value: "vs", sortable: false },
-      { text: "", value: "team2", sortable: false },
-      { text: "", value: "logo2", sortable: false },
-      { text: "TIME", value: "time", sortable: false },
-      { text: "COMPETITION", value: "nameTour", sortable: false },
-      { text: "STATUS", value: "status", sortable: false },
-    ],
-    desserts: [],
-    month: {},
-    year: "",
-    team: {},
-  }),
+  data() {
+    return {
+      isHavedata: true,
+      team: {},
+      schedules: {},
+      headers: [
+        {
+          text: "DATE",
+          align: "start",
+          sortable: false,
+          value: "dayStart",
+        },
+        { text: "", value: "nameTeam1", sortable: false },
+        { text: "", value: "logoTeam1", sortable: false },
+        { text: "MATCH", value: "vs", sortable: false },
+        { text: "", value: "logoTeam2", sortable: false },
+        { text: "", value: "nameTeam2", sortable: false },
+        { text: "TIME", value: "timeStart", sortable: false },
+        { text: "COMPETITION", value: "nameTour", sortable: false },
+        { text: "STATUS", value: "status", sortable: false },
+      ],
+      idTour: this.$store.state.team.tourId,
+    };
+  },
 
   mounted() {
     // console.log(this.$route)
-    if (this.$route.query.tourId != undefined) {
-      this.getTourById(this.$route.query.tourId);
+    let teamStore = this.$store.state.team;
+    this.team = teamStore.teamDetail;
+    if (this.team.idTeam == undefined) {
+      this.$router.push({ path: `/teams` });
+    } else {
+      this.getMatchsByTeamId(this.team.idTeam);
     }
-    this.currentMonth(d);
-    this.year = d.getFullYear();
-    this.team = this.$store.state.team.teamDetail;
+  },
+
+  computed: {
+    baseUrl() {
+      return ENV.BASE_IMAGE;
+    },
   },
 
   methods: {
-    getTourById(id) {
+    getMatchsByTeamId(id) {
       let self = this;
       this.$store.commit("auth/auth_overlay");
       this.$store
-        .dispatch("schedule/getByTour", id)
+        .dispatch("team/teamMatchs", id)
         .then((response) => {
-          let schedule = response.data.payload;
-          this.$store.commit("auth/auth_overlay");
+          let schedules = response.data.payload;
+          self.$store.commit("auth/auth_overlay");
           if (response.data.code == 0) {
-            self.desserts = schedule.filter((schedule) => {
-              return (
-                schedule.idTeam1 == self.team.idTeam ||
-                schedule.idTeam2 == self.team.idTeam
-              );
-            });
-            // self.desserts = schedule.filter((schedule) => {
-            //   let date = new Date(schedule.timeStart);
-            //   return date.getMonth() > self.month.month;
-            // });
-
+            self.schedules = schedules;
           } else {
+            console.log("Run here 4");
             alert(response.data.message);
           }
         })
         .catch(function (error) {
+          console.log("Run here 5");
           alert(error);
         });
     },
-
-    currentMonth(passMonth) {
-      let nameMonth = months[passMonth.getMonth()];
-      this.month = {
-        month: passMonth.getMonth(),
-        name: nameMonth,
-      };
-    },
-
-    getMonth(passMonth){
-       return months[passMonth.getMonth()];
-    }
   },
 };
 </script>

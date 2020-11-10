@@ -48,7 +48,6 @@
                           <span></span>
                         </a>
                       </li>
-                     
                     </ul>
                   </div>
                 </div>
@@ -82,7 +81,12 @@
                       <v-list>
                         <v-list-item>
                           <v-list-item-title>
-                            <div class="fixButton row-pointer">Profile</div>
+                            <div
+                              @click="roleFunction(profile.role)"
+                              class="fixButton row-pointer"
+                            >
+                              Profile
+                            </div>
                           </v-list-item-title>
                         </v-list-item>
                         <v-list-item>
@@ -275,7 +279,7 @@ export default {
     },
 
     roleFunction(role) {
-      // console.log(role);
+      console.log(role);
       if (role === "ROLE_MEMBER") {
         this.controlModalMember();
       } else {
