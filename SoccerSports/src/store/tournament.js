@@ -1,5 +1,5 @@
 
-import {rankByTour, addTeam, create, deleteTeam, deleteTournament, getAll, getById, rankAll, tournamentCheck, tournamentRank, tournamentStatus, tournamentUpComming, getAllSchedule, getAllScheduleStatus } from "../api/Tournament";
+import {rankByTour, addTeam, create, deleteTeam, deleteTournament, getAll, getById, rankAll, tournamentCheck, tournamentRank, tournamentStatus, tournamentUpComming, getAllSchedule, getAllScheduleStatus, update } from "../api/Tournament";
 
 
 const actions = {
@@ -126,6 +126,15 @@ const actions = {
     getAllScheduleStatus(__,id){
         return new Promise((resolve, reject) => {
             getAllScheduleStatus(id).then(res => {
+                resolve(res);
+            }).catch((err) => {
+                reject(err);
+            })
+        })
+    },
+    update(__,form){
+        return new Promise((resolve, reject) => {
+            update(form).then(res => {
                 resolve(res);
             }).catch((err) => {
                 reject(err);
