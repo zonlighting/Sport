@@ -72,12 +72,7 @@
           <v-col cols="12" md="6" xl="6" xm="12">
             <h2 style="text-align: center">Members In Team</h2>
             <v-divider class="my-4"></v-divider>
-            <v-btn
-              color="primary"
-              dark
-              class="mb-5"
-              @click="dialogConfirm = true"
-            >
+            <v-btn color="primary" dark class="mb-5" @click="isConfirm(0)">
               Confirm List
             </v-btn>
 
@@ -98,7 +93,16 @@
                   <v-btn
                     color="green darken-1"
                     text
-                    @click="updateTeam($route.params.id)"
+                    @click="updateTeam($route.params.id, 0)"
+                    v-if="manageConfirm"
+                  >
+                    Agree
+                  </v-btn>
+                  <v-btn
+                    color="green darken-1"
+                    text
+                    @click="updateTeam($route.params.id, 1)"
+                    v-else
                   >
                     Agree
                   </v-btn>
@@ -130,6 +134,7 @@ export default {
   components: { MembersAvailable, MembersInTeam, CreateMember },
   data() {
     return {
+      manageConfirm: true,
       success: false,
       dialogConfirm: false,
       dialogCreateMember: false,
@@ -222,7 +227,7 @@ export default {
         });
     },
 
-    updateTeam(id) {
+    updateTeam(id, index) {
       let self = this;
       // console.log(this.teamDetail);
       this.$store
@@ -233,6 +238,12 @@ export default {
             self.dialogConfirm = !self.dialogConfirm;
             self.success = !self.success;
             self.loadListMember(id);
+            console.log(index)
+            if (index == 1) {
+              self.$router.push({
+                path: `/admin/member/${self.idPlayer}`,
+              });
+            }
           }, 1500);
         })
         .catch(function (error) {
@@ -268,6 +279,9 @@ export default {
     },
 
     isConfirm(id) {
+      if (id != 0) {
+        this.manageConfirm = false;
+      }
       this.idPlayer = id;
       this.dialogConfirm = !this.dialogConfirm;
     },

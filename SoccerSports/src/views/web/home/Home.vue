@@ -486,12 +486,10 @@ export default {
             this.recentMatch = response.data.payload;
             if (Object.keys(this.recentMatch).length > 0) {
               this.time = response.data.payload.timeStart;
-              this.$store.commit("auth/auth_overlay");
 
               this.setintervalTime(this.time);
             }
           } else {
-            this.$store.commit("auth/auth_overlay");
             console.log(response);
           }
         })

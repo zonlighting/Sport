@@ -50,11 +50,8 @@
           <v-col cols="12" md="2" sm="2" class="pt-15 pl-10">
             <h5 class="country-text">
               Win Rate:
-              {{
-                team.totalmatch > 0
-                  ? (team.totalwin / team.totalmatch) * 100
-                  : 0
-              }} %
+              {{ team.rate.toFixed(2) }}
+              %
             </h5>
             <h5 class="country-text">Total Win : {{ team.totalwin }}</h5>
             <h5 style="line-height: 1.7; font-size: 1.2rem; font-weight: 300">
@@ -153,64 +150,48 @@
               :key="player.id"
             >
               <v-container>
-                <v-row justify="space-around">
-                  <v-card width="400" color="blue">
-                    <v-img height="200px" src="">
-                      <v-app-bar flat color="blue">
-                        <v-row>
-                          <v-col cols="1" md="5" xm="5"></v-col>
-                          <v-col cols="10" md="4" xm="4" class="pt-12">
-                            <v-avatar color="red">
-                              <span class="white--text headline">{{
-                                player.name.match(/\b(\w)/g).join("")
-                              }}</span>
-                            </v-avatar>
-                          </v-col>
-                          <v-col cols="1" md="1" xm="1"></v-col>
-                          <v-col cols="1" md="1" xm="1" class="pt-8">
-                            <v-menu bottom left>
-                              <template v-slot:activator="{ on, attrs }">
-                                <v-btn
-                                  color="black"
-                                  dark
-                                  icon
-                                  v-bind="attrs"
-                                  v-on="on"
-                                >
-                                  <v-icon>mdi-dots-vertical</v-icon>
-                                </v-btn>
-                              </template>
-                              <v-list>
-                                <v-list-item>
-                                  <v-list-item-title
-                                    class="row-pointer"
-                                    @click="isModalEditMember(player.id)"
-                                  >
-                                    Edit
-                                  </v-list-item-title>
-                                </v-list-item>
-                              </v-list>
-                            </v-menu>
-                          </v-col>
-                        </v-row>
-                      </v-app-bar>
-
-                      <v-card-title class="black--text pb-0">
-                        <p
-                          style="color: white"
-                          class="mx-auto my-auto pt-2 pl-2"
-                        >
-                          {{ player.name }}
-                        </p>
-                      </v-card-title>
-                      <v-card-title class="black--text">
-                        <p style="color: white" class="mx-auto pl-2">
-                          {{ player.position }}
-                        </p>
-                      </v-card-title>
-                    </v-img>
-                  </v-card>
-                </v-row>
+                <v-card class="mx-auto" max-width="434" tile>
+                  <v-img height="100%">
+                    <v-row align="end" class="fill-height">
+                      <v-col align-self="start" class="pa-0" cols="12">
+                        <v-avatar class="profile" color="grey" size="164" tile>
+                          <v-img :src="baseUrl + player.avatar"></v-img>
+                        </v-avatar>
+                      </v-col>
+                      <v-col class="py-0">
+                        <v-list-item color="rgba(0, 0, 0, .4)" dark>
+                          <v-list-item-content>
+                            <v-list-item-title
+                              class="title"
+                              style="color: black"
+                            >
+                              {{ player.name }}
+                            </v-list-item-title>
+                            <v-list-item-subtitle style="color: black"
+                              >Country:
+                              {{ player.country }}</v-list-item-subtitle
+                            >
+                          </v-list-item-content>
+                        </v-list-item>
+                      </v-col>
+                      <v-col class="py-0">
+                        <v-list-item color="rgba(0, 0, 0, .4)" dark>
+                          <v-list-item-content>
+                            <v-list-item-title
+                              class="title"
+                              style="color: black"
+                            >
+                              {{ player.position }}
+                            </v-list-item-title>
+                            <v-list-item-subtitle style="color: black"
+                              >Age: {{ player.age }}</v-list-item-subtitle
+                            >
+                          </v-list-item-content>
+                        </v-list-item>
+                      </v-col>
+                    </v-row>
+                  </v-img>
+                </v-card>
               </v-container>
             </v-col>
           </v-row>
@@ -290,7 +271,7 @@ export default {
       positionSearch: "",
       countrySearch: "",
       membersSearch: [],
-      ages: Array.from(Array(46).keys()).map(v => v + 10)
+      ages: Array.from(Array(46).keys()).map((v) => v + 10),
     };
   },
 
