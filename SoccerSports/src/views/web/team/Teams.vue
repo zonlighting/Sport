@@ -103,26 +103,29 @@ export default {
   components: {
     RankByTour,
   },
-  data: () => ({
-    select: "",
-    isHavedata: true,
-    headers: [
-      {
-        text: "Team",
-        align: "start",
-        sortable: false,
-        value: "name",
-      },
-      { text: "Rank", value: "calories", sortable: false },
-      { text: "Win", value: "protein", sortable: false },
-      { text: "Lose", value: "fat", sortable: false },
-      { text: "Tie", value: "carbs", sortable: false },
-      { text: "Point", value: "", sortable: false },
-    ],
-    desserts: [],
-    tournaments: [],
-    tournament: {},
-  }),
+  data() {
+    return {
+      select: "",
+      tourId: this.$store.state.team.tourId,
+      isHavedata: true,
+      headers: [
+        {
+          text: "Team",
+          align: "start",
+          sortable: false,
+          value: "name",
+        },
+        { text: "Rank", value: "calories", sortable: false },
+        { text: "Win", value: "protein", sortable: false },
+        { text: "Lose", value: "fat", sortable: false },
+        { text: "Tie", value: "carbs", sortable: false },
+        { text: "Point", value: "", sortable: false },
+      ],
+      desserts: [],
+      tournaments: [],
+      tournament: {},
+    };
+  },
 
   mounted() {
     this.getTours();
@@ -156,12 +159,12 @@ export default {
           if (response.data.code == 0) {
             self.tournament = response.data.payload;
           } else {
-            console.log("Run here 1");
+            console.log("Run here Teams Client");
             alert(response.data.message);
           }
         })
         .catch(function (error) {
-          console.log("Run here 1");
+          console.log("Run here Teams Client");
           alert(error);
         });
     },
@@ -175,7 +178,13 @@ export default {
           self.$store.commit("auth/auth_overlay");
           if (response.data.code == 0 && response.data.payload.length > 0) {
             self.tournaments = response.data.payload;
-            self.getTourById(self.tournaments[0].idTournament);
+            console.log(self.tourId);
+            console.log(self.tournaments[0].idTournament);
+            if (self.tourId == undefined || self.tourId == 0) {
+              self.getTourById(self.tournaments[0].idTournament);
+            } else {
+              self.getTourById(self.tourId);
+            }
           } else {
             self.isHavedata = false;
           }
