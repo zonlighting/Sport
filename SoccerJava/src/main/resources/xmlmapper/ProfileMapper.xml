@@ -92,12 +92,14 @@
 		SELECT * FROM profile_tbl WHERE
 		profile_id='${id}'
 	</select>
+	
 	<select id="getByTeamTour" resultMap="profileMapping">
 		SELECT * FROM
 		sports.profile_tbl inner join history_tbl on
 		history_tbl.id_member=profile_tbl.profile_id where
 		history_tbl.id_team=${idTeam};
 	</select>
+	
 	<select id="getNumberGoal" resultType="int">
 		SELECT
 		COUNT(history_id)

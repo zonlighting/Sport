@@ -80,7 +80,6 @@ export default {
       this.$store
         .dispatch("tournament/rankByTour", id)
         .then(function (response) {
-          console.log(response)
           if (response.data.code == 9999) {
             console.log("Run here 7");
             alert(response.data.message);
