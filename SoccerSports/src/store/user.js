@@ -1,5 +1,6 @@
 import { autoLogin } from '@/api/AuthApi';
 import { forgetEmail, getAll } from '../api/AuthApi';
+import { updateProfileUser } from '../api/MemberApi';
 
 const state = {
     userInfo: null,
@@ -42,6 +43,16 @@ const actions = {
     forgetEmail(__,email){
         return new Promise((resolve, reject) => {
             forgetEmail(email).then((res) => {
+                resolve(res);
+            }).catch((err) => {
+                reject(err);
+            })
+        })
+    },
+    updateProfileUser(__,profile){
+        console.log(profile)
+        return new Promise((resolve, reject) => {
+            updateProfileUser(profile).then((res) => {
                 resolve(res);
             }).catch((err) => {
                 reject(err);
