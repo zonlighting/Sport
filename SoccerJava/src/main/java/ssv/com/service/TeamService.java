@@ -241,10 +241,12 @@ public class TeamService {
 			match.setStatus(schedule.getStatus());
 			match.setScore1(schedule.getScore1());
 			match.setScore2(schedule.getScore2());
-			if (schedule.getTimeEnd().getMinute() > 9) {
-				match.setTimeEnd(schedule.getTimeEnd().getHour() + ":" + schedule.getTimeEnd().getMinute());
-			} else {
-				match.setTimeEnd(schedule.getTimeEnd().getHour() + ":0" + schedule.getTimeEnd().getMinute());
+			if(schedule.getTimeEnd() != null) {
+				if (schedule.getTimeEnd().getMinute() > 9) {
+					match.setTimeEnd(schedule.getTimeEnd().getHour() + ":" + schedule.getTimeEnd().getMinute());
+				} else {
+					match.setTimeEnd(schedule.getTimeEnd().getHour() + ":0" + schedule.getTimeEnd().getMinute());
+				}
 			}
 			matchs.add(match);
 		}
