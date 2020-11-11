@@ -55,4 +55,8 @@ public class ProfileRepository {
 		// TODO Auto-generated method stub
 		return profileMapper.getNumberGoal(idTeam,idMember);
 	}
+
+	public Profile lastFiveMatch(int idPlayer) {
+		return profileMapper.lastFiveMatch(idPlayer);
+	}
 }

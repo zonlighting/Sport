@@ -26,4 +26,5 @@ public class Profile {
 	private LocalDate createDate = LocalDate.now();
 	private int numberGoal;
 	private List<History> history;
+	private List<Team> teams;
 }

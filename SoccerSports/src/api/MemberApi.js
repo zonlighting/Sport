@@ -23,3 +23,8 @@ export function getTourGoal(data){
 export function nextMatch(idPlayer){
     return Api.get(`/team/nextMatch/${idPlayer}`)
 }
+
+export function lastFiveMatch(idPlayer){
+    return Api.get(`/profiles/lastFiveMatch/${idPlayer}`)
+}
+

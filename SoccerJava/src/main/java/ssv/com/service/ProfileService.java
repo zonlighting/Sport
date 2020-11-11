@@ -1,25 +1,29 @@
 package ssv.com.service;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import ssv.com.dto.ResponseQuery;
-import ssv.com.dto.TeamDetail;
+import ssv.com.dto.TeamScheduleDto;
 import ssv.com.entity.Account;
 import ssv.com.entity.Profile;
+import ssv.com.entity.Schedule;
+import ssv.com.entity.Team;
 import ssv.com.exception.ResourceExistsException;
 import ssv.com.file.UploadFile;
 import ssv.com.form.ProfileForm;
 import ssv.com.repository.AccountRepository;
 import ssv.com.repository.ProfileRepository;
+import ssv.com.repository.TeamRepository;
+import ssv.com.repository.TournamentRepository;
 
 @Service
 public class ProfileService {
@@ -28,6 +32,12 @@ public class ProfileService {
 
 	@Autowired
 	private AccountRepository accountRepository;
+
+	@Autowired
+	private TeamRepository teamRepository;
+
+	@Autowired
+	private TournamentRepository tournamentRepository;
 
 	@Autowired
 	private ModelMapper modelMapper;
@@ -106,14 +116,72 @@ public class ProfileService {
 	}
 
 	public HashSet<Profile> getTourGoal(int idTeam) {
-		List<Profile> list=new ArrayList<Profile>();
-		HashSet<Profile> profiles=new HashSet<Profile>();
-		list=profileRepository.getByTeamTour(idTeam);
+		List<Profile> list = new ArrayList<Profile>();
+		HashSet<Profile> profiles = new HashSet<Profile>();
+		list = profileRepository.getByTeamTour(idTeam);
 		for (Profile profile : list) {
-			profile.setNumberGoal(profileRepository.getNumberGoal(idTeam,profile.getId()));
+			profile.setNumberGoal(profileRepository.getNumberGoal(idTeam, profile.getId()));
 			profiles.add(profile);
 		}
-	
+
 		return profiles;
+	}
+
+	static String[] monthName = { "January", "February", "March", "April", "May", "June", "July", "August", "September",
+			"October", "November", "December" };
+
+	public List<TeamScheduleDto> lastFiveMatch(int idPlayer) {
+		Profile profile = profileRepository.lastFiveMatch(idPlayer);
+		List<TeamScheduleDto> matchs = new ArrayList<TeamScheduleDto>();
+		for (Team team : profile.getTeams()) {
+			for (Schedule schedule : team.getSchedule()) {
+				TeamScheduleDto match = new TeamScheduleDto();
+				Team team1 = teamRepository.getTeamById(schedule.getIdTeam1());
+				Team team2 = teamRepository.getTeamById(schedule.getIdTeam2());
+				if (team1.getIdTeam() == team.getIdTeam()) {
+					match.setNameTeam1(team1.getNameTeam());
+					match.setLogoTeam1(team1.getLogo());
+					match.setScore1(schedule.getScore1());
+					match.setScore2(schedule.getScore2());
+					match.setNameTeam2(team2.getNameTeam());
+					match.setLogoTeam2(team2.getLogo());
+				} else {
+					match.setScore1(schedule.getScore2());
+					match.setScore2(schedule.getScore1());
+					match.setNameTeam1(team2.getNameTeam());
+					match.setLogoTeam1(team2.getLogo());
+					match.setNameTeam2(team1.getNameTeam());
+					match.setLogoTeam2(team1.getLogo());
+				}
+				match.setMonthStart(monthName[schedule.getTimeStart().getMonthValue() - 1] + " , "
+						+ schedule.getTimeStart().getYear());
+				match.setDayStart(monthName[schedule.getTimeStart().getMonthValue()] + " , "
+						+ schedule.getTimeStart().getDayOfMonth());
+
+				if (schedule.getTimeStart().getMinute() > 9) {
+					match.setTimeStart(schedule.getTimeStart().getHour() + ":" + schedule.getTimeStart().getMinute());
+				} else {
+					match.setTimeStart(schedule.getTimeStart().getHour() + ":0" + schedule.getTimeStart().getMinute());
+				}
+				match.setNameTour(tournamentRepository.getById(schedule.getIdTour()).getNameTournament());
+				if (schedule.getAdraw() != 0) {
+					match.setStatus(2);
+				} else if (schedule.getWinner() == team.getIdTeam()) {
+					match.setStatus(0);
+				} else {
+					match.setStatus(1);
+				}
+
+				if (schedule.getTimeEnd() != null) {
+					if (schedule.getTimeEnd().getMinute() > 9) {
+						match.setTimeEnd(schedule.getTimeEnd().getHour() + ":" + schedule.getTimeEnd().getMinute());
+					} else {
+						match.setTimeEnd(schedule.getTimeEnd().getHour() + ":0" + schedule.getTimeEnd().getMinute());
+					}
+				}
+				matchs.add(match);
+			}
+		}
+		return matchs;
 	}
 }
