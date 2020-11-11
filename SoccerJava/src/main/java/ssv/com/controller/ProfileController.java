@@ -65,4 +65,13 @@ public class ProfileController {
 		}
 		return ResponseQuery.faild("Profile not join!!!", null);
 	}
+
+
+	@GetMapping("/lastFiveMatch/{idPlayer}")
+	public ResponseQuery<?> lastFiveMatch(@PathVariable int idPlayer){
+		if(profileService.lastFiveMatch(idPlayer) != null) {
+			return ResponseQuery.success("Connect!", profileService.lastFiveMatch(idPlayer));
+		}
+		return ResponseQuery.faild("Don't have any data", null);
+	}
 }

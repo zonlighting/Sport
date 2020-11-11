@@ -157,7 +157,7 @@
           <v-card-title class="card-title">Next Match</v-card-title>
           <v-divider class="mx-5" style="margin: 0 !important"></v-divider>
           <template v-if="nextMatch != null">
-            <v-card-subtitle class="center">
+            <v-card-subtitle class="center mb-5">
               <h3>{{ nextMatch.year }} {{ nextMatch.nameTour }}</h3>
             </v-card-subtitle>
             <v-card-text>
@@ -190,7 +190,58 @@
             </v-card-subtitle>
           </template>
         </v-card>
-        <v-card class="mt-15"> 5 matchs </v-card>
+        <v-card class="mt-15">
+          <v-card-title class="card-title">Last 5 Matches</v-card-title>
+          <v-data-table
+            :headers="headers"
+            :items="lastFiveMatch"
+            class="elevation-1"
+            hide-default-footer
+            :items-per-page="15"
+          >
+            <template v-slot:[`item.currentTeam`]="{ item }">
+              <v-row>
+                <img
+                  :src="baseUrl + item.logoTeam1"
+                  width="40px"
+                  height="40px"
+                  style="margin: 3px 0 3px 0"
+                />
+                <p class="pt-3" style="color: blue">
+                  {{ item.nameTeam1 }}
+                </p></v-row
+              >
+            </template>
+            <template v-slot:[`item.opponent`]="{ item }">
+              <v-row>
+                vs
+                <img
+                  :src="baseUrl + item.logoTeam2"
+                  width="40px"
+                  height="40px"
+                  style="margin: 3px 0 3px 0"
+                />
+                <p class="pt-3" style="color: blue">
+                  {{ item.nameTeam2 }}
+                </p></v-row
+              >
+            </template>
+            <template v-slot:[`item.result`]="{ item }">
+              <v-row>
+                <p v-if="item.status == 0" style="color: green">W</p>
+                <p v-else-if="item.status == 1" style="color: red">L</p>
+                <p v-else style="color: orange">T</p>
+                <p class="pt-3" style="color: blue">
+                  {{ item.score1 }}
+                </p>
+                <p class="pt-3 px-1">-</p>
+                <p class="pt-3" style="color: blue">
+                  {{ item.score2 }}
+                </p>
+              </v-row>
+            </template>
+          </v-data-table>
+        </v-card>
       </v-col>
     </v-row>
   </div>
@@ -202,6 +253,7 @@ var d = new Date();
 export default {
   data() {
     return {
+      lastFiveMatch: [],
       teamSelect: "",
       positionSelect: "Goalkeepers",
       idPlayer: this.$route.params.id,
@@ -213,6 +265,24 @@ export default {
       teams: [],
       defaultPosition: ["Goalkeepers", "Defenders", "Midfielders", "Forwards"],
       nextMatch: {},
+      headers: [
+        {
+          text: "TEAM",
+          align: "start",
+          sortable: false,
+          value: "currentTeam",
+        },
+        {
+          text: "DATE",
+          align: "start",
+          sortable: false,
+          value: "dayStart",
+        },
+        { text: "OPPONENT", value: "opponent", sortable: false },
+        { text: "RESULT", value: "result", sortable: false },
+        { text: "TIME", value: "timeStart", sortable: false },
+        { text: "COMPETITION", value: "nameTour", sortable: false },
+      ],
     };
   },
   mounted() {
@@ -223,6 +293,7 @@ export default {
     this.getYear();
     this.getTeams();
     this.getNextMatch(this.$route.params.id);
+    this.getLastFiveMatch(this.$route.params.id);
   },
 
   computed: {
@@ -304,6 +375,21 @@ export default {
           this.$store.commit("auth/auth_overlay");
           self.nextMatch = response.data.payload;
           console.log(self.nextMatch);
+        })
+        .catch(function (error) {
+          alert(error);
+        });
+    },
+
+    getLastFiveMatch(id) {
+      let self = this;
+      this.$store.commit("auth/auth_overlay");
+      this.$store
+        .dispatch("member/lastFiveMatch", id)
+        .then((response) => {
+          this.$store.commit("auth/auth_overlay");
+          self.lastFiveMatch = response.data.payload;
+          console.log(self.lastFiveMatch);
         })
         .catch(function (error) {
           alert(error);

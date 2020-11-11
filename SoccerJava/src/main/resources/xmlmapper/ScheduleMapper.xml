@@ -58,8 +58,8 @@
 			<result property="time" column="goal_time" />
 			<result property="team" column="goal_team" />
 		</collection>
-
 	</resultMap>
+
 	<select id="getAll" resultMap="scheduleMapping">
 		SELECT * FROM
 		sports.schedule_tbl
@@ -86,6 +86,7 @@
 		schedule_tbl.schedule_id=goal_tbl.id_schedule where
 		schedule_tour=${idTour}
 	</select>
+
 	<select id="getById" resultMap="scheduleMapping">
 		SELECT * FROM
 		sports.schedule_tbl
@@ -100,12 +101,13 @@
 		schedule_id=${idSchedule}
 		order by schedule_tbl.schedule_start
 		DESC
-
 	</select>
+
 	<delete id="delete">
 		DELETE FROM `sports`.`schedule_tbl` WHERE
 		(`schedule_id` = ${idSchedule});
 	</delete>
+
 	<insert id="create" parameterType="Schedule">
 		INSERT INTO
 		`sports`.`schedule_tbl`
@@ -117,6 +119,7 @@
 		#{idTeam2},#{timeStart},
 		#{idTour},#{location});
 	</insert>
+
 	<update id="edit" parameterType="Schedule">
 		UPDATE `sports`.`schedule_tbl`
 		SET `schedule_team1` = #{idTeam1}
@@ -125,40 +128,53 @@
 		(`schedule_id` = #{idSchedule});
 
 	</update>
+
 	<update id="onGame">
 		UPDATE `sports`.`schedule_tbl` SET
 		schedule_status='1' where schedule_id=${idSchedule}
 	</update>
 
 	<select id="teamTotalMatch" resultType="Int">
-		SELECT COUNT(schedule_id) FROM schedule_tbl where
-		(schedule_tbl.schedule_team1=${idTeam} or schedule_tbl.schedule_team2=${idTeam}) and
+		SELECT COUNT(schedule_id)
+		FROM schedule_tbl where
+		(schedule_tbl.schedule_team1=${idTeam} or
+		schedule_tbl.schedule_team2=${idTeam}) and
 		schedule_tbl.schedule_status=2
 	</select>
+
 	<select id="teamAdraw" resultType="Int">
-	SELECT COUNT(schedule_id) FROM schedule_tbl where
-		(schedule_tbl.schedule_team1=${idTeam} or schedule_tbl.schedule_team2=${idTeam})and schedule_tbl.schedule_adraw and
+		SELECT COUNT(schedule_id) FROM
+		schedule_tbl where
+		(schedule_tbl.schedule_team1=${idTeam} or
+		schedule_tbl.schedule_team2=${idTeam})and schedule_tbl.schedule_adraw
+		and
 		schedule_tbl.schedule_status=2
 	</select>
+
 	<select id="teamTotalWin" resultType="Int">
 		SELECT COUNT(schedule_id)
 		FROM schedule_tbl where schedule_tbl.schedule_winner=${idTeam} ;
 	</select>
+
 	<select id="teamTotalMatchByTour" resultType="Int">
 		SELECT
 		COUNT(schedule_id)
 		FROM schedule_tbl where
 		(schedule_tbl.schedule_team1=${idTeam} or
 		schedule_tbl.schedule_team2=${idTeam} ) and
-		schedule_tbl.schedule_tour=${idTour} and schedule_tbl.schedule_status=2 and schedule_tbl.schedule_tour=${idTour};
+		schedule_tbl.schedule_tour=${idTour} and
+		schedule_tbl.schedule_status=2 and
+		schedule_tbl.schedule_tour=${idTour};
 	</select>
+
 	<select id="teamTotalWinByTour" resultType="Int">
 		SELECT
 		COUNT(schedule_id)
 		FROM schedule_tbl where
 		schedule_tbl.schedule_tour=${idTour} and
-		schedule_tbl.schedule_winner=${idTeam}  ;
-	</select> 
+		schedule_tbl.schedule_winner=${idTeam} ;
+	</select>
+
 	<select id="teamTotalAdrawByTour" resultType="int">
 		SELECT
 		COUNT(schedule_id)
@@ -166,26 +182,32 @@
 		(schedule_tbl.schedule_team1=${idTeam} or
 		schedule_tbl.schedule_team2=${idTeam} ) and
 		schedule_tbl.schedule_tour=${idTour} and
-		schedule_tbl.schedule_adraw=1 ;
+		schedule_tbl.schedule_adraw=1
+		;
 	</select>
+
 	<update id="udapte">
 		UPDATE `sports`.`schedule_tbl` SET `schedule_image` =
 		'${image}'
 		,schedule_video='${video}',schedule_score1=${score1},schedule_score2=${score2},schedule_winner=${winner}
-		, schedule_adraw=${adraw},schedule_end='${timeEnd}',schedule_status=2 WHERE
+		, schedule_adraw=${adraw},schedule_end='${timeEnd}',schedule_status=2
+		WHERE
 		(`schedule_id`
 		= ${idSchedule});
 
 	</update>
+
 	<delete id="deleteByTeamTour">
 		DELETE FROM `sports`.`schedule_tbl` WHERE
 		(`schedule_team1` = ${idTeam} or schedule_team2=${idTeam}) and
 		schedule_tour=${idTournament};
 	</delete>
+
 	<delete id="deleteByTour">
 		DELETE FROM `sports`.`schedule_tbl` WHERE
 		schedule_tour=${idTournament};
 	</delete>
+
 	<select id="getByStatus" resultMap="scheduleMapping">
 		SELECT * FROM
 		sports.schedule_tbl
@@ -199,27 +221,43 @@
 		where
 		schedule_status=${status}
 		order by schedule_tbl.schedule_start
-		
+
 	</select>
+
 	<select id="teamResults" resultMap="scheduleMapping">
-	SELECT * FROM sports.schedule_tbl inner join team_tbl on (
+		SELECT * FROM
+		sports.schedule_tbl inner join team_tbl on (
 		team_tbl.team_id=schedule_tbl.schedule_team1 or
-		team_tbl.team_id=schedule_tbl.schedule_team2 ) where( schedule_tbl.schedule_team1=${idTeam} or schedule_tbl.schedule_team2=${idTeam}) and schedule_tbl.schedule_tour=${idTournament};
+		team_tbl.team_id=schedule_tbl.schedule_team2 ) where(
+		schedule_tbl.schedule_team1=${idTeam} or
+		schedule_tbl.schedule_team2=${idTeam}) and
+		schedule_tbl.schedule_tour=${idTournament};
 	</select>
+
 	<select id="teamLastResults" resultMap="scheduleMapping">
-		SELECT * FROM sports.schedule_tbl inner join tournament_tbl on
-		schedule_tbl.schedule_tour=tournament_tbl.tournament_id inner join team_tbl on (
+		SELECT * FROM
+		sports.schedule_tbl inner join tournament_tbl on
+		schedule_tbl.schedule_tour=tournament_tbl.tournament_id inner join
+		team_tbl on (
 		team_tbl.team_id=schedule_tbl.schedule_team1 or
-		team_tbl.team_id=schedule_tbl.schedule_team2 ) where( schedule_tbl.schedule_team1=${idTeam} or schedule_tbl.schedule_team2=${idTeam}) and schedule_tbl.schedule_status=2 order by schedule_tbl.schedule_start desc ;
-	
-	
+		team_tbl.team_id=schedule_tbl.schedule_team2 ) where(
+		schedule_tbl.schedule_team1=${idTeam} or
+		schedule_tbl.schedule_team2=${idTeam}) and
+		schedule_tbl.schedule_status=2 order by schedule_tbl.schedule_start
+		desc ;
 	</select>
-	<select id="scheduleTeam"  resultMap="scheduleMapping" >
-		SELECT * FROM sports.schedule_tbl inner join tournament_tbl on
-		schedule_tbl.schedule_tour=tournament_tbl.tournament_id inner join team_tbl on (
+
+	<select id="scheduleTeam" resultMap="scheduleMapping">
+		SELECT *
+		FROM
+		sports.schedule_tbl inner join tournament_tbl on
+		schedule_tbl.schedule_tour=tournament_tbl.tournament_id inner join
+		team_tbl on (
 		team_tbl.team_id=schedule_tbl.schedule_team1 or
-		team_tbl.team_id=schedule_tbl.schedule_team2 ) where( schedule_tbl.schedule_team1=${idTeam} or schedule_tbl.schedule_team2=${idTeam}) and schedule_tbl.schedule_status!=2 order by schedule_tbl.schedule_start desc ;
-	
-	
+		team_tbl.team_id=schedule_tbl.schedule_team2 ) where(
+		schedule_tbl.schedule_team1=${idTeam} or
+		schedule_tbl.schedule_team2=${idTeam}) and
+		schedule_tbl.schedule_status!=2 order by schedule_tbl.schedule_start
+		desc ;
 	</select>
 </mapper>

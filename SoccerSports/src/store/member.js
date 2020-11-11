@@ -1,4 +1,4 @@
-import {nextMatch, createMember, members, updateProfile,  getPlayerById ,getTourGoal} from '@/api/MemberApi'
+import { lastFiveMatch, nextMatch, createMember, members, updateProfile, getPlayerById, getTourGoal } from '@/api/MemberApi'
 
 const state = {
     playerProfile: {}
@@ -52,7 +52,7 @@ const actions = {
         })
     },
 
-    getTourGoal(__,data){
+    getTourGoal(__, data) {
         return new Promise((resolve, reject) => {
             getTourGoal(data).then(res => {
                 resolve(res);
@@ -62,7 +62,7 @@ const actions = {
         })
     },
 
-    nextMatch(__,idPlayer){
+    nextMatch(__, idPlayer) {
         return new Promise((resolve, reject) => {
             nextMatch(idPlayer).then(res => {
                 resolve(res);
@@ -70,7 +70,17 @@ const actions = {
                 reject(err);
             })
         })
-    }
+    },
+
+    lastFiveMatch(__, idPlayer) {
+        return new Promise((resolve, reject) => {
+            lastFiveMatch(idPlayer).then(res => {
+                resolve(res);
+            }).catch((err) => {
+                reject(err);
+            })
+        })
+    },
 }
 
 export default {
