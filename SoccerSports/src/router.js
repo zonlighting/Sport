@@ -110,6 +110,7 @@ let routes = [
         name: "profile",
         component: () => import('@/views/web/Profile')
       },
+    
       {
         path: '/rank',
         name: "Rank",
