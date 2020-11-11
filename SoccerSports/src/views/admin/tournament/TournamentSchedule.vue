@@ -247,7 +247,6 @@ export default {
           this.$store.commit("auth/auth_overlay");
           if (response.data.code == 0) {
             this.schedule = response.data.payload;
-            console.log(this.schedule)
           }
         });
     },

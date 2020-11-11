@@ -526,16 +526,10 @@ export default {
       }
     },
     async fileVideo(event) {
-      var dataURL;
       if (this.fileVideo == undefined || this.fileVideo == "") {
         document.getElementById("video").src = "";
       } else {
         var reader = new FileReader();
-        reader.onload =  function () {
-          dataURL = reader.result;
-          console.log(dataURL);
-          console.log(reader);
-        };
         await setTimeout(() => {
           this.sources = reader.result;
         }, 4000);
