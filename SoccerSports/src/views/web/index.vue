@@ -203,6 +203,7 @@ export default {
     RegisterDialog: false,
   }),
 
+
   computed: {
     baseUrl() {
       return ENV.BASE_IMAGE;
