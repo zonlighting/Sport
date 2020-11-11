@@ -33,7 +33,11 @@
                   v-on="on"
                 ></v-text-field>
               </template>
-              <v-date-picker v-model="dateStart" no-title scrollable>
+              <v-date-picker v-model="dateStart" no-title scrollable :min="
+                          new Date(new Date().setDate(new Date().getDate() + 1))
+                            .toISOString()
+                            .substr(0, 10)
+                        ">
                 <v-spacer></v-spacer>
                 <v-btn text color="primary" @click="menuStart = false">
                   Cancel
@@ -160,6 +164,9 @@ export default {
     },
   },
   created() {
+    this.getOld();
+  },
+  mounted(){
     this.getOld();
   },
   methods: {

@@ -15,7 +15,7 @@
                 ><v-row
                   ><v-col
                     ><v-row
-                      ><h2>{{ !!schedule ? schedule.team[0].nameTeam : "" }}</h2>
+                      ><h2 @click="detailTeam( schedule.team[0])" style="cursor: pointer;">{{ !!schedule ? schedule.team[0].nameTeam : "" }}</h2>
                       <v-avatar size="50"
                         ><img
                           :src="
@@ -34,7 +34,7 @@
               <v-col class="text-center">
                 <v-row>
                   <v-col
-                    ><h2>
+                    ><h2  >
                       {{ schedule.status == 2 ? schedule.score1 : "" }}
                     </h2></v-col
                   >
@@ -59,7 +59,7 @@
                           "
                           alt="Logo"
                       /></v-avatar>
-                      <h2>{{ !!schedule ? schedule.team[1].nameTeam : "" }}</h2>
+                      <h2 @click="detailTeam( schedule.team[1])" style="cursor: pointer;"> {{ !!schedule ? schedule.team[1].nameTeam : "" }}</h2>
                     </v-row>
                     <span v-for="(item, i) in goal2" :key="i"
                       >{{ item.profile.name }}({{

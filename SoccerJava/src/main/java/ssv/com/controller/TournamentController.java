@@ -86,7 +86,7 @@ public class TournamentController {
 
 	// Sửa tổng quát giải đấu
 	@PostMapping(value = "update")
-	public ResponseQuery<?> update(@RequestBody TournamentForm tournamentForm) {
+	public ResponseQuery<?> update(@ModelAttribute TournamentForm tournamentForm) {
 		if (tournamentService.getById(tournamentForm.getIdTournament()).getStatus() == 0) {
 			return tournamentService.update(tournamentForm);
 

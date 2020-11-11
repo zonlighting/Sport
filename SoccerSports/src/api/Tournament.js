@@ -47,5 +47,8 @@ export function getAllSchedule() {
 export function getAllScheduleStatus(status) {
     return Api.get(`/tournament/getAllScheduleStatus?status=${status}`)
 }
+export function update(form) {
+    return Api.post(`/tournament/update`,form);
+}
 
 

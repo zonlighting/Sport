@@ -14,7 +14,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, index) in rank" :key="index" :style="index==0?'background: red':index==1?'background: green':index==2?'background: yellow':''">
+          <tr v-for="(item, index) in rank" :key="index" :style="index==0?'background: red':index==1?'background: green':index==2?'background: yellow':''" @click="detailTeam(item)" style="cursor: pointer;">
             <td>
               {{ index + 1 }}
             </td>

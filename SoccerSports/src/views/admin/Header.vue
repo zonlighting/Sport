@@ -41,7 +41,7 @@ export default {
     }),
 
     toWebPage() {
-      window.open("http://localhost:8080/Home", "_self");
+      window.open("http://192.168.10.174:8080/Home", "_self");
     },
 
     logout() {
@@ -54,7 +54,7 @@ export default {
           this.checkProfile();
         }
         this.LoginDialog = false;
-        window.open("http://localhost:8080/Home", "_self");
+        window.open("http://192.168.10.174:8080/Home", "_self");
       });
     },
 

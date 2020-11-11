@@ -39,7 +39,21 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(item, index) in rank" :key="index" :style="index==0?'background: red':index==1?'background: green':index==2?'background: yellow':''">
+                <tr
+                  v-for="(item, index) in rank"
+                  :key="index"
+                  :style="
+                    index == 0
+                      ? 'background: red'
+                      : index == 1
+                      ? 'background: green'
+                      : index == 2
+                      ? 'background: yellow'
+                      : ''
+                  "
+                  @click="detailTeam(item)"
+                  style="cursor: pointer"
+                >
                   <td>
                     {{ index + 1 }}
                   </td>
@@ -76,8 +90,8 @@ export default {
   data() {
     return {
       rank: "",
-      tournament:"",
-      select:''
+      tournament: "",
+      select: "",
     };
   },
   created() {
@@ -99,28 +113,30 @@ export default {
         }
       });
     },
-    getTournament(){
-         this.$store.commit("auth/auth_overlay");
-      this.$store.dispatch("tournament/tournamentStatus",2).then((response) => {
-        this.$store.commit("auth/auth_overlay");
-        if (response.data.code == 0) {
-          this.tournament = response.data.payload;
-        }
-      });
-    }
-  },
-  watch:{
-      select(){
+    getTournament() {
+      this.$store.commit("auth/auth_overlay");
+      this.$store
+        .dispatch("tournament/tournamentStatus", 2)
+        .then((response) => {
           this.$store.commit("auth/auth_overlay");
-    this.$store
-      .dispatch("tournament/tournamentRank", this.select)
-      .then((response) => {
-        this.$store.commit("auth/auth_overlay");
-        if (response.data.code == 0) {
-          this.rank = response.data.payload;
-        }
-      });
-      }
-  }
+          if (response.data.code == 0) {
+            this.tournament = response.data.payload;
+          }
+        });
+    },
+  },
+  watch: {
+    select() {
+      this.$store.commit("auth/auth_overlay");
+      this.$store
+        .dispatch("tournament/tournamentRank", this.select)
+        .then((response) => {
+          this.$store.commit("auth/auth_overlay");
+          if (response.data.code == 0) {
+            this.rank = response.data.payload;
+          }
+        });
+    },
+  },
 };
 </script>

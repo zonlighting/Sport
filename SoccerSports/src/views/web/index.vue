@@ -257,7 +257,7 @@ export default {
         // this.$router.push("/Home").catch((err) => {
         //   console.log(err);
         // });
-        window.open("http://localhost:8080/Home", "_self");
+        window.open("http://192.168.10.174:8080/Home", "_self");
       });
     },
 

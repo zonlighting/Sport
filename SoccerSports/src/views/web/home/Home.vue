@@ -1,6 +1,10 @@
 <template>
   <div>
-    <img src=images/background/latestnews.jpg class=ls-bg alt="Slide background"
+    <img
+      src="https://i.pinimg.com/564x/38/d2/c3/38d2c37984a06bd6cdc0fa46bf01ea64.jpg"
+      style="width: -webkit-fill-available"
+      class="ls-bg"
+      alt="Slide background"
     />
 
     <section class="booking bg-smallwhite">
@@ -140,25 +144,36 @@
                                 margin-left: 60px;
                                 background-image: url(https://rstheme.com/products/html/khelo/images/background/result-bg.jpg);
                               "
-                              
                             >
                               <div>
-                                <h4 style="color:white">{{ item.location.length>30?item.location.substring(0,23)+'...':item.location }}</h4>
+                                <h4 style="color: white">
+                                  {{
+                                    item.location.length > 30
+                                      ? item.location.substring(0, 23) + "..."
+                                      : item.location
+                                  }}
+                                </h4>
                               </div>
                               <v-row>
                                 <v-col>
                                   <v-img
                                     :src="baseUrl + item.team[0].logo"
                                     style="
-                                      margin-right: 20px;
+                                      margin-left: 20px;
                                       height: 100px;
                                       width: 70px;
                                     "
                                     lazy-src="@/assets/err.png"
                                     min-width="30px"
                                   />
-                                  {{ item.team[0].nameTeam }}
-                                </v-col>
+                                  {{
+                                    item.team[0].nameTeam.length > 10
+                                      ? item.team[0].nameTeam
+                                          .toString()
+                                          .substring(0, 8)
+                                      : item.team[0].nameTeam
+                                  }}</v-col
+                                >
                                 <v-col style="margin-top: 20px"
                                   ><h2>
                                     {{ item.score1 }}-{{ item.score2 }}
@@ -175,7 +190,13 @@
                                     lazy-src="@/assets/err.png"
                                     min-width="30px"
                                   />
-                                  {{ item.team[1].nameTeam }}</v-col
+                                  {{
+                                    item.team[1].nameTeam.length > 10
+                                      ? item.team[1].nameTeam
+                                          .toString()
+                                          .substring(0, 8)
+                                      : item.team[1].nameTeam
+                                  }}</v-col
                                 >
                               </v-row>
                             </div>
@@ -253,7 +274,7 @@
                         : "No data"
                     }}
                   </h2>
-                  <p style="color: blue">
+                  <p style="color: white">
                     {{
                       tournamentResults.length > 0
                         ? tournamentResults[tournamentResults.length - 1]
@@ -286,10 +307,10 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="(item, index) in rankAll" :key="index">
+                    <tr v-for="(item, index) in rankAll" :key="index"  @click="detailTeam(item)">
                       <template
                         v-if="index < 12"
-                        @click="detailTeam(item.idTeam)"
+                       
                       >
                         <th style="color: white">{{ index + 1 }}</th>
                         <th style="color: white">{{ item.nameTeam }}</th>
@@ -339,7 +360,9 @@
                   <v-sheet color="white" height="100%">
                     <v-container>
                       <div
+                        @click="detailResults(item)"
                         style="
+                          cursor: pointer;
                           background-image: url(https://rstheme.com/products/html/khelo/images/background/result-bg.jpg);
                         "
                       >
@@ -347,7 +370,7 @@
                           <h3 class="text-center">{{ item.location }}</h3>
                         </div>
                         <v-row>
-                          <v-col class="text-center">
+                          <v-col class="text-center" style="margin-left:20px">
                             <v-img
                               :src="baseUrl + item.team[0].logo"
                               lazy-src="@/assets/err.png"
@@ -389,17 +412,18 @@
         <v-row class="text-center">
           <v-col cols="12" md="2" />
           <v-col cols="12" md="9">
-            <v-carousel  height="350" hide-delimiters>
+            <v-carousel height="350" hide-delimiters>
               <v-carousel-item v-for="(items, i) in team.length" :key="i">
                 <v-sheet color="white" height="100%">
                   <v-container>
                     <v-row>
                       <span v-for="(item, index) in team" :key="index">
-                        <v-col v-if="index>i">
+                        <v-col v-if="index > i">
                           <div
-                            @click="detailTeam(item.idTeam)"
+                            @click="detailTeam(item)"
                             style="
                               margin-left: 12px;
+                              cursor: pointer;
                               background-image: url(https://rstheme.com/products/html/khelo/images/background/result-bg.jpg);
                             "
                           >
@@ -573,7 +597,10 @@ export default {
           alert(error);
         });
     },
-    
+    detailTeam(item) {
+      console.log(item);
+    },
+
     setintervalTime(time) {
       console.log(time);
       var a = Date.parse(time);
@@ -607,7 +634,7 @@ export default {
 }
 tbody {
   tr:hover {
-    background-color: transparent !important;
+    background-color: red !important;
     cursor: pointer;
   }
 }
