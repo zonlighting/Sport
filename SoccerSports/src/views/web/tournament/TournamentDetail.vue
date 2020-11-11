@@ -40,45 +40,35 @@
     <v-row class="pl-6">
       <v-col cols="12" md="2" xm="2"></v-col>
       <v-col>
-        <div>
-          <ul class="nav nav-pills">
-            <li class="nav-item">
-              <router-link
-                :to="{
-                  path: `/tournamentDetail/${tournament.idTournament}/team`,
-                }"
-                class="nav-link"
-                active-class="active"
-                exact
-                style="cursor: pointer"
-                >Rank</router-link
-              >
-            </li>
-            <li class="nav-item">
-              <router-link
-                :to="{
-                  path: `/tournamentDetail/${tournament.idTournament}/results`,
-                }"
-                class="nav-link"
-                active-class="active"
-                style="cursor: pointer"
-                >Results</router-link
-              >
-            </li>
-            <li class="nav-item">
-              <router-link
-                :to="{
-                  path: `/tournamentDetail/${tournament.idTournament}/fixtures`,
-                }"
-                class="nav-link"
-                active-class="active"
-                style="cursor: pointer"
-                >Fixtures</router-link
-              >
-            </li>
-          </ul>
-          <hr />
-        </div>
+        <ul style="border-bottom: solid 1px; width: 260px" id="myDIV">
+          <li>
+            <router-link
+              class="btn active"
+              :to="{
+                path: `/tournamentDetail/${tournament.idTournament}/team`,
+              }"
+              >Rank</router-link
+            >
+          </li>
+          <li>
+            <router-link
+              class="btn"
+              :to="{
+                path: `/tournamentDetail/${tournament.idTournament}/results`,
+              }"
+              >Results</router-link
+            >
+          </li>
+          <li>
+            <router-link
+              class="btn"
+              :to="{
+                path: `/tournamentDetail/${tournament.idTournament}/fixtures`,
+              }"
+              >Fixtures</router-link
+            >
+          </li>
+        </ul>
       </v-col>
     </v-row>
     <v-col cols="12" md="2" xm="2"></v-col>
@@ -112,11 +102,48 @@ export default {
         this.$store.commit("auth/auth_overlay");
         this.tournament = response.data.payload;
       });
+
+    var header = document.getElementById("myDIV");
+    var btns = header.getElementsByClassName("btn");
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].addEventListener("click", function () {
+        var current = document.getElementsByClassName("active");
+        current[0].className = current[0].className.replace(" active", "");
+        this.className += " active";
+      });
+    }
   },
 };
 </script>
 <style scoped>
-.active {
-  background-color: rgb(193, 218, 193);
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  padding: 8px;
+}
+.btn {
+  border: none;
+  outline: none;
+  padding: 10px 16px;
+  background-color: #f1f1f1;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+/* Style the active class, and buttons on mouse-over */
+.active,
+.btn:hover {
+  background-color: #666;
+  color: white;
 }
 </style>

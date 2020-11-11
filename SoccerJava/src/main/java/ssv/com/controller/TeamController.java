@@ -121,5 +121,11 @@ public class TeamController {
 		return ResponseQuery.faild("No data", null);
 	}
 
-
+	@GetMapping("nextMatch/{idPlayer}")
+	public ResponseQuery<?> playerNextMatch(@PathVariable int idPlayer){
+		if(teamService.playerNextMatch(idPlayer).size() > 0) {
+			return ResponseQuery.success("Connect!", teamService.playerNextMatch(idPlayer).get(0));
+		}
+		return ResponseQuery.faild("PLayer don't have schedule", null);
+	}
 }

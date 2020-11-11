@@ -300,7 +300,6 @@ export default {
         this.overlay = !this.overlay;
         if (this.teamSelected.length >= 0 && this.teamSelected.length < 10) {
           alert("The tournament must have at least 10 teams participating");
-                  this.overlay = !this.overlay;
         } else {
           var bodyFormData = new FormData();
           bodyFormData.append("nameTournament", this.nameTournament);

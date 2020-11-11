@@ -17,7 +17,7 @@ public class ScheduleRepository {
 	}
 
 	public void create(Schedule schedule) {
-		scheduleMapper.create(schedule);	
+		scheduleMapper.create(schedule);
 	}
 
 	public Schedule getById(int idSchedule) {
@@ -26,12 +26,12 @@ public class ScheduleRepository {
 
 	public void Delete(int idSchedule) {
 		scheduleMapper.delete(idSchedule);
-		
+
 	}
 
 	public void edit(Schedule schedule) {
 		scheduleMapper.edit(schedule);
-		
+
 	}
 
 	public List<Schedule> getAll() {
@@ -41,7 +41,7 @@ public class ScheduleRepository {
 	public void updateStatus(int idSchedule) {
 		scheduleMapper.updateStatus(idSchedule);
 
-		
+
 	}
 
 	public int teamTotalMatch(int idTeam) {
@@ -71,29 +71,27 @@ public class ScheduleRepository {
 
 	public void update(Schedule schedule) {
 		 scheduleMapper.udapte(schedule);
-		
+
 	}
 
 	public void deleteByTeamTour(int idTeam, int idTournament) {
 		scheduleMapper.deleteByTeamTour(idTeam,idTournament);
-		
+
 	}
 
 	public void deleteByTour(int idTournament) {
 		scheduleMapper.deleteByTour(idTournament);
 
-		
+
 	}
 
 	public List<Schedule> getByStatus(int status) {
 		return scheduleMapper.getByStatus(status);
-
 	}
 
 
 	public void updateStatus1(int idSchedule) {
 		scheduleMapper.onGame(idSchedule);
-		
 	}
 
 	public int teamAdraw(int idTeam) {
@@ -126,5 +124,4 @@ public class ScheduleRepository {
 		return scheduleMapper.getScheduleByTeam(idTeam,idTour);
 	}
 
-	
 }

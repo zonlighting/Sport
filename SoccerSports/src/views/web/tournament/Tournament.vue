@@ -36,7 +36,6 @@
                   ></v-img>
                 </v-col>
                 <v-col>
-                  
                   <router-link
                     :to="{ path: '/tournamentDetail/' + item.idTournament }"
                     style="color: black"

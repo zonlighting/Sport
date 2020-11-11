@@ -63,6 +63,9 @@ public class ProfileRepository {
 
 	public void updateProfileUser(Profile profile) {
 		 profileMapper.updateProfileUser(profile);
-		
+  }
+	public Profile lastFiveMatch(int idPlayer) {
+		return profileMapper.lastFiveMatch(idPlayer);
+
 	}
 }

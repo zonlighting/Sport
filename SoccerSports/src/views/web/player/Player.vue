@@ -21,9 +21,9 @@
                   class="ml-4"
                   max-height="30"
                   max-width="30"
-                  :src="baseUrl + team.logo"
+                  :src="baseUrl + currentTeam.logo"
                 ></v-img>
-                {{ team.nameTeam }}
+                {{ currentTeam.nameTeam }}
               </v-row>
               <h5 class="pt-3" style="font-size: 18px; font-weight: 400">
                 {{ playerStatus.pos }}
@@ -47,11 +47,11 @@
                   style="
                     color: black;
                     font-weight: 600;
-                    line-height: 34px;
-                    font-size: 24px;
+                    line-height: 10px;
+                    font-size: 18px;
                   "
                   cols="5"
-                  >2020 MLS STATS</v-col
+                  >{{ year }} MLS STATS</v-col
                 >
                 <v-col cols="4"></v-col>
               </v-row>
@@ -90,32 +90,226 @@
     <v-divider style="margin: 0 !important"></v-divider>
     <v-row class="pl-6">
       <v-col cols="12" md="2" xm="2"></v-col>
-      <v-col> </v-col>
+      <v-col cols="12" md="2" xm="2">
+        <v-card max-width="374">
+          <v-card-title class="card-title">Switch Player </v-card-title>
+          <v-divider class="mx-5" style="margin-top: 0 !important"></v-divider>
+          <v-select
+            v-model="teamSelect"
+            :items="teams"
+            item-text="nameTeam"
+            item-value="idTeam"
+            class="mx-6"
+            label="Select Team"
+            dense
+            solo
+          ></v-select>
+          <v-select
+            v-model="positionSelect"
+            :items="defaultPosition"
+            class="mx-6"
+            label="Position"
+            dense
+            solo
+          ></v-select>
+
+          <template v-if="team != null">
+            <div v-for="(member, index) in team.profile" :key="index">
+              <template v-if="member.position == positionSelect && index < 5">
+                <v-row class="ml-6">
+                  <v-avatar
+                    style="border: 1px solid grey"
+                    class="pr-3"
+                    size="48"
+                  >
+                    <v-img
+                      :src="baseUrl + member.avatar"
+                      max-width="60"
+                      max-height="60"
+                      class="ml-3 pointer"
+                    ></v-img>
+                  </v-avatar>
+                  <div>
+                    <p
+                      style="
+                        margin-bottom: 0px;
+                        color: #2b2c2d;
+                        font-weight: 600;
+                        font-size: 14px;
+                      "
+                    >
+                      {{ member.name }}
+                    </p>
+                    <p style="font-size: 12px">Age: {{ member.age }}</p>
+                  </div>
+                </v-row>
+              </template>
+            </div>
+          </template>
+          <v-divider style="margin: 0 !important"></v-divider>
+          <h5 @click="toSquad" class="center" style="color: blue">
+            Full Squad
+          </h5>
+        </v-card>
+      </v-col>
+      <v-col cols="12" md="6" xm="6">
+        <v-card>
+          <v-card-title class="card-title">Next Match</v-card-title>
+          <v-divider class="mx-5" style="margin: 0 !important"></v-divider>
+          <template v-if="nextMatch != null">
+            <v-card-subtitle class="center mb-5">
+              <h3>{{ nextMatch.year }} {{ nextMatch.nameTour }}</h3>
+            </v-card-subtitle>
+            <v-card-text>
+              <v-row>
+                <v-col cols="3"></v-col>
+                <h4>{{ nextMatch.nameTeam1 }}</h4>
+                <v-img
+                  class="ml-4"
+                  max-height="50"
+                  max-width="50"
+                  :src="baseUrl + nextMatch.logoTeam1"
+                ></v-img>
+                <div class="px-15">
+                  <h5 style="margin-bottom: 0">{{ nextMatch.dayStart }}</h5>
+                  <h5>{{ nextMatch.timeStart }}</h5>
+                </div>
+                <v-img
+                  class="mr-4"
+                  max-height="50"
+                  max-width="50"
+                  :src="baseUrl + nextMatch.logoTeam2"
+                ></v-img>
+                <h4>{{ nextMatch.nameTeam2 }}</h4>
+              </v-row>
+            </v-card-text>
+          </template>
+          <template v-else>
+            <v-card-subtitle class="center"
+              >PLayer Don't Have Schedule
+            </v-card-subtitle>
+          </template>
+        </v-card>
+        <v-card class="mt-15">
+          <v-card-title class="card-title">Last 5 Matches</v-card-title>
+          <v-data-table
+            :headers="headers"
+            :items="lastFiveMatch"
+            class="elevation-1"
+            hide-default-footer
+            :items-per-page="15"
+          >
+            <template v-slot:[`item.currentTeam`]="{ item }">
+              <v-row>
+                <img
+                  :src="baseUrl + item.logoTeam1"
+                  width="40px"
+                  height="40px"
+                  style="margin: 3px 0 3px 0"
+                />
+                <p class="pt-3" style="color: blue">
+                  {{ item.nameTeam1 }}
+                </p></v-row
+              >
+            </template>
+            <template v-slot:[`item.opponent`]="{ item }">
+              <v-row>
+                vs
+                <img
+                  :src="baseUrl + item.logoTeam2"
+                  width="40px"
+                  height="40px"
+                  style="margin: 3px 0 3px 0"
+                />
+                <p class="pt-3" style="color: blue">
+                  {{ item.nameTeam2 }}
+                </p></v-row
+              >
+            </template>
+            <template v-slot:[`item.result`]="{ item }">
+              <v-row>
+                <p v-if="item.status == 0" style="color: green">W</p>
+                <p v-else-if="item.status == 1" style="color: red">L</p>
+                <p v-else style="color: orange">T</p>
+                <p class="pt-3" style="color: blue">
+                  {{ item.score1 }}
+                </p>
+                <p class="pt-3 px-1">-</p>
+                <p class="pt-3" style="color: blue">
+                  {{ item.score2 }}
+                </p>
+              </v-row>
+            </template>
+          </v-data-table>
+        </v-card>
+      </v-col>
     </v-row>
   </div>
 </template>
 
 <script>
 import { ENV } from "@/config/env.js";
-
+var d = new Date();
 export default {
   data() {
     return {
+      lastFiveMatch: [],
+      teamSelect: "",
+      positionSelect: "Goalkeepers",
       idPlayer: this.$route.params.id,
       playerStatus: this.$store.state.member.playerProfile,
       playerProfile: {},
-      team: {},
+      currentTeam: this.$store.state.team.teamDetail,
+      team: this.$store.state.team.teamDetail,
+      year: "",
+      teams: [],
+      defaultPosition: ["Goalkeepers", "Defenders", "Midfielders", "Forwards"],
+      nextMatch: {},
+      headers: [
+        {
+          text: "TEAM",
+          align: "start",
+          sortable: false,
+          value: "currentTeam",
+        },
+        {
+          text: "DATE",
+          align: "start",
+          sortable: false,
+          value: "dayStart",
+        },
+        { text: "OPPONENT", value: "opponent", sortable: false },
+        { text: "RESULT", value: "result", sortable: false },
+        { text: "TIME", value: "timeStart", sortable: false },
+        { text: "COMPETITION", value: "nameTour", sortable: false },
+      ],
     };
   },
   mounted() {
     console.log(this.$route.params.id);
-    console.log(this.$store.state.member.playerProfile);
+    // console.log(this.$store.state.member.playerProfile);
+    // console.log(this.$store.state.team.teamDetail);
     this.getPlayer(this.idPlayer);
+    this.getYear();
+    this.getTeams();
+    this.getNextMatch(this.$route.params.id);
+    this.getLastFiveMatch(this.$route.params.id);
   },
 
   computed: {
     baseUrl() {
       return ENV.BASE_IMAGE;
+    },
+  },
+
+  watch: {
+    teamSelect(newValue) {
+      // console.log(newValue, oldValue);
+      this.team = this.getTeamById(newValue);
+    },
+
+    positionSelect(newValue) {
+      this.positionSelect = newValue;
     },
   },
 
@@ -126,7 +320,6 @@ export default {
         .dispatch("member/getPlayerById", id)
         .then((response) => {
           if (response.data.code == 0) {
-            console.log(response.data.payload);
             self.playerProfile = response.data.payload;
             self.getTeamById(self.playerProfile.idTeam);
           } else {
@@ -147,12 +340,70 @@ export default {
         .dispatch("team/getTeamById", id)
         .then((response) => {
           this.$store.commit("auth/auth_overlay");
-          console.log(response.data.payload);
           self.team = response.data.payload;
         })
         .catch(function (error) {
           alert(error);
         });
+    },
+
+    getTeams() {
+      let self = this;
+      this.$store.commit("auth/auth_overlay");
+      this.$store
+        .dispatch("team/getTeams")
+        .then((response) => {
+          this.$store.commit("auth/auth_overlay");
+          if (response.data.code === 0) {
+            self.teams = response.data.payload;
+            // console.log(self.desserts)
+          } else {
+            alert(response.data.message);
+          }
+        })
+        .catch(function (error) {
+          alert(error);
+        });
+    },
+
+    getNextMatch(id) {
+      let self = this;
+      this.$store.commit("auth/auth_overlay");
+      this.$store
+        .dispatch("member/nextMatch", id)
+        .then((response) => {
+          this.$store.commit("auth/auth_overlay");
+          self.nextMatch = response.data.payload;
+          console.log(self.nextMatch);
+        })
+        .catch(function (error) {
+          alert(error);
+        });
+    },
+
+    getLastFiveMatch(id) {
+      let self = this;
+      this.$store.commit("auth/auth_overlay");
+      this.$store
+        .dispatch("member/lastFiveMatch", id)
+        .then((response) => {
+          this.$store.commit("auth/auth_overlay");
+          self.lastFiveMatch = response.data.payload;
+          console.log(self.lastFiveMatch);
+        })
+        .catch(function (error) {
+          alert(error);
+        });
+    },
+
+    getYear() {
+      this.year = d.getFullYear();
+    },
+
+    toSquad() {
+      this.$router.push({
+        path: `/squad/${this.team.idTeam}`,
+      });
     },
   },
 };
@@ -168,5 +419,16 @@ export default {
   font-weight: 600;
   line-height: 34px;
   font-size: 24px;
+}
+.card-title {
+  color: #151617;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 12px;
+}
+.center {
+  margin: auto;
+  border: 1px solid gray;
+  padding: 10px;
 }
 </style>
