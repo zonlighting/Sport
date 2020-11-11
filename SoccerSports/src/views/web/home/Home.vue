@@ -310,7 +310,7 @@
                     <tr v-for="(item, index) in rankAll" :key="index">
                       <template
                         v-if="index < 12"
-                        @click="detailTeam(item.idTeam)"
+                        @click="detailTeam(item)"
                       >
                         <th style="color: white">{{ index + 1 }}</th>
                         <th style="color: white">{{ item.nameTeam }}</th>
@@ -370,7 +370,7 @@
                           <h3 class="text-center">{{ item.location }}</h3>
                         </div>
                         <v-row>
-                          <v-col class="text-center">
+                          <v-col class="text-center" style="margin-left:20px">
                             <v-img
                               :src="baseUrl + item.team[0].logo"
                               lazy-src="@/assets/err.png"
@@ -465,7 +465,6 @@ import { ENV } from "@/config/env.js";
 
 export default {
   created() {
-    this.$store.commit("auth/auth_overlay");
     this.getRecentMatch();
     this.getLastResults();
     this.getTournament();
@@ -598,8 +597,8 @@ export default {
           alert(error);
         });
     },
-    detailTeam() {
-      this.$router.push();
+    detailTeam(item) {
+      this.$router.push('/fixtures/'+item.idTeam);
     },
 
     setintervalTime(time) {
