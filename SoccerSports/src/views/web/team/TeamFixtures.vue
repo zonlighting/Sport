@@ -112,7 +112,7 @@ export default {
   },
 
   mounted() {
-    // console.log(this.$route)
+    console.log(this.$route)
     if (this.team.idTeam == undefined) {
       this.$router.push({ path: `/teams` });
     } else {
