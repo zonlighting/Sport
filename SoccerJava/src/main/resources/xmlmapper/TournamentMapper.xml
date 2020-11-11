@@ -130,11 +130,11 @@
 	<update id="update">
 		UPDATE `sports`.`tournament_tbl`
 		SET `tournament_name`
-		= #{nameTournament} ,`tournament_end` = #{timeEnd},
-		`tournament_start` = #{timeStart},`tournament_description` =
+		= #{nameTournament} ,`tournament_timeEnd` = #{timeEnd},
+		`tournament_timeStart` = #{timeStart},`tournament_description` =
 		#{description},
 		`tournament_banner`=#{banner} WHERE (`tournament_id` =
-		#{idTournament});
+		${idTournamnet});
 	</update>
 	<delete id="delete" parameterType="int">
 		DELETE FROM

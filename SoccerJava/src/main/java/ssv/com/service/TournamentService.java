@@ -114,34 +114,17 @@ public class TournamentService {
 
 	public ResponseQuery<?> update(TournamentForm tournamentForm) {
 		Tournament tournament = modelMapper.map(tournamentForm, Tournament.class);
-		if (tournamentForm.getBannerFile()!=null) {
+		if (tournamentForm.getBannerFile().isEmpty()) {
 			try {
-				tournament.setBanner(UploadFile.saveFile(tournamentForm.getBannerFile()));
+				tournament.setBanner(UploadFile.saveVideo(tournamentForm.getBannerFile()));
 			} catch (IllegalStateException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-		List<Schedule> list=scheduleService.getByTournament(tournament.getIdTournament());
-		List<Tournament> listTour=getAll();
-		for (Tournament tournament2 : listTour) {
-			if(tournament2.getIdTournament()==tournament.getIdTournament()) {
-				continue;
-			}
-			if(tournament2.getNameTournament().toLowerCase()==tournament.getNameTournament().toLowerCase()) {
-				return ResponseQuery.faild("Namesake",
-						400);
-			}
-			
-		}
-		for (Schedule schedule : list) {
-			if(schedule.getTimeStart().toLocalDate().isBefore(tournament.getTimeStart())||schedule.getTimeStart().toLocalDate().isAfter(tournament.getTimeEnd())) {
-				return ResponseQuery.faild("Out of match time :"+schedule.getTimeStart(),400);
-			}
-		}
-		tournamentRepository.update(tournament);
-		return ResponseQuery.success("Update successful tournament",
+		tournamentRepository.update(tournament, tournament.getIdTournament());
+		return ResponseQuery.faild("Update successful tournament",
 				tournamentRepository.getById(tournament.getIdTournament()));
 	}
 
@@ -192,14 +175,15 @@ public class TournamentService {
 			int matchPlayed = 0;
 			if (schedules.size() > 0) {
 				for (Schedule schedule : schedules) {
-					if ((team.getIdTeam() == schedule.getIdTeam1() || team.getIdTeam() == schedule.getIdTeam2())
-							&& (schedule.getWinner() != 0 || schedule.getAdraw() != 0)) {
+					if ((team.getIdTeam() == schedule.getIdTeam1() || team.getIdTeam() == schedule.getIdTeam2()) && (schedule.getWinner() != 0 || schedule.getAdraw() != 0) ) {
 						matchPlayed++;
 						if (team.getIdTeam() == schedule.getWinner()) {
 							win++;
-						} else if (team.getIdTeam() != schedule.getWinner() && schedule.getWinner() != 0) {
+						}
+						else if (team.getIdTeam() != schedule.getWinner() && schedule.getWinner() != 0) {
 							lose++;
-						} else if (schedule.getAdraw() == 1) {
+						}
+						else if (schedule.getAdraw() == 1 ) {
 							tie++;
 						}
 					}
