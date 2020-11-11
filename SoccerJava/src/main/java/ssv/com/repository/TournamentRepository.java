@@ -69,4 +69,6 @@ public class TournamentRepository {
 		// TODO Auto-generated method stub
 		return tournamentMapper.getAllScheduleStatus(status);
 	}
+
+
 }

@@ -1,18 +1,18 @@
 package ssv.com.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import ssv.com.dto.ResponseQuery;
-import ssv.com.dto.TeamDetail;
 import ssv.com.entity.Account;
 import ssv.com.entity.Profile;
 import ssv.com.exception.ResourceExistsException;
@@ -115,5 +115,39 @@ public class ProfileService {
 		}
 	
 		return profiles;
+	}
+
+	public ResponseQuery<?> updateProfileUser(ProfileForm profileForm) {
+		List<Profile> list=getAll();
+		if(list==null||list.isEmpty()) {
+			ResponseQuery.faild("Update faild", 400);
+		}
+		for (Profile profile : list) {
+			if(profile.getEmail()==profileForm.getEmail()) {
+				if(profileForm.getName()!=null) {
+					profile.setName(profileForm.getName());
+				}if(profileForm.getFile()!=null) {
+					try {
+						profile.setAvatar(UploadFile.saveFile(profileForm.getFile()));
+					} catch (IllegalStateException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				if(profileForm.getPhone()!=null) {
+					profile.setName(profileForm.getPhone());
+				}
+				profileRepository.updateProfileUser(profile);
+				return ResponseQuery.success("Update sussec", profile);
+			}
+		}
+		return ResponseQuery.success("Worong data", null);
+	}
+
+	private List<Profile> getAll() {
+		return profileRepository.getAll();
 	}
 }

@@ -53,4 +53,8 @@ public interface ScheduleMapper {
 
 	List<Schedule> scheduleTeam(int idTeam);
 
+	int consecutiveWin(int idTeam);
+
+	List<Schedule> getScheduleByTeam(int idTeam, int idTour);
+
 }

@@ -35,4 +35,9 @@ public class HistoryRepository {
 	public List<History> getToursByTeam(int idTeam) {
 		return historyMapper.getToursByTeam(idTeam);
 	}
+
+	public List<Integer> getByTeam(int idTeam) {
+		// TODO Auto-generated method stub
+		return historyMapper.getByTeam(idTeam);
+	}
 }

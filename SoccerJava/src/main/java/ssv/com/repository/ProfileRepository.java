@@ -55,4 +55,14 @@ public class ProfileRepository {
 		// TODO Auto-generated method stub
 		return profileMapper.getNumberGoal(idTeam,idMember);
 	}
+
+	public List<Profile> getAll() {
+		return profileMapper.getAll();
+
+	}
+
+	public void updateProfileUser(Profile profile) {
+		 profileMapper.updateProfileUser(profile);
+		
+	}
 }

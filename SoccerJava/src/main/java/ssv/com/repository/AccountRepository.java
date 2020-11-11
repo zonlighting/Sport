@@ -1,13 +1,11 @@
 package ssv.com.repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import ssv.com.entity.Account;
-import ssv.com.entity.Profile;
 import ssv.com.mapper.AccountMapper;
 
 @Repository

@@ -18,4 +18,6 @@ public interface HistoryMapper {
 	List<History> historyMember( int idTour, int idTeam);
 
 	List<History> getToursByTeam(int idTeam);
+
+	List<Integer> getByTeam(int idTeam);
 }

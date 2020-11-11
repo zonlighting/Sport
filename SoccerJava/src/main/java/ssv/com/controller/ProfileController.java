@@ -65,5 +65,8 @@ public class ProfileController {
 		}
 		return ResponseQuery.faild("Profile not join!!!", null);
 	}
-	
+	@PostMapping(value="updateProfileUser")
+	public ResponseQuery<?> updateProfileUser(@ModelAttribute ProfileForm profileForm){
+		return profileService.updateProfileUser(profileForm);
+	}
 }

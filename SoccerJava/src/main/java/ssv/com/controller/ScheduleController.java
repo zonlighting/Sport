@@ -119,5 +119,12 @@ public class ScheduleController {
 	public ResponseQuery<?> scheduleTeam(@RequestParam int idTeam){
 		return ResponseQuery.success("connect", scheduleService.scheduleTeam(idTeam));
 	}
+	//Chuỗi trận thắng,thua ,hoa liên tục của team
+	@GetMapping(value="consecutiveDetail")
+	public ResponseQuery<?> consecutiveDetail(@RequestParam int idTeam){
+		return ResponseQuery.success("consecutiveDetail", scheduleService.consecutiveDetail(idTeam));
+	}
+	
+	
 
 }

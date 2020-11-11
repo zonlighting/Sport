@@ -53,5 +53,8 @@
 		select * from `sports`.`history_tbl`
 		where id_team=${idTeam};
 	</select>
+	<select id="getByTeam" resultType="int">
+		SELECT DISTINCT history_tbl.id_tour FROM sports.history_tbl where id_team=${idTeam}
+	</select>
 
 </mapper>

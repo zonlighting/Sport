@@ -23,7 +23,7 @@
         {{ !!schedule ? schedule.tournament.nameTournament : "" }}
       </h1>
       <h3 class="text-center">
-        Time Start: {{ new Date(Date.parse(schedule.timeStart)) }}
+        Time Start: {{ (new Date(Date.parse(schedule.timeStart)).toString().substring(0,21)) }}
       </h3>
       <h3 class="text-center">Location:{{ schedule.location }}</h3>
       <div class="text-center">
