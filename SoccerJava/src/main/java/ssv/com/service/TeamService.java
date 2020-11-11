@@ -198,9 +198,10 @@ public class TeamService {
 		return ResponseQuery.success("Connect", teamRepository.getHistory(idTour, idTeam, idSchedule));
 	}
 
+	static String[] monthName = { "January", "February", "March", "April", "May", "June", "July", "August", "September",
+			"October", "November", "December" };
+
 	public List<MonthYearDto> teamSchedules(int idTeam) {
-		String[] monthName = { "January", "February", "March", "April", "May", "June", "July", "August", "September",
-				"October", "November", "December" };
 		List<Schedule> schedules = scheduleRepository.getAll().stream()
 				.filter((schedule) -> (schedule.getIdTeam1() == idTeam || schedule.getIdTeam2() == idTeam))
 				.collect(Collectors.toList());
@@ -238,6 +239,13 @@ public class TeamService {
 
 			match.setNameTour(tournamentRepository.getById(schedule.getIdTour()).getNameTournament());
 			match.setStatus(schedule.getStatus());
+			match.setScore1(schedule.getScore1());
+			match.setScore2(schedule.getScore2());
+			if (schedule.getTimeEnd().getMinute() > 9) {
+				match.setTimeEnd(schedule.getTimeEnd().getHour() + ":" + schedule.getTimeEnd().getMinute());
+			} else {
+				match.setTimeEnd(schedule.getTimeEnd().getHour() + ":0" + schedule.getTimeEnd().getMinute());
+			}
 			matchs.add(match);
 		}
 
@@ -321,7 +329,38 @@ public class TeamService {
 			}
 			squad.add(squadDto);
 		}
-
 		return squad;
+	}
+
+	public static <T extends Comparable<T>> T least(T a, T b) {
+		return a == null ? b : (b == null ? a : (a.compareTo(b) < 0 ? a : b));
+	}
+
+	public List<TeamScheduleDto> playerNextMatch(int idPlayer) {
+		Optional<Profile> profile = profileRepository.findProfileById(idPlayer);
+		List<TeamScheduleDto> dtos = new ArrayList<TeamScheduleDto>();
+		for (Schedule schedule : scheduleRepository.getByStatus(0)) {
+			if (schedule.getIdTeam1() == profile.get().getIdTeam()
+					|| schedule.getIdTeam2() == profile.get().getIdTeam()) {
+				Team team1 = teamRepository.getTeamById(schedule.getIdTeam1());
+				Team team2 = teamRepository.getTeamById(schedule.getIdTeam2());
+				TeamScheduleDto dto = new TeamScheduleDto();
+				dto.setDayStart(monthName[schedule.getTimeStart().getMonthValue()] + " , "
+						+ schedule.getTimeStart().getDayOfMonth());
+				if (schedule.getTimeStart().getMinute() > 9) {
+					dto.setTimeStart(schedule.getTimeStart().getHour() + ":" + schedule.getTimeStart().getMinute());
+				} else {
+					dto.setTimeStart(schedule.getTimeStart().getHour() + ":0" + schedule.getTimeStart().getMinute());
+				}
+				dto.setNameTeam1(team1.getNameTeam());
+				dto.setLogoTeam1(team1.getLogo());
+				dto.setNameTeam2(team2.getNameTeam());
+				dto.setLogoTeam2(team2.getLogo());
+				dto.setNameTour(tournamentRepository.getById(schedule.getIdTour()).getNameTournament());
+				dto.setYear(schedule.getTimeStart().getYear());
+				dtos.add(dto);
+			}
+		}
+		return dtos;
 	}
 }

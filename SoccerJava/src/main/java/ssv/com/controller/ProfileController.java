@@ -65,5 +65,4 @@ public class ProfileController {
 		}
 		return ResponseQuery.faild("Profile not join!!!", null);
 	}
-	
 }

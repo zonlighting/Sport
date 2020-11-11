@@ -441,7 +441,6 @@ import { ENV } from "@/config/env.js";
 
 export default {
   created() {
-    this.$store.commit("auth/auth_overlay");
     this.getRecentMatch();
     this.getLastResults();
     this.getTournament();

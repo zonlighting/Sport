@@ -24,9 +24,12 @@
                     :items-per-page="15"
                   >
                     <template v-slot:[`item.nameTeam1`]="{ item }">
-                      <p class="pt-3" style="color: red">
+                      <p class="pt-3" style="color: red" v-if="item.score1 > item.score2">
                         {{ item.nameTeam1 }}
                       </p>
+                      <h5 v-else>
+                        {{ item.nameTeam1 }}
+                      </h5>
                     </template>
                     <template v-slot:[`item.logoTeam1`]="{ item }">
                       <img
@@ -35,9 +38,6 @@
                         height="50px"
                         style="margin: 3px 0 3px 0"
                       />
-                    </template>
-                    <template v-slot:[`item.vs`]="{}">
-                      <p class="pt-3" style="color: blue">VS</p>
                     </template>
                     <template v-slot:[`item.logoTeam2`]="{ item }">
                       <img
@@ -48,12 +48,18 @@
                       />
                     </template>
                     <template v-slot:[`item.nameTeam2`]="{ item }">
-                      <p class="pt-3" style="color: red">
+                      <p class="pt-3" style="color: red" v-if="item.score1 < item.score2">
                         {{ item.nameTeam2 }}
                       </p>
+                      <h5 v-else>
+                        {{ item.nameTeam2 }}
+                      </h5>
                     </template>
                     <template v-slot:[`item.status`]="{}">
                       <p class="pt-3" style="color: red">Ended</p>
+                    </template>
+                    <template v-slot:[`item.score`]="{ item }">
+                      <h4>{{ item.score1 }}-{{ item.score2 }}</h4>
                     </template>
                   </v-data-table>
                 </v-col>
@@ -91,7 +97,7 @@ export default {
         },
         { text: "", value: "nameTeam1", sortable: false },
         { text: "", value: "logoTeam1", sortable: false },
-        { text: "MATCH", value: "vs", sortable: false },
+        { text: "MATCH", value: "score", sortable: false },
         { text: "", value: "logoTeam2", sortable: false },
         { text: "", value: "nameTeam2", sortable: false },
         { text: "TIME", value: "timeStart", sortable: false },

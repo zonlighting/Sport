@@ -19,3 +19,7 @@ export function getPlayerById(id){
 export function getTourGoal(data){
     return Api.get(`/profiles/getTourGoal?idTeam=${data}`)
 }
+
+export function nextMatch(idPlayer){
+    return Api.get(`/team/nextMatch/${idPlayer}`)
+}
