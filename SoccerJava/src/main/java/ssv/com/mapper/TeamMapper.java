@@ -1,10 +1,10 @@
 package ssv.com.mapper;
 
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Mapper;
 
-import ssv.com.entity.History;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
 import ssv.com.entity.Team;
 
 @Mapper

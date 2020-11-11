@@ -117,7 +117,7 @@
         </template>
         <template v-slot:[`item.timeStart`]="{ item }">
           <div>
-            {{ new Date(Date.parse(item.timeStart)) }}
+            {{ (new Date(Date.parse(item.timeStart))).toString().substring(0,21) }}
           </div>
         </template>
         <template v-slot:[`item.team[0].nameTeam`]="{ item }">

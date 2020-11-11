@@ -28,5 +28,11 @@ public interface ProfileMapper {
 
 	public int getNumberGoal(int idTeam, Long idMember);
 
+
+	public List<Profile> getAll();
+
+	public void updateProfileUser(Profile profile);
+
 	public Profile lastFiveMatch(int idPlayer);
+
 }

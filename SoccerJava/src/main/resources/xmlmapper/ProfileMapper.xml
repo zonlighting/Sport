@@ -134,6 +134,15 @@
 		history_tbl.id_member=${idMember} and
 		history_tbl.id_team=${idTeam} ;
 	</select>
+	<select id="getAll" resultMap="profileMapping">
+			SELECT p.*, t.*
+		FROM
+		profile_tbl p
+		left JOIN account_tbl a ON p.profile_email =
+		a.account_email
+		left join team_tbl t on t.team_id = p.id_team
+	</select>
+
 
 	<select id="lastFiveMatch" resultMap="profileSchedule">
 		SELECT * FROM
@@ -143,5 +152,6 @@
 		team_tbl.team_id=profile_tbl.id_team where profile_id=#{id} and
 		schedule_tbl.schedule_status=2 order by schedule_tbl.schedule_start
 		desc limit 0,5 ;
+
 	</select>
 </mapper>

@@ -29,4 +29,8 @@ public class HistoryController {
 		
 		return ResponseQuery.success("Connect", historyMember);
 	}
+	@GetMapping(value="/test")
+	public ResponseQuery<?> test(@RequestParam int idTeam){
+		return ResponseQuery.success("Connect", historyService.test(idTeam));
+	}
 }

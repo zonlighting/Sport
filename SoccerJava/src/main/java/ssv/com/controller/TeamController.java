@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ssv.com.dto.ResponseQuery;
-import ssv.com.entity.Profile;
 import ssv.com.entity.Team;
 import ssv.com.file.UploadFile;
 import ssv.com.form.TeamForm;

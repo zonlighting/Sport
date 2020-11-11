@@ -9,24 +9,20 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import lombok.var;
+import ssv.com.dto.ConsecutiveDetail;
 import ssv.com.dto.GoalDto;
-import ssv.com.dto.RankDto;
 import ssv.com.dto.ResponseQuery;
-import ssv.com.entity.Goal;
 import ssv.com.entity.Schedule;
 import ssv.com.entity.Team;
 import ssv.com.file.UploadFile;
 import ssv.com.form.ScheduleForm;
 import ssv.com.repository.GoalRepository;
+import ssv.com.repository.HistoryRepository;
 import ssv.com.repository.ScheduleRepository;
 import ssv.com.repository.TournamentRepository;
 
@@ -40,6 +36,8 @@ public class ScheduleService {
 	private TournamentRepository tournamentRepository;
 	@Autowired
 	private GoalRepository goalRepository;
+	@Autowired
+	private HistoryRepository historyRepository;
 
 	// mỗi trận đấu phải cách nhau ít nhất 3h
 	public ResponseQuery<?> create(Schedule schedule) {
@@ -52,7 +50,18 @@ public class ScheduleService {
 	}
 
 	public List<Schedule> getByTournament(int idTournament) {
-		return scheduleRepository.getByTournament(idTournament);
+		List<Schedule> schedules = scheduleRepository.getByTournament(idTournament);
+		for (Schedule schedule : schedules) {
+			if (schedule.getIdTeam1() > schedule.getIdTeam2()) {
+				if (schedule.getTeam().get(0).getIdTeam() < schedule.getTeam().get(1).getIdTeam()) {
+					List<Team> list = new ArrayList<Team>();
+					list.add(schedule.getTeam().get(1));
+					list.add(schedule.getTeam().get(0));
+					schedule.setTeam(list);
+				}
+			}
+		}
+		return schedules;
 	}
 
 	// Kiểm tra điều kiện ngày và team có đang thi đấu h đó k
@@ -93,10 +102,12 @@ public class ScheduleService {
 	public Schedule getById(int idSchedule) {
 		Schedule schedule = scheduleRepository.getById(idSchedule);
 		if (schedule.getIdTeam1() > schedule.getIdTeam2()) {
-			List<Team> list = new ArrayList<Team>();
-			list.add(schedule.getTeam().get(1));
-			list.add(schedule.getTeam().get(0));
-			schedule.setTeam(list);
+			if (schedule.getTeam().get(0).getIdTeam() < schedule.getTeam().get(1).getIdTeam()) {
+				List<Team> list = new ArrayList<Team>();
+				list.add(schedule.getTeam().get(1));
+				list.add(schedule.getTeam().get(0));
+				schedule.setTeam(list);
+			}
 			return schedule;
 
 		} else {
@@ -131,9 +142,20 @@ public class ScheduleService {
 
 		}
 	}
- 
+
 	public List<Schedule> getAll() {
-		return scheduleRepository.getAll();
+		List<Schedule> schedules = scheduleRepository.getAll();
+		for (Schedule schedule : schedules) {
+			if (schedule.getIdTeam1() > schedule.getIdTeam2()) {
+				if (schedule.getTeam().get(0).getIdTeam() < schedule.getTeam().get(1).getIdTeam()) {
+					List<Team> list = new ArrayList<Team>();
+					list.add(schedule.getTeam().get(1));
+					list.add(schedule.getTeam().get(0));
+					schedule.setTeam(list);
+				}
+			}
+		}
+		return schedules;
 	}
 
 	public ResponseQuery<?> update(ScheduleForm scheduleForm) {
@@ -220,7 +242,7 @@ public class ScheduleService {
 
 	public List<Schedule> teamResults(int idTeam, int idTournament) {
 		// TODO Auto-generated method stub
-		return scheduleRepository.teamResults(idTeam,idTournament);
+		return scheduleRepository.teamResults(idTeam, idTournament);
 	}
 
 	public List<Schedule> teamLastResults(int idTeam) {
@@ -230,6 +252,74 @@ public class ScheduleService {
 
 	public List<Schedule> scheduleTeam(int idTeam) {
 		return scheduleRepository.scheduleTeam(idTeam);
+	}
+
+	public ConsecutiveDetail consecutiveDetail(int idTeam) {
+		ConsecutiveDetail consecutiveDetail = new ConsecutiveDetail();
+		int consecutiveWin = 0;
+		int consecutiveLose = 0;
+		int consecutiveDraw = 0;
+		List<Integer> listTour = historyRepository.getByTeam(idTeam);
+		for (Integer integer : listTour) {
+			int maxWin = 0;
+			int maxLose = 0;
+			int maxDraw = 0;
+
+			List<Schedule> schedules = scheduleRepository.getScheduleByTeam(idTeam, integer);
+			if (schedules.size() > 0) {
+				if (schedules.get(0).getWinner() == idTeam) {
+					maxWin = 1;
+					if (maxWin >= consecutiveWin) {
+						consecutiveWin = maxWin;
+					}
+					maxDraw = 1;
+					if (maxDraw >= consecutiveDraw) {
+						consecutiveDraw = maxDraw;
+					}
+				} else if (schedules.get(0).getAdraw() == 1) {
+					maxDraw = 1;
+					if (maxDraw >= consecutiveDraw) {
+						consecutiveDraw = maxDraw;
+					}
+				} else {
+					maxLose = 1;
+					if (maxLose >= consecutiveLose) {
+						consecutiveLose = maxLose;
+					}
+				}
+				for (int i = 1; i < schedules.size(); i++) {
+					if (schedules.get(i).getWinner() == idTeam && schedules.get(i - 1).getWinner() == idTeam) {
+						maxWin++;
+						maxLose = 0;
+						maxDraw++;
+						if (maxDraw >= consecutiveDraw) {
+							consecutiveDraw = maxDraw;
+						}
+						if (maxWin >= consecutiveWin) {
+							consecutiveWin = maxWin;
+						}
+					} else if (schedules.get(i).getAdraw() == 0||schedules.get(i).getWinner()==idTeam) {
+						maxDraw++;
+						maxWin = 0;
+						maxLose = 0;
+						if (maxDraw >= consecutiveDraw) {
+							consecutiveDraw = maxDraw;
+						}
+					} else {
+						maxDraw = 0;
+						maxLose++;
+						maxWin = 0;
+						if (maxLose >= consecutiveLose) {
+							consecutiveLose = maxLose;
+						}
+					}
+				}
+			}
+		}
+		consecutiveDetail.setAdrwa(consecutiveDraw);
+		consecutiveDetail.setLose(consecutiveLose);
+		consecutiveDetail.setWin(consecutiveWin);
+		return consecutiveDetail;
 	}
 
 }

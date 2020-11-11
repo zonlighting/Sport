@@ -260,4 +260,9 @@
 		schedule_tbl.schedule_status!=2 order by schedule_tbl.schedule_start
 		desc ;
 	</select>
+	<select id="getScheduleByTeam" resultMap="scheduleMapping" >
+			SELECT * FROM sports.schedule_tbl  inner join team_tbl on (
+		team_tbl.team_id=schedule_tbl.schedule_team1 or
+		team_tbl.team_id=schedule_tbl.schedule_team2 ) where( schedule_tbl.schedule_team1=${idTeam} or schedule_tbl.schedule_team2=${idTeam}) and schedule_tbl.schedule_tour=${idTour} and schedule_status=2 order by schedule_tbl.schedule_start desc ;	
+	</select>
 </mapper>

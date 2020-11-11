@@ -1,12 +1,10 @@
 package ssv.com.mapper;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.apache.ibatis.annotations.Mapper;
 
 import ssv.com.entity.Account;
-import ssv.com.entity.Profile;
 
 @Mapper
 public interface  AccountMapper {

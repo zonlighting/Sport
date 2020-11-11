@@ -56,7 +56,16 @@ public class ProfileRepository {
 		return profileMapper.getNumberGoal(idTeam,idMember);
 	}
 
+	public List<Profile> getAll() {
+		return profileMapper.getAll();
+
+	}
+
+	public void updateProfileUser(Profile profile) {
+		 profileMapper.updateProfileUser(profile);
+  }
 	public Profile lastFiveMatch(int idPlayer) {
 		return profileMapper.lastFiveMatch(idPlayer);
+
 	}
 }

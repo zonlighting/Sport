@@ -114,5 +114,14 @@ public class ScheduleRepository {
 		return scheduleMapper.scheduleTeam(idTeam);
 	}
 
+	public int consecutiveWin(int idTeam) {
+		// TODO Auto-generated method stub
+		return scheduleMapper.consecutiveWin(idTeam);
+	}
+
+	public List<Schedule> getScheduleByTeam(int idTeam, int idTour) {
+		// TODO Auto-generated method stub
+		return scheduleMapper.getScheduleByTeam(idTeam,idTour);
+	}
 
 }

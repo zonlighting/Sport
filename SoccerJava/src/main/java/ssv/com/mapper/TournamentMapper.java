@@ -31,4 +31,5 @@ public interface TournamentMapper {
 	List<Tournament> getAllSchedule();
 
 	List<Tournament> getAllScheduleStatus(int status);
+
 }

@@ -65,6 +65,10 @@ public class ProfileController {
 		}
 		return ResponseQuery.faild("Profile not join!!!", null);
 	}
+	@PostMapping(value="updateProfileUser")
+	public ResponseQuery<?> updateProfileUser(@ModelAttribute ProfileForm profileForm){
+		return profileService.updateProfileUser(profileForm);
+}
 
 
 	@GetMapping("/lastFiveMatch/{idPlayer}")
@@ -73,5 +77,6 @@ public class ProfileController {
 			return ResponseQuery.success("Connect!", profileService.lastFiveMatch(idPlayer));
 		}
 		return ResponseQuery.faild("Don't have any data", null);
+
 	}
 }

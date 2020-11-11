@@ -30,4 +30,9 @@ public class HistoryService {
 	public List<History> historyMember(int idTour, int idTeam) {
 		return historyRepository.historyMember(idTour,idTeam);
 	}
+
+	public List<Integer> test(int idTeam) {
+		// TODO Auto-generated method stub
+		return historyRepository.getByTeam(idTeam);
+	}
 }
