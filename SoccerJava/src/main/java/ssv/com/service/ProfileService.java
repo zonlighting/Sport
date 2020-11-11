@@ -130,15 +130,16 @@ public class ProfileService {
 	}
 
 	public ResponseQuery<?> updateProfileUser(ProfileForm profileForm) {
-		List<Profile> list=getAll();
-		if(list==null||list.isEmpty()) {
+		List<Profile> list = getAll();
+		if (list == null || list.isEmpty()) {
 			ResponseQuery.faild("Update faild", 400);
 		}
 		for (Profile profile : list) {
-			if(profile.getEmail()==profileForm.getEmail()) {
-				if(profileForm.getName()!=null) {
+			if (profile.getEmail() == profileForm.getEmail()) {
+				if (profileForm.getName() != null) {
 					profile.setName(profileForm.getName());
-				}if(profileForm.getFile()!=null) {
+				}
+				if (profileForm.getFile() != null) {
 					try {
 						profile.setAvatar(UploadFile.saveFile(profileForm.getFile()));
 					} catch (IllegalStateException e) {
@@ -149,7 +150,7 @@ public class ProfileService {
 						e.printStackTrace();
 					}
 				}
-				if(profileForm.getPhone()!=null) {
+				if (profileForm.getPhone() != null) {
 					profile.setName(profileForm.getPhone());
 				}
 				profileRepository.updateProfileUser(profile);
@@ -161,6 +162,8 @@ public class ProfileService {
 
 	private List<Profile> getAll() {
 		return profileRepository.getAll();
+	}
+
 	static String[] monthName = { "January", "February", "March", "April", "May", "June", "July", "August", "September",
 			"October", "November", "December" };
 

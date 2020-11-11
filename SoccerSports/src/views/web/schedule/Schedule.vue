@@ -82,10 +82,10 @@
                   <v-avatar size="50" tile
                     ><img :src="baseUrl + item.team[0].logo" alt="Logo"
                   /></v-avatar>
-                  <span v-if="item.status == 2" style="font-size: 40px">
+                  <span v-if="item.status == 2" style="font-size: 15px">
                     {{ item.score1 }}-{{ item.score2 }}
                   </span>
-                  <span v-else class="text-center" style="font-size: 40px">
+                  <span v-else class="text-center" style="font-size: 15px">
                     VS
                   </span>
 

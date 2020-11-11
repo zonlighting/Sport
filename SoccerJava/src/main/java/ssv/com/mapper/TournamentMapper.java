@@ -16,7 +16,7 @@ public interface TournamentMapper {
 
 	Tournament getById(int idTournamnet);
 
-	void update(Tournament tournament, int idTournament);
+	void update(Tournament tournament);
 
 	void delete(int idTournament);
 
@@ -31,5 +31,4 @@ public interface TournamentMapper {
 	List<Tournament> getAllSchedule();
 
 	List<Tournament> getAllScheduleStatus(int status);
-
 }

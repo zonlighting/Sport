@@ -30,8 +30,8 @@ public class TournamentRepository {
 		return tournamentMapper.getById(idTournament);
 	}
 
-	public void update(Tournament tournament, int idTournament) {
-		 tournamentMapper.update(tournament,idTournament);	
+	public void update(Tournament tournament) {
+		 tournamentMapper.update(tournament);	
 	}
 
 	public void delete(int idTournament) {
@@ -69,6 +69,4 @@ public class TournamentRepository {
 		// TODO Auto-generated method stub
 		return tournamentMapper.getAllScheduleStatus(status);
 	}
-
-
 }
