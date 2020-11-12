@@ -156,6 +156,7 @@ export default {
     detailTeam(item){
        this.$router.push({
           path: `/team/${item.idTeam}`,
+          query: { idTab: 1 },
         });
     },
     getData() {

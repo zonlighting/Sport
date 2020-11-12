@@ -466,7 +466,7 @@
 import { ENV } from "@/config/env.js";
 export default {
   async created() {
-    await this.$store.commit("auth/auth_overlay");
+    await this.$store.commit("auth/auth_overlay_true");
     this.getRecentMatch();
     this.getLastResults();
     this.getTournament();
@@ -569,15 +569,15 @@ export default {
         .then((response) => {
           if (response.data.code == 0) {
             this.rankAll = response.data.payload;
-            this.$store.commit("auth/auth_overlay");
+            this.$store.commit("auth/auth_overlay_false");
           } else {
             alert(response.data.message);
-            this.$store.commit("auth/auth_overlay");
+            this.$store.commit("auth/auth_overlay_false");
           }
         })
         .catch(function (error) {
           alert(error);
-          this.$store.commit("auth/auth_overlay");
+            this.$store.commit("auth/auth_overlay_false");
         });
     },
     detailTournament(item) {
@@ -604,6 +604,7 @@ export default {
     detailTeam(item) {
       this.$router.push({
         path: `/team/${item.idTeam}`,
+        query: { idTab: 1 },
       });
     },
     setintervalTime(time) {
