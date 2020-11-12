@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-form ref="form" v-model="valid" lazy-validation>
+    <v-form ref="form"  lazy-validation>
       <v-text-field
         v-model="nameTournament"
         placeholder="Name Tournament"
@@ -195,7 +195,7 @@ export default {
         bodyFormData.append("timeEnd", this.dateEnd);
         bodyFormData.append("timeStart", this.dateStart);
         bodyFormData.append("banner", this.tournament.banner);
-        if (this.image.size > 0) {
+        if (this.image.size > 0&&this.image!=undefined) {
           bodyFormData.append("bannerFile", this.image);
         }
         this.$store
