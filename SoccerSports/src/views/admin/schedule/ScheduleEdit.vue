@@ -189,11 +189,11 @@ export default {
   },
   methods: {
     getDataTeam() {
-      this.$store.commit("auth/auth_overlay");
+      this.$store.commit("auth/auth_overlay_true");
       this.$store
         .dispatch("tournament/getById", this.schedule.idTour)
         .then((response) => {
-          this.$store.commit("auth/auth_overlay");
+          this.$store.commit("auth/auth_overlay_false");
           if (response.data.code == 0) {
             this.listTeam = response.data.payload.team;
           }
@@ -206,7 +206,7 @@ export default {
     },
     create() {
       if (this.$refs.form.validate()) {
-        this.$store.commit("auth/auth_overlay");
+        this.$store.commit("auth/auth_overlay_true");
         this.$store
           .dispatch("schedule/edit", {
             idSchedule: this.schedule.idSchedule,
@@ -217,7 +217,7 @@ export default {
             timeStart: this.date + "T" + this.time,
           })
           .then((response) => {
-            this.$store.commit("auth/auth_overlay");
+            this.$store.commit("auth/auth_overlay_false");
             if (response.data.payload == 400) {
               alert(response.data.message);
             } else {
@@ -231,7 +231,7 @@ export default {
           });
       } else {
         this.$refs.form.validate();
-        this.$store.commit("auth/auth_overlay");
+        this.$store.commit("auth/auth_overlay_false");
       }
     },
     reset() {

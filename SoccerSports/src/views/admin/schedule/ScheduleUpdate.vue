@@ -337,7 +337,7 @@ export default {
     },
 
     update() {
-      this.$store.commit("auth/auth_overlay");
+      this.$store.commit("auth/auth_overlay_true");
       if (this.$refs.form.validate()) {
         const arr = this.goal1.concat(this.goal2);
         var bodyFormData = new FormData();
@@ -360,7 +360,7 @@ export default {
               .then((response) => {
                 if (response.data.code == 0) {
                   alert("Update ");
-                  this.$store.commit("auth/auth_overlay");
+                  this.$store.commit("auth/auth_overlay_false");
                   this.getData();
                   this.close();
                 } else {
@@ -376,7 +376,7 @@ export default {
           });
       } else {
         this.$refs.form.validate();
-        this.$store.commit("auth/auth_overlay");
+        this.$store.commit("auth/auth_overlay_false");
       }
     },
     ok1() {

@@ -151,14 +151,14 @@ export default {
   methods: {
     getSquad(teamValue, tourValue) {
       let self = this;
-      this.$store.commit("auth/auth_overlay");
+      this.$store.commit("auth/auth_overlay_true");
       this.$store
         .dispatch("team/squad", {
           idTeam: teamValue,
           idTour: tourValue,
         })
         .then((response) => {
-          self.$store.commit("auth/auth_overlay");
+          self.$store.commit("auth/auth_overlay_false");
           if (response.data.code == 0) {
             let list = response.data.payload;
             self.desserts = list.filter((d) => {
@@ -180,11 +180,11 @@ export default {
 
     getTours(idTeam) {
       let self = this;
-      this.$store.commit("auth/auth_overlay");
+      this.$store.commit("auth/auth_overlay_true");
       this.$store
         .dispatch("team/toursByTeam", idTeam)
         .then((response) => {
-          self.$store.commit("auth/auth_overlay");
+          self.$store.commit("auth/auth_overlay_false");
           if (response.data.code == 0) {
             self.tournaments = response.data.payload;
           } else {
@@ -199,11 +199,11 @@ export default {
 
     getTeamById(id) {
       let self = this;
-      this.$store.commit("auth/auth_overlay");
+      this.$store.commit("auth/auth_overlay_true");
       this.$store
         .dispatch("team/getTeamById", id)
         .then((response) => {
-          self.$store.commit("auth/auth_overlay");
+          self.$store.commit("auth/auth_overlay_false");
           self.team = response.data.payload;
           self.getTours(self.team.idTeam);
           self.getSquad(self.team.idTeam, self.team.idTour);

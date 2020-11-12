@@ -139,12 +139,12 @@ export default {
   methods: {
     getMatchsByTeamId(id) {
       let self = this;
-      this.$store.commit("auth/auth_overlay");
+      this.$store.commit("auth/auth_overlay_true");
       this.$store
         .dispatch("team/teamMatchs", id)
         .then((response) => {
           let schedules = response.data.payload;
-          this.$store.commit("auth/auth_overlay");
+          this.$store.commit("auth/auth_overlay_false");
           if (response.data.code == 0) {
             self.schedules = schedules;
           } else {

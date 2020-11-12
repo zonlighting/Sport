@@ -274,9 +274,9 @@ export default {
 
   methods: {
     getData() {
-      this.$store.commit("auth/auth_overlay");
+      this.$store.commit("auth/auth_overlay_true");
       this.$store.dispatch("tournament/getAll").then((response) => {
-        this.$store.commit("auth/auth_overlay");
+        this.$store.commit("auth/auth_overlay_false");
         if (response.data.code == 0) {
           console.log(response.data.payload);
           this.tournament = response.data.payload;

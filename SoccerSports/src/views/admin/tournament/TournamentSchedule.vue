@@ -240,11 +240,11 @@ export default {
   },
   methods: {
     getData() {
-      this.$store.commit("auth/auth_overlay");
+      this.$store.commit("auth/auth_overlay_true");
       this.$store
         .dispatch("schedule/getByTour", this.tournament.idTournament)
         .then((response) => {
-          this.$store.commit("auth/auth_overlay");
+          this.$store.commit("auth/auth_overlay_false");
           if (response.data.code == 0) {
             this.schedule = response.data.payload;
           }
@@ -297,11 +297,11 @@ export default {
     },
     deleteItemConfirm() {
       this.dialogDelete = false;
-      this.$store.commit("auth/auth_overlay");
+      this.$store.commit("auth/auth_overlay_true");
       this.$store
         .dispatch("schedule/deleteSchedule", this.idDelete)
         .then((response) => {
-          this.$store.commit("auth/auth_overlay");
+          this.$store.commit("auth/auth_overlay_false");
           if (response.data.code == 0) {
             this.schedule.splice(this.editedIndex, 1);
             alert(response.data.message);

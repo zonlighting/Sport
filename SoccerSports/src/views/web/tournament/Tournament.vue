@@ -144,9 +144,9 @@ export default {
 
   methods: {
     getTournament() {
-      this.$store.commit("auth/auth_overlay");
+      this.$store.commit("auth/auth_overlay_true");
       this.$store.dispatch("tournament/getAll").then((response) => {
-        this.$store.commit("auth/auth_overlay");
+        this.$store.commit("auth/auth_overlay_false");
         this.tournament = response.data.payload;
       });
     },
@@ -156,11 +156,11 @@ export default {
       if (this.select == 3) {
         this.getTournament();
       } else {
-        this.$store.commit("auth/auth_overlay");
+        this.$store.commit("auth/auth_overlay_true");
         this.$store
           .dispatch("tournament/tournamentStatus", this.select)
           .then((response) => {
-            this.$store.commit("auth/auth_overlay");
+            this.$store.commit("auth/auth_overlay_false");
             this.tournament = response.data.payload;
           });
       }

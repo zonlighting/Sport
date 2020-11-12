@@ -16,8 +16,11 @@ const mutations = {
         state.status = ''
         state.token = ''
     },
-    auth_overlay(state) {
-        state.overlay = !state.overlay
+    auth_overlay_true(state) {
+        state.overlay = true
+    },
+    auth_overlay_false(state) {
+        state.overlay = false
     },
     auth_error(state) {
         state.checkAccount = !state.checkAccount
