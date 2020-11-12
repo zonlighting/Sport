@@ -24,7 +24,7 @@
            
             <td>{{ item.totalMatchByTour }}</td>
             <td>{{ item.totalWinByTour }}</td>
-            <td>{{ item.totalAdrawByTour }}</td>
+            <td>{{ item.totalAdrawByTour }}</td>  
             <td>
               {{
                 item.totalMatchByTour -
@@ -64,5 +64,12 @@ export default {
       return ENV.BASE_IMAGE;
     },
   },
+  methods:{
+     detailTeam(item){
+        this.$router.push({
+          path: `/team/${item.idTeam}`,
+        });
+    }
+  }
 };
 </script>
