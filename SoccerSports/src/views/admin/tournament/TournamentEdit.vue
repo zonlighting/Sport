@@ -99,7 +99,7 @@
           accept="image/png, image/jpeg, image/bmp"
           placeholder="Pick an Banner"
           prepend-icon="mdi-camera"
-          v-model="fileImage"
+          v-model="image"
           :rules="rulesImage"
         ></v-file-input>
         <img
@@ -128,7 +128,7 @@ export default {
         .substr(0, 10),
       menuStart: false,
       menuEnd: false,
-      fileImage: [],
+      image: [],
       rulesImage: [
         (v) => {
           if (v == undefined || Array.isArray(v)) {
@@ -195,13 +195,14 @@ export default {
         bodyFormData.append("timeEnd", this.dateEnd);
         bodyFormData.append("timeStart", this.dateStart);
         bodyFormData.append("banner", this.tournament.banner);
-        if (this.fileImage.size > 0) {
-          bodyFormData.append("bannerFile", this.fileImage);
+        if (this.image.size > 0) {
+          bodyFormData.append("bannerFile", this.image);
         }
         this.$store
           .dispatch("tournament/update", bodyFormData)
           .then((response) => {
             if (response.data.code == 0) {
+              alert(response.data.message)
               this.getData();
               this.hide();
             } else {
@@ -220,8 +221,8 @@ export default {
     hide:Function,
   },
   watch: {
-    fileImage(event) {
-      if (this.fileImage == undefined || this.fileImage == "") {
+    image(event) {
+      if (this.image == undefined || this.image == "") {
         document.getElementById("image").src =
           this.baseUrl + this.tournament.banner;
       } else {

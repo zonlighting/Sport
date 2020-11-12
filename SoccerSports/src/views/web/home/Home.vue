@@ -1,3 +1,4 @@
+
 <template>
   <div>
     <img
@@ -462,7 +463,6 @@
 </template>
 <script>
 import { ENV } from "@/config/env.js";
-
 export default {
   created() {
     this.getRecentMatch();
@@ -509,7 +509,6 @@ export default {
             this.recentMatch = response.data.payload;
             if (Object.keys(this.recentMatch).length > 0) {
               this.time = response.data.payload.timeStart;
-
               this.setintervalTime(this.time);
             }
           } else {
@@ -602,7 +601,6 @@ export default {
           path: `/team/${item.idTeam}`,
         });
     },
-
     setintervalTime(time) {
       console.log(time);
       var a = Date.parse(time);
@@ -641,3 +639,4 @@ tbody {
   }
 }
 </style>
+
