@@ -124,22 +124,22 @@ let routes = [
         component: () => import('@/views/web/player/Player'),
       },
       {
-        path: '/team',
-        redirect: '404',
+        path: '/team/:id',
+        redirect: '/team/:id/fixtures',
         component: () => import('@/views/web/team/index'),
         children: [
           {
-            path: '/fixtures/:id',
+            path: '/team/:id/fixtures',
             name: "fixtures",
             component: () => import('@/views/web/team/TeamFixtures'),
           },
           {
-            path: '/results/:id',
+            path: '/team/:id/results',
             name: "results",
             component: () => import('@/views/web/team/TeamResults'),
           },
           {
-            path: '/squad/:id',
+            path: '/team/:id/squad',
             name: "squad",
             component: () => import('@/views/web/team/TeamSquad'),
           },

@@ -10,6 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TeamScheduleDto{
+	private int idSchedule;
 	private int year;
 	private String monthStart;
 	private String dayStart;

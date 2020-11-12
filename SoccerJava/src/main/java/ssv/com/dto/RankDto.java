@@ -10,6 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RankDto{
+	private int idTeam;
 	private String teamName;
 	private int matchPlayed;
 	private int win;

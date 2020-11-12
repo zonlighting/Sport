@@ -124,6 +124,11 @@ export default {
           }
         });
     },
+    detailTeam(item){
+        this.$router.push({
+          path: `/team/${item.idTeam}`,
+        });
+    }
   },
   watch: {
     select() {

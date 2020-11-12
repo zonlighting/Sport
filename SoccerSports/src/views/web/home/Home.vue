@@ -598,7 +598,9 @@ export default {
         });
     },
     detailTeam(item) {
-      console.log(item);
+      this.$router.push({
+          path: `/team/${item.idTeam}`,
+        });
     },
 
     setintervalTime(time) {

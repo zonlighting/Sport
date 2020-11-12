@@ -3,12 +3,13 @@
     <v-data-table
       :headers="headers"
       :items="desserts"
-      class="elevation-1"
+      class="elevation-1 row-pointer"
       hide-default-footer
+     
       disable-pagination
     >
-      <template v-slot:item="{ item, index }">
-        <tr>
+      <template v-slot:item="{ item, index }" >
+        <tr @click="handleRowClick(item)">
           <td>
             <p class="name-team">{{ item.teamName }}</p>
           </td>
@@ -99,6 +100,13 @@ export default {
       else if (rank == 3) return "green";
       else return "white";
     },
+
+    handleRowClick(item) {
+      console.log(item);
+      this.$router.push({
+        path: `/team/${item.idTeam}`,
+      });
+    },
   },
 };
 </script>
@@ -108,5 +116,10 @@ export default {
   font-size: 15px;
   font-weight: 700;
   color: #2b2c2d;
+}
+</style>
+<style lang="css" scoped>
+.row-pointer >>> tbody tr :hover {
+  cursor: pointer;
 }
 </style>

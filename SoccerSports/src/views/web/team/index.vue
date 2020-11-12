@@ -25,9 +25,15 @@
       <v-col cols="12" md="2" xm="2"></v-col>
       <v-col>
         <v-tabs v-model="active_tab">
-          <v-tab class="fix-tab-css" @click="teamRoute(1)">Fixtures</v-tab>
-          <v-tab class="fix-tab-css" @click="teamRoute(2)">Results</v-tab>
-          <v-tab class="fix-tab-css" @click="teamRoute(3)">Squad</v-tab>
+          <v-tab value="1" class="fix-tab-css" @click="teamRoute($route.params.id, 1)"
+            >Fixtures
+          </v-tab>
+          <v-tab value="2" class="fix-tab-css" @click="teamRoute($route.params.id, 2)"
+            >Results
+          </v-tab>
+          <v-tab value="3" class="fix-tab-css" @click="teamRoute($route.params.id, 3)"
+            >Squad
+          </v-tab>
         </v-tabs>
       </v-col>
     </v-row>
@@ -40,12 +46,13 @@ import { ENV } from "@/config/env.js";
 export default {
   data() {
     return {
-      active_tab: this.$store.state.team.currentTab,
+      active_tab: this.$route.query.idTab - 1,
       team: {},
     };
   },
   mounted() {
-    this.team = this.$store.state.team.teamDetail;
+    // console.log(this.$route)
+    this.getTeamById(this.$route.params.id);
   },
   computed: {
     baseUrl() {
@@ -53,21 +60,36 @@ export default {
     },
   },
   methods: {
-    teamRoute(check) {
+    getTeamById(id) {
+      let self = this;
+      this.$store
+        .dispatch("team/getTeamById", id)
+        .then((response) => {
+          let res = response.data.payload;
+          self.team = res;
+        })
+        .catch((e) => {
+          alert(e);
+        });
+    },
+
+    teamRoute(idteam, check) {
       this.$store.commit("team/current_tab", check);
-      if (check == 1) {
-        this.$router.push({
-          path: `/fixtures/${this.team.idTeam}`,
-        });
+      let path = "";
+      switch (check) {
+        case 1:
+          path = `/team/${idteam}/fixtures`;
+          break;
+        case 2:
+          path = `/team/${idteam}/results`;
+          break;
+        default:
+          path = `/team/${idteam}/squad`;
+          break;
       }
-      if (check == 2) {
+      if (this.$router.currentRoute.fullPath != path) {
         this.$router.push({
-          path: `/results/${this.team.idTeam}`,
-        });
-      }
-      if (check == 3) {
-        this.$router.push({
-          path: `/squad/${this.team.idTeam}`,
+          path: path,
         });
       }
     },

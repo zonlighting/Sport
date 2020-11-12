@@ -24,48 +24,50 @@
                 ></v-select>
               </v-col>
             </v-row>
-            <h5 class="table__Title">Goalkeepers</h5>
-            <v-divider style="margin: 0 !important"></v-divider>
-            <v-row v-if="isHavedata">
-              <v-col>
-                <v-data-table
-                  @click:row="handleRowClick"
-                  :headers="headers"
-                  :items="desserts"
-                  class="elevation-1"
-                  hide-default-footer
-                  :items-per-page="15"
-                >
-                  <template v-slot:[`item.name`]="{ item }">
-                    <p class="pt-3" style="color: blue">
-                      {{ item.name }}
-                    </p>
-                  </template>
-                </v-data-table>
-              </v-col>
+            <v-row>
+              <h5 class="table__Title">Goalkeepers</h5>
+              <v-divider style="margin: 0 !important"></v-divider>
+              <v-row v-if="isHavedata">
+                <v-col>
+                  <v-data-table
+                    @click:row="handleRowClick"
+                    :headers="headers"
+                    :items="desserts"
+                    class="elevation-1 row-pointer"
+                    hide-default-footer
+                    :items-per-page="15"
+                  >
+                    <template v-slot:[`item.name`]="{ item }">
+                      <p class="pt-3" style="color: blue">
+                        {{ item.name }}
+                      </p>
+                    </template>
+                  </v-data-table>
+                </v-col>
+              </v-row>
+              <h2 v-else>No Data Available</h2>
+              <h5 class="table__Title mt-10">Outfield Players</h5>
+              <v-divider style="margin: 0 !important"></v-divider>
+              <v-row v-if="isHavedata">
+                <v-col>
+                  <v-data-table
+                    @click:row="handleRowClick"
+                    :headers="headers1"
+                    :items="desserts1"
+                    class="elevation-1 row-pointer"
+                    hide-default-footer
+                    :items-per-page="15"
+                  >
+                    <template v-slot:[`item.name`]="{ item }">
+                      <p class="pt-3" style="color: blue">
+                        {{ item.name }}
+                      </p>
+                    </template>
+                  </v-data-table>
+                </v-col>
+              </v-row>
+              <h2 v-else>No Data Available</h2>
             </v-row>
-            <h2 v-else>No Data Available</h2>
-            <h5 class="table__Title mt-10">Outfield Players</h5>
-            <v-divider style="margin: 0 !important"></v-divider>
-            <v-row v-if="isHavedata">
-              <v-col>
-                <v-data-table
-                  @click:row="handleRowClick"
-                  :headers="headers1"
-                  :items="desserts1"
-                  class="elevation-1"
-                  hide-default-footer
-                  :items-per-page="15"
-                >
-                  <template v-slot:[`item.name`]="{ item }">
-                    <p class="pt-3" style="color: blue">
-                      {{ item.name }}
-                    </p>
-                  </template>
-                </v-data-table>
-              </v-col>
-            </v-row>
-            <h2 v-else>No Data Available</h2>
           </v-card-text>
         </v-col>
         <v-col cols="0" sm="1"></v-col>
@@ -221,5 +223,10 @@ export default {
   margin-bottom: 8px;
   margin-top: 8px;
   padding-left: 21px;
+}
+</style>
+<style lang="css" scoped>
+.row-pointer >>> tbody tr :hover {
+  cursor: pointer;
 }
 </style>

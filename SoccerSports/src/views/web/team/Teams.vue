@@ -194,15 +194,18 @@ export default {
       this.$store.commit("team/tour_name", this.tournament.nameTournament);
       if (routerLink == 1) {
         this.$router.push({
-          path: `/fixtures/${team.idTeam}`,
+          path: `/team/${team.idTeam}`,
+          query: { idTab : routerLink}
         });
       } else if (routerLink == 2) {
         this.$router.push({
-          path: `/results/${team.idTeam}`,
+          path: `/team/${team.idTeam}/results`,
+          query: { idTab : routerLink}
         });
       } else {
         this.$router.push({
-          path: `/squad/${team.idTeam}`,
+          path: `/team/${team.idTeam}/squad`,
+          query: { idTab : routerLink}
         });
       }
     },
