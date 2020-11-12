@@ -133,7 +133,7 @@ public class TournamentService {
 				return ResponseQuery.faild("Namesake",
 						400);
 			}
-			
+
 		}
 		for (Schedule schedule : list) {
 			if(schedule.getTimeStart().toLocalDate().isBefore(tournament.getTimeStart())||schedule.getTimeStart().toLocalDate().isAfter(tournament.getTimeEnd())) {
@@ -205,7 +205,7 @@ public class TournamentService {
 					}
 				}
 				point = win * 3 + tie;
-				ranks.add(new RankDto(team.getNameTeam(), matchPlayed, win, lose, tie, point));
+				ranks.add(new RankDto(team.getIdTeam(),team.getNameTeam(), matchPlayed, win, lose, tie, point));
 			} else {
 				throw new ResourceExistsException("Tournament don't have any schedule yet!!", 300);
 			}

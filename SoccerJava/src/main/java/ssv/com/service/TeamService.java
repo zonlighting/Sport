@@ -222,6 +222,7 @@ public class TeamService {
 			Team team2 = teamRepository.getTeamById(schedule.getIdTeam2());
 //			MonthYearDto monthYearDto = new MonthYearDto();
 			TeamScheduleDto match = new TeamScheduleDto();
+			match.setIdSchedule(schedule.getIdSchedule());
 			match.setMonthStart(
 					monthName[schedule.getTimeStart().getMonthValue() - 1] + " , " + schedule.getTimeStart().getYear());
 			match.setDayStart(monthName[schedule.getTimeStart().getMonthValue()] + " , "

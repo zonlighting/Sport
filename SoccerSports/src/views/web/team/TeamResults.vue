@@ -6,64 +6,75 @@
           <v-card-text>
             <v-row class="mb-5">
               <v-col cols="12" sm="6">
-                <h1 class="title-h1">{{ team.nameTeam }} Fixtures</h1>
+                <h1 class="title-h1">{{ team.nameTeam }} Result </h1>
               </v-col>
             </v-row>
             <h4 class="pl-5">{{ $route.query.tourName }}</h4>
             <v-divider style="margin: 0 !important"></v-divider>
 
             <div v-for="(item, index) in schedules" :key="index">
-              <h5 class="table__Title">{{ item.monthStart }}</h5>
-              <v-row>
-                <v-col>
-                  <v-data-table
-                    :headers="headers"
-                    :items="item.teamSchedules.filter((s) => s.status == 2)"
-                    class="elevation-1"
-                    hide-default-footer
-                    :items-per-page="15"
-                  >
-                    <template v-slot:[`item.nameTeam1`]="{ item }">
-                      <p class="pt-3" style="color: red" v-if="item.score1 > item.score2">
-                        {{ item.nameTeam1 }}
-                      </p>
-                      <h5 v-else>
-                        {{ item.nameTeam1 }}
-                      </h5>
-                    </template>
-                    <template v-slot:[`item.logoTeam1`]="{ item }">
-                      <img
-                        :src="baseUrl + item.logoTeam1"
-                        width="70px"
-                        height="50px"
-                        style="margin: 3px 0 3px 0"
-                      />
-                    </template>
-                    <template v-slot:[`item.logoTeam2`]="{ item }">
-                      <img
-                        :src="baseUrl + item.logoTeam2"
-                        width="70px"
-                        height="50px"
-                        style="margin: 3px 0 3px 0"
-                      />
-                    </template>
-                    <template v-slot:[`item.nameTeam2`]="{ item }">
-                      <p class="pt-3" style="color: red" v-if="item.score1 < item.score2">
-                        {{ item.nameTeam2 }}
-                      </p>
-                      <h5 v-else>
-                        {{ item.nameTeam2 }}
-                      </h5>
-                    </template>
-                    <template v-slot:[`item.status`]="{}">
-                      <p class="pt-3" style="color: red">Ended</p>
-                    </template>
-                    <template v-slot:[`item.score`]="{ item }">
-                      <h4>{{ item.score1 }}-{{ item.score2 }}</h4>
-                    </template>
-                  </v-data-table>
-                </v-col>
-              </v-row>
+              <template v-if="getFilter(item.teamSchedules).length > 0">
+                <h5 class="table__Title">{{ item.monthStart }}</h5>
+                <v-row>
+                  <v-col>
+                    <v-data-table
+                      :headers="headers"
+                      :items="getFilter(item.teamSchedules)"
+                      class="elevation-1 row-pointer"
+                      @click:row="handleRowClick"
+                      hide-default-footer
+                      :items-per-page="15"
+                    >
+                      <template v-slot:[`item.nameTeam1`]="{ item }">
+                        <p
+                          class="pt-3"
+                          style="color: red"
+                          v-if="item.score1 > item.score2"
+                        >
+                          {{ item.nameTeam1 }}
+                        </p>
+                        <h5 v-else>
+                          {{ item.nameTeam1 }}
+                        </h5>
+                      </template>
+                      <template v-slot:[`item.logoTeam1`]="{ item }">
+                        <img
+                          :src="baseUrl + item.logoTeam1"
+                          width="70px"
+                          height="50px"
+                          style="margin: 3px 0 3px 0"
+                        />
+                      </template>
+                      <template v-slot:[`item.logoTeam2`]="{ item }">
+                        <img
+                          :src="baseUrl + item.logoTeam2"
+                          width="70px"
+                          height="50px"
+                          style="margin: 3px 0 3px 0"
+                        />
+                      </template>
+                      <template v-slot:[`item.nameTeam2`]="{ item }">
+                        <p
+                          class="pt-3"
+                          style="color: red"
+                          v-if="item.score1 < item.score2"
+                        >
+                          {{ item.nameTeam2 }}
+                        </p>
+                        <h5 v-else>
+                          {{ item.nameTeam2 }}
+                        </h5>
+                      </template>
+                      <template v-slot:[`item.status`]="{}">
+                        <p class="pt-3" style="color: red">Ended</p>
+                      </template>
+                      <template v-slot:[`item.score`]="{ item }">
+                        <h4>{{ item.score1 }}-{{ item.score2 }}</h4>
+                      </template>
+                    </v-data-table>
+                  </v-col>
+                </v-row>
+              </template>
             </div>
           </v-card-text>
         </v-col>
@@ -142,6 +153,14 @@ export default {
           alert(error);
         });
     },
+
+    handleRowClick(item) {
+      this.$router.push({ path: "/scheduleDetail/" + item.idSchedule });
+    },
+
+    getFilter(list) {
+      return list.filter((s) => s.status == 2);
+    },
   },
 };
 </script>
@@ -163,5 +182,10 @@ export default {
   margin-bottom: 8px;
   margin-top: 8px;
   padding-left: 21px;
+}
+</style>
+<style lang="css" scoped>
+.row-pointer >>> tbody tr :hover {
+  cursor: pointer;
 }
 </style>

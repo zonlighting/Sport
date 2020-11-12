@@ -50,7 +50,7 @@
           <v-col cols="12" md="2" sm="2" class="pt-15 pl-10">
             <h5 class="country-text">
               Win Rate:
-              {{ team.rate.toFixed(2) }}
+              {{ team.rate == 0 ? 0 : team.rate.toFixed(2) }}
               %
             </h5>
             <h5 class="country-text">Total Win : {{ team.totalwin }}</h5>
@@ -136,6 +136,11 @@
                   Search
                 </v-btn>
               </v-col>
+              <v-col cols="12" sm="3" md="1">
+                <v-btn color="error" dark @click="reset">
+                  Reset
+                </v-btn>
+              </v-col>
             </v-row>
           </v-toolbar>
         </template>
@@ -184,8 +189,8 @@
                               {{ player.position }}
                             </v-list-item-title>
                             <v-list-item-subtitle style="color: black"
-                              >Age: {{ player.age }}</v-list-item-subtitle
-                            >
+                              >Age: {{ player.age }}
+                            </v-list-item-subtitle>
                           </v-list-item-content>
                         </v-list-item>
                       </v-col>
@@ -349,12 +354,20 @@ export default {
         .filter((v) => {
           let isSearch = true;
           if (this.positionSearch != "Default" && this.positionSearch != "") {
-            isSearch = this.positionSearch != v.position;
+            isSearch = this.positionSearch == v.position;
           }
           return isSearch;
         });
       this.membersSearch = newData;
     },
+
+    reset(){
+      this.namePlayerSearch = ""
+      this.ageSearch = ""
+      this.countrySearch = ""
+      this.positionSearch = "Default"
+      this.searchButton()
+    }
   },
 };
 </script>

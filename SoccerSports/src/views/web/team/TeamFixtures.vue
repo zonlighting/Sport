@@ -9,17 +9,19 @@
                 <h1 class="title-h1">{{ team.nameTeam }} Fixtures</h1>
               </v-col>
             </v-row>
-            <h4 class="pl-5">{{ $store.state.team.tourName }}</h4>
+            <h4 class="pl-5">{{ team.tourName }}</h4>
             <v-divider style="margin: 0 !important"></v-divider>
 
             <div v-for="(item, index) in schedules" :key="index">
+              <template v-if="getFilter(item.teamSchedules).length > 0"> 
               <h5 class="table__Title">{{ item.monthStart }}</h5>
               <v-row>
                 <v-col>
                   <v-data-table
                     :headers="headers"
-                    :items="item.teamSchedules.filter((s) => s.status != 2)"
-                    class="elevation-1"
+                    :items="getFilter(item.teamSchedules)"
+                    class="elevation-1 row-pointer"
+                    @click:row="handleRowClick"
                     hide-default-footer
                     :items-per-page="15"
                   >
@@ -65,6 +67,7 @@
                   </v-data-table>
                 </v-col>
               </v-row>
+              </template>
               <!-- <h4 v-else>No Match Available</h4> -->
             </div>
           </v-card-text>
@@ -89,7 +92,7 @@ export default {
   data() {
     return {
       isHavedata: true,
-      team: this.$store.state.team.teamDetail,
+      team: {},
       schedules: {},
       headers: [
         {
@@ -112,11 +115,12 @@ export default {
   },
 
   mounted() {
-    console.log(this.$route)
-    if (this.team.idTeam == undefined) {
-      this.$router.push({ path: `/teams` });
-    } else {
-      this.getMatchsByTeamId(this.team.idTeam);
+    // console.log(this.$route.params.id);
+    if (this.$route.params.id != undefined) {
+      this.getTeamById(this.$route.params.id);
+      this.getMatchsByTeamId(this.$route.params.id);
+      // console.log(this.team);
+      // this.$store.commit("team/team_detail", this.team);
     }
   },
 
@@ -147,6 +151,27 @@ export default {
           alert(error);
         });
     },
+
+    getTeamById(id) {
+      let self = this;
+      this.$store
+        .dispatch("team/getTeamById", id)
+        .then((response) => {
+          let res = response.data.payload;
+          self.team = res;
+        })
+        .catch((e) => {
+          alert(e);
+        });
+    },
+
+    handleRowClick(item) {
+      this.$router.push({ path: "/scheduleDetail/" + item.idSchedule });
+    },
+
+    getFilter(list) {
+      return list.filter((s) => s.status != 2);
+    },
   },
 };
 </script>
@@ -168,5 +193,10 @@ export default {
   margin-bottom: 8px;
   margin-top: 8px;
   padding-left: 21px;
+}
+</style>
+<style lang="css" scoped>
+.row-pointer >>> tbody tr :hover {
+  cursor: pointer;
 }
 </style>

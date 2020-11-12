@@ -135,6 +135,11 @@ export default {
     this.getData();
   },
   methods: {
+    detailTeam(item){
+       this.$router.push({
+          path: `/team/${item.idTeam}`,
+        });
+    },
     getData() {
       this.$store.commit("auth/auth_overlay");
       this.$store
@@ -176,6 +181,7 @@ export default {
       });
     },
   },
+  
 };
 </script>
 <style>

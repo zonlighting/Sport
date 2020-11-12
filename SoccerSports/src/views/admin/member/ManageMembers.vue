@@ -52,7 +52,7 @@
         </h2>
         <v-row>
           <v-col cols="12" md="6" xl="6" xm="12">
-            <h2 style="text-align: center">Members Available</h2>
+            <h4 style="text-align: center">Members Available</h4>
             <v-divider class="my-4"></v-divider>
             <v-btn color="primary" dark class="mb-5" @click="isOpenModalMember">
               Create Member
@@ -70,7 +70,7 @@
             />
           </v-col>
           <v-col cols="12" md="6" xl="6" xm="12">
-            <h2 style="text-align: center">Members In Team</h2>
+            <h4 style="text-align: center">Members In Team</h4>
             <v-divider class="my-4"></v-divider>
             <v-btn color="primary" dark class="mb-5" @click="isConfirm(0)">
               Confirm List
