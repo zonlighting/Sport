@@ -100,7 +100,7 @@
           <v-select
             v-model="teamSelect"
             :items="teams"
-            item-text="nameTeam"
+            item-text= "nameTeam"
             item-value="idTeam"
             class="mx-6"
             label="Select Team"

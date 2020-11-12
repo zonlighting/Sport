@@ -50,7 +50,11 @@
           <v-col cols="12" md="2" sm="2" class="pt-15 pl-10">
             <h5 class="country-text">
               Win Rate:
-              {{ team.rate == 0 ? 0 : team.rate.toFixed(2) }}
+              {{
+                team.rate == 0 || team.rate == undefined
+                  ? 0
+                  : team.rate.toFixed(2)
+              }}
               %
             </h5>
             <h5 class="country-text">Total Win : {{ team.totalwin }}</h5>
@@ -137,9 +141,7 @@
                 </v-btn>
               </v-col>
               <v-col cols="12" sm="3" md="1">
-                <v-btn color="error" dark @click="reset">
-                  Reset
-                </v-btn>
+                <v-btn color="error" dark @click="reset"> Reset </v-btn>
               </v-col>
             </v-row>
           </v-toolbar>
@@ -159,9 +161,40 @@
                   <v-img height="100%">
                     <v-row align="end" class="fill-height">
                       <v-col align-self="start" class="pa-0" cols="12">
-                        <v-avatar class="profile" color="grey" size="164" tile>
-                          <v-img :src="baseUrl + player.avatar"></v-img>
-                        </v-avatar>
+                        <v-row>
+                          <v-avatar
+                            class="profile"
+                            color="grey"
+                            size="164"
+                            tile
+                          >
+                            <v-img :src="baseUrl + player.avatar"></v-img>
+                          </v-avatar>
+                          <v-spacer></v-spacer>
+                          <v-menu bottom left>
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-btn
+                                class="mr-10 mt-5"
+                                color="black"
+                                icon
+                                v-bind="attrs"
+                                v-on="on"
+                              >
+                                <v-icon>mdi-dots-vertical</v-icon>
+                              </v-btn>
+                            </template>
+
+                            <v-list>
+                              <v-list-item>
+                                <v-list-item-title
+                                  @click="editPlayer(player.id)"
+                                  style="cursor: pointer"
+                                  >Edit</v-list-item-title
+                                >
+                              </v-list-item>
+                            </v-list>
+                          </v-menu>
+                        </v-row>
                       </v-col>
                       <v-col class="py-0">
                         <v-list-item color="rgba(0, 0, 0, .4)" dark>
@@ -324,6 +357,12 @@ export default {
       this.isEditTeam = !this.isEditTeam;
     },
 
+    editPlayer(idPlayer) {
+      this.$router.push({
+        path: `/admin/member/${idPlayer}`,
+      });
+    },
+
     searchButton() {
       let newData = this.team.profile
         .filter((v) => {
@@ -361,13 +400,13 @@ export default {
       this.membersSearch = newData;
     },
 
-    reset(){
-      this.namePlayerSearch = ""
-      this.ageSearch = ""
-      this.countrySearch = ""
-      this.positionSearch = "Default"
-      this.searchButton()
-    }
+    reset() {
+      this.namePlayerSearch = "";
+      this.ageSearch = "";
+      this.countrySearch = "";
+      this.positionSearch = "Default";
+      this.searchButton();
+    },
   },
 };
 </script>
