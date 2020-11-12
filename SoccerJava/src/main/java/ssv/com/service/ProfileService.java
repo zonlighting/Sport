@@ -173,6 +173,7 @@ public class ProfileService {
 		for (Team team : profile.getTeams()) {
 			for (Schedule schedule : team.getSchedule()) {
 				TeamScheduleDto match = new TeamScheduleDto();
+				match.setIdSchedule(schedule.getIdSchedule());
 				Team team1 = teamRepository.getTeamById(schedule.getIdTeam1());
 				Team team2 = teamRepository.getTeamById(schedule.getIdTeam2());
 				if (team1.getIdTeam() == team.getIdTeam()) {

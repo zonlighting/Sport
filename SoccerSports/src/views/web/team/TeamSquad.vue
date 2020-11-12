@@ -80,8 +80,7 @@ export default {
   data() {
     return {
       tournaments: [],
-      idTour: this.$store.state.team.tourId,
-      team: this.$store.state.team.teamDetail,
+      team: {},
       select: "",
       isHavedata: true,
       headers: [
@@ -132,11 +131,11 @@ export default {
 
   mounted() {
     // console.log(this.$route)
-    if (this.team.idTeam == undefined) {
+    if (this.$route.params.id == undefined) {
+      alert("Team: " + this.$route.params.id)
       this.$router.push({ path: `/teams` });
     } else {
-      this.getTours(this.team.idTeam);
-      this.getSquad(this.team.idTeam, this.idTour);
+      this.getTeamById(this.$route.params.id);
     }
   },
 
@@ -192,6 +191,22 @@ export default {
             console.log("Squad");
             alert(response.data.message);
           }
+        })
+        .catch(function (error) {
+          alert(error);
+        });
+    },
+
+    getTeamById(id) {
+      let self = this;
+      this.$store.commit("auth/auth_overlay");
+      this.$store
+        .dispatch("team/getTeamById", id)
+        .then((response) => {
+          self.$store.commit("auth/auth_overlay");
+          self.team = response.data.payload;
+          self.getTours(self.team.idTeam);
+          self.getSquad(self.team.idTeam, self.team.idTour);
         })
         .catch(function (error) {
           alert(error);
