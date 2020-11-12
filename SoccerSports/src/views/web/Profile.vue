@@ -60,7 +60,11 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(item, i) in lastResultsData" :key="i">
+                <tr
+                  v-for="(item, i) in lastResultsData"
+                  :key="i"
+                  @click="detailSchedule(item)"
+                >
                   <template v-if="i < 5">
                     <td>{{ item.tournament.nameTournament }}</td>
                     <td>
@@ -135,12 +139,10 @@
                 >
                   <v-card color="grey lighten-4" min-width="350px" flat>
                     <v-toolbar :color="selectedEvent.color" dark>
-                   
                       <v-toolbar-title
                         v-html="selectedEvent.tournament"
                       ></v-toolbar-title>
                       <v-spacer></v-spacer>
-                      
                     </v-toolbar>
                     <v-card-text>
                       <span v-html="selectedEvent.name"></span>
@@ -182,7 +184,7 @@ export default {
     selectedOpen: false,
     lastResultsData: [],
     schedule: [],
-    events: []
+    events: [],
   }),
   created() {
     this.profile = this.$store.state.user.userInfo.profile;
@@ -237,8 +239,12 @@ export default {
           this.lastResultsData = response.data.payload;
         });
     },
+    detailSchedule(item) {
+      console.log(item)
+      this.$router.push('/scheduleDetail/'+item.idSchedule)
+    },
     async scheduleTeam() {
-     await this.$store
+      await this.$store
         .dispatch("schedule/scheduleTeam", this.profile.idTeam)
         .then((response) => {
           this.schedule = response.data.payload;
@@ -249,12 +255,11 @@ export default {
             this.events.push({
               start: element.timeStart,
               timed: true,
-              name: "VS "+item.nameTeam,
-              tournament:element.tournament.nameTournament
+              name: "VS " + item.nameTeam,
+              tournament: element.tournament.nameTournament,
             });
           }
         });
-        console.log(this.events)
       });
     },
   },

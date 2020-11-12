@@ -13,7 +13,7 @@
             <v-tab-item>
               <v-card>
                 <v-card-text>
-                  <v-list-item v-for="(n, i) in team1.profile" :key="i">
+                  <v-list-item v-for="(n, i) in team1.profile" :key="i" @click="detailMember(n)">
                     <v-list-item-content>
                       <v-row>
                         <v-col>
@@ -33,7 +33,7 @@
             <v-tab-item>
               <v-card>
                 <v-card-text>
-                  <v-list-item v-for="(n, i) in team2.profile" :key="i">
+                  <v-list-item v-for="(n, i) in team2.profile" :key="i" @click="detailMember(n)">
                     <v-list-item-content>
                       <v-row>
                         <v-col>
@@ -65,7 +65,7 @@
                   /></v-avatar>
                   <h5>{{ team1.nameTeam }}</h5>
                   <v-row>
-                    <v-col cols="12" sm="4" v-for="(n,i) in member1" :key="i">
+                    <v-col cols="12" sm="4" v-for="(n,i) in member1" :key="i" @click="detailMember(n)">
                       <v-card>
                         <v-img
                           lazy-src="https://picsum.photos/id/11/10/6"
@@ -86,7 +86,7 @@
                   /></v-avatar>
                   <h5>{{ team2.nameTeam }}</h5>
                   <v-row>
-                    <v-col cols="12" sm="4" v-for="(n,i) in member2" :key="i">
+                    <v-col cols="12" sm="4" v-for="(n,i) in member2" :key="i" @click="detailMember(n)">
                       <v-card>
                         <v-img
                           lazy-src="https://picsum.photos/id/11/10/6"
@@ -121,7 +121,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(item, i) in rank" :key="i">
+                  <tr v-for="(item, i) in rank" :key="i" @click="detailTeam(n)">
                     <td>{{ i + 1 }}</td>
                     <td>{{ item.nameTeam }}</td>
                     <td>{{ item.totalMatchByTour }}</td>
@@ -212,6 +212,12 @@ export default {
     this.getData();
   },
   methods: {
+    detailMember(item){
+      this.$router.push("/player/"+item.id)
+    },
+    detailTeam(){
+      
+    },
     getData() {
       this.$store.commit("auth/auth_overlay");
       this.$store

@@ -1,5 +1,10 @@
 <template>
   <div>
+    <v-breadcrumbs :items="linkUser" large>
+      <template v-slot:divider>
+        <v-icon>mdi-chevron-right</v-icon>
+      </template>
+    </v-breadcrumbs>
     <v-row>
       <v-col cols="12" sm="2"> </v-col>
       <v-col cols="12" sm="8">
@@ -61,6 +66,17 @@
 export default {
   data() {
     return {
+       linkUser: [
+        {
+          text: "Dashboard",
+          disabled: false,
+          href: "/admin/dashboard",
+        },
+        {
+          text: "User",
+          disabled: true,
+        },
+      ],
       searchName: "",
       searchEmail: "",
       searchRole: "",

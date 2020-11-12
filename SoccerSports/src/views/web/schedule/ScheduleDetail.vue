@@ -2,7 +2,15 @@
   <div>
     <v-hover>
       <v-card>
-        <v-row style="margin-top: 130px">
+        <v-card class="text-center">
+          <h1
+            style="font-family: times; color: blue;cursor: pointer" 
+            @click="detailTournament(schedule.tournament.idTournament)"
+          >
+            {{ schedule.tournament.nameTournament }}
+          </h1>
+        </v-card>
+        <v-row style="margin-top: 40px">
           <v-col class="text-center" cols="12" sm="3">
             <v-avatar size="128" tile
               ><img
@@ -15,7 +23,12 @@
                 ><v-row
                   ><v-col
                     ><v-row
-                      ><h2 @click="detailTeam( schedule.team[0])" style="cursor: pointer;">{{ !!schedule ? schedule.team[0].nameTeam : "" }}</h2>
+                      ><h2
+                        @click="detailTeam(schedule.team[0])"
+                        style="cursor: pointer"
+                      >
+                        {{ !!schedule ? schedule.team[0].nameTeam : "" }}
+                      </h2>
                       <v-avatar size="50"
                         ><img
                           :src="
@@ -34,7 +47,7 @@
               <v-col class="text-center">
                 <v-row>
                   <v-col
-                    ><h2  >
+                    ><h2>
                       {{ schedule.status == 2 ? schedule.score1 : "" }}
                     </h2></v-col
                   >
@@ -59,7 +72,12 @@
                           "
                           alt="Logo"
                       /></v-avatar>
-                      <h2 @click="detailTeam( schedule.team[1])" style="cursor: pointer;"> {{ !!schedule ? schedule.team[1].nameTeam : "" }}</h2>
+                      <h2
+                        @click="detailTeam(schedule.team[1])"
+                        style="cursor: pointer"
+                      >
+                        {{ !!schedule ? schedule.team[1].nameTeam : "" }}
+                      </h2>
                     </v-row>
                     <span v-for="(item, i) in goal2" :key="i"
                       >{{ item.profile.name }}({{
@@ -99,7 +117,7 @@
             >Statistics</router-link
           >
         </li>
-        <li v-if="schedule.status==2">
+        <li v-if="schedule.status == 2">
           <router-link
             :to="{
               path: `/video/${schedule.idSchedule}`,
@@ -143,9 +161,13 @@ export default {
           if (response.data.code == 0) {
             this.$store.commit("auth/auth_overlay");
             this.schedule = response.data.payload;
+            console.log(this.schedule);
             this.getDataGoal();
           }
         });
+    },
+    detailTournament(item) {
+      this.$router.push('/tournamentDetail/'+item)
     },
     getDataGoal() {
       this.goal1 = [];
