@@ -333,11 +333,11 @@ export default {
 
     getTeamById(id) {
       let self = this;
-      this.$store.commit("auth/auth_overlay");
+      this.$store.commit("auth/auth_overlay_true");
       this.$store
         .dispatch("team/getTeamById", id)
         .then((response) => {
-          this.$store.commit("auth/auth_overlay");
+          this.$store.commit("auth/auth_overlay_false");
           self.team = response.data.payload;
           self.membersSearch = self.team.profile;
           self.teamLink[2].text = self.team.nameTeam;

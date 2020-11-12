@@ -194,19 +194,19 @@ export default {
       if (!this.$refs.form.validate()) {
         this.$refs.form.validate();
       } else {
-        this.$store.commit("auth/auth_overlay");
+        this.$store.commit("auth/auth_overlay_true");
         let self = this;
         self.closeLoginDialog();
         this.$store
           .dispatch("user/forgetEmail", this.email)
           .then((res) => {
             if (res.data.code === 9999 && res.data.payload != null) {
-              this.$store.commit("auth/auth_overlay");
+              this.$store.commit("auth/auth_overlay_false");
               self.closeLoginDialog();
               alert("Email not found");
             } else if (res.data.code === 0) {
               self.loginForm = true;
-              this.$store.commit("auth/auth_overlay");
+              this.$store.commit("auth/auth_overlay_false");
               alert("Recive email success");
             } else {
               alert("Failed to action!!!!");

@@ -339,11 +339,11 @@ export default {
 
     getTeamById(id) {
       let self = this;
-      this.$store.commit("auth/auth_overlay");
+      this.$store.commit("auth/auth_overlay_true");
       this.$store
         .dispatch("team/getTeamById", id)
         .then((response) => {
-          this.$store.commit("auth/auth_overlay");
+          this.$store.commit("auth/auth_overlay_false");
           self.team = response.data.payload;
         })
         .catch(function (error) {
@@ -353,11 +353,11 @@ export default {
 
     getTeams() {
       let self = this;
-      this.$store.commit("auth/auth_overlay");
+      this.$store.commit("auth/auth_overlay_true");
       this.$store
         .dispatch("team/getTeams")
         .then((response) => {
-          this.$store.commit("auth/auth_overlay");
+          this.$store.commit("auth/auth_overlay_false");
           if (response.data.code === 0) {
             self.teams = response.data.payload;
             // console.log(self.desserts)
@@ -372,11 +372,11 @@ export default {
 
     getNextMatch(id) {
       let self = this;
-      this.$store.commit("auth/auth_overlay");
+      this.$store.commit("auth/auth_overlay_true");
       this.$store
         .dispatch("member/nextMatch", id)
         .then((response) => {
-          this.$store.commit("auth/auth_overlay");
+          this.$store.commit("auth/auth_overlay_false");
           self.nextMatch = response.data.payload;
           // console.log(self.nextMatch);
         })
@@ -387,11 +387,11 @@ export default {
 
     getLastFiveMatch(id) {
       let self = this;
-      this.$store.commit("auth/auth_overlay");
+      this.$store.commit("auth/auth_overlay_true");
       this.$store
         .dispatch("member/lastFiveMatch", id)
         .then((response) => {
-          this.$store.commit("auth/auth_overlay");
+          this.$store.commit("auth/auth_overlay_false");
           self.lastFiveMatch = response.data.payload;
           console.log(self.lastFiveMatch);
         })

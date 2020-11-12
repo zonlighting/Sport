@@ -221,9 +221,9 @@ export default {
         });
     },
     create() {
-      this.$store.commit("auth/auth_overlay");
+      this.$store.commit("auth/auth_overlay_true");
       if (this.$refs.form.validate()) {
-        this.$store.commit("auth/auth_overlay");
+        this.$store.commit("auth/auth_overlay_false");
         this.$store
           .dispatch("schedule/create", {
             idTeam1: this.selectTeam1,
@@ -247,7 +247,7 @@ export default {
           });
       } else {
         this.$refs.form.validate();
-        this.$store.commit("auth/auth_overlay");
+        this.$store.commit("auth/auth_overlay_false");
       }
     },
     reset() {

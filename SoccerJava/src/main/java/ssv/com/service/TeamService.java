@@ -56,6 +56,9 @@ public class TeamService {
 	public List<Team> getTeams() {
 		List<Team> teams = teamRepository.getTeams();
 		for (Team team : teams) {
+			if (team.getIdTour() != 0) {
+				team.setTourName(tournamentRepository.getById(team.getIdTour()).getNameTournament());
+			}
 			List<Schedule> schedules = scheduleRepository.getAll();
 			int totalMacth = 0;
 			int totalWin = 0;
@@ -241,7 +244,7 @@ public class TeamService {
 			match.setStatus(schedule.getStatus());
 			match.setScore1(schedule.getScore1());
 			match.setScore2(schedule.getScore2());
-			if(schedule.getTimeEnd() != null) {
+			if (schedule.getTimeEnd() != null) {
 				if (schedule.getTimeEnd().getMinute() > 9) {
 					match.setTimeEnd(schedule.getTimeEnd().getHour() + ":" + schedule.getTimeEnd().getMinute());
 				} else {

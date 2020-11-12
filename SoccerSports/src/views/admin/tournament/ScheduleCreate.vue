@@ -207,7 +207,7 @@ export default {
   methods: {
     create() {
       if (this.$refs.form.validate()) {
-        this.$store.commit("auth/auth_overlay");
+        this.$store.commit("auth/auth_overlay_true");
         this.$store
           .dispatch("schedule/create", {
             idTeam1: this.selectTeam1,
@@ -217,7 +217,7 @@ export default {
             timeStart: this.date + "T" + this.time,
           })
           .then((response) => {
-            this.$store.commit("auth/auth_overlay");
+            this.$store.commit("auth/auth_overlay_false");
             if (response.data.payload == 400) {
               alert(response.data.message);
             } else {

@@ -234,11 +234,11 @@ export default {
   methods: {
     getTeamNoTournament() {
       let self = this;
-      this.$store.commit("auth/auth_overlay");
+      this.$store.commit("auth/auth_overlay_true");
       this.$store
         .dispatch("team/getTeams")
         .then((response) => {
-          self.$store.commit("auth/auth_overlay");
+          self.$store.commit("auth/auth_overlay_false");
           if (response.data.code == 0) {
             let getTeams = response.data.payload;
             self.teamsAvaiable = getTeams.filter((t) => {
@@ -258,11 +258,11 @@ export default {
 
     getTourById(id) {
       let self = this;
-      this.$store.commit("auth/auth_overlay");
+      this.$store.commit("auth/auth_overlay_true");
       this.$store
         .dispatch("tournament/getById", id)
         .then((response) => {
-          self.$store.commit("auth/auth_overlay");
+          self.$store.commit("auth/auth_overlay_false");
           if (response.data.code == 0) {
             self.tournament = response.data.payload;
           } else {
@@ -278,11 +278,11 @@ export default {
 
     getTours() {
       let self = this;
-      this.$store.commit("auth/auth_overlay");
+      this.$store.commit("auth/auth_overlay_true");
       this.$store
         .dispatch("tournament/getAll")
         .then((response) => {
-          self.$store.commit("auth/auth_overlay");
+          self.$store.commit("auth/auth_overlay_false");
           if (response.data.code == 0 && response.data.payload.length > 0) {
             self.tournaments = response.data.payload;
             if (self.tourId == undefined || self.tourId == 0) {

@@ -146,9 +146,9 @@ export default {
 
   methods: {
     getData() {
-      this.$store.commit("auth/auth_overlay");
+      this.$store.commit("auth/auth_overlay_true");
       this.$store.dispatch("tournament/getAllSchedule").then((response) => {
-        this.$store.commit("auth/auth_overlay");
+        this.$store.commit("auth/auth_overlay_false");
         if (response.data.code == 0) {
           this.tournament = response.data.payload;
         }
@@ -162,9 +162,9 @@ export default {
           this.getData();
         }
         else{
-          this.$store.commit("auth/auth_overlay");
+          this.$store.commit("auth/auth_overlay_true");
       this.$store.dispatch("tournament/getAllScheduleStatus",this.select).then((response) => {
-        this.$store.commit("auth/auth_overlay");
+        this.$store.commit("auth/auth_overlay_false");
         if (response.data.code == 0) {
           this.tournament = response.data.payload;
         }

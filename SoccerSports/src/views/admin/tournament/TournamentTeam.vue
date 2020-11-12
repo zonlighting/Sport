@@ -150,14 +150,14 @@ export default {
       this.deleteDialog = false;
     },
     okAdd() {
-      this.$store.commit("auth/auth_overlay");
+      this.$store.commit("auth/auth_overlay_true");
       this.$store
         .dispatch("tournament/addTeam", {
           listTeam: this.selectTeam,
           idTournament: this.$route.params.id,
         })
         .then((response) => {
-          this.$store.commit("auth/auth_overlay");
+          this.$store.commit("auth/auth_overlay_false");
           if (response.data.code == 0) {
             this.getData();
             this.dialogAdd = false;
@@ -176,14 +176,14 @@ export default {
         alert("The tournament must have at least 10 teams participating");
         this.cancel();
       } else {
-        this.$store.commit("auth/auth_overlay");
+        this.$store.commit("auth/auth_overlay_true");
         this.$store
           .dispatch("tournament/deleteTeam", {
             idTeam: this.idDelete,
             idTournament: this.$route.params.id,
           })
           .then((response) => {
-            this.$store.commit("auth/auth_overlay");
+            this.$store.commit("auth/auth_overlay_false");
             if (response.data.code == 0) {
               this.listTeam.splice(this.editedIndex, 1);
               this.cancel();

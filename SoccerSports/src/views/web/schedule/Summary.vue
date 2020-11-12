@@ -179,7 +179,7 @@ export default {
       
     },
     getData() {
-      this.$store.commit("auth/auth_overlay");
+      this.$store.commit("auth/auth_overlay_true");
       this.$store
         .dispatch("schedule/getById", this.$route.params.id)
         .then((response) => {
@@ -228,7 +228,7 @@ export default {
               )
               .then((response) => {
                 if (response.data.code == 0) {
-                  this.$store.commit("auth/auth_overlay");
+                  this.$store.commit("auth/auth_overlay_false");
                   this.rank = response.data.payload;
                   console.log(this.rank);
                 }

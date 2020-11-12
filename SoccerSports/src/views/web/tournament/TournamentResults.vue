@@ -81,11 +81,11 @@ export default {
   methods: {
     async getData() {
       var a = [];
-      this.$store.commit("auth/auth_overlay");
+      this.$store.commit("auth/auth_overlay_true");
       await this.$store
         .dispatch("schedule/getByTour", this.$route.params.id)
         .then((response) => {
-          this.$store.commit("auth/auth_overlay");
+          this.$store.commit("auth/auth_overlay_false");
           if (response.data.code == 0) {
             a = response.data.payload;
             console.log(response.data.payload);

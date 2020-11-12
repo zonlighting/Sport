@@ -55,11 +55,11 @@ export default {
     tournament: Object,
   },
   created() {
-    this.$store.commit("auth/auth_overlay");
+    this.$store.commit("auth/auth_overlay_true");
     this.$store
       .dispatch("tournament/tournamentRank", this.tournament.idTournament)
       .then((response) => {
-        this.$store.commit("auth/auth_overlay");
+        this.$store.commit("auth/auth_overlay_false");
         if (response.data.code == 0) {
           this.rank = response.data.payload;
         }

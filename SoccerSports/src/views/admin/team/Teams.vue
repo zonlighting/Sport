@@ -73,9 +73,9 @@
         <v-divider class="mt-4 mb-8"></v-divider>
       </template>
 
-      <template v-slot:[`item.tournament.nameTour`]="{ item }">
+      <template v-slot:[`item.tourName`]="{ item }">
         <template v-if="item.idTour != 0 || item.tournament != null">
-          <div style="color: red">{{ item.tournament.nameTournament }}</div>
+          <div style="color: red">{{ item.tourName }}</div>
         </template>
         <template v-else><div style="color: green">Available</div></template>
       </template>
@@ -125,7 +125,7 @@ export default {
         { text: "Country", value: "country", filter: this.countryTeamFilter },
         {
           text: "Tournament",
-          value: "tournament.nameTour",
+          value: "tourName",
           filter: this.nameTourFilter,
         },
         {
@@ -170,11 +170,11 @@ export default {
   methods: {
     getTeams() {
       let self = this;
-      this.$store.commit("auth/auth_overlay");
+      this.$store.commit("auth/auth_overlay_true");
       this.$store
         .dispatch("team/getTeams")
         .then((response) => {
-          this.$store.commit("auth/auth_overlay");
+          this.$store.commit("auth/auth_overlay_false");
           if (response.data.code === 0) {
             self.desserts = response.data.payload;
             // console.log(self.desserts)
