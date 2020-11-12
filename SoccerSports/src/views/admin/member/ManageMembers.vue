@@ -51,7 +51,7 @@
           Team don't have any members
         </h2>
         <v-row>
-          <v-col cols="12" md="6" xl="6" xm="12">
+          <v-col cols="12" md="12" xl="6" xm="12">
             <h4 style="text-align: center">Members Available</h4>
             <v-divider class="my-4"></v-divider>
             <v-btn color="primary" dark class="mb-5" @click="isOpenModalMember">
@@ -69,7 +69,7 @@
               :playersAvailable="playersAvailable"
             />
           </v-col>
-          <v-col cols="12" md="6" xl="6" xm="12">
+          <v-col cols="12" md="12" xl="6" xm="12">
             <h4 style="text-align: center">Members In Team</h4>
             <v-divider class="my-4"></v-divider>
             <v-btn color="primary" dark class="mb-5" @click="isConfirm(0)">
