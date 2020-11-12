@@ -5,10 +5,9 @@
       :items="desserts"
       class="elevation-1 row-pointer"
       hide-default-footer
-     
       disable-pagination
     >
-      <template v-slot:item="{ item, index }" >
+      <template v-slot:item="{ item, index }">
         <tr @click="handleRowClick(item)">
           <td>
             <p class="name-team">{{ item.teamName }}</p>
@@ -60,17 +59,14 @@ export default {
     desserts: [],
   }),
 
-  mounted() {
-    if (this.tourId != undefined) {
-      this.getRankByTour(this.tourId);
-    }
-  },
-
   watch: {
     tourId: {
+      immediate: true,
       handler: function (newValue) {
-        // console.log(newValue);
-        return this.getRankByTour(newValue);
+        if ( newValue > 0 && newValue != undefined) {
+          // console.log("newvalue" + newValue)
+          this.getRankByTour(newValue);
+        }
       },
     },
   },
@@ -83,7 +79,7 @@ export default {
         .then(function (response) {
           if (response.data.code == 9999) {
             console.log("Run here Rank tour");
-            // alert(response.data.message);
+            alert(response.data.message);
           } else {
             self.desserts = response.data.payload;
           }
