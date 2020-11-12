@@ -347,6 +347,7 @@ public class TeamService {
 				Team team1 = teamRepository.getTeamById(schedule.getIdTeam1());
 				Team team2 = teamRepository.getTeamById(schedule.getIdTeam2());
 				TeamScheduleDto dto = new TeamScheduleDto();
+				dto.setIdSchedule(schedule.getIdSchedule());
 				dto.setDayStart(monthName[schedule.getTimeStart().getMonthValue()] + " , "
 						+ schedule.getTimeStart().getDayOfMonth());
 				if (schedule.getTimeStart().getMinute() > 9) {

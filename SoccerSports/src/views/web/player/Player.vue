@@ -16,7 +16,11 @@
               <h1 style="font-weight: 500; line-height: 34px; color: #2b2c2d">
                 {{ playerProfile.name }}
               </h1>
-              <v-row class="mt-2">
+              <v-row
+                class="mt-2"
+                style="cursor: pointer"
+                @click="linkTeam(currentTeam)"
+              >
                 <v-img
                   class="ml-4"
                   max-height="30"
@@ -41,21 +45,20 @@
           </v-col>
           <v-col>
             <v-card class="mx-auto" max-width="600">
-              <v-row style="max-height: 30px">
-                <v-col cols="4"></v-col>
-                <v-col
-                  style="
-                    color: black;
-                    font-weight: 600;
-                    line-height: 10px;
-                    font-size: 18px;
-                  "
-                  cols="5"
-                  >{{ year }} MLS STATS</v-col
-                >
-                <v-col cols="4"></v-col>
-              </v-row>
-              <v-divider style="margin-bottom: 0 !important"></v-divider>
+              <h3
+                style="
+                  color: black;
+                  font-weight: 600;
+                  line-height: 10px;
+                  font-size: 18px;
+                  text-align: center;
+                  padding: 10px;
+                "
+              >
+                {{ year }} MLS STATS
+              </h3>
+
+              <v-divider style="margin: 0 !important"></v-divider>
               <v-row>
                 <v-col cols="1"></v-col>
                 <v-col cols="2">
@@ -160,9 +163,9 @@
             <v-card-subtitle class="center mb-5">
               <h3>{{ nextMatch.year }} {{ nextMatch.nameTour }}</h3>
             </v-card-subtitle>
-            <v-card-text>
+            <v-card-text style="cursor: pointer" @click="linkSchedule(nextMatch.idSchedule)">
               <v-row>
-                <v-col cols="3"></v-col>
+                <v-col cols="2"></v-col>
                 <h4>{{ nextMatch.nameTeam1 }}</h4>
                 <v-img
                   class="ml-4"
@@ -195,8 +198,9 @@
           <v-data-table
             :headers="headers"
             :items="lastFiveMatch"
-            class="elevation-1"
+            class="elevation-1 row-pointer"
             hide-default-footer
+            @click:row="handleRowClick"
             :items-per-page="15"
           >
             <template v-slot:[`item.currentTeam`]="{ item }">
@@ -286,10 +290,10 @@ export default {
     };
   },
   mounted() {
-    console.log(this.$route.params.id);
+    // console.log(this.$route.params.id);
     // console.log(this.$store.state.member.playerProfile);
     // console.log(this.$store.state.team.teamDetail);
-    this.getPlayer(this.idPlayer);
+    this.getPlayer(this.$route.params.id);
     this.getYear();
     this.getTeams();
     this.getNextMatch(this.$route.params.id);
@@ -374,7 +378,7 @@ export default {
         .then((response) => {
           this.$store.commit("auth/auth_overlay");
           self.nextMatch = response.data.payload;
-          console.log(self.nextMatch);
+          // console.log(self.nextMatch);
         })
         .catch(function (error) {
           alert(error);
@@ -401,9 +405,27 @@ export default {
     },
 
     toSquad() {
+      console.log(this.team.idTeam)
       this.$router.push({
-        path: `/squad/${this.team.idTeam}`,
+        path: `/team/${this.team.idTeam}/squad`,
+        query: { idTab : '3'}
       });
+    },
+
+    linkTeam(team) {
+      console.log(team);
+      this.$router.push({
+        path: `/team/${team.idTeam}`,
+      });
+    },
+
+    linkSchedule(id) {
+      console.log(id);
+      this.$router.push({ path: "/scheduleDetail/" + id });
+    },
+
+    handleRowClick(item) {
+      this.$router.push({ path: "/scheduleDetail/" + item.idSchedule });
     },
   },
 };
@@ -430,5 +452,11 @@ export default {
   margin: auto;
   border: 1px solid gray;
   padding: 10px;
+}
+</style>
+
+<style lang="css" scoped>
+.row-pointer >>> tbody tr :hover {
+  cursor: pointer;
 }
 </style>
