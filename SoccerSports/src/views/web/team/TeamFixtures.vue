@@ -11,65 +11,66 @@
             </v-row>
             <h4 class="pl-5">{{ team.tourName }}</h4>
             <v-divider style="margin: 0 !important"></v-divider>
-
-            <div v-for="(item, index) in schedules" :key="index">
-              <template v-if="getFilter(item.teamSchedules).length > 0">
-                <h5 class="table__Title">{{ item.monthStart }}</h5>
-                <v-row>
-                  <v-col>
-                    <v-data-table
-                      :headers="headers"
-                      :items="getFilter(item.teamSchedules)"
-                      class="elevation-1 row-pointer"
-                      @click:row="handleRowClick"
-                      hide-default-footer
-                      :items-per-page="15"
-                    >
-                      <template v-slot:[`item.nameTeam1`]="{ item }">
-                        <p class="pt-3" style="color: red">
-                          {{ item.nameTeam1 }}
-                        </p>
-                      </template>
-                      <template v-slot:[`item.logoTeam1`]="{ item }">
-                        <img
-                          :src="baseUrl + item.logoTeam1"
-                          width="50px"
-                          height="50px"
-                          style="margin: 3px 0 3px 0"
-                        />
-                      </template>
-                      <template v-slot:[`item.vs`]="{}">
-                        <p class="pt-3" style="color: blue">VS</p>
-                      </template>
-                      <template v-slot:[`item.logoTeam2`]="{ item }">
-                        <img
-                          :src="baseUrl + item.logoTeam2"
-                          width="50px"
-                          height="50px"
-                          style="margin: 3px 0 3px 0"
-                        />
-                      </template>
-                      <template v-slot:[`item.nameTeam2`]="{ item }">
-                        <p class="pt-3" style="color: red">
-                          {{ item.nameTeam2 }}
-                        </p>
-                      </template>
-                      <template v-slot:[`item.status`]="{ item }">
-                        <p
-                          class="pt-3"
-                          style="color: green"
-                          v-if="item.status == 0"
-                        >
-                          Upcomming
-                        </p>
-                        <p class="pt-3" style="color: blue" v-else>On Game</p>
-                      </template>
-                    </v-data-table>
-                  </v-col>
-                </v-row>
-              </template>
-              <!-- <h4 v-else>No Match Available</h4> -->
-            </div>
+            <template v-if="schedules.length > 0">
+              <div v-for="(item, index) in schedules" :key="index">
+                <template v-if="getFilter(item.teamSchedules).length > 0">
+                  <h5 class="table__Title">{{ item.monthStart }}</h5>
+                  <v-row>
+                    <v-col>
+                      <v-data-table
+                        :headers="headers"
+                        :items="getFilter(item.teamSchedules)"
+                        class="elevation-1 row-pointer"
+                        @click:row="handleRowClick"
+                        hide-default-footer
+                        :items-per-page="15"
+                      >
+                        <template v-slot:[`item.nameTeam1`]="{ item }">
+                          <p class="pt-3" style="color: red">
+                            {{ item.nameTeam1 }}
+                          </p>
+                        </template>
+                        <template v-slot:[`item.logoTeam1`]="{ item }">
+                          <img
+                            :src="baseUrl + item.logoTeam1"
+                            width="50px"
+                            height="50px"
+                            style="margin: 3px 0 3px 0"
+                          />
+                        </template>
+                        <template v-slot:[`item.vs`]="{}">
+                          <p class="pt-3" style="color: blue">VS</p>
+                        </template>
+                        <template v-slot:[`item.logoTeam2`]="{ item }">
+                          <img
+                            :src="baseUrl + item.logoTeam2"
+                            width="50px"
+                            height="50px"
+                            style="margin: 3px 0 3px 0"
+                          />
+                        </template>
+                        <template v-slot:[`item.nameTeam2`]="{ item }">
+                          <p class="pt-3" style="color: red">
+                            {{ item.nameTeam2 }}
+                          </p>
+                        </template>
+                        <template v-slot:[`item.status`]="{ item }">
+                          <p
+                            class="pt-3"
+                            style="color: green"
+                            v-if="item.status == 0"
+                          >
+                            Upcomming
+                          </p>
+                          <p class="pt-3" style="color: blue" v-else>On Game</p>
+                        </template>
+                      </v-data-table>
+                    </v-col>
+                  </v-row>
+                </template>
+              </div>
+            </template>
+            <template v-else> <h4>No Match Available</h4></template>
           </v-card-text>
         </v-col>
         <v-col cols="12" sm="4">

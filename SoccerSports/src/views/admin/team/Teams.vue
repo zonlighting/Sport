@@ -30,7 +30,24 @@
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-row>
             <v-col cols="12" sm="3" md="3"> </v-col>
-
+            <v-col cols="12" sm="3" md="3">
+              <!-- <v-text-field
+                v-model="dateSearch"
+                append-icon="mdi-magnify"
+                label="Date Search"
+                single-line
+                hide-details
+                class="pt-3"
+              ></v-text-field> -->
+               <v-text-field
+                v-model="countrySearch"
+                append-icon="mdi-magnify"
+                label="Country Search"
+                single-line
+                hide-details
+                class="pt-3"
+              ></v-text-field>
+            </v-col>
             <v-col cols="12" sm="3" md="3">
               <v-text-field
                 v-model="nameTeamSearch"
@@ -46,17 +63,6 @@
                 v-model="tourNameSearch"
                 append-icon="mdi-magnify"
                 label="Tournament Search"
-                single-line
-                hide-details
-                class="pt-3"
-              ></v-text-field>
-            </v-col>
-
-            <v-col cols="12" sm="3" md="3">
-              <v-text-field
-                v-model="dateSearch"
-                append-icon="mdi-magnify"
-                label="Date Search"
                 single-line
                 hide-details
                 class="pt-3"
@@ -82,7 +88,15 @@
           style="margin: 3px 0 3px 0"
         />
       </template>
-      <template v-slot:[`item.rate`]="{ item }"> {{ item.rate }} % </template>
+      <template v-slot:[`item.rate`]="{ item }">
+        {{
+          item.rate == 0 || item.rate == undefined ? 0 : item.rate.toFixed(2)
+        }}
+        %
+      </template>
+      <template v-slot:[`item.nameTeam`]="{ item }">
+        <h4>{{ item.nameTeam }}</h4>
+      </template>
     </v-data-table>
   </v-col>
 </template>
@@ -108,7 +122,7 @@ export default {
         },
         { text: "Create Date", value: "createDate", filter: this.dateFilter },
         { text: "Team Name", value: "nameTeam", filter: this.nameTeamFilter },
-        { text: "Country", value: "country" },
+        { text: "Country", value: "country", filter: this.countryTeamFilter },
         {
           text: "Tournament",
           value: "tournament.nameTour",
@@ -127,6 +141,7 @@ export default {
       nameTeamSearch: "",
       dateSearch: "",
       tourNameSearch: "",
+      countrySearch: "",
       teamLink: [
         {
           text: "Dashboard",
@@ -194,6 +209,14 @@ export default {
       }
       if (value != undefined)
         return value.toLowerCase().includes(this.tourNameSearch.toLowerCase());
+    },
+
+    countryTeamFilter(value) {
+      if (!this.countrySearch) {
+        return true;
+      }
+      if (value != undefined)
+        return value.toLowerCase().includes(this.countrySearch.toLowerCase());
     },
 
     dateFilter(value) {
