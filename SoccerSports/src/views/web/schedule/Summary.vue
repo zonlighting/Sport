@@ -66,13 +66,14 @@
                   <h5>{{ team1.nameTeam }}</h5>
                   <v-row>
                     <v-col cols="12" sm="4" v-for="(n,i) in member1" :key="i" @click="detailMember(n)">
-                      <v-card>
+                      <v-card v-if="n.numberGoal>0&&i<4" height="150px">
                         <v-img
                           lazy-src="https://picsum.photos/id/11/10/6"
                           :src="baseUrl+n.avatar"
+                          height="100px"
                         ></v-img>
                         <b>{{n.name}}</b>
-                        Goals:{{ n.history.length }}
+                        Goals:{{ n.numberGoal }}
                       </v-card>
                     </v-col>
                   </v-row>
@@ -87,10 +88,11 @@
                   <h5>{{ team2.nameTeam }}</h5>
                   <v-row>
                     <v-col cols="12" sm="4" v-for="(n,i) in member2" :key="i" @click="detailMember(n)">
-                      <v-card>
+                      <v-card height="150px" v-if="n.numberGoal>0&&i<4">
                         <v-img
                           lazy-src="https://picsum.photos/id/11/10/6"
                           :src="baseUrl+n.avatar"
+                           height="100px"
                         ></v-img>
                         <b>{{n.name}}</b>
                         Goals:{{ n.history.length }}
@@ -153,48 +155,6 @@ export default {
     return {
       tab: null,
       items: ["Team1", "Team2"],
-      desserts: [
-        {
-          name: "Frozen Yogurt",
-          calories: 159,
-        },
-        {
-          name: "Ice cream sandwich",
-          calories: 237,
-        },
-        {
-          name: "Eclair",
-          calories: 262,
-        },
-        {
-          name: "Cupcake",
-          calories: 305,
-        },
-        {
-          name: "Gingerbread",
-          calories: 356,
-        },
-        {
-          name: "Jelly bean",
-          calories: 375,
-        },
-        {
-          name: "Lollipop",
-          calories: 392,
-        },
-        {
-          name: "Honeycomb",
-          calories: 408,
-        },
-        {
-          name: "Donut",
-          calories: 452,
-        },
-        {
-          name: "KitKat",
-          calories: 518,
-        },
-      ],
       schedule: {},
       team1: {},
       team2: {},

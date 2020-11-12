@@ -308,11 +308,12 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="(item, index) in rankAll" :key="index"  @click="detailTeam(item)">
-                      <template
-                        v-if="index < 12"
-                       
-                      >
+                    <tr
+                      v-for="(item, index) in rankAll"
+                      :key="index"
+                      @click="detailTeam(item)"
+                    >
+                      <template v-if="index < 12">
                         <th style="color: white">{{ index + 1 }}</th>
                         <th style="color: white">{{ item.nameTeam }}</th>
                         <th style="color: white">{{ item.totalWin }}</th>
@@ -371,7 +372,7 @@
                           <h3 class="text-center">{{ item.location }}</h3>
                         </div>
                         <v-row>
-                          <v-col class="text-center" style="margin-left:20px">
+                          <v-col class="text-center" style="margin-left: 20px">
                             <v-img
                               :src="baseUrl + item.team[0].logo"
                               lazy-src="@/assets/err.png"
@@ -464,7 +465,8 @@
 <script>
 import { ENV } from "@/config/env.js";
 export default {
-  created() {
+  async created() {
+    await this.$store.commit("auth/auth_overlay");
     this.getRecentMatch();
     this.getLastResults();
     this.getTournament();
@@ -567,12 +569,15 @@ export default {
         .then((response) => {
           if (response.data.code == 0) {
             this.rankAll = response.data.payload;
+            this.$store.commit("auth/auth_overlay");
           } else {
             alert(response.data.message);
+            this.$store.commit("auth/auth_overlay");
           }
         })
         .catch(function (error) {
           alert(error);
+          this.$store.commit("auth/auth_overlay");
         });
     },
     detailTournament(item) {
@@ -598,8 +603,8 @@ export default {
     },
     detailTeam(item) {
       this.$router.push({
-          path: `/team/${item.idTeam}`,
-        });
+        path: `/team/${item.idTeam}`,
+      });
     },
     setintervalTime(time) {
       console.log(time);
