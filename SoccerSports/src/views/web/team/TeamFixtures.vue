@@ -68,10 +68,12 @@
                     </v-col>
                   </v-row>
                 </template>
-                <template v-if="index == 1"> <h4>No Match Available</h4></template>
+                <template v-else-if="index == 0">
+                  <h4>No Match Available</h4></template
+                >
               </div>
             </template>
-            <template v-else> <h4>No Match Available</h4></template>
+            <template v-if="Object.keys(schedules).length === 0"> <h4>No Match Available</h4></template>
           </v-card-text>
         </v-col>
         <v-col cols="12" sm="4">
