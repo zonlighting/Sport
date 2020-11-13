@@ -207,10 +207,11 @@ public class TeamService {
 
 		List<Schedule> schedules = scheduleRepository.getAll().stream()
 				.filter((schedule) -> {
+					boolean check = (schedule.getIdTeam1() == idTeam || schedule.getIdTeam2() == idTeam);
 					if(type == 2) {
-						return (schedule.getIdTeam1() == idTeam || schedule.getIdTeam2() == idTeam) && schedule.getStatus() == 2;
+						return check && schedule.getStatus() == 2;
 					}
-					return (schedule.getIdTeam1() == idTeam || schedule.getIdTeam2() == idTeam) && schedule.getStatus() != 2;
+					return check && schedule.getStatus() != 2;
 				}).collect(Collectors.toList());
 		schedules.sort(new Comparator<Schedule>() {
 			@Override
