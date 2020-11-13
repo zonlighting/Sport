@@ -142,6 +142,7 @@
                 readonly
                 v-bind="attrs"
                 v-on="on"
+                 :rules="[(v) => !!v || 'Time required']"
               ></v-text-field>
             </template>
             <v-time-picker

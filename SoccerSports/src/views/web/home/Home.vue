@@ -1,3 +1,4 @@
+
 <template>
   <div>
     <img
@@ -463,9 +464,9 @@
 </template>
 <script>
 import { ENV } from "@/config/env.js";
-
 export default {
-  created() {
+  async created() {
+    await this.$store.commit("auth/auth_overlay_true");
     this.getRecentMatch();
     this.getLastResults();
     this.getTournament();
@@ -510,7 +511,6 @@ export default {
             this.recentMatch = response.data.payload;
             if (Object.keys(this.recentMatch).length > 0) {
               this.time = response.data.payload.timeStart;
-
               this.setintervalTime(this.time);
             }
           } else {
@@ -569,12 +569,15 @@ export default {
         .then((response) => {
           if (response.data.code == 0) {
             this.rankAll = response.data.payload;
+            this.$store.commit("auth/auth_overlay_false");
           } else {
             alert(response.data.message);
+            this.$store.commit("auth/auth_overlay_false");
           }
         })
         .catch(function (error) {
           alert(error);
+            this.$store.commit("auth/auth_overlay_false");
         });
     },
     detailTournament(item) {
@@ -604,7 +607,6 @@ export default {
         query: { idTab: 1 },
       });
     },
-
     setintervalTime(time) {
       console.log(time);
       var a = Date.parse(time);
@@ -643,3 +645,4 @@ tbody {
   }
 }
 </style>
+
