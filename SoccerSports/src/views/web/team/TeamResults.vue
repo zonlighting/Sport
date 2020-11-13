@@ -75,12 +75,17 @@
                     </v-col>
                   </v-row>
                 </template>
-                <template v-else-if="index == 0">
-                  <h4>No Match Available</h4>
-                </template>
               </div>
             </template>
-            <template v-if="Object.keys(schedules).length === 0"> <h4>No Match Available</h4></template>
+            <template v-else>
+              <div>
+                <h4
+                  style="color: black; display: flex; justify-content: center"
+                >
+                  No Match Available
+                </h4>
+              </div>
+            </template>
           </v-card-text>
         </v-col>
         <v-col cols="12" sm="4">
@@ -145,7 +150,10 @@ export default {
       let self = this;
       this.$store.commit("auth/auth_overlay_true");
       this.$store
-        .dispatch("team/teamMatchs", id)
+        .dispatch("team/teamMatchs", {
+          idTeam: id,
+          type: 2,
+        })
         .then((response) => {
           let schedules = response.data.payload;
           this.$store.commit("auth/auth_overlay_false");

@@ -203,10 +203,15 @@ public class TeamService {
 	static String[] monthName = { "January", "February", "March", "April", "May", "June", "July", "August", "September",
 			"October", "November", "December" };
 
-	public List<MonthYearDto> teamSchedules(int idTeam) {
+	public List<MonthYearDto> teamSchedules(int idTeam, int type) {
+
 		List<Schedule> schedules = scheduleRepository.getAll().stream()
-				.filter((schedule) -> (schedule.getIdTeam1() == idTeam || schedule.getIdTeam2() == idTeam))
-				.collect(Collectors.toList());
+				.filter((schedule) -> {
+					if(type == 2) {
+						return (schedule.getIdTeam1() == idTeam || schedule.getIdTeam2() == idTeam) && schedule.getStatus() == 2;
+					}
+					return (schedule.getIdTeam1() == idTeam || schedule.getIdTeam2() == idTeam) && schedule.getStatus() != 2;
+				}).collect(Collectors.toList());
 		schedules.sort(new Comparator<Schedule>() {
 			@Override
 			public int compare(Schedule o1, Schedule o2) {

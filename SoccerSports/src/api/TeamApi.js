@@ -31,8 +31,8 @@ export function getHistory(data){
     return Api.get(`/team/getHistory?idTour=${data.idTour}&idTeam=${data.idTeam}&idSchedule=${data.idSchedule}`)
 }
 
-export function teamMatchs(idTeam){
-    return Api.get('/team/teamMatchs/' + idTeam)
+export function teamMatchs(idTeam, type){
+    return Api.get(`/team/teamMatchs/${idTeam}/${type}`)
 }
 
 export function squad(data){

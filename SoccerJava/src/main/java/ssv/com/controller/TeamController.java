@@ -106,10 +106,10 @@ public class TeamController {
 
 	}
 
-	@GetMapping(value = "teamMatchs/{idTeam}")
-	public ResponseQuery<?> teamMatchs(@PathVariable int idTeam) {
-		if (teamService.teamSchedules(idTeam) != null) {
-			return ResponseQuery.success("Get Success", teamService.teamSchedules(idTeam));
+	@GetMapping(value = "teamMatchs/{idTeam}/{type}")
+	public ResponseQuery<?> teamMatchs(@PathVariable int idTeam, @PathVariable int type) {
+		if (teamService.teamSchedules(idTeam, type) != null) {
+			return ResponseQuery.success("Get Success", teamService.teamSchedules(idTeam, type));
 		}
 		return ResponseQuery.faild("Team don't have any schedule", null);
 	}
