@@ -88,6 +88,7 @@ public class ScheduleService {
 						if (!schedule.getTimeStart().plusHours(3).isAfter(list.get(0).getTimeStart())) {
 							return null;
 						} else if (!schedule.getTimeStart().isAfter(scheduleExit.getTimeStart().plusHours(3))) {
+							var a=scheduleExit.getTimeStart().plusHours(3);
 							if (schedule.getTimeStart().plusHours(3).isAfter(scheduleExit.getTimeStart())) {
 								return "Must be bigger : " + oldPattern.format(scheduleExit.getTimeStart());
 
