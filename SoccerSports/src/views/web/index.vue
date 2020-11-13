@@ -157,7 +157,7 @@
                       </v-dialog>
                     </template>
 
-                    <template>
+                    <!-- <template>
                       <v-dialog v-model="RegisterDialog" max-width="600px">
                         <template v-slot:activator="{ on, attrs }">
                           <a v-bind="attrs" v-on="on">
@@ -169,7 +169,7 @@
 
                         <Register :closeRegisterDialog="registerDialog" />
                       </v-dialog>
-                    </template>
+                    </template> -->
                   </v-row>
                 </template>
               </div>
@@ -187,13 +187,13 @@
 
 <script>
 import Login from "@/views/web/Login.vue";
-import Register from "@/views/web/Register.vue";
+// import Register from "@/views/web/Register.vue";
 import { ENV } from "@/config/env.js";
 
 export default {
   components: {
     Login,
-    Register,
+    // Register,
   },
 
   data: () => ({

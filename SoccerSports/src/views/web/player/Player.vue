@@ -100,7 +100,7 @@
           <v-select
             v-model="teamSelect"
             :items="teams"
-            item-text= "nameTeam"
+            item-text="nameTeam"
             item-value="idTeam"
             class="mx-6"
             label="Select Team"
@@ -118,8 +118,45 @@
 
           <template v-if="team != null">
             <div v-for="(member, index) in team.profile" :key="index">
-              <template v-if="member.position == positionSelect && index < 5">
-                <v-row class="ml-6">
+              <template v-if="member.position == positionSelect">
+                <v-row
+                  class="ml-6"
+                  style="cursor: pointer"
+                  @click="memberInfoClick(member)"
+                >
+                  <v-avatar
+                    style="border: 1px solid grey"
+                    class="pr-3"
+                    size="48"
+                  >
+                    <v-img
+                      :src="baseUrl + member.avatar"
+                      max-width="60"
+                      max-height="60"
+                      class="ml-3 pointer"
+                    ></v-img>
+                  </v-avatar>
+                  <div>
+                    <p
+                      style="
+                        margin-bottom: 0px;
+                        color: #2b2c2d;
+                        font-weight: 600;
+                        font-size: 14px;
+                      "
+                    >
+                      {{ member.name }}
+                    </p>
+                    <p style="font-size: 12px">Age: {{ member.age }}</p>
+                  </div>
+                </v-row>
+              </template>
+              <template>
+                <v-row
+                  class="ml-6"
+                  style="cursor: pointer"
+                  @click="memberInfoClick(member)"
+                >
                   <v-avatar
                     style="border: 1px solid grey"
                     class="pr-3"
@@ -149,10 +186,10 @@
               </template>
             </div>
           </template>
-          <v-divider style="margin: 0 !important"></v-divider>
-          <h5 @click="toSquad" class="center" style="color: blue">
+          <!-- <v-divider style="margin: 0 !important"></v-divider> -->
+          <!-- <h5 @click="toSquad" class="center" style="color: blue;cursor: pointer">
             Full Squad
-          </h5>
+          </h5> -->
         </v-card>
       </v-col>
       <v-col cols="12" md="6" xm="6">
@@ -163,7 +200,10 @@
             <v-card-subtitle class="center mb-5">
               <h3>{{ nextMatch.year }} {{ nextMatch.nameTour }}</h3>
             </v-card-subtitle>
-            <v-card-text style="cursor: pointer" @click="linkSchedule(nextMatch.idSchedule)">
+            <v-card-text
+              style="cursor: pointer"
+              @click="linkSchedule(nextMatch.idSchedule)"
+            >
               <v-row>
                 <v-col cols="2"></v-col>
                 <h4>{{ nextMatch.nameTeam1 }}</h4>
@@ -259,7 +299,7 @@ export default {
     return {
       lastFiveMatch: [],
       teamSelect: "",
-      positionSelect: "Goalkeepers",
+      positionSelect: "",
       idPlayer: this.$route.params.id,
       playerStatus: this.$store.state.member.playerProfile,
       playerProfile: {},
@@ -267,7 +307,13 @@ export default {
       team: this.$store.state.team.teamDetail,
       year: "",
       teams: [],
-      defaultPosition: ["Goalkeepers", "Defenders", "Midfielders", "Forwards"],
+      defaultPosition: [
+        "None",
+        "Goalkeepers",
+        "Defenders",
+        "Midfielders",
+        "Forwards",
+      ],
       nextMatch: {},
       headers: [
         {
@@ -404,13 +450,13 @@ export default {
       this.year = d.getFullYear();
     },
 
-    toSquad() {
-      console.log(this.team.idTeam)
-      this.$router.push({
-        path: `/team/${this.team.idTeam}/squad`,
-        query: { idTab : '3'}
-      });
-    },
+    // toSquad() {
+    //   console.log(this.team.idTeam)
+    //   this.$router.push({
+    //     path: `/team/${this.team.idTeam}/squad`,
+    //     query: { idTab : '3'}
+    //   });
+    // },
 
     linkTeam(team) {
       console.log(team);
@@ -426,6 +472,13 @@ export default {
 
     handleRowClick(item) {
       this.$router.push({ path: "/scheduleDetail/" + item.idSchedule });
+    },
+
+    memberInfoClick(item) {
+      this.$store.commit("member/player_profile", item);
+      let path = `/player/${item.id}`;
+      this.$router.push({ path: path });
+      location.reload();
     },
   },
 };

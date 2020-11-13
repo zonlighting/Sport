@@ -6765,7 +6765,7 @@ h6 {
   display: block; }
 
 .header-main .sticky-menu {
-  position: static;
+  position: relative;
   top: 0;
   z-index: 23;
   will-change: top, transform;
