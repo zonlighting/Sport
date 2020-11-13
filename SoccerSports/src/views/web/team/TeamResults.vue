@@ -75,9 +75,12 @@
                     </v-col>
                   </v-row>
                 </template>
+                <template v-else-if="index == 0">
+                  <h4>No Match Available</h4>
+                </template>
               </div>
             </template>
-            <template v-else> <h4>No Match Available</h4></template>
+            <template v-if="Object.keys(schedules).length === 0"> <h4>No Match Available</h4></template>
           </v-card-text>
         </v-col>
         <v-col cols="12" sm="4">
@@ -117,7 +120,7 @@ export default {
         { text: "COMPETITION", value: "nameTour", sortable: false },
         { text: "STATUS", value: "status", sortable: false },
       ],
-      idTour: 0
+      idTour: 0,
     };
   },
 
