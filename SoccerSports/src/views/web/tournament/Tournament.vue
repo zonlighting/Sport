@@ -89,6 +89,9 @@
             </v-card>
           </v-row>
         </v-card-text>
+        <v-card-text v-if="tournament.length==0">
+          <h2 class="text-center">No Tournament</h2>
+        </v-card-text>
       </v-col>
       <v-col cols="12" sm="4">
         <v-row style="height: 107px"></v-row>
@@ -128,7 +131,6 @@ export default {
       { id: 1, text: "Tournament On Game" },
       { id: 2, text: "Tournament Finished" },
     ],
-    desserts: [],
     tournament: [],
   }),
 
