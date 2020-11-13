@@ -147,11 +147,13 @@ export default {
         teamForm.append("description", this.description);
         teamForm.append("file", this.fileImage);
         let self = this;
+        this.$store.commit("auth/auth_overlay_true");
         this.$store
           .dispatch("team/createTeam", teamForm)
           .then(function (response) {
             self.changeButton = !self.changeButton;
             if (response.data.code === 9999 && response.data.payload == 409) {
+              this.$store.commit("auth/auth_overlay_true");
               alert(response.data.message);
             } else {
               self.closeCreateTeamDialog();
@@ -160,10 +162,12 @@ export default {
                 self.successDialog = !self.successDialog;
                 self.getTeams();
                 self.reset();
+                this.$store.commit("auth/auth_overlay_true");
               }, 1500);
             }
           })
           .catch(function (error) {
+            this.$store.commit("auth/auth_overlay_true");
             alert(error);
             self.changeButton = !self.changeButton;
           });
