@@ -8,7 +8,7 @@
 
     <template>
       <v-row>
-        <h5 class="titleText pl-10">TEAM DETAIL</h5>
+        <h5 class="titleText pl-15">TEAM DETAIL</h5>
         <v-spacer></v-spacer>
         <v-btn
           color="primary"

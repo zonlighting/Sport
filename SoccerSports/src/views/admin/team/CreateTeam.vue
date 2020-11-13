@@ -51,7 +51,10 @@
       <v-btn color="blue darken-1" text @click="reset"> Reset </v-btn>
       <v-spacer></v-spacer>
 
-      <v-btn color="blue darken-1" text @click="onSubmit"> Save </v-btn>
+      <v-btn v-if="changeButton" color="blue darken-1" text @click="onSubmit">
+        Save
+      </v-btn>
+      <v-btn disabled v-else>Processing</v-btn>
     </v-card-actions>
 
     <template>
@@ -77,6 +80,7 @@ export default {
 
   data() {
     return {
+      changeButton: true,
       successDialog: false,
       idTeam: 0,
       name: "",
@@ -145,6 +149,7 @@ export default {
         this.$store
           .dispatch("team/createTeam", teamForm)
           .then(function (response) {
+            self.changeButton = !self.changeButton;
             if (response.data.code === 9999 && response.data.payload == 409) {
               alert(response.data.message);
             } else {
@@ -159,7 +164,9 @@ export default {
           })
           .catch(function (error) {
             alert(error);
+            self.changeButton = !self.changeButton;
           });
+        self.changeButton = !self.changeButton;
       }
     },
 

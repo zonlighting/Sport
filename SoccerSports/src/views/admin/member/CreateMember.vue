@@ -51,7 +51,7 @@
           </v-col>
           <v-col cols="12" md="3">
             <v-file-input
-            accept="image/png, image/jpeg, image/bmp"
+              accept="image/png, image/jpeg, image/bmp"
               :rules="rulesImage"
               v-model="fileImage"
               label="Add Avatar"
@@ -77,9 +77,12 @@
         ></v-row>
       </v-card-text>
       <v-card-actions>
-        <v-btn color="error" x-large text @click="isOpenModalMember"> Cancel </v-btn>
+        <v-btn color="error" x-large text @click="isOpenModalMember">
+          Cancel
+        </v-btn>
+        <v-btn color="error" x-large text @click="reset"> Reset Form </v-btn>
         <v-spacer> </v-spacer>
-         <v-btn color="error" x-large text @click="reset"> Reset Form </v-btn>
+
         <v-btn
           color="primary"
           x-large
@@ -168,7 +171,7 @@ export default {
       rulesImage: [],
     };
   },
-  
+
   watch: {
     fileImage() {
       if (this.fileImage == undefined) {
@@ -188,7 +191,7 @@ export default {
             v.type == "image/png" ||
             v.type == "image/jpeg" ||
             v.type == "image/bmp" ||
-            "Wrong type image"
+            "Wrong type image",
         ];
       }
     },

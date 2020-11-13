@@ -8,7 +8,7 @@
 
     <template>
       <v-row class="mx-12">
-        <h1 class="titleText">Team Management</h1>
+        <h5 class="titleText pl-5 pt-5">Team Management</h5>
         <v-spacer></v-spacer>
         <v-btn
           color="primary"
@@ -23,7 +23,7 @@
       </v-row>
       <v-card max-width="95%" class="my-8 container">
         <v-img v-if="playersInTeam.length > 0">
-          <h2 class="pl-3 pt-2">Total : {{ playersInTeam.length }} members</h2>
+          <h4 class="pl-3 pt-2">Total : {{ playersInTeam.length }} members</h4>
           <v-col cols="12">
             <v-autocomplete
               v-model="members"
@@ -47,16 +47,30 @@
             </v-autocomplete>
           </v-col>
         </v-img>
-        <h2 v-else class="pl-3 pt-2" style="color: red">
+        <h4 v-else class="pl-3 pt-2" style="color: red">
           Team don't have any members
-        </h2>
+        </h4>
         <v-row>
-          <v-col cols="12" md="6" xl="6" xm="12">
+          <v-col cols="12" md="12" xl="6" xm="12">
             <h4 style="text-align: center">Members Available</h4>
             <v-divider class="my-4"></v-divider>
-            <v-btn color="primary" dark class="mb-5" @click="isOpenModalMember">
-              Create Member
-            </v-btn>
+            <v-row>
+              <v-btn
+                color="primary"
+                dark
+                class="mb-5 ml-3"
+                @click="isOpenModalMember"
+              >
+                Create Member
+              </v-btn>
+              <v-spacer></v-spacer>
+              <v-btn
+                class="mb-5 mr-3"
+                @click="$refs.formAvailable.resetAvaiable()"
+              >
+                Reset
+              </v-btn>
+            </v-row>
             <v-dialog persistent v-model="dialogCreateMember" max-width="68%">
               <CreateMember
                 :loadMemberAfterCreate="loadMemberAfterCreate"
@@ -64,18 +78,29 @@
               />
             </v-dialog>
             <MembersAvailable
+              ref="formAvailable"
               :isConfirm="isConfirm"
               :addedMember="addedMember"
               :playersAvailable="playersAvailable"
             />
           </v-col>
-          <v-col cols="12" md="6" xl="6" xm="12">
+          <v-col cols="12" md="12" xl="6" xm="12">
             <h4 style="text-align: center">Members In Team</h4>
             <v-divider class="my-4"></v-divider>
-            <v-btn color="primary" dark class="mb-5" @click="isConfirm(0)">
-              Confirm List
-            </v-btn>
-
+            <v-row>
+              <v-btn
+                color="primary"
+                dark
+                class="mb-5 ml-3"
+                @click="isConfirm(0)"
+              >
+                Confirm List
+              </v-btn>
+              <v-spacer></v-spacer>
+              <v-btn class="mb-5 mr-3" @click="$refs.formInTeam.resetInTeam()">
+                Reset
+              </v-btn>
+            </v-row>
             <v-dialog v-model="dialogConfirm" persistent max-width="500">
               <v-card class="container" v-if="!success">
                 <v-card-title class="headline">
@@ -115,6 +140,7 @@
               </template>
             </v-dialog>
             <MembersInTeam
+              ref="formInTeam"
               :isConfirm="isConfirm"
               :removedMember="removedMember"
               :playersInTeam="playersInTeam"
@@ -238,7 +264,7 @@ export default {
             self.dialogConfirm = !self.dialogConfirm;
             self.success = !self.success;
             self.loadListMember(id);
-            console.log(index)
+            console.log(index);
             if (index == 1) {
               self.$router.push({
                 path: `/admin/member/${self.idPlayer}`,
@@ -288,3 +314,10 @@ export default {
   },
 };
 </script>
+<style scoped>
+.titleText {
+  font-weight: 700;
+  color: #01c0c8;
+  font-size: 30px;
+}
+</style>
