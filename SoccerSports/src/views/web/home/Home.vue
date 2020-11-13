@@ -465,7 +465,8 @@
 import { ENV } from "@/config/env.js";
 
 export default {
-  created() {
+  async created() {
+    await this.$store.commit("auth/auth_overlay_true");
     this.getRecentMatch();
     this.getLastResults();
     this.getTournament();
@@ -503,12 +504,10 @@ export default {
       });
     },
     getRecentMatch() {
-      this.$store.commit("auth/auth_overlay_true");
       this.$store
         .dispatch("schedule/recentMatch")
         .then((response) => {
           if (response.data.code == 0) {
-            this.$store.commit("auth/auth_overlay_false");
             this.recentMatch = response.data.payload;
             if (Object.keys(this.recentMatch).length > 0) {
               this.time = response.data.payload.timeStart;
@@ -519,7 +518,6 @@ export default {
           }
         })
         .catch(function (error) {
-          this.$store.commit("auth/auth_overlay_false");
           alert(error);
         });
     },
@@ -538,11 +536,9 @@ export default {
         });
     },
     getLastResults() {
-      this.$store.commit("auth/auth_overlay_true");
       this.$store
         .dispatch("schedule/lastResults")
         .then((response) => {
-          this.$store.commit("auth/auth_overlay_false");
           if (response.data.code == 0) {
             this.lastResults = response.data.payload;
           } else {
@@ -550,16 +546,13 @@ export default {
           }
         })
         .catch(function (error) {
-          this.$store.commit("auth/auth_overlay_false");
           alert(error);
         });
     },
     getTournament() {
-      this.$store.commit("auth/auth_overlay_true");
       this.$store
         .dispatch("tournament/tournamentStatus", 2)
         .then((response) => {
-          this.$store.commit("auth/auth_overlay_false");
           if (response.data.code == 0) {
             this.tournamentResults = response.data.payload;
           } else {
@@ -567,7 +560,6 @@ export default {
           }
         })
         .catch(function (error) {
-          this.$store.commit("auth/auth_overlay_false");
           alert(error);
         });
     },
@@ -596,11 +588,9 @@ export default {
       this.$router.push({ path: "/summary/" + item.idSchedule });
     },
     getMatchFixtures() {
-      this.$store.commit("auth/auth_overlay_true");
       this.$store
         .dispatch("schedule/getByStatus", 0)
         .then((response) => {
-          this.$store.commit("auth/auth_overlay_false");
           if (response.data.code == 0) {
             this.matchFixtures = response.data.payload;
           } else {
@@ -608,7 +598,6 @@ export default {
           }
         })
         .catch(function (error) {
-          this.$store.commit("auth/auth_overlay_false");
           alert(error);
         });
     },
