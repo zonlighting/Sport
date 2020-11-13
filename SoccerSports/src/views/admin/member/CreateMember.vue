@@ -6,7 +6,7 @@
         <v-row>
           <v-col cols="12" md="6">
             <v-text-field
-              v-model="name"
+              v-model.trim="name"
               :rules="nameRules"
               :counter="21"
               label="Full Name"
@@ -15,7 +15,7 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-              v-model="email"
+              v-model.trim="email"
               :rules="emailRules"
               label="E-mail"
               required
@@ -25,7 +25,7 @@
         <v-row>
           <v-col cols="12" md="3">
             <v-text-field
-              v-model="phone"
+              v-model.trim="phone"
               label="PhoneNumber"
               :rules="phoneRules"
               :counter="15"
@@ -128,7 +128,10 @@ export default {
       country: "",
       name: "",
       countryRules: [(v) => !!v || "Country is required"],
-      nameRules: [(v) => !!v || "Name is required"],
+      nameRules: [
+        (v) => !!v || "Name is required",
+        (v) => (v && v.trim().length != 0) || "Name is required",
+      ],
       email: "@gmail.com",
       emailRules: [
         (v) => !!v || "Email is required",
@@ -137,6 +140,7 @@ export default {
           return !inValid.test(v) || "E-mail can not have white space";
         },
         (v) => !!/.+@.+/.test(v) || "E-mail must be valid",
+        (v) => (v && v.trim().length != 0) || "Email is required",
       ],
       phone: "",
       phoneRules: [
@@ -147,10 +151,11 @@ export default {
         },
         (v) => {
           return (
-            (v != undefined && v.length > 5) ||
+            (v != undefined && v.trim().length > 5) ||
             "Phone number have at least 6 digit"
           );
         },
+        (v) => (v && v.trim().length != 0) || "Name is required",
       ],
       age: "",
       ageRules: [

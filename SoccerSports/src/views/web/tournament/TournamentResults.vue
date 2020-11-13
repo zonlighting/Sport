@@ -33,15 +33,15 @@
         </router-link>
       </div>
     </template>
-      <template v-slot:no-data>
-        <div class="text-center">
-      <v-img
-        max-height="500"
-        max-width="500"
-        src="@/assets/soccer.png"
-      ></v-img>
-      <h1>No Match </h1>
-        </div>
+    <template v-slot:no-data>
+      <div class="text-center">
+        <v-img
+          max-height="500"
+          max-width="500"
+          src="@/assets/soccer.png"
+        ></v-img>
+        <h1>No Match</h1>
+      </div>
     </template>
   </v-data-table>
 </template>

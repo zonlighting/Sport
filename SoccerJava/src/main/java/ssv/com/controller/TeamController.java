@@ -1,5 +1,7 @@
 package ssv.com.controller;
 
+import java.util.List;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -76,7 +78,14 @@ public class TeamController {
 
 	@PostMapping(value = "updateInfo/{id}")
 	public ResponseQuery<?> updateTeamInfo(@PathVariable(value = "id") int id, @ModelAttribute TeamForm teamForm) {
+		List<Team> teams = teamService.getTeams();
+		Team currentTeam = teamService.getTeamById(id);
 		try {
+			for (Team team : teams) {
+				if (team.getNameTeam().equalsIgnoreCase(teamForm.getNameTeam()) && !currentTeam.getNameTeam().equalsIgnoreCase(teamForm.getNameTeam())) {
+					return ResponseQuery.faild("Team has exists", 301);
+				}
+			}
 			return ResponseQuery.success("Upadate Success", teamService.updateTeam(id, teamForm));
 		} catch (Exception e) {
 			return ResponseQuery.faild("Failed To Update", e);
@@ -122,8 +131,8 @@ public class TeamController {
 	}
 
 	@GetMapping("nextMatch/{idPlayer}")
-	public ResponseQuery<?> playerNextMatch(@PathVariable int idPlayer){
-		if(teamService.playerNextMatch(idPlayer).size() > 0) {
+	public ResponseQuery<?> playerNextMatch(@PathVariable int idPlayer) {
+		if (teamService.playerNextMatch(idPlayer).size() > 0) {
 			return ResponseQuery.success("Connect!", teamService.playerNextMatch(idPlayer).get(0));
 		}
 		return ResponseQuery.faild("PLayer don't have schedule", null);
