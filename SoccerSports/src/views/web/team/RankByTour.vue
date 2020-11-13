@@ -44,6 +44,7 @@ export default {
     tourId: Number,
   },
   data: () => ({
+    id: "",
     select: "",
     isHavedata: true,
     headers: [
@@ -109,10 +110,9 @@ export default {
     },
 
     handleRowClick(item) {
-      console.log(item);
-      this.$router.push({
-        path: `/team/${item.idTeam}`,
-      });
+      let path = `/team/${item.idTeam}`;
+      this.$router.push({ path: path });
+      location.reload();
     },
   },
 };
