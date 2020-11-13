@@ -9,7 +9,7 @@
           <v-row>
             <v-col cols="12" sm="6" md="4">
               <v-text-field
-                v-model="name"
+                v-model.trim="name"
                 :counter="21"
                 :rules="nameRules"
                 label="Team Name"
@@ -87,6 +87,7 @@ export default {
       nameRules: [
         (v) => !!v || "Name is required",
         (v) => (v && v.length <= 21) || "Name must be less than 21 characters",
+        (v)=>(v&&v.trim().length!=0)|| 'Name is required'
       ],
       country: "",
       countryRules: [

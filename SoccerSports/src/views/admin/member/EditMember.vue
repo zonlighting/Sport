@@ -58,7 +58,7 @@
           <v-row>
             <v-col cols="12" md="4">
               <v-text-field
-                v-model="phone"
+                v-model.trim="phone"
                 label="PhoneNumber"
                 :rules="phoneRules"
                 :counter="15"
@@ -289,7 +289,7 @@ export default {
         memberForm.append("country", this.country);
         memberForm.append("position", this.position);
         memberForm.append("file", this.fileImage);
-
+        self.changeButton = !self.changeButton;
         this.$store
           .dispatch("member/updateProfile", {
             id: id,
@@ -297,10 +297,12 @@ export default {
           })
           .then((response) => {
             let res = response.data;
-            self.changeButton = !self.changeButton;
+
             if (res.code == 9999) {
+              self.changeButton = !self.changeButton;
               alert(res.message);
             } else if (res.payload == 400) {
+              self.changeButton = !self.changeButton;
               alert(res.message);
             } else {
               self.successDialog = !self.successDialog;

@@ -90,7 +90,7 @@
 
         <v-divider class="my-8"></v-divider>
 
-        <h2 class="my-4 ml-6">Members</h2>
+        <h2 class="titleText my-4 ml-6">Members</h2>
         <template>
           <v-toolbar flat color="white">
             <v-btn
@@ -414,7 +414,7 @@ export default {
 .titleText {
   font-weight: 700;
   color: #01c0c8;
-  font-size: 22px;
+  font-size: 30px;
   margin-top: 10px;
 }
 
