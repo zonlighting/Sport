@@ -4,7 +4,7 @@
       <v-card>
         <v-card class="text-center">
           <h1
-            style="font-family: times; color: blue;cursor: pointer" 
+            style="font-family: times; color: blue; cursor: pointer"
             @click="detailTournament(schedule.tournament.idTournament)"
           >
             {{ schedule.tournament.nameTournament }}
@@ -153,10 +153,11 @@ export default {
     this.getData();
   },
   methods: {
-    detailTeam(item){
-       this.$router.push({
-          path: `/team/${item.idTeam}`,
-        });
+    detailTeam(item) {
+      this.$router.push({
+        path: `/team/${item.idTeam}`,
+        query: { idTab: 1 },
+      });
     },
     getData() {
       this.$store.commit("auth/auth_overlay_true");
@@ -172,7 +173,7 @@ export default {
         });
     },
     detailTournament(item) {
-      this.$router.push('/tournamentDetail/'+item)
+      this.$router.push("/tournamentDetail/" + item);
     },
     getDataGoal() {
       this.goal1 = [];
@@ -203,7 +204,6 @@ export default {
       });
     },
   },
-  
 };
 </script>
 <style>
