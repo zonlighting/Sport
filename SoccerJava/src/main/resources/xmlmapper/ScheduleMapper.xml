@@ -84,7 +84,7 @@
 		team_tbl.team_id=schedule_tbl.schedule_team1 or
 		team_tbl.team_id=schedule_tbl.schedule_team2) left join goal_tbl on
 		schedule_tbl.schedule_id=goal_tbl.id_schedule where
-		schedule_tour=${idTour}
+		schedule_tour=${idTour} order by schedule_start
 	</select>
 
 	<select id="getById" resultMap="scheduleMapping">

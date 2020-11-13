@@ -89,6 +89,9 @@
             </v-card>
           </v-row>
         </v-card-text>
+        <v-card-text v-if="tournament.length == 0">
+          <h2 class="text-center">No Tournament</h2>
+        </v-card-text>
       </v-col>
       <v-col cols="12" sm="4">
         <v-row style="height: 107px"></v-row>
@@ -128,12 +131,12 @@ export default {
       { id: 1, text: "Tournament On Game" },
       { id: 2, text: "Tournament Finished" },
     ],
-    desserts: [],
     tournament: [],
   }),
 
-  mounted() {
-    this.getTournament();
+  async created() {
+    await this.getTournament();
+    this.$store.commit("auth/auth_overlay_false");
   },
 
   computed: {
@@ -146,7 +149,6 @@ export default {
     getTournament() {
       this.$store.commit("auth/auth_overlay_true");
       this.$store.dispatch("tournament/getAll").then((response) => {
-        this.$store.commit("auth/auth_overlay_false");
         this.tournament = response.data.payload;
       });
     },

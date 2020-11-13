@@ -19,14 +19,15 @@
             <v-list-item-title>Name Tournament</v-list-item-title>
             <v-list-item-subtitle>
               <v-text-field
-                v-model="nameTournament"
+                v-model.trim="nameTournament"
                 placeholder="Name Tournament"
                 :counter="40"
                 :rules="[
                   (v) => !!v || 'Name is required',
                   (v) =>
-                    (v && v.length <= 40) ||
+                    (v && v.trim().length <= 40) ||
                     'Name must be less than 40 characters',
+                    (v)=>(v&&v.trim().length!=0)||'Name is required'
                 ]"
               ></v-text-field>
             </v-list-item-subtitle>
@@ -294,12 +295,15 @@ export default {
       });
     },
     save() {
+      this.overlay = !this.overlay;
+
       if (!this.$refs.form.validate()) {
         this.$refs.form.validate();
-      } else {
         this.overlay = !this.overlay;
+      } else {
         if (this.teamSelected.length >= 0 && this.teamSelected.length < 10) {
           alert("The tournament must have at least 10 teams participating");
+          this.overlay = !this.overlay;
         } else {
           var bodyFormData = new FormData();
           bodyFormData.append("nameTournament", this.nameTournament);
@@ -347,7 +351,7 @@ export default {
     this.getListTeam();
   },
   updated() {
-    if ((this.listTeam.length == 0)) {
+    if (this.listTeam.length == 0) {
       this.getListTeam();
     }
   },
