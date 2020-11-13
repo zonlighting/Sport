@@ -106,9 +106,9 @@ const actions = {
         })
     },
 
-    teamMatchs(__, idTeam) {
+    teamMatchs(__, {idTeam, type}) {
         return new Promise((resolve, reject) => {
-            teamMatchs(idTeam).then((res) => {
+            teamMatchs(idTeam, type).then((res) => {
                 resolve(res);
             }).catch((err) => {
                 reject(err);
