@@ -22,13 +22,7 @@
             ></v-text-field>
           </v-col>
           <v-col cols="12" sm="3" md="3">
-            <v-text-field
-              v-model="ageSearch"
-              append-icon="mdi-magnify"
-              label="Age"
-              single-line
-              hide-details
-            ></v-text-field>
+            <v-select v-model="ageSearch" :items="ages" label="Age"></v-select>
           </v-col>
           <v-col cols="12" sm="3" md="3">
             <v-select
@@ -51,7 +45,7 @@
 
     <template v-slot:[`item.actions`]="{ item }">
       <v-btn class="mr-1 mb-1" color="primary" small @click="removeMember(item)"
-        >Remove</v-btn
+        >Kick</v-btn
       >
       <v-btn color="primary mb-1" small @click="editPlayer(item)">Edit</v-btn>
     </template>
@@ -82,7 +76,7 @@ export default {
       ageSearch: "",
       nameMemberSearch: "",
       countrySearch: "",
-
+      ages: Array.from(Array(46).keys()).map((v) => v + 10),
       headers: [
         {
           text: "Avatar",
@@ -117,7 +111,7 @@ export default {
         return true;
       }
 
-      return value === this.countrySearch;
+      return value.toLowerCase().includes(this.countrySearch.toLowerCase());
     },
 
     nameMemberFilter(value) {
@@ -139,11 +133,10 @@ export default {
     },
 
     ageFilter(value) {
-      // If this filter has no value we just skip the entire filter.
       if (!this.ageSearch) {
         return true;
       }
-      return value.toLowerCase().includes(this.ageSearch.toLowerCase());
+      return value == this.ageSearch;
     },
 
     removeMember(member) {
@@ -156,6 +149,17 @@ export default {
 
     editPlayer(player) {
       this.isConfirm(player.id);
+    },
+
+    resetInTeam() {
+      this.nameMemberSearch = "";
+      this.ageSearch = "";
+      this.countrySearch = "";
+      this.positionSearch = "Default";
+      this.countryFilter();
+      this.nameMemberFilter();
+      this.positionFilter();
+      this.ageFilter();
     },
   },
 };

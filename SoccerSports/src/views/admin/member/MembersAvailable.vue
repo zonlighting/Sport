@@ -26,13 +26,7 @@
             ></v-text-field>
           </v-col>
           <v-col cols="12" sm="3" md="3">
-            <v-text-field
-              v-model="ageSearch"
-              append-icon="mdi-magnify"
-              label="Age"
-              single-line
-              hide-details
-            ></v-text-field>
+            <v-select v-model="ageSearch" :items="ages" label="Age"></v-select>
           </v-col>
           <v-col cols="12" sm="3" md="3">
             <v-select
@@ -87,6 +81,7 @@ export default {
       countrySearch: "",
       nameMemberSearch: "",
       ageSearch: "",
+      ages: Array.from(Array(46).keys()).map((v) => v + 10),
       headers: [
         {
           text: "Avatar",
@@ -114,42 +109,35 @@ export default {
 
   methods: {
     countryFilter(value) {
-      // If this filter has no value we just skip the entire filter.
       if (!this.countrySearch) {
         return true;
       }
-
-      return value === this.countrySearch;
+      return value.toLowerCase().includes(this.countrySearch.toLowerCase());
     },
 
     nameMemberFilter(value) {
-      // If this filter has no value we just skip the entire filter.
       if (!this.nameMemberSearch) {
         return true;
       }
-
       return value.toLowerCase().includes(this.nameMemberSearch.toLowerCase());
     },
 
     positionFilter(value) {
-      // If this filter has no value we just skip the entire filter.
       if (!this.positionSearch) {
         return true;
       }
       if (this.positionSearch === "Default") {
         return true;
       }
-
       if (this.positionSearch == "Default") return true;
       return value === this.positionSearch;
     },
 
     ageFilter(value) {
-      // If this filter has no value we just skip the entire filter.
       if (!this.ageSearch) {
         return true;
       }
-      return value.toLowerCase().includes(this.ageSearch.toLowerCase());
+      return value == this.ageSearch;
     },
 
     addMember(member) {
@@ -169,6 +157,17 @@ export default {
 
     editPlayer(player) {
       this.isConfirm(player.id);
+    },
+
+    resetAvaiable() {
+      this.nameMemberSearch = "";
+      this.ageSearch = "";
+      this.countrySearch = "";
+      this.positionSearch = "Default";
+      this.countryFilter();
+      this.nameMemberFilter();
+      this.positionFilter();
+      this.ageFilter();
     },
   },
 };

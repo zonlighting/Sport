@@ -20,5 +20,4 @@ public class History {
 		this.idTeam = idTeam;
 		this.idTournament = idTournament;
 	}
-	
 }

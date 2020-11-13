@@ -307,6 +307,7 @@ export default {
               setTimeout(() => {
                 self.successDialog = !self.successDialog;
                 this.$router.go(-1);
+                self.changeButton = !self.changeButton;
               }, 1200);
             }
           })
@@ -314,7 +315,7 @@ export default {
             alert(e);
             self.changeButton = !self.changeButton;
           });
-        self.changeButton = !self.changeButton;
+        // self.changeButton = !self.changeButton;
       }
     },
 
