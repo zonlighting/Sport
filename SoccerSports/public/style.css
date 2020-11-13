@@ -6554,8 +6554,7 @@ h6 {
       -ms-transform: translateY(0);
           transform: translateY(0); }
   .header-main .header-lower.nav-down {
-    position: sticky;
-    top: 0;
+    position: relative;
     -webkit-transform: translateY(-100%);
         -ms-transform: translateY(-100%);
             transform: translateY(-100%); }
@@ -6766,7 +6765,7 @@ h6 {
   display: block; }
 
 .header-main .sticky-menu {
-  position: fixed;
+  position: static;
   top: 0;
   z-index: 23;
   will-change: top, transform;
