@@ -83,13 +83,9 @@
             <v-row style="height: 80px"></v-row>
             <v-row class="mb-5"
               ><v-spacer></v-spacer>
-              <h4
-                color="blue darken-1"
-                style="cursor: pointer"
-                @click="switchType"
+              <v-btn color="info" @click="switchType">
+                Switch Teams Not In Tour</v-btn
               >
-                Switch To Team Not In Tournament
-              </h4>
             </v-row>
             <v-row><RankByTour :tourId="tournament.idTournament" /></v-row
           ></v-col>
@@ -99,37 +95,30 @@
           <v-col cols="11" md="10" sm="10">
             <v-card-text>
               <v-row>
-                <h1 style="font-weight: bold; color: green">
-                  Soccer Teams Available
-                </h1>
+                <h1 style="color: green">Soccer Teams Available</h1>
+                <v-spacer></v-spacer>
+                <v-btn color="info" @click="switchType">
+                  Switch Teams In Tour</v-btn
+                >
               </v-row>
-              <v-row style="max-height: 60px">
-                <!-- <v-col cols="12" sm="3">
+              <v-row class="mb-5">
+                <v-col cols="12" sm="3">
                   <v-text-field
-                    v-model="namePlayerSearch"
-                    label="Team search"
-                    single-line
-                    hide-details
+                    v-model="nameTeamSearch"
+                    label="Name Search"
+                    outlined
+                    dense
                   ></v-text-field>
                 </v-col>
-                <v-col cols="12" sm="2" class="mt-5">
-                  <v-btn color="primary" dark @click="searchButton">
-                    Search
-                  </v-btn>
-                </v-col> -->
-                <v-spacer></v-spacer>
-                <h4
-                  color="blue darken-1"
-                  style="cursor: pointer"
-                  @click="switchType"
-                >
-                  Switch To Team Have Tournament
-                </h4>
+                <v-col cols="12" sm="2" class="mt-1">
+                  <v-btn @click="searchButton"> Search </v-btn>
+                </v-col>
               </v-row>
               <v-row v-if="isHavedata">
                 <v-col
                   cols="12"
-                  v-for="team in teamsAvaiable"
+                  sm="4"
+                  v-for="team in teamSearch"
                   :key="team.idTeam"
                 >
                   <v-row>
@@ -185,6 +174,8 @@ export default {
   },
   data() {
     return {
+      teamSearch: [],
+      nameTeamSearch: "",
       teamNotInTour: true,
       select: "",
       tourId: this.$store.state.team.tourId,
@@ -210,8 +201,8 @@ export default {
   },
 
   mounted() {
+     this.getTeamNoTournament();
     this.getTours();
-    this.getTeamNoTournament();
   },
 
   computed: {
@@ -234,7 +225,7 @@ export default {
   methods: {
     getTeamNoTournament() {
       let self = this;
-      this.$store.commit("auth/auth_overlay_true");
+      self.$store.commit("auth/auth_overlay_true");
       this.$store
         .dispatch("team/getTeams")
         .then((response) => {
@@ -244,13 +235,15 @@ export default {
             self.teamsAvaiable = getTeams.filter((t) => {
               return t.idTour == 0;
             });
-            console.log(self.teamsAvaiable);
+            self.teamSearch = self.teamsAvaiable
+            // console.log(self.teamsAvaiable);
           } else {
             console.log("Run here Teams Client");
             alert(response.data.message);
           }
         })
         .catch(function (error) {
+          self.$store.commit("auth/auth_overlay_false");
           console.log("Run here Teams Client");
           alert(error);
         });
@@ -258,7 +251,7 @@ export default {
 
     getTourById(id) {
       let self = this;
-      this.$store.commit("auth/auth_overlay_true");
+      self.$store.commit("auth/auth_overlay_true");
       this.$store
         .dispatch("tournament/getById", id)
         .then((response) => {
@@ -271,6 +264,7 @@ export default {
           }
         })
         .catch(function (error) {
+          self.$store.commit("auth/auth_overlay_false");
           console.log("Run here Teams Client");
           alert(error);
         });
@@ -278,7 +272,7 @@ export default {
 
     getTours() {
       let self = this;
-      this.$store.commit("auth/auth_overlay_true");
+      self.$store.commit("auth/auth_overlay_true");
       this.$store
         .dispatch("tournament/getAll")
         .then((response) => {
@@ -296,6 +290,7 @@ export default {
           }
         })
         .catch(function (error) {
+          self.$store.commit("auth/auth_overlay_false");
           console.log("Run here Teams Client");
           console.log("Run here 3");
           alert(error);
@@ -303,7 +298,7 @@ export default {
     },
 
     switchType() {
-      console.log("Run here");
+      // console.log("Run here");
       this.teamNotInTour = !this.teamNotInTour;
     },
 
@@ -327,6 +322,19 @@ export default {
           query: { idTab: routerLink },
         });
       }
+    },
+
+    searchButton() {
+      let newData = this.teamsAvaiable.filter((v) => {
+        let isSearch = true;
+        if (this.nameTeamSearch != "") {
+          isSearch = v.nameTeam
+            .toLowerCase()
+            .includes(this.nameTeamSearch.toLowerCase());
+        }
+        return isSearch;
+      });
+      this.teamSearch = newData;
     },
   },
 };

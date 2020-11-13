@@ -183,6 +183,7 @@ export default {
           }
         })
         .catch(function (error) {
+          this.$store.commit("auth/auth_overlay_false");
           alert(error);
         });
     },

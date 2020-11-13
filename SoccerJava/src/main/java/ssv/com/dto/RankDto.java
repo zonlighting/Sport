@@ -12,6 +12,7 @@ import lombok.Setter;
 public class RankDto{
 	private int idTeam;
 	private String teamName;
+	private String logo;
 	private int matchPlayed;
 	private int win;
 	private int lose;
