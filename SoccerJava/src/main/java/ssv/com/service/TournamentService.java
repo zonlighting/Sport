@@ -205,7 +205,7 @@ public class TournamentService {
 					}
 				}
 				point = win * 3 + tie;
-				ranks.add(new RankDto(team.getIdTeam(),team.getNameTeam(), matchPlayed, win, lose, tie, point));
+				ranks.add(new RankDto(team.getIdTeam(),team.getNameTeam(),team.getLogo(), matchPlayed, win, lose, tie, point));
 			} else {
 				throw new ResourceExistsException("Tournament don't have any schedule yet!!", 300);
 			}

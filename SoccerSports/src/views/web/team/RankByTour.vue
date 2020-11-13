@@ -10,6 +10,9 @@
       <template v-slot:item="{ item, index }">
         <tr @click="handleRowClick(item)">
           <td>
+            <v-img width="40" height="40" :src="baseUrl + item.logo"></v-img>
+          </td>
+          <td>
             <p class="name-team">{{ item.teamName }}</p>
           </td>
           <td>
@@ -35,6 +38,7 @@
   </div>
 </template>
 <script>
+import { ENV } from "@/config/env.js";
 export default {
   props: {
     tourId: Number,
@@ -43,9 +47,10 @@ export default {
     select: "",
     isHavedata: true,
     headers: [
+      { text: "logo", align: "start", sortable: false, value: "logo" },
       {
         text: "Team",
-        align: "start",
+
         sortable: false,
         value: "teamName",
       },
@@ -59,11 +64,17 @@ export default {
     desserts: [],
   }),
 
+  computed: {
+    baseUrl() {
+      return ENV.BASE_IMAGE;
+    },
+  },
+
   watch: {
     tourId: {
       immediate: true,
       handler: function (newValue) {
-        if ( newValue > 0 && newValue != undefined) {
+        if (newValue > 0 && newValue != undefined) {
           // console.log("newvalue" + newValue)
           this.getRankByTour(newValue);
         }

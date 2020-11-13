@@ -147,7 +147,7 @@ export default {
        if (!this.$refs.form.validate()) {
         this.$refs.form.validate();
       } else {
-        console.log(this.fileImage);
+        // console.log(this.fileImage);
         let self = this;
         var teamForm = new FormData();
         teamForm.append("nameTeam", this.name);
