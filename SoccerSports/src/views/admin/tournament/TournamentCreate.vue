@@ -294,14 +294,11 @@ export default {
       });
     },
     save() {
-      this.overlay = !this.overlay;
-
       if (!this.$refs.form.validate()) {
         this.$refs.form.validate();
-        this.overlay = !this.overlay;
       } else {
+        this.overlay = !this.overlay;
         if (this.teamSelected.length >= 0 && this.teamSelected.length < 10) {
-          this.overlay = !this.overlay;
           alert("The tournament must have at least 10 teams participating");
         } else {
           var bodyFormData = new FormData();
@@ -350,7 +347,7 @@ export default {
     this.getListTeam();
   },
   updated() {
-    if (this.listTeam.length == 0) {
+    if ((this.listTeam.length == 0)) {
       this.getListTeam();
     }
   },

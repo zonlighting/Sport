@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-form ref="form"  lazy-validation>
+    <v-form ref="form" v-model="valid" lazy-validation>
       <v-text-field
         v-model="nameTournament"
         placeholder="Name Tournament"
@@ -99,7 +99,7 @@
           accept="image/png, image/jpeg, image/bmp"
           placeholder="Pick an Banner"
           prepend-icon="mdi-camera"
-          v-model="image"
+          v-model="fileImage"
           :rules="rulesImage"
         ></v-file-input>
         <img
@@ -128,7 +128,7 @@ export default {
         .substr(0, 10),
       menuStart: false,
       menuEnd: false,
-      image: [],
+      fileImage: [],
       rulesImage: [
         (v) => {
           if (v == undefined || Array.isArray(v)) {
@@ -195,14 +195,13 @@ export default {
         bodyFormData.append("timeEnd", this.dateEnd);
         bodyFormData.append("timeStart", this.dateStart);
         bodyFormData.append("banner", this.tournament.banner);
-        if (this.image.size > 0&&this.image!=undefined) {
-          bodyFormData.append("bannerFile", this.image);
+        if (this.fileImage.size > 0) {
+          bodyFormData.append("bannerFile", this.fileImage);
         }
         this.$store
           .dispatch("tournament/update", bodyFormData)
           .then((response) => {
             if (response.data.code == 0) {
-              alert(response.data.message)
               this.getData();
               this.hide();
             } else {
@@ -221,8 +220,8 @@ export default {
     hide:Function,
   },
   watch: {
-    image(event) {
-      if (this.image == undefined || this.image == "") {
+    fileImage(event) {
+      if (this.fileImage == undefined || this.fileImage == "") {
         document.getElementById("image").src =
           this.baseUrl + this.tournament.banner;
       } else {
