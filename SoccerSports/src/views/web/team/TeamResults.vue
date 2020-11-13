@@ -99,7 +99,7 @@ export default {
   },
   data() {
     return {
-      team: this.$store.state.team.teamDetail,
+      team: {},
       schedules: {},
       headers: [
         {
@@ -117,16 +117,17 @@ export default {
         { text: "COMPETITION", value: "nameTour", sortable: false },
         { text: "STATUS", value: "status", sortable: false },
       ],
-      idTour: this.$store.state.team.tourId,
+      idTour: 0
     };
   },
 
   mounted() {
     // console.log(this.$route)
-    if (this.team.idTeam == undefined) {
-      this.$router.push({ path: `/teams` });
-    } else {
-      this.getMatchsByTeamId(this.team.idTeam);
+    if (this.$route.params.id != undefined) {
+      this.getTeamById(this.$route.params.id);
+      this.getMatchsByTeamId(this.$route.params.id);
+      // console.log(this.team);
+      // this.$store.commit("team/team_detail", this.team);
     }
   },
 
@@ -147,12 +148,27 @@ export default {
           this.$store.commit("auth/auth_overlay_false");
           if (response.data.code == 0) {
             self.schedules = schedules;
+            console.log(self.schedules);
           } else {
             alert(response.data.message);
           }
         })
         .catch(function (error) {
           alert(error);
+        });
+    },
+
+    getTeamById(id) {
+      let self = this;
+      this.$store
+        .dispatch("team/getTeamById", id)
+        .then((response) => {
+          let res = response.data.payload;
+          self.team = res;
+          self.idTour = self.team.idTour;
+        })
+        .catch((e) => {
+          alert(e);
         });
     },
 

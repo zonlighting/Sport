@@ -201,7 +201,7 @@ export default {
   },
 
   mounted() {
-     this.getTeamNoTournament();
+    this.getTeamNoTournament();
     this.getTours();
   },
 
@@ -235,7 +235,7 @@ export default {
             self.teamsAvaiable = getTeams.filter((t) => {
               return t.idTour == 0;
             });
-            self.teamSearch = self.teamsAvaiable
+            self.teamSearch = self.teamsAvaiable;
             // console.log(self.teamsAvaiable);
           } else {
             console.log("Run here Teams Client");

@@ -68,6 +68,7 @@
                     </v-col>
                   </v-row>
                 </template>
+                <template v-if="index == 1"> <h4>No Match Available</h4></template>
               </div>
             </template>
             <template v-else> <h4>No Match Available</h4></template>
@@ -92,7 +93,6 @@ export default {
   },
   data() {
     return {
-      isHavedata: true,
       team: {},
       schedules: {},
       headers: [
