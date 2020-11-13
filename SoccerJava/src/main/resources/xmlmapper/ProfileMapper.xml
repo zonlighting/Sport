@@ -129,10 +129,9 @@
 
 	<select id="getNumberGoal" resultType="int">
 		SELECT
-		COUNT(history_id)
-		FROM history_tbl where
-		history_tbl.id_member=${idMember} and
-		history_tbl.id_team=${idTeam} ;
+		COUNT(goal_id)
+		FROM goal_tbl where
+		goal_tbl.member_id=${idMember} 
 	</select>
 	<select id="getAll" resultMap="profileMapping">
 			SELECT p.*, t.*

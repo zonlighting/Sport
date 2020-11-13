@@ -14,6 +14,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.var;
 import ssv.com.dto.ConsecutiveDetail;
 import ssv.com.dto.GoalDto;
 import ssv.com.dto.ResponseQuery;
@@ -229,7 +230,7 @@ public class ScheduleService {
 	public String lastVideo() {
 		List<Schedule> schedules = scheduleRepository.getByStatus(2);
 		for (int i = schedules.size() - 1; i >= 0; i--) {
-			if (schedules.get(i).getVideo() != null || schedules.get(i).getVideo() != "") {
+			if (!schedules.get(i).getVideo().equals("null") ) {
 				return schedules.get(i).getVideo();
 			}
 		}
