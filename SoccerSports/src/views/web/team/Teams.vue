@@ -216,6 +216,12 @@ export default {
   },
 
   watch: {
+    teamNotInTour() {
+      if (this.teamNotInTour == false) {
+        this.getTeamNoTournament();
+      }
+    },
+
     select(newValue) {
       // console.log(newValue, oldValue);
       this.getTourById(newValue);
