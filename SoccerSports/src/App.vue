@@ -15,12 +15,8 @@ export default {
 
   components: {},
   created() {
-
-    this.$store
-      .dispatch("tournament/tournamentCheck")
-     
-    this.$store
-      .dispatch("schedule/scheduleCheck") 
+    this.$store.dispatch("tournament/tournamentCheck");
+    this.$store.dispatch("schedule/scheduleCheck");
   },
   data: () => ({}),
 
