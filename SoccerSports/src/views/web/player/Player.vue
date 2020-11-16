@@ -371,6 +371,8 @@ export default {
         this.getPlayer(getParams);
         this.getYear();
         this.getTeams();
+        this.getNextMatch(this.$route.params.id);
+        this.getLastFiveMatch(this.$route.params.id);
         console.log(getParams);
       }
     },
@@ -384,8 +386,6 @@ export default {
             self.playerProfile = response.data.payload;
             self.getTeamById(self.playerProfile.idTeam);
             self.getTeamCurrent(self.playerProfile.idTeam);
-            self.getNextMatch(self.playerProfile.id);
-            self.getLastFiveMatch(self.playerProfile.id);
           } else {
             console.log("Run here player");
             // alert(response.data.message);
@@ -417,16 +417,19 @@ export default {
     },
 
     getNextMatch(id) {
+      console.log("next match")
       let self = this;
       this.$store.commit("auth/auth_overlay_true");
       this.$store
         .dispatch("member/nextMatch", id)
         .then((response) => {
+          console.log(response)
           this.$store.commit("auth/auth_overlay_false");
           let data = response.data;
           if (data.code == 0) {
             self.nextMatch = response.data.payload;
           } else {
+            self.nextMatch = {}
             // alert(data.message);
           }
           console.log(self.nextMatch);
@@ -437,7 +440,7 @@ export default {
     },
 
     getLastFiveMatch(id) {
-      console.log(id);
+      console.log("5 match");
       let self = this;
       this.$store.commit("auth/auth_overlay_true");
       this.$store
@@ -448,6 +451,7 @@ export default {
           if (data.code == 0) {
             self.lastFiveMatch = response.data.payload;
           } else {
+            self.lastFiveMatch = []
             // alert(data.message);
           }
           // console.log(self.lastFiveMatch);
