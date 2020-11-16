@@ -132,7 +132,7 @@ export default {
   mounted() {
     // console.log(this.$route)
     if (this.$route.params.id == undefined) {
-      alert("Team: " + this.$route.params.id)
+      alert("Team: " + this.$route.params.id);
       this.$router.push({ path: `/teams` });
     } else {
       this.getTeamById(this.$route.params.id);
@@ -161,6 +161,37 @@ export default {
           self.$store.commit("auth/auth_overlay_false");
           if (response.data.code == 0) {
             let list = response.data.payload;
+            console.log(list.length);
+            if (list.length > 0) {
+              self.desserts = list.filter((d) => {
+                return d.pos === "Goalkeepers";
+              });
+              self.desserts1 = list.filter((d) => {
+                return d.pos !== "Goalkeepers";
+              });
+            } else {
+              // self.getMemberByTeam(teamValue);
+            }
+          } else {
+            console.log("Run here teamSquad");
+            alert(response.data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log("Run here teamSquad");
+          alert(error);
+        });
+    },
+
+    getMemberByTeam(idTeam) {
+      let self = this;
+      this.$store.commit("auth/auth_overlay_true");
+      this.$store
+        .dispatch("member/members", idTeam)
+        .then((response) => {
+          if (response.data.code == 0) {
+            let list = response.data.payload;
+            // console.log(list)
             self.desserts = list.filter((d) => {
               return d.pos === "Goalkeepers";
             });
@@ -173,7 +204,6 @@ export default {
           }
         })
         .catch(function (error) {
-          console.log("Run here teamSquad");
           alert(error);
         });
     },

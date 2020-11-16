@@ -88,11 +88,8 @@ export default {
           this.$store.commit("auth/auth_overlay_false");
           if (response.data.code == 0) {
             a = response.data.payload;
-            console.log(response.data.payload);
           }
         });
-      console.log(a);
-
       a.forEach((element) => {
         if (element.status != 2) {
           this.schedule.push(element);
