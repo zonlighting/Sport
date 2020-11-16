@@ -373,6 +373,7 @@ export default {
         this.getTeams();
         this.getNextMatch(this.$route.params.id);
         this.getLastFiveMatch(this.$route.params.id);
+        this.randomStatus();
         console.log(getParams);
       }
     },
@@ -417,19 +418,19 @@ export default {
     },
 
     getNextMatch(id) {
-      console.log("next match")
+      console.log("next match");
       let self = this;
       this.$store.commit("auth/auth_overlay_true");
       this.$store
         .dispatch("member/nextMatch", id)
         .then((response) => {
-          console.log(response)
+          console.log(response);
           this.$store.commit("auth/auth_overlay_false");
           let data = response.data;
           if (data.code == 0) {
             self.nextMatch = response.data.payload;
           } else {
-            self.nextMatch = {}
+            self.nextMatch = {};
             // alert(data.message);
           }
           console.log(self.nextMatch);
@@ -451,7 +452,7 @@ export default {
           if (data.code == 0) {
             self.lastFiveMatch = response.data.payload;
           } else {
-            self.lastFiveMatch = []
+            self.lastFiveMatch = [];
             // alert(data.message);
           }
           // console.log(self.lastFiveMatch);
@@ -519,7 +520,19 @@ export default {
         });
     },
 
-    randomStatus() {},
+    randomStatus() {
+      console.log(this.playerStatus);
+      this.playerStatus.height =
+        Math.floor(Math.random() * 2) +
+        5 +
+        "'" +
+        Math.floor(Math.random() * 10);
+      this.playerStatus.weight = 120 + Math.floor(Math.random() * 60) + " Ibs";
+      this.playerStatus.goal = Math.floor(Math.random() * 10);
+      this.playerStatus.save = Math.floor(Math.random() * 2);
+      this.playerStatus.assists = Math.floor(Math.random() * 6);
+      this.playerStatus.yc = Math.floor(Math.random() * 2);
+    },
   },
 };
 </script>
