@@ -119,44 +119,43 @@
           <template v-if="team != null">
             <div v-for="(member, index) in team.profile" :key="index">
               <template v-if="member.position == positionSelect">
-                <v-row
-                  class="ml-6"
-                  style="cursor: pointer"
-                  @click="memberInfoClick(member)"
-                >
-                  <v-avatar
-                    style="border: 1px solid grey"
-                    class="pr-3"
-                    size="48"
-                  >
-                    <v-img
-                      :src="baseUrl + member.avatar"
-                      max-width="60"
-                      max-height="60"
-                      class="ml-3 pointer"
-                    ></v-img>
-                  </v-avatar>
-                  <div>
-                    <p
-                      style="
-                        margin-bottom: 0px;
-                        color: #2b2c2d;
-                        font-weight: 600;
-                        font-size: 14px;
-                      "
-                    >
-                      {{ member.name }}
-                    </p>
-                    <p style="font-size: 12px">Age: {{ member.age }}</p>
-                  </div>
-                </v-row>
-              </template>
-              <template>
                 <router-link :to="`/player/${member.id}`">
                   <v-row
                     class="ml-6"
                     style="cursor: pointer"
+                    @click="memberInfoClick(member)"
                   >
+                    <v-avatar
+                      style="border: 1px solid grey"
+                      class="pr-3"
+                      size="48"
+                    >
+                      <v-img
+                        :src="baseUrl + member.avatar"
+                        max-width="60"
+                        max-height="60"
+                        class="ml-3 pointer"
+                      ></v-img>
+                    </v-avatar>
+                    <div>
+                      <p
+                        style="
+                          margin-bottom: 0px;
+                          color: #2b2c2d;
+                          font-weight: 600;
+                          font-size: 14px;
+                        "
+                      >
+                        {{ member.name }}
+                      </p>
+                      <p style="font-size: 12px">Age: {{ member.age }}</p>
+                    </div>
+                  </v-row>
+                </router-link>
+              </template>
+              <template v-else>
+                <router-link :to="`/player/${member.id}`">
+                  <v-row class="ml-6" style="cursor: pointer">
                     <v-avatar
                       style="border: 1px solid grey"
                       class="pr-3"
@@ -372,8 +371,6 @@ export default {
         this.getPlayer(getParams);
         this.getYear();
         this.getTeams();
-        this.getNextMatch(getParams);
-        this.getLastFiveMatch(getParams);
         console.log(getParams);
       }
     },
@@ -387,6 +384,8 @@ export default {
             self.playerProfile = response.data.payload;
             self.getTeamById(self.playerProfile.idTeam);
             self.getTeamCurrent(self.playerProfile.idTeam);
+            self.getNextMatch(self.playerProfile.id);
+            self.getLastFiveMatch(self.playerProfile.id);
           } else {
             console.log("Run here player");
             // alert(response.data.message);
@@ -516,9 +515,7 @@ export default {
         });
     },
 
-    randomStatus(){
-      
-    }
+    randomStatus() {},
   },
 };
 </script>
