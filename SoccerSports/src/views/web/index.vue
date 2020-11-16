@@ -48,116 +48,119 @@
                           <span></span>
                         </a>
                       </li>
-                    </ul>
-                  </div>
-                </div>
-              </nav>
-            </div>
-            <v-spacer></v-spacer>
-            <div>
-              <div>
-                <template v-if="isProfile">
-                  <v-row class="d-flex" justify="center">
-                    <v-menu
-                      v-model="showMenu"
-                      absolute
-                      offset-y
-                      style="max-width: 600px"
-                    >
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-card
-                          class="portrait"
-                          :img="baseUrl + profile.profile.avatar"
-                          height="35"
-                          width="40"
-                          v-bind="attrs"
-                          v-on="on"
-                        ></v-card>
-                        <h4 style="color: white; padding-left: 5px">
-                          {{ profile.profile.name }}
-                        </h4>
-                      </template>
+                      <li>
+                        <div>
+                          <template v-if="isProfile">
+                            <v-row class="d-flex d-flex mt-5 ml-4" justify="center">
+                              <v-menu
+                                v-model="showMenu"
+                                absolute
+                                offset-y
+                                style="max-width: 600px"
+                              >
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-card
+                                    class="portrait"
+                                    :img="baseUrl + profile.profile.avatar"
+                                    height="35"
+                                    width="40"
+                                    v-bind="attrs"
+                                    v-on="on"
+                                  ></v-card>
+                                  <h4 style="color: white; padding-left: 5px">
+                                    {{ profile.profile.name }}
+                                  </h4>
+                                </template>
 
-                      <v-list>
-                        <v-list-item>
-                          <v-list-item-title>
+                                <v-list>
+                                  <v-list-item>
+                                    <v-list-item-title>
+                                      <div
+                                        @click="roleFunction(profile.role)"
+                                        class="fixButton row-pointer"
+                                      >
+                                        Profile
+                                      </div>
+                                    </v-list-item-title>
+                                  </v-list-item>
+                                  <v-list-item>
+                                    <v-list-item-title
+                                      ><div
+                                        class="fixButton row-pointer"
+                                        @click="logout"
+                                      >
+                                        Logout
+                                      </div></v-list-item-title
+                                    >
+                                  </v-list-item>
+                                </v-list>
+                              </v-menu>
+                            </v-row>
+                          </template>
+                          <template v-else-if="isAdminProfile">
+                            <v-row class="d-flex mt-5 ml-4" justify="center">
+                              <v-menu
+                                v-model="showMenu"
+                                absolute
+                                offset-y
+                                style="max-width: 600px"
+                              >
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-card
+                                    class="portrait"
+                                    :img="baseUrl + profile.profile.avatar"
+                                    height="35"
+                                    width="40"
+                                    v-bind="attrs"
+                                    v-on="on"
+                                  ></v-card>
+                                  <h4 class="pr-10" style="color: white; padding-left: 5px">
+                                    {{ profile.profile.name }}
+                                  </h4>
+                                </template>
 
-                            <div  @click="roleFunction(profile.role)" class="fixButton row-pointer">Profile</div>
+                                <v-list>
+                                  <v-list-item>
+                                    <v-list-item-title>
+                                      <div
+                                        class="fixButton row-pointer"
+                                        @click="toAdminPage"
+                                      >
+                                        Admin Page
+                                      </div>
+                                    </v-list-item-title>
+                                  </v-list-item>
+                                  <v-list-item>
+                                    <v-list-item-title
+                                      ><div
+                                        class="fixButton ml-4 row-pointer"
+                                        @click="logout"
+                                      >
+                                        Logout
+                                      </div></v-list-item-title
+                                    >
+                                  </v-list-item>
+                                </v-list>
+                              </v-menu>
+                            </v-row>
+                          </template>
+                          <template v-else
+                            ><v-row>
+                              <template>
+                                <v-dialog
+                                  v-model="LoginDialog"
+                                  max-width="600px"
+                                >
+                                  <template v-slot:activator="{ on, attrs }">
+                                    <a v-bind="attrs" v-on="on">
+                                      <h5 class="ml-6" style="color: white; margin-top: 14px">Login</h5>
+                                    </a>
+                                  </template>
+                                  <Login :closeLoginDialog="loginDialog" />
+                                </v-dialog>
+                              </template>
 
-                          </v-list-item-title>
-                        </v-list-item>
-                        <v-list-item>
-                          <v-list-item-title
-                            ><div class="fixButton row-pointer" @click="logout">
-                              Logout
-                            </div></v-list-item-title
-                          >
-                        </v-list-item>
-                      </v-list>
-                    </v-menu>
-                  </v-row>
-                </template>
-                <template v-else-if="isAdminProfile">
-                  <v-row class="d-flex" justify="center">
-                    <v-menu
-                      v-model="showMenu"
-                      absolute
-                      offset-y
-                      style="max-width: 600px"
-                    >
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-card
-                          class="portrait"
-                          :img="baseUrl + profile.profile.avatar"
-                          height="35"
-                          width="40"
-                          v-bind="attrs"
-                          v-on="on"
-                        ></v-card>
-                        <h4 style="color: white; padding-left: 5px">
-                          {{ profile.profile.name }}
-                        </h4>
-                      </template>
-
-                      <v-list>
-                        <v-list-item>
-                          <v-list-item-title>
-                            <div
-                              class="fixButton row-pointer"
-                              @click="toAdminPage"
-                            >
-                              Admin Page
-                            </div>
-                          </v-list-item-title>
-                        </v-list-item>
-                        <v-list-item>
-                          <v-list-item-title
-                            ><div
-                              class="fixButton ml-4 row-pointer"
-                              @click="logout"
-                            >
-                              Logout
-                            </div></v-list-item-title
-                          >
-                        </v-list-item>
-                      </v-list>
-                    </v-menu>
-                  </v-row>
-                </template>
-                <template v-else
-                  ><v-row>
-                    <template>
-                      <v-dialog v-model="LoginDialog" max-width="600px">
-                        <template v-slot:activator="{ on, attrs }">
-                          <a v-bind="attrs" v-on="on">
-                            <h4 style="color: white">Login</h4>
-                          </a>
-                        </template>
-                        <Login :closeLoginDialog="loginDialog" />
-                      </v-dialog>
-                    </template>
-
-                    <!-- <template>
+                              <!-- <template>
                       <v-dialog v-model="RegisterDialog" max-width="600px">
                         <template v-slot:activator="{ on, attrs }">
                           <a v-bind="attrs" v-on="on">
@@ -170,10 +173,17 @@
                         <Register :closeRegisterDialog="registerDialog" />
                       </v-dialog>
                     </template> -->
-                  </v-row>
-                </template>
-              </div>
+                            </v-row>
+                          </template>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </nav>
             </div>
+            <!-- <v-spacer></v-spacer>
+            <div></div> -->
           </div>
         </div>
       </div>
@@ -268,7 +278,9 @@ export default {
     roleFunction(role) {
       console.log(role);
       if (role === "ROLE_MEMBER") {
-      this.$router.push('/profile/'+this.$store.state.user.userInfo.profile.id)
+        this.$router.push(
+          "/profile/" + this.$store.state.user.userInfo.profile.id
+        );
       } else {
         this.controlModalUser();
       }
